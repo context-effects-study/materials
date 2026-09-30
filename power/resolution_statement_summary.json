@@ -1,0 +1,21 @@
+{
+  "T1_flat0": 0.0,
+  "T1": null,
+  "T3_flat0": 0.0,
+  "T3": 1.1,
+  "T4_flat0": 0.0,
+  "T4": null,
+  "T5_flat0": 0.0,
+  "T5": 0.9,
+  "class_0.25_below": 0.15,
+  "class_0.25_above": 0.25,
+  "class_0.7_below": 0.19999999999999996,
+  "class_0.7_above": 0.20000000000000007,
+  "class_1.5_below": 0.10000000000000009,
+  "class_1.5_above": 0.30000000000000004,
+  "anti_above": 2.0,
+  "anti_below": 2.0,
+  "shows_above": 6.0,
+  "shows_below": 6.0,
+  "knows_rate": 0.7
+}

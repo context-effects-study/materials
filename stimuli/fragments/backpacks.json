@@ -1,0 +1,486 @@
+{
+  "category": {
+    "id": "backpacks",
+    "label": "Backpacks",
+    "category_number_v1": 4,
+    "attributes": [
+      {
+        "name": "capacity",
+        "unit": "liters (L)",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "memorization_tier": 1,
+    "source": "Evangelidis, Levav, and Simonson 2023, Journal of Consumer Research 50(3), doi:10.1093/jcr/ucac059",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "id": "BIN_backpacks_t1",
+      "category": "backpacks",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "source": "Evangelidis, Levav, and Simonson 2023; V1 web appendix BIN-4 exact values",
+      "flags": []
+    },
+    {
+      "id": "FRQ_backpacks_t1",
+      "category": "backpacks",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 38,
+            "price": 42.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-4 exact values; decoy dominated by HD target (40L > 38L on capacity AND $39.99 < $42.99 on price); decoy not dominated by HF (HF has 30L < 38L, so HF does not dominate decoy on capacity)",
+      "flags": []
+    },
+    {
+      "id": "RNG_backpacks_t1",
+      "category": "backpacks",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 45,
+            "price": 69.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-4 exact values; range decoy extends capacity range beyond HD (45L vs 40L) while costing much more ($69.99 vs $39.99), making HD capacity look moderate; decoy is NOT dominated by HD on capacity (decoy 45L > HD 40L), satisfying range geometry",
+      "flags": [
+        "RNG_NO_DOMINANCE_CONFIRMED: decoy (45L/$69.99) is not dominated by HD (40L/$39.99) because decoy capacity 45L > HD capacity 40L; satisfies range geometry (extends capacity range without creating dominance)"
+      ]
+    },
+    {
+      "id": "PHT_backpacks_t1",
+      "category": "backpacks",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "capacity": 40,
+            "price": 34.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix PHT-4 exact values; phantom is superior to HD on EXACTLY ONE attribute (price: $34.99 < $39.99) and equal on the other (capacity: 40L = 40L); satisfies R1 correction (never superior on all attributes); available=false. NOTE: build_stimuli engine will regenerate PHT to enforce PR placement (superior on capacity only, unavailable) - this placeholder faithfully copies the V1 web appendix PHT-4 geometry (superior on price only), which already satisfies the one-attribute rule.",
+      "flags": [
+        "PHT_ONE_ATTRIBUTE_CONFIRMED: phantom superior on price only ($34.99 < $39.99), equal on capacity (40L = 40L); R1 geometry requirement satisfied",
+        "PHT_ENGINE_REGEN: build_stimuli will regenerate PHT to canonical PR placement (phantom superior on capacity only, unavailable) per the geometry rules (Web Appendix B). Values here are the V1 web appendix PHT-4 baseline."
+      ]
+    },
+    {
+      "id": "SOT_backpacks_t1",
+      "category": "backpacks",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 50,
+            "price": 49.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_over_target_plus_competitor",
+      "source": "REBUILT (V1 web appendix SOT-4 used old geometry: added a middle option at 35L/$34.99, making HD the top extreme; new plan requires two BIN options PLUS one NEW EXTREME beyond HD so former HD becomes the middle). New extreme: 50L/$49.99. Former HD (40L/$39.99) is now geometrically the middle option on both attributes. NOTE: build_stimuli engine will regenerate SOT to a new extreme beyond HD.",
+      "flags": [
+        "SOT_GEOMETRY_REBUILT: V1 SOT-4 used old 'add a middle' geometry (Middle=35L/$34.99, HD=40L/$39.99 remained the top). New plan requires adding an extreme BEYOND HD so HD becomes the middle. Rebuilt with new extreme at 50L/$49.99.",
+        "SOT_MIDDLE_VERIFIED: HD (40L/$39.99) is strictly between HF (30L/$29.99) and EXTREME (50L/$49.99) on both capacity (30 < 40 < 50) and price ($29.99 < $39.99 < $49.99).",
+        "SOT_ENGINE_REGEN: build_stimuli engine will regenerate the extreme value based on calibration; this placeholder uses 50L/$49.99 as a reasonable initial value."
+      ]
+    },
+    {
+      "id": "MOT_backpacks_t1",
+      "category": "backpacks",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "brand": "Brand A",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "B",
+          "brand": "Brand B",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "C",
+          "brand": "Brand C",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "D",
+          "brand": "Brand D",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "E",
+          "brand": "Brand E",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 35,
+            "price": 34.99
+          }
+        },
+        {
+          "code": "F",
+          "brand": "Brand F",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 35,
+            "price": 34.99
+          }
+        },
+        {
+          "code": "G",
+          "brand": "Brand G",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 35,
+            "price": 34.99
+          }
+        },
+        {
+          "code": "H",
+          "brand": "Brand H",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 35,
+            "price": 34.99
+          }
+        },
+        {
+          "code": "I",
+          "brand": "Brand I",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "J",
+          "brand": "Brand J",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "K",
+          "brand": "Brand K",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "L",
+          "brand": "Brand L",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_SOT",
+      "source": "V1 web appendix MOT-4 exact values; 4 brands per tier (High/Middle/Low); generic brand names (Brand A through L); High tier: 40L/$39.99; Middle tier: 35L/$34.99; Low tier: 30L/$29.99",
+      "flags": [
+        "MOT_NOTE: Middle tier values (35L/$34.99) are inherited from V1 SOT-4's middle option. These remain the three menu tiers for MOT even though SOT geometry has been rebuilt for compromise-effect testing. MOT tier structure is independent of the SOT compromise geometry rebuild."
+      ]
+    },
+    {
+      "id": "SYM_backpacks_t1",
+      "category": "backpacks",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 39.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_minus_delta_hf_vs_binary",
+      "source": "V1 web appendix SYM-4 exact values; decoy (30L/$39.99) is dominated by BOTH focal options: dominated by HF (same capacity 30L, higher price $39.99 > $29.99) AND dominated by HD (lower capacity 30L < 40L, same price $39.99). Same-page presentation mandatory per the geometry rules (Web Appendix B).",
+      "flags": [
+        "SYM_DOUBLE_DOMINANCE_CONFIRMED: decoy (30L/$39.99) beaten by HF on price at equal capacity, beaten by HD on capacity at equal price.",
+        "SYM_SAME_PAGE: same-page flag required per Evangelidis et al. 2023; effect dies on separate pages."
+      ]
+    },
+    {
+      "id": "SIM_backpacks_t1",
+      "category": "backpacks",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a backpack. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 30,
+            "price": 29.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 41.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "clone_steal_from_HD",
+      "source": "CONSTRUCTED (no published analog for SIM in Evangelidis et al. 2023 or any V1 source). Clone is near-duplicate of HD: same capacity (40L), price 41.99 vs HD's 39.99 (minimal upward step of $2.00). Clone is NOT dominated by HD: clone has same capacity (40L = 40L) and higher price ($41.99 > $39.99), so HD beats clone on price but not on both attributes simultaneously. Clone is same is_hd=true as HD. NOTE: build_stimuli engine will regenerate SIM to a non-dominated clone.",
+      "no_published_analog": true,
+      "flags": [
+        "SIM_NO_PUBLISHED_ANALOG: no Evangelidis et al. 2023 or V1 stimulus exists for the similarity structure. Constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "SIM_NON_DOMINANCE_CONFIRMED: clone (40L/$41.99) is NOT dominated by HD (40L/$39.99) because clone price $41.99 > HD price $39.99 (HD beats clone on price but equal on capacity; not strictly dominated on both); clone is not dominated by HF (30L/$29.99) because clone capacity 40L > HF capacity 30L. Guard against Berkowitsch rounding accident: validate that clone does not silently become a decoy.",
+        "SIM_CLONE_OF_HD: clone shares is_hd=true with HD; distance on price is $2.00 (minimal); capacity is identical.",
+        "SIM_ENGINE_REGEN: build_stimuli engine will regenerate SIM to ensure non-dominance and minimal distance per the geometry rules (Web Appendix B) geometry."
+      ]
+    }
+  ]
+}

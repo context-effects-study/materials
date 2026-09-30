@@ -1,0 +1,15 @@
+{
+  "survey": "survey4_pricefree",
+  "version": "backbone-qsf-1.2",
+  "build_date": "2026-07-01",
+  "deal_sha256_12": "63d6101068a4",
+  "n_scripts": 2800,
+  "k_trials": 3,
+  "assign_mode": "webservice",
+  "worker_url": "https://STUDY-ASSIGNMENT-SERVICE.example/assign",
+  "worker_arm": "price-free",
+  "include_captcha": false,
+  "image_hostbase": null,
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree"
+}

@@ -1,0 +1,67 @@
+variable,json_key,type,values,units,meaning
+StartDate,startDate,datetime,every row on 2026-07-02,UTC date and time,When the respondent opened the survey (Qualtrics).
+EndDate,endDate,datetime,every row on 2026-07-02,UTC date and time,When the respondent submitted the last page (Qualtrics).
+Status,status,category,IP Address,,Qualtrics response type; 'IP Address' is an ordinary response. The IP address itself is not in this file.
+IPAddress,ipAddress,empty,,,Removed before deposit (blank in every row).
+Progress,progress,integer,100,percent,Share of the survey the respondent completed.
+Duration (in seconds),duration,integer,2 to 669,seconds,Time from opening to submitting the survey.
+Finished,finished,category,True,,True when the respondent reached the end of the survey.
+RecordedDate,recordedDate,datetime,every row on 2026-07-02,UTC date and time,When Qualtrics recorded the response.
+ResponseId,_recordId,text,117 distinct values,,"Qualtrics response id, unique within this survey."
+RecipientLastName,recipientLastName,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+RecipientFirstName,recipientFirstName,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+RecipientEmail,recipientEmail,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+ExternalReference,externalDataReference,empty,,,Qualtrics external reference; empty.
+LocationLatitude,locationLatitude,empty,,,Removed before deposit (blank in every row).
+LocationLongitude,locationLongitude,empty,,,Removed before deposit (blank in every row).
+DistributionChannel,distributionChannel,category,anonymous,,"How the response arrived: 'anonymous' (the study link) or 'preview' (a researcher's preview, excluded)."
+UserLanguage,userLanguage,category,EN,,Survey language.
+Q_RecaptchaScore,Q_RecaptchaScore,decimal,0 to 1,0 to 1,Qualtrics bot-detection score.
+browser_meta_Browser,QID3_BROWSER,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Version,QID3_VERSION,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Operating System,QID3_OS,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Resolution,QID3_RESOLUTION,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+attention_1,QID5,category,Strongly agree | Strongly disagree,,"Attention check: 'To show you are reading carefully, please select “Strongly agree” below, regardless of your actual opinion.'. Only 'Strongly agree' passes; any other answer excludes the respondent."
+rea_timer_backpacks_First Click,QID6_FIRST_CLICK,decimal,0.99 to 114.654,seconds,"Time from page load to the first click on the page (realism rating page, backpacks)."
+rea_timer_backpacks_Last Click,QID6_LAST_CLICK,decimal,0.99 to 114.654,seconds,"Time from page load to the last click on the page (realism rating page, backpacks)."
+rea_timer_backpacks_Page Submit,QID6_PAGE_SUBMIT,decimal,2 to 115.501,seconds,"Time from page load to submitting the page (realism rating page, backpacks). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_backpacks_Click Count,QID6_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6, 7, 8, 35",clicks,"Number of clicks on the page (realism rating page, backpacks)."
+realism_backpacks,QID8,category,2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the backpacks product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_bluetooth_speakers_First Click,QID9_FIRST_CLICK,decimal,1.01 to 45.547,seconds,"Time from page load to the first click on the page (realism rating page, bluetooth speakers)."
+rea_timer_bluetooth_speakers_Last Click,QID9_LAST_CLICK,decimal,1.01 to 75.294,seconds,"Time from page load to the last click on the page (realism rating page, bluetooth speakers)."
+rea_timer_bluetooth_speakers_Page Submit,QID9_PAGE_SUBMIT,decimal,1.731 to 75.839,seconds,"Time from page load to submitting the page (realism rating page, bluetooth speakers). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_bluetooth_speakers_Click Count,QID9_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6, 7, 8, 11, 13",clicks,"Number of clicks on the page (realism rating page, bluetooth speakers)."
+realism_bluetooth_speakers,QID11,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the bluetooth speakers product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_earbuds_First Click,QID12_FIRST_CLICK,decimal,0.851 to 123.337,seconds,"Time from page load to the first click on the page (realism rating page, earbuds)."
+rea_timer_earbuds_Last Click,QID12_LAST_CLICK,decimal,0.851 to 168.375,seconds,"Time from page load to the last click on the page (realism rating page, earbuds)."
+rea_timer_earbuds_Page Submit,QID12_PAGE_SUBMIT,decimal,1.703 to 169.137,seconds,"Time from page load to submitting the page (realism rating page, earbuds). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_earbuds_Click Count,QID12_CLICK_COUNT,integer,1 to 33,clicks,"Number of clicks on the page (realism rating page, earbuds)."
+realism_earbuds,QID14,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the earbuds product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_hard_drives_First Click,QID15_FIRST_CLICK,decimal,0.866 to 227.721,seconds,"Time from page load to the first click on the page (realism rating page, hard drives)."
+rea_timer_hard_drives_Last Click,QID15_LAST_CLICK,decimal,0.866 to 243.968,seconds,"Time from page load to the last click on the page (realism rating page, hard drives)."
+rea_timer_hard_drives_Page Submit,QID15_PAGE_SUBMIT,decimal,2.618 to 245.586,seconds,"Time from page load to submitting the page (realism rating page, hard drives). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_hard_drives_Click Count,QID15_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6, 7, 8, 9, 14",clicks,"Number of clicks on the page (realism rating page, hard drives)."
+realism_hard_drives,QID17,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the hard drives product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_restaurants_First Click,QID18_FIRST_CLICK,decimal,0.83 to 138.037,seconds,"Time from page load to the first click on the page (realism rating page, restaurants)."
+rea_timer_restaurants_Last Click,QID18_LAST_CLICK,decimal,0.83 to 148.64,seconds,"Time from page load to the last click on the page (realism rating page, restaurants)."
+rea_timer_restaurants_Page Submit,QID18_PAGE_SUBMIT,decimal,1.843 to 150.068,seconds,"Time from page load to submitting the page (realism rating page, restaurants). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_restaurants_Click Count,QID18_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6, 7, 9, 10, 11",clicks,"Number of clicks on the page (realism rating page, restaurants)."
+realism_restaurants,QID20,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the restaurants product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_televisions_First Click,QID21_FIRST_CLICK,decimal,0.905 to 137.749,seconds,"Time from page load to the first click on the page (realism rating page, televisions)."
+rea_timer_televisions_Last Click,QID21_LAST_CLICK,decimal,1.024 to 137.749,seconds,"Time from page load to the last click on the page (realism rating page, televisions)."
+rea_timer_televisions_Page Submit,QID21_PAGE_SUBMIT,decimal,3.109 to 138.819,seconds,"Time from page load to submitting the page (realism rating page, televisions). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_televisions_Click Count,QID21_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6, 7, 9, 10, 23",clicks,"Number of clicks on the page (realism rating page, televisions)."
+realism_televisions,QID23,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the televisions product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+rea_timer_water_bottles_First Click,QID24_FIRST_CLICK,decimal,0.825 to 292.301,seconds,"Time from page load to the first click on the page (realism rating page, water bottles)."
+rea_timer_water_bottles_Last Click,QID24_LAST_CLICK,decimal,0.825 to 292.301,seconds,"Time from page load to the last click on the page (realism rating page, water bottles)."
+rea_timer_water_bottles_Page Submit,QID24_PAGE_SUBMIT,decimal,1.761 to 293.462,seconds,"Time from page load to submitting the page (realism rating page, water bottles). The median over a respondent's choice pages below 3 seconds excludes the respondent."
+rea_timer_water_bottles_Click Count,QID24_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 8, 12, 25",clicks,"Number of clicks on the page (realism rating page, water bottles)."
+realism_water_bottles,QID26,category,1 - Not at all realistic | 2 | 3 | 4 | 5 | 6 | 7 - Completely realistic,1 to 7,"Realism rating of the water bottles product page: 'The product options above are from one product category. How realistic do they seem to you - do they read like a real product page you might...' (1 = not at all realistic, 7 = completely realistic)."
+realism_comments,QID27_TEXT,text,25 distinct values,free text,Optional comment on anything unrealistic or confusing about the product pages. Read in full before deposit; none identifies anyone.
+gender,QID28,category,Man | Non-binary | Woman,,Self-reported gender.
+age,QID29_TEXT,integer,18 to 76,years,Self-reported age in years (one wave-2 respondent typed a birth year).
+PROLIFIC_PID,PROLIFIC_PID,text,117 distinct values,,"Participant id. Replaced for this deposit by a sequential id (W1-0001, W2-0001, W3-0001, RS-0001 and so on, in order of first appearance); the key is kept by the authors. Engineering test rows keep their STRESS_ labels and the researcher preview its PREVIEW_ label; the analysis drops them."
+STUDY_ID,STUDY_ID,category,ANCHORTEST,,"Prolific study id; removed before deposit (blank) wherever it held the id, kept as the label STRESSTEST on engineering test rows."
+SESSION_ID,SESSION_ID,category,S_launchproof1 | S_testdecline1 | S_testrun1 | S_testrun2,,"Prolific submission id; removed before deposit for real respondents (blank), kept as a label on test rows."
+consent,consent,category,no | yes,,Consent answer; 'yes' to continue.
+qsf_build,qsf_build,category,anchor-realism-qsf-1.0+2026-07-02,,Build label of the survey file the response came from.

@@ -1,0 +1,91 @@
+model,structure,recognition_rate,recognition_lo,recognition_hi,behavior_pp,behavior_lo_pp,behavior_hi_pp,knows,shows,reading,knows_state,shows_state,override_state
+FAITHFUL,FRQ,0.157,0.078,0.235,9.28,7.58,11.08,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+FAITHFUL,RNG,0.137,0.059,0.216,11.93,10.16,13.69,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+FAITHFUL,SOT,0.118,0.039,0.196,10.48,8.44,12.66,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+FAITHFUL,SYM,0.098,0.039,0.176,16.41,14.51,18.24,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+FAITHFUL,SIM,0.078,0.02,0.137,5.73,4.01,7.41,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+FAITHFUL,MOT,0.137,0.059,0.216,8.71,7.94,9.46,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+PARROT,FRQ,0.157,0.078,0.235,4.58,2.84,6.37,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+PARROT,RNG,0.137,0.059,0.216,5.82,4.15,7.58,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+PARROT,SOT,0.039,0.0,0.078,2.94,0.94,4.97,False,False,neither -> no context sensitivity at any level,F,U,F
+PARROT,SYM,0.02,0.0,0.059,7.88,6.08,9.67,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+PARROT,SIM,0.137,0.059,0.216,2.67,1.11,4.35,False,False,neither -> no context sensitivity at any level,F,U,F
+PARROT,MOT,0.098,0.039,0.157,3.84,3.12,4.59,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REASONER,FRQ,0.118,0.039,0.196,9.28,7.61,10.98,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REASONER,RNG,0.176,0.098,0.255,11.93,10.33,13.63,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REASONER,SOT,0.137,0.059,0.216,5.0,3.01,7.15,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REASONER,SYM,0.078,0.02,0.137,9.15,7.55,10.88,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REASONER,SIM,0.157,0.078,0.235,2.85,1.28,4.45,False,False,neither -> no context sensitivity at any level,F,U,F
+REASONER,MOT,0.039,0.0,0.079,1.5,0.72,2.27,False,False,neither -> no context sensitivity at any level,F,F,F
+OVERRIDER,FRQ,0.902,0.824,0.961,-8.69,-10.33,-7.06,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+OVERRIDER,RNG,0.882,0.804,0.961,-11.18,-12.88,-9.51,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+OVERRIDER,SOT,0.922,0.863,0.98,-9.97,-12.12,-7.93,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+OVERRIDER,SYM,0.961,0.922,1.0,-15.85,-17.65,-14.12,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+OVERRIDER,SIM,0.902,0.824,0.961,-4.99,-6.65,-3.33,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+OVERRIDER,MOT,0.902,0.824,0.961,-9.15,-9.89,-8.42,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+DIVIDED_A,FRQ,0.098,0.039,0.176,9.28,7.52,10.88,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_A,RNG,0.157,0.078,0.235,11.93,10.2,13.66,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_A,SOT,0.118,0.039,0.196,10.48,8.48,12.78,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_A,SYM,0.059,0.0,0.118,16.41,14.61,18.24,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_A,SIM,0.137,0.059,0.216,5.73,4.03,7.4,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_A,MOT,0.078,0.02,0.137,8.71,7.92,9.44,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+DIVIDED_B,FRQ,0.059,0.0,0.118,-8.69,-10.33,-6.99,False,False,neither -> no context sensitivity at any level,F,F,F
+DIVIDED_B,RNG,0.196,0.118,0.275,-11.18,-12.81,-9.44,False,False,neither -> no context sensitivity at any level,F,F,F
+DIVIDED_B,SOT,0.078,0.02,0.137,-9.97,-11.95,-7.81,False,False,neither -> no context sensitivity at any level,F,F,F
+DIVIDED_B,SYM,0.118,0.039,0.196,-15.85,-17.55,-14.12,False,False,neither -> no context sensitivity at any level,F,F,F
+DIVIDED_B,SIM,0.059,0.0,0.118,-4.99,-6.65,-3.28,False,False,neither -> no context sensitivity at any level,F,F,F
+DIVIDED_B,MOT,0.078,0.02,0.137,-9.15,-9.89,-8.45,False,False,neither -> no context sensitivity at any level,F,F,F
+CONVERGE_OLD,FRQ,0.196,0.098,0.294,4.35,2.61,6.01,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+CONVERGE_OLD,RNG,0.157,0.078,0.235,5.49,3.82,7.19,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_OLD,SOT,0.098,0.039,0.176,5.0,2.84,7.16,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+CONVERGE_OLD,SYM,0.098,0.039,0.157,7.58,5.85,9.31,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_OLD,SIM,0.098,0.039,0.176,2.85,1.24,4.47,False,False,neither -> no context sensitivity at any level,F,U,F
+CONVERGE_OLD,MOT,0.059,0.02,0.118,3.74,2.91,4.54,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+CONVERGE_NEW,FRQ,0.059,0.019,0.118,8.82,7.19,10.56,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_NEW,RNG,0.157,0.078,0.235,11.37,9.74,13.1,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_NEW,SOT,0.078,0.02,0.137,10.19,8.19,12.21,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_NEW,SYM,0.118,0.059,0.196,15.62,13.86,17.39,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_NEW,SIM,0.118,0.039,0.196,5.36,3.79,7.08,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CONVERGE_NEW,MOT,0.118,0.059,0.196,8.2,7.45,8.94,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK1_PARROT,FRQ,0.039,0.0,0.078,4.58,2.88,6.27,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+WALK1_PARROT,RNG,0.137,0.059,0.216,5.82,4.15,7.55,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK1_PARROT,SOT,0.098,0.039,0.157,2.94,0.94,4.99,False,False,neither -> no context sensitivity at any level,F,U,F
+WALK1_PARROT,SYM,0.098,0.039,0.157,7.88,6.08,9.74,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK1_PARROT,SIM,0.078,0.02,0.137,2.67,1.06,4.38,False,False,neither -> no context sensitivity at any level,F,U,F
+WALK1_PARROT,MOT,0.059,0.0,0.118,3.84,3.09,4.54,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK2_MIXED,FRQ,0.078,0.02,0.137,9.28,7.61,11.05,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK2_MIXED,RNG,0.098,0.039,0.157,11.93,10.29,13.56,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK2_MIXED,SOT,0.902,0.843,0.961,-9.97,-12.11,-7.93,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+WALK2_MIXED,SYM,0.137,0.059,0.216,16.41,14.64,18.24,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK2_MIXED,SIM,0.176,0.078,0.275,5.73,4.06,7.37,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+WALK2_MIXED,MOT,0.039,0.0,0.059,8.71,7.96,9.46,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+CEILING,FRQ,0.137,0.059,0.216,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+CEILING,RNG,0.137,0.059,0.216,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+CEILING,SOT,0.098,0.039,0.157,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+CEILING,SYM,0.098,0.039,0.157,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+CEILING,SIM,0.098,0.039,0.176,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+CEILING,MOT,0.157,0.078,0.235,0.0,,,False,False,no pooled estimate: no registered reading,F,F,F
+REFUSER,FRQ,0.157,0.078,0.235,5.16,2.83,7.45,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+REFUSER,RNG,0.098,0.039,0.176,9.55,7.32,11.85,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REFUSER,SOT,0.157,0.078,0.235,12.48,9.86,15.19,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REFUSER,SYM,0.02,0.0,0.059,13.65,11.28,16.12,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+REFUSER,SIM,0.118,0.059,0.196,4.26,2.09,6.43,False,True,shows-without-recognizing -> deep behavioral mimicry,F,U,F
+REFUSER,MOT,0.157,0.078,0.235,9.48,8.48,10.59,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_OVERRIDE,FRQ,0.863,0.784,0.941,0.56,-1.11,2.42,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+R4_ARGUABLE_OVERRIDE,RNG,0.863,0.784,0.941,0.56,-1.18,2.32,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+R4_ARGUABLE_OVERRIDE,SOT,0.98,0.941,1.0,-9.97,-11.96,-7.79,True,False,recognizes-but-does-not-show -> rational override (predicts LOW/ANTI),T,F,T
+R4_ARGUABLE_OVERRIDE,SYM,0.098,0.039,0.176,16.41,14.61,18.3,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_OVERRIDE,SIM,0.078,0.02,0.137,5.73,4.12,7.48,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_OVERRIDE,MOT,0.098,0.039,0.157,8.71,7.94,9.46,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_NORECOG,FRQ,0.137,0.059,0.216,0.56,-1.18,2.32,False,False,neither -> no context sensitivity at any level,F,F,F
+R4_ARGUABLE_NORECOG,RNG,0.098,0.039,0.176,0.56,-1.24,2.32,False,False,neither -> no context sensitivity at any level,F,F,F
+R4_ARGUABLE_NORECOG,SOT,0.157,0.078,0.235,-9.97,-12.12,-7.82,False,False,neither -> no context sensitivity at any level,F,F,F
+R4_ARGUABLE_NORECOG,SYM,0.235,0.137,0.333,16.41,14.54,18.2,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_NORECOG,SIM,0.02,0.0,0.059,5.73,4.06,7.44,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+R4_ARGUABLE_NORECOG,MOT,0.137,0.078,0.216,8.71,7.92,9.46,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,FRQ,0.059,0.0,0.118,17.52,15.85,19.22,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,RNG,0.059,0.019,0.118,22.68,21.08,24.35,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,SOT,0.059,0.02,0.118,15.25,13.25,17.42,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,SYM,0.118,0.039,0.196,31.27,29.54,33.01,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,SIM,0.098,0.039,0.176,10.42,8.8,12.05,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F
+OVERSHOOT_T1,MOT,0.137,0.059,0.216,16.94,16.21,17.7,False,True,shows-without-recognizing -> deep behavioral mimicry,F,T,F

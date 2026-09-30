@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "category_id": "televisions",
+    "category_label": "Televisions",
+    "category_number_v1": 5,
+    "attributes": [
+      {
+        "name": "picture_quality",
+        "unit": "0-100 expert scale",
+        "direction": "higher_better",
+        "note": "Rated by a panel of experts at Consumer Reports (1 = worst, 100 = best)"
+      },
+      {
+        "name": "price",
+        "unit": "$",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "source": "Sharif, Webb, and Bhatia (2025), Journal of Consumer Research, doi:10.1093/jcr/ucaf061",
+    "memorization_tier": 1,
+    "product_noun": "40-inch television",
+    "geometry_constraints": [
+      "picture_quality caps at 100; RNG decoy extends via price rather than quality when quality is at or near ceiling"
+    ],
+    "stem_shared": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:"
+  },
+  "stimuli": [
+    {
+      "id": "BIN_televisions_t1",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "baseline_share",
+      "source": "Sharif, Webb, and Bhatia (2025) JCR, exact published values; transcribed verbatim from V1 web appendix BIN-5",
+      "flags": [],
+      "calibration_locked": true
+    },
+    {
+      "id": "FRQ_televisions_t1",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 529.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-5; decoy dominated by HD on both attributes (96 < 98 quality; $529.99 > $505.99 price); not dominated by HF",
+      "dominance_check": {
+        "decoy_dominated_by_target": true,
+        "decoy_dominated_by_competitor": false,
+        "note": "HD beats decoy on both: better quality (98 > 96) AND lower price ($505.99 < $529.99). HF does not dominate decoy: HF has lower quality (65 < 96)."
+      },
+      "flags": [],
+      "calibration_locked": true
+    },
+    {
+      "id": "RNG_televisions_t1",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 99,
+            "price": 899.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-5; extends price range well beyond HD while being only marginally better on quality",
+      "geometry_note": "Picture quality caps at 100; quality range cannot be extended by more than 2 points above HD's 98. Range is extended via price ($899.99 >> $505.99), matching the hotels-case precedent documented in V1 web appendix (RNG-3 note) for ceiling-constrained quality attributes.",
+      "dominance_check": {
+        "decoy_not_dominated_by_target": true,
+        "decoy_not_dominated_by_competitor": true,
+        "note": "Decoy is 1 point better on quality (99 vs 98) than HD, so HD does not dominate decoy. Decoy is much more expensive than HF but much better on quality, so HF does not dominate decoy. Decoy is NOT dominated - it extends the range without being dominated, which is the correct RNG geometry. Decoy extends the price range beyond HD, making HD's price look moderate."
+      },
+      "flags": [
+        "quality_ceiling: picture_quality cannot exceed 100; range extension is primarily via price per geometry_note above"
+      ],
+      "calibration_locked": true
+    },
+    {
+      "id": "PHT_televisions_t1",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "picture_quality": 99,
+            "price": 505.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "REBUILT for V2: V1 PHT-5 had phantom superior on BOTH attributes ($479.99/99 vs HD $505.99/98 - cheaper AND better quality), which violates the new plan's requirement of 'superior on EXACTLY ONE attribute' (the geometry rules (Web Appendix B), §6 check 3; the design notes on the phantom effect documenting R1's catch). New phantom: picture_quality 99 / price $505.99 - same price as HD, one point better on quality. Superior on quality only, equal on price. This is the PR placement (Pettibone and Wedell 2007: better on target's strong attribute, equal on the weak attribute).",
+      "geometry_check": {
+        "phantom_superior_on_exactly_one_attribute": true,
+        "attribute_superior_on": "picture_quality",
+        "phantom_quality_vs_HD": "99 > 98 (superior)",
+        "phantom_price_vs_HD": "$505.99 = $505.99 (equal)",
+        "phantom_vs_HF": "phantom has better quality (99 > 65) and same higher price ($505.99 > $109.99) - phantom is NOT dominated by HF"
+      },
+      "flags": [
+        "V1_PHT5_REBUILT: V1 phantom ($479.99/99) was superior on BOTH attributes (cheaper AND better quality) - geometry error caught by R1 and documented in the design notes on the phantom effect. Rebuilt to standard PR placement: equal price, one point better on quality."
+      ],
+      "calibration_locked": true
+    },
+    {
+      "id": "SOT_televisions_t1",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 100,
+            "price": 799.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_divided_by_target_plus_competitor",
+      "statistic_formula": "share(HD) / (share(HD) + share(HF))",
+      "source": "REBUILT for V2 per corrected compromise geometry (the geometry rules (Web Appendix B), SOT entry): V1 SOT-5 ($109.99/65, $325.99/83, $505.99/98) added a MIDDLE option between HF and HD - this is the OLD geometry the new plan explicitly forbids ('NEVER add a free middle'). Corrected geometry: the two BIN options (HF $109.99/65, HD $505.99/98) remain unchanged, and ONE NEW EXTREME is added BEYOND HD ($799.99/100), making the former HD the middle/compromise. Extreme uses picture_quality=100 (the scale ceiling, making it maximally extreme on quality) and price=$799.99 (substantially higher than HD, creating a clear price extreme).",
+      "geometry_check": {
+        "bin_options_unchanged": true,
+        "new_extreme_beyond_HD_on_both_attributes": true,
+        "extreme_quality_vs_HD": "100 > 98 (higher - more extreme)",
+        "extreme_price_vs_HD": "$799.99 > $505.99 (higher - more extreme)",
+        "HD_is_now_middle": true,
+        "HD_middle_on_quality": "98 is between 65 and 100",
+        "HD_middle_on_price": "$505.99 is between $109.99 and $799.99"
+      },
+      "flags": [
+        "V1_SOT5_REBUILT: V1 used old geometry (add a middle option at $325.99/83 between HF and HD). New plan requires adding an extreme BEYOND HD so that HD becomes the middle. Rebuilt: EXTREME = $799.99/100. Former HD ($505.99/98) is now the compromise/middle."
+      ],
+      "calibration_locked": false,
+      "_note_on_locking": "Tier-1 BIN values locked by fidelity to Sharif et al. The extreme option values are constructed (no published analog for this specific SOT geometry in the Sharif paper - their Study 2 used the old three-tier structure). Flagged for calibration pre-test to verify HD reads as middle."
+    },
+    {
+      "id": "MOT_televisions_t1",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": "Zenith",
+          "tier": "High"
+        },
+        {
+          "code": "B",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": "Vizio",
+          "tier": "High"
+        },
+        {
+          "code": "C",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": "Hisense",
+          "tier": "High"
+        },
+        {
+          "code": "D",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": "TCL",
+          "tier": "High"
+        },
+        {
+          "code": "E",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 83,
+            "price": 325.99
+          },
+          "brand": "Insignia",
+          "tier": "Middle"
+        },
+        {
+          "code": "F",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 83,
+            "price": 325.99
+          },
+          "brand": "Element",
+          "tier": "Middle"
+        },
+        {
+          "code": "G",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 83,
+            "price": 325.99
+          },
+          "brand": "Westinghouse",
+          "tier": "Middle"
+        },
+        {
+          "code": "H",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 83,
+            "price": 325.99
+          },
+          "brand": "Sceptre",
+          "tier": "Middle"
+        },
+        {
+          "code": "I",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": "Onn",
+          "tier": "Low"
+        },
+        {
+          "code": "J",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": "Sanyo",
+          "tier": "Low"
+        },
+        {
+          "code": "K",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": "RCA",
+          "tier": "Low"
+        },
+        {
+          "code": "L",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": "Sharp",
+          "tier": "Low"
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_SOT",
+      "statistic_note": "Extreme tier = High (options A-D) + Low (options I-L). Test: extreme-tier share in MOT vs matched SOT.",
+      "source": "V1 web appendix MOT-5, exact values; brand names stated to follow 'Sharif et al. Study 2 MOT condition exactly'. High tier: Zenith, Vizio, Hisense, TCL ($505.99/98). Middle tier: Insignia, Element, Westinghouse, Sceptre ($325.99/83). Low tier: Onn, Sanyo, RCA, Sharp ($109.99/65).",
+      "flags": [
+        "brands_from_Sharif_Study2: brand names preserved exactly as in V1 web appendix MOT-5 which explicitly states they follow Sharif et al. Study 2 MOT condition. These are the published tier-1 values.",
+        "middle_tier_values_from_SOT5_V1: Middle tier uses $325.99/83 from V1 SOT-5, which matches Sharif et al. Study 2. Note that V1's SOT-5 used the OLD geometry (three equal tiers); MOT-5 middle-tier values are still valid as the middle tier attributes because they are drawn from the published Sharif Study 2 stimulus set."
+      ],
+      "calibration_locked": true
+    },
+    {
+      "id": "SYM_televisions_t1",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 505.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_HD_share_minus_delta_HF_share",
+      "statistic_note": "Upscaling statistic: delta_pi_HD > delta_pi_HF where delta_pi = share_with_decoy - share_in_matched_binary. Symmetric decoy should disproportionately increase HD share.",
+      "source": "V1 web appendix SYM-5, exact values. Decoy: $505.99/65 - same price as HD (worst on price: equal to HD's high price but with only HF's quality), same quality as HF (worst on quality: equal to HF's low quality but with HD's high price). Dominated by HF (same quality=65, but lower price $109.99 < $505.99, so HF gives same quality for less). Dominated by HD (same price=$505.99, but better quality 98 > 65, so HD gives better quality at same price).",
+      "dominance_check": {
+        "decoy_dominated_by_HF": true,
+        "HF_vs_decoy": "HF: quality 65 = decoy quality 65; HF price $109.99 < decoy price $505.99. HF dominates decoy (same quality, much cheaper).",
+        "decoy_dominated_by_HD": true,
+        "HD_vs_decoy": "HD: quality 98 > decoy quality 65; HD price $505.99 = decoy price $505.99. HD dominates decoy (better quality, same price).",
+        "decoy_dominated_by_both": true
+      },
+      "flags": [],
+      "calibration_locked": true
+    },
+    {
+      "id": "SIM_televisions_t1",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 65,
+            "price": 109.99
+          },
+          "brand": null
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 98,
+            "price": 505.99
+          },
+          "brand": null
+        },
+        {
+          "code": "CLONE",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 97,
+            "price": 499.99
+          },
+          "brand": null
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "similarity_effect_on_clone_target",
+      "statistic_note": "Clone resembles HD (is_hd=true). Similarity effect predicts clone steals share from HD (the option it resembles). Test: HD share lower with clone present than in matched binary.",
+      "source": "CONSTRUCTED for V2 (SIM structure is new - no V1 analog, no published stimulus). Clone is near-duplicate of HD: picture_quality 97 (vs HD 98, distance = 1 point), price $499.99 (vs HD $505.99, distance = $6.00). Clone has same is_hd=true flag. Clone is NOT dominated: HD has better quality (98 > 97) but clone has lower price ($499.99 < $505.99), so neither dominates the other. Minimal attribute distance confirmed (quality distance 1/100 = 1%; price distance $6/$505.99 = 1.2%).",
+      "no_published_analog": true,
+      "non_dominance_check": {
+        "HD_vs_clone": "HD: quality 98 > clone 97 (HD better on quality); HD: price $505.99 > clone $499.99 (HD worse on price, i.e., more expensive). HD does NOT dominate clone.",
+        "clone_vs_HD": "Clone: quality 97 < HD 98 (clone worse on quality); clone price $499.99 < $505.99 (clone better on price). Clone does NOT dominate HD.",
+        "neither_dominates": true
+      },
+      "flags": [
+        "no_published_analog: SIM structure is new in V2. No published Sharif et al. or Evangelidis et al. television similarity stimulus exists. Clone constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "clone_distance_small: quality distance = 1 point (1% of 0-100 scale); price distance = $6.00 (1.2% of $505.99). Both within epsilon for 'near-clone' criterion.",
+        "non_dominated_verified: HD does not dominate clone (clone is cheaper); clone does not dominate HD (clone has lower quality). Berkowitsch guard satisfied."
+      ],
+      "calibration_locked": false,
+      "_note_on_locking": "SIM structure has no tier-1 published source. Clone values are constructed; subject to calibration pre-test to verify clone reads as similar to HD without being perceived as identical or dominated."
+    }
+  ]
+}

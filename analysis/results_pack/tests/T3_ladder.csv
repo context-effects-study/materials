@@ -1,0 +1,16 @@
+model,high_rung,mid_rung,low_rung,tmb_lo,tmb_hi,bmm_lo,bmm_hi,reading,attribution,missed_effects,missed_recognition
+FAITHFUL,0.891,0.929,0.936,-0.267,0.152,-0.161,0.289,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+PARROT,0.544,0.3,0.469,-0.133,0.293,-0.071,0.401,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+REASONER,0.891,0.511,0.184,0.484,0.854,-0.583,-0.09,declines down the ladder -> reason-construction (S3),,,
+OVERRIDER,-1.0,-1.0,-1.0,-0.009,0.144,-0.224,0.01,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+DIVIDED_A,0.891,0.929,0.936,-0.259,0.15,-0.173,0.302,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+DIVIDED_B,-1.0,-1.0,-1.0,-0.012,0.151,-0.217,0.01,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+CONVERGE_OLD,0.515,0.511,0.457,-0.152,0.279,-0.306,0.187,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+CONVERGE_NEW,0.944,0.959,0.998,-0.225,0.109,-0.113,0.273,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+WALK1_PARROT,0.544,0.3,0.469,-0.128,0.288,-0.088,0.402,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+WALK2_MIXED,0.891,-1.0,0.936,-0.266,0.151,1.652,1.995,"flat: pattern mimicry at depth, ladder gives the account no support",,,
+CEILING,,,,,,,,insufficient rungs,,,
+REFUSER,0.752,0.725,0.842,-0.366,0.176,-0.223,0.5,"not resolved: the 95 percent interval of top minus bottom rung and bottom minus middle rung (-0.366 to 0.176) does not settle the reading (point reading: flat: pattern mimicry at depth, ladder gives the account no support); supports no scenario",,,
+R4_ARGUABLE_OVERRIDE,0.059,-1.0,0.936,-1.068,-0.638,1.657,1.993,reversed ladder: fidelity rises down the ladder -> evidence against reason-construction; recognized on every missed attraction or compromise effect -> rational override on choice sets that offer an argument,rational override on choice sets that offer an argument,FRQ;RNG;SOT,FRQ=0.863;RNG=0.863;SOT=0.98
+R4_ARGUABLE_NORECOG,0.059,-1.0,0.936,-1.07,-0.637,1.673,1.994,"reversed ladder: fidelity rises down the ladder -> evidence against reason-construction; not recognized on the missed effects -> divergence, no account attributed",no account attributed,FRQ;RNG;SOT,FRQ=0.137;RNG=0.098;SOT=0.157
+OVERSHOOT_T1,-0.101,0.442,-0.07,-0.387,0.335,-0.908,-0.105,"not resolved: the 95 percent interval of top minus bottom rung and bottom minus middle rung (-0.387 to 0.335) does not settle the reading (point reading: flat: pattern mimicry at depth, ladder gives the account no support); supports no scenario",,,

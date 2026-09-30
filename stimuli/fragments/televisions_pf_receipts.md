@@ -1,0 +1,2 @@
+# Televisions (price-free: picture vs sound) - price-free robustness arm receipts
+Price-free variant of televisions: two QUALITY attributes (picture_quality x sound_quality), NO price, so the attraction effects (BIN/FRQ/RNG/PHT) can be tested without price acting as a quality signal (AE 8a / Gui-Toubia unblinding). Compromise/extremity/upscaling are excluded (they need a single quality ordering). Values realistic; lock at the final calibration lock.

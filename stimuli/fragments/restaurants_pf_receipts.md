@@ -1,0 +1,2 @@
+# Restaurants (price-free: food vs service) - price-free robustness arm receipts
+Price-free variant of restaurants: two QUALITY attributes (food_rating x service_rating), NO price, so the attraction effects (BIN/FRQ/RNG/PHT) can be tested without price acting as a quality signal (AE 8a / Gui-Toubia unblinding). Compromise/extremity/upscaling are excluded (they need a single quality ordering). Values realistic; lock at the final calibration lock.

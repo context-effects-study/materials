@@ -1,0 +1,3 @@
+model,arm,neutral_pp,secondary_pp,divergence_pp,n_calls_neutral,n_calls_secondary,reading
+FAITHFUL,persona,9.28,13.28,4.0,4080,8160,persona more faithful than neutral -> silicon sampling helps
+FAITHFUL,sequential,9.28,4.44,-4.84,4080,1530,sequential differs from single-shot -> the model carries within-session history

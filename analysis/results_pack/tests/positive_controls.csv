@@ -1,0 +1,3 @@
+control,delta_pp,ci_lo_pp,ci_hi_pp,p,bf10,holds,affected_if_failed
+"frequency decoy, premium-target cells",11.32143,9.81976,12.8231,0.0,1000000000000.0,True,"FRQ fidelity-map row; T1, T2 (FRQ), T3, T4, T5"
+compromise (its replication criterion),9.79,8.53,11.04,0.0,1000000000000.0,True,"SOT fidelity-map row; T1, T2 (SOT), T3, T4, T5"

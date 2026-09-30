@@ -1,0 +1,241 @@
+variable,json_key,type,values,units,meaning
+StartDate,startDate,datetime,every row on 2026-07-02,UTC date and time,When the respondent opened the survey (Qualtrics).
+EndDate,endDate,datetime,every row on 2026-07-02,UTC date and time,When the respondent submitted the last page (Qualtrics).
+Status,status,category,IP Address,,Qualtrics response type; 'IP Address' is an ordinary response. The IP address itself is not in this file.
+IPAddress,ipAddress,empty,,,Removed before deposit (blank in every row).
+Progress,progress,integer,100,percent,Share of the survey the respondent completed.
+Duration (in seconds),duration,integer,5 to 1234,seconds,Time from opening to submitting the survey.
+Finished,finished,category,True,,True when the respondent reached the end of the survey.
+RecordedDate,recordedDate,datetime,every row on 2026-07-02,UTC date and time,When Qualtrics recorded the response.
+ResponseId,_recordId,text,409 distinct values,,"Qualtrics response id, unique within this survey."
+RecipientLastName,recipientLastName,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+RecipientFirstName,recipientFirstName,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+RecipientEmail,recipientEmail,empty,,,Qualtrics contact field; empty (the survey used an anonymous link).
+ExternalReference,externalDataReference,empty,,,Qualtrics external reference; empty.
+LocationLatitude,locationLatitude,empty,,,Removed before deposit (blank in every row).
+LocationLongitude,locationLongitude,empty,,,Removed before deposit (blank in every row).
+DistributionChannel,distributionChannel,category,anonymous | preview,,"How the response arrived: 'anonymous' (the study link) or 'preview' (a researcher's preview, excluded)."
+UserLanguage,userLanguage,category,EN,,Survey language.
+Q_RecaptchaScore,Q_RecaptchaScore,decimal,0 to 1,0 to 1,Qualtrics bot-detection score.
+browser_meta_Browser,QID3_BROWSER,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Version,QID3_VERSION,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Operating System,QID3_OS,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+browser_meta_Resolution,QID3_RESOLUTION,empty,,,"Browser, version, operating system or screen resolution; removed before deposit (blank in every row)."
+attention_1,QID5,category,Strongly agree | Strongly disagree,,"Attention check: 'To show you are reading carefully, please select “Strongly agree” below, regardless of your actual opinion.'. Only 'Strongly agree' passes; any other answer excludes the respondent."
+timer_1_First Click,QID6_FIRST_CLICK,decimal,0.577 to 89.365,seconds,Time from page load to the first click on the page (choice page 1).
+timer_1_Last Click,QID6_LAST_CLICK,decimal,0.577 to 163.557,seconds,Time from page load to the last click on the page (choice page 1).
+timer_1_Page Submit,QID6_PAGE_SUBMIT,decimal,1.16 to 164.592,seconds,Time from page load to submitting the page (choice page 1). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_1_Click Count,QID6_CLICK_COUNT,integer,"1, 2, 3, 4, 5",clicks,Number of clicks on the page (choice page 1).
+timer_2_First Click,QID8_FIRST_CLICK,decimal,0 to 292.057,seconds,Time from page load to the first click on the page (choice page 2).
+timer_2_Last Click,QID8_LAST_CLICK,decimal,0 to 292.057,seconds,Time from page load to the last click on the page (choice page 2).
+timer_2_Page Submit,QID8_PAGE_SUBMIT,decimal,0.675 to 293.651,seconds,Time from page load to submitting the page (choice page 2). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_2_Click Count,QID8_CLICK_COUNT,integer,"0, 1, 2, 3, 4, 5, 6, 8",clicks,Number of clicks on the page (choice page 2).
+timer_3_First Click,QID10_FIRST_CLICK,decimal,0.528 to 372.769,seconds,Time from page load to the first click on the page (choice page 3).
+timer_3_Last Click,QID10_LAST_CLICK,decimal,0.623 to 372.769,seconds,Time from page load to the last click on the page (choice page 3).
+timer_3_Page Submit,QID10_PAGE_SUBMIT,decimal,1.163 to 373.905,seconds,Time from page load to submitting the page (choice page 3). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_3_Click Count,QID10_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 9, 10",clicks,Number of clicks on the page (choice page 3).
+timer_4_First Click,QID12_FIRST_CLICK,decimal,0.002 to 184.819,seconds,Time from page load to the first click on the page (choice page 4).
+timer_4_Last Click,QID12_LAST_CLICK,decimal,0.543 to 184.819,seconds,Time from page load to the last click on the page (choice page 4).
+timer_4_Page Submit,QID12_PAGE_SUBMIT,decimal,1.087 to 187.485,seconds,Time from page load to submitting the page (choice page 4). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_4_Click Count,QID12_CLICK_COUNT,integer,"1, 2, 3, 4, 5, 6",clicks,Number of clicks on the page (choice page 4).
+timer_5_First Click,QID14_FIRST_CLICK,decimal,0 to 105.923,seconds,Time from page load to the first click on the page (choice page 5).
+timer_5_Last Click,QID14_LAST_CLICK,decimal,0 to 105.923,seconds,Time from page load to the last click on the page (choice page 5).
+timer_5_Page Submit,QID14_PAGE_SUBMIT,decimal,0.416 to 108.858,seconds,Time from page load to submitting the page (choice page 5). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_5_Click Count,QID14_CLICK_COUNT,integer,"0, 1, 2, 3, 4, 5, 6, 7, 9",clicks,Number of clicks on the page (choice page 5).
+timer_6_First Click,QID16_FIRST_CLICK,decimal,0 to 85.488,seconds,Time from page load to the first click on the page (choice page 6).
+timer_6_Last Click,QID16_LAST_CLICK,decimal,0 to 85.488,seconds,Time from page load to the last click on the page (choice page 6).
+timer_6_Page Submit,QID16_PAGE_SUBMIT,decimal,0.587 to 86.936,seconds,Time from page load to submitting the page (choice page 6). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_6_Click Count,QID16_CLICK_COUNT,integer,"0, 1, 2, 3, 4, 5, 6",clicks,Number of clicks on the page (choice page 6).
+timer_7_First Click,QID18_FIRST_CLICK,decimal,0.429 to 119.304,seconds,Time from page load to the first click on the page (choice page 7).
+timer_7_Last Click,QID18_LAST_CLICK,decimal,0.429 to 120.265,seconds,Time from page load to the last click on the page (choice page 7).
+timer_7_Page Submit,QID18_PAGE_SUBMIT,decimal,0.916 to 121.454,seconds,Time from page load to submitting the page (choice page 7). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_7_Click Count,QID18_CLICK_COUNT,integer,"1, 2, 3, 4, 8",clicks,Number of clicks on the page (choice page 7).
+timer_8_First Click,QID20_FIRST_CLICK,decimal,0 to 182.474,seconds,Time from page load to the first click on the page (choice page 8).
+timer_8_Last Click,QID20_LAST_CLICK,decimal,0 to 182.474,seconds,Time from page load to the last click on the page (choice page 8).
+timer_8_Page Submit,QID20_PAGE_SUBMIT,decimal,1.151 to 183.31,seconds,Time from page load to submitting the page (choice page 8). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_8_Click Count,QID20_CLICK_COUNT,integer,"0, 1, 2, 3, 4, 5",clicks,Number of clicks on the page (choice page 8).
+timer_9_First Click,QID22_FIRST_CLICK,decimal,0 to 87.084,seconds,Time from page load to the first click on the page (choice page 9).
+timer_9_Last Click,QID22_LAST_CLICK,decimal,0 to 185.463,seconds,Time from page load to the last click on the page (choice page 9).
+timer_9_Page Submit,QID22_PAGE_SUBMIT,decimal,1.089 to 187.093,seconds,Time from page load to submitting the page (choice page 9). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_9_Click Count,QID22_CLICK_COUNT,integer,"0, 1, 2, 3, 4, 5, 6, 9, 10",clicks,Number of clicks on the page (choice page 9).
+timer_10_First Click,QID24_FIRST_CLICK,decimal,0 to 599.406,seconds,Time from page load to the first click on the page (choice page 10).
+timer_10_Last Click,QID24_LAST_CLICK,decimal,0 to 599.406,seconds,Time from page load to the last click on the page (choice page 10).
+timer_10_Page Submit,QID24_PAGE_SUBMIT,decimal,0.399 to 601.315,seconds,Time from page load to submitting the page (choice page 10). The median over a respondent's choice pages below 3 seconds excludes the respondent.
+timer_10_Click Count,QID24_CLICK_COUNT,integer,"0, 1, 2, 3, 4",clicks,Number of clicks on the page (choice page 10).
+geo_timer_First Click,QID26_FIRST_CLICK,decimal,0 to 69.416,seconds,Time from page load to the first or last click on the comprehension-check page.
+geo_timer_Last Click,QID26_LAST_CLICK,decimal,0 to 182.926,seconds,Time from page load to the first or last click on the comprehension-check page.
+geo_timer_Page Submit,QID26_PAGE_SUBMIT,decimal,0.353 to 184.115,seconds,Time from page load to submitting the comprehension-check page.
+geo_timer_Click Count,QID26_CLICK_COUNT,integer,0 to 54,clicks,Number of clicks on the comprehension-check page.
+geo_dominance,QID28,category,"I cannot tell | No, each option is better on at least one feature | Yes, one option is worse on every feature",,Structure comprehension check (frequency decoy): 'Look at the three options above. Is any one option clearly worse than another option on every feature listed?'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark.
+geo_range,QID29,category,I cannot tell | The features differ by about the same amount | The first feature | The second feature,,Structure comprehension check (range decoy): 'Look at the three options above. On which feature do the options differ by the widest amount (the largest gap between the lowest and the hig...'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark.
+geo_phantom_comprehension,QID30,category,Better on one feature and equal or worse on the rest | Exactly the same as another option | I cannot tell | Worse on every feature,,"Structure comprehension check (phantom): 'One of the options above is marked currently unavailable. Compared with the other options, that unavailable option is:'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark."
+geo_compromise_extreme,QID31,category,I cannot tell | The highest-priced option | The lowest-priced option | The middle option,,"Structure comprehension check (compromise): 'Look at the three options above. Which option is the most extreme choice (the one that goes furthest in one direction, leaving the others lo...'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark."
+geo_upscaling_symmetric,QID32,category,"I cannot tell | No option is worse than both others | Yes, one option is worse than both of the others",,Structure comprehension check (upscaling): 'Look at the three options above. Is any one option clearly worse than both of the other two options?'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark.
+geo_tier_distinctness,QID33,category,I cannot tell | More than three levels | One level | Three levels | Two levels,,Structure comprehension check (extremity menu): 'The options above fall into groups by quality level. How many distinct quality levels (tiers) do you see among the options?'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark.
+geo_clone_recognition,QID34,category,"No, all three options are clearly different | Yes, two options are nearly identical",,Structure comprehension check (similarity): 'Look at the three options above. Are any two of the options nearly identical to each other (almost the same on every feature)?'. Only the respondent's assigned item is filled; the correct answer for each item is in the survey mapping (geometry_items). Scored against the 70 percent benchmark.
+gender,QID35,category,Man | Non-binary | Prefer not to say | Woman,,Self-reported gender.
+age,QID36_TEXT,integer,18 to 84,years,Self-reported age in years (one wave-2 respondent typed a birth year).
+PROLIFIC_PID,PROLIFIC_PID,text,409 distinct values,,"Participant id. Replaced for this deposit by a sequential id (W1-0001, W2-0001, W3-0001, RS-0001 and so on, in order of first appearance); the key is kept by the authors. Engineering test rows keep their STRESS_ labels and the researcher preview its PREVIEW_ label; the analysis drops them."
+STUDY_ID,STUDY_ID,category,PREVIEWTEST | STRESSTEST,,"Prolific study id; removed before deposit (blank) wherever it held the id, kept as the label STRESSTEST on engineering test rows."
+SESSION_ID,SESSION_ID,category,S_ENGcal_d1 | S_ENGcal_h1 | S_ENGcal_h2 | S_ENGcal_h3 | S_ENGcal_h4 | S_ENGcal_h5 | S_ENGcal_h6 | S_wave1proof2,,"Prolific submission id; removed before deposit for real respondents (blank), kept as a label on test rows."
+consent,consent,category,no | yes,,Consent answer; 'yes' to continue.
+qsf_build,qsf_build,category,calibration-qsf-2.0+2026-07-01,,Build label of the survey file the response came from.
+assignment_version,assignment_version,category,dc9ffa1f5660,,Hash of the deal of pairs to choice slots in the survey file.
+script_id,script_id,category,calib_wave1,,"Assignment script (the calibration waves use one script, calib_<wave>)."
+calib_wave,calib_wave,category,wave1,,Calibration wave.
+cell1_calib_arm,cell1_calib_arm,category,pub_t1::BIN_backpacks_t1 | pub_t2::BIN_backpacks_t2,,"Calibration pair shown in choice 1, as <block>::<stimulus id>."
+cell1_calib_block,cell1_calib_block,category,pub_t1 | pub_t2,,"Block of the pair in choice 1: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell1_id,cell1_id,category,backpacks_BIN,,Cell id of choice 1 (<category>_<structure>).
+cell1_category,cell1_category,category,backpacks,,Product category of choice 1.
+cell1_structure,cell1_structure,category,BIN,,Choice-set structure of choice 1; BIN in every calibration choice.
+cell1_tier,cell1_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 1: 1 published values, 2 published category with new values, 3 invented category."
+cell1_format,cell1_format,category,numbers,,"Presentation format of choice 1: numbers, words or pictures."
+cell1_order,cell1_order,category,"HD,HF",,"Option codes of choice 1 in the order shown (HD = premium option, HF = budget option)."
+cell1_stimulus,cell1_stimulus,category,BIN_backpacks_t1 | BIN_backpacks_t2,,Stimulus id of choice 1 (see stimuli/stimuli_prelock.json for the values fielded).
+cell1_sim_placement,cell1_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell1_stem,cell1_stem,text,see the survey file,,The sentence shown above the options of choice 1 (the product and what is being chosen).
+cell1_options,cell1_options,text,see the survey file,JSON,"The options shown in choice 1: code, availability and the HTML text shown (values as displayed)."
+cell1_image,cell1_image,empty,,URL,Image shown in choice 1 for pictures pairs; empty otherwise.
+choice_1,choice_1,integer,"1, 2",1 or 2,Position of the option chosen in choice 1 (1 = the first option shown).
+choice_1_code,choice_1_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 1 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell2_calib_arm,cell2_calib_arm,category,pictures::BIN_bluetooth_speakers_t2 | pub_t1::BIN_bluetooth_speakers_t1 | pub_t2::BIN_bluetooth_speakers_t2 | words::BIN_bluetooth_speakers_t2,,"Calibration pair shown in choice 2, as <block>::<stimulus id>."
+cell2_calib_block,cell2_calib_block,category,format_pictures | format_words | pub_t1 | pub_t2,,"Block of the pair in choice 2: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell2_id,cell2_id,category,bluetooth_speakers_BIN,,Cell id of choice 2 (<category>_<structure>).
+cell2_category,cell2_category,category,bluetooth_speakers,,Product category of choice 2.
+cell2_structure,cell2_structure,category,BIN,,Choice-set structure of choice 2; BIN in every calibration choice.
+cell2_tier,cell2_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 2: 1 published values, 2 published category with new values, 3 invented category."
+cell2_format,cell2_format,category,numbers | pictures | words,,"Presentation format of choice 2: numbers, words or pictures."
+cell2_order,cell2_order,category,"HD,HF | HF,HD",,"Option codes of choice 2 in the order shown (HD = premium option, HF = budget option)."
+cell2_stimulus,cell2_stimulus,category,BIN_bluetooth_speakers_t1 | BIN_bluetooth_speakers_t2,,Stimulus id of choice 2 (see stimuli/stimuli_prelock.json for the values fielded).
+cell2_sim_placement,cell2_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell2_stem,cell2_stem,text,see the survey file,,The sentence shown above the options of choice 2 (the product and what is being chosen).
+cell2_options,cell2_options,text,see the survey file,JSON,"The options shown in choice 2: code, availability and the HTML text shown (values as displayed)."
+cell2_image,cell2_image,URL,BIN_bluetooth_speakers_t2.png,URL,Image shown in choice 2 for pictures pairs; empty otherwise.
+choice_2,choice_2,integer,"1, 2",1 or 2,Position of the option chosen in choice 2 (1 = the first option shown).
+choice_2_code,choice_2_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 2 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell3_calib_arm,cell3_calib_arm,category,pub_t1::BIN_earbuds_t1 | pub_t2::BIN_earbuds_t2,,"Calibration pair shown in choice 3, as <block>::<stimulus id>."
+cell3_calib_block,cell3_calib_block,category,pub_t1 | pub_t2,,"Block of the pair in choice 3: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell3_id,cell3_id,category,earbuds_BIN,,Cell id of choice 3 (<category>_<structure>).
+cell3_category,cell3_category,category,earbuds,,Product category of choice 3.
+cell3_structure,cell3_structure,category,BIN,,Choice-set structure of choice 3; BIN in every calibration choice.
+cell3_tier,cell3_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 3: 1 published values, 2 published category with new values, 3 invented category."
+cell3_format,cell3_format,category,numbers,,"Presentation format of choice 3: numbers, words or pictures."
+cell3_order,cell3_order,category,"HF,HD",,"Option codes of choice 3 in the order shown (HD = premium option, HF = budget option)."
+cell3_stimulus,cell3_stimulus,category,BIN_earbuds_t1 | BIN_earbuds_t2,,Stimulus id of choice 3 (see stimuli/stimuli_prelock.json for the values fielded).
+cell3_sim_placement,cell3_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell3_stem,cell3_stem,text,see the survey file,,The sentence shown above the options of choice 3 (the product and what is being chosen).
+cell3_options,cell3_options,text,see the survey file,JSON,"The options shown in choice 3: code, availability and the HTML text shown (values as displayed)."
+cell3_image,cell3_image,empty,,URL,Image shown in choice 3 for pictures pairs; empty otherwise.
+choice_3,choice_3,integer,"1, 2",1 or 2,Position of the option chosen in choice 3 (1 = the first option shown).
+choice_3_code,choice_3_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 3 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell4_calib_arm,cell4_calib_arm,category,inv_t3::BIN_electric_kettles_t3,,"Calibration pair shown in choice 4, as <block>::<stimulus id>."
+cell4_calib_block,cell4_calib_block,category,inv_t3,,"Block of the pair in choice 4: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell4_id,cell4_id,category,electric_kettles_BIN,,Cell id of choice 4 (<category>_<structure>).
+cell4_category,cell4_category,category,electric_kettles,,Product category of choice 4.
+cell4_structure,cell4_structure,category,BIN,,Choice-set structure of choice 4; BIN in every calibration choice.
+cell4_tier,cell4_tier,integer,3,"1, 2 or 3","Memorization tier of choice 4: 1 published values, 2 published category with new values, 3 invented category."
+cell4_format,cell4_format,category,numbers,,"Presentation format of choice 4: numbers, words or pictures."
+cell4_order,cell4_order,category,"HD,HF",,"Option codes of choice 4 in the order shown (HD = premium option, HF = budget option)."
+cell4_stimulus,cell4_stimulus,category,BIN_electric_kettles_t3,,Stimulus id of choice 4 (see stimuli/stimuli_prelock.json for the values fielded).
+cell4_sim_placement,cell4_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell4_stem,cell4_stem,text,see the survey file,,The sentence shown above the options of choice 4 (the product and what is being chosen).
+cell4_options,cell4_options,text,see the survey file,JSON,"The options shown in choice 4: code, availability and the HTML text shown (values as displayed)."
+cell4_image,cell4_image,empty,,URL,Image shown in choice 4 for pictures pairs; empty otherwise.
+choice_4,choice_4,integer,"1, 2",1 or 2,Position of the option chosen in choice 4 (1 = the first option shown).
+choice_4_code,choice_4_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 4 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell5_calib_arm,cell5_calib_arm,category,pictures::BIN_hard_drives_t2 | pub_t1::BIN_hard_drives_t1 | pub_t2::BIN_hard_drives_t2 | words::BIN_hard_drives_t2,,"Calibration pair shown in choice 5, as <block>::<stimulus id>."
+cell5_calib_block,cell5_calib_block,category,format_pictures | format_words | pub_t1 | pub_t2,,"Block of the pair in choice 5: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell5_id,cell5_id,category,hard_drives_BIN,,Cell id of choice 5 (<category>_<structure>).
+cell5_category,cell5_category,category,hard_drives,,Product category of choice 5.
+cell5_structure,cell5_structure,category,BIN,,Choice-set structure of choice 5; BIN in every calibration choice.
+cell5_tier,cell5_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 5: 1 published values, 2 published category with new values, 3 invented category."
+cell5_format,cell5_format,category,numbers | pictures | words,,"Presentation format of choice 5: numbers, words or pictures."
+cell5_order,cell5_order,category,"HF,HD",,"Option codes of choice 5 in the order shown (HD = premium option, HF = budget option)."
+cell5_stimulus,cell5_stimulus,category,BIN_hard_drives_t1 | BIN_hard_drives_t2,,Stimulus id of choice 5 (see stimuli/stimuli_prelock.json for the values fielded).
+cell5_sim_placement,cell5_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell5_stem,cell5_stem,text,see the survey file,,The sentence shown above the options of choice 5 (the product and what is being chosen).
+cell5_options,cell5_options,text,see the survey file,JSON,"The options shown in choice 5: code, availability and the HTML text shown (values as displayed)."
+cell5_image,cell5_image,URL,BIN_hard_drives_t2.png,URL,Image shown in choice 5 for pictures pairs; empty otherwise.
+choice_5,choice_5,integer,"1, 2",1 or 2,Position of the option chosen in choice 5 (1 = the first option shown).
+choice_5_code,choice_5_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 5 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell6_calib_arm,cell6_calib_arm,category,pub_t1::BIN_restaurants_t1 | pub_t2::BIN_restaurants_t2,,"Calibration pair shown in choice 6, as <block>::<stimulus id>."
+cell6_calib_block,cell6_calib_block,category,pub_t1 | pub_t2,,"Block of the pair in choice 6: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell6_id,cell6_id,category,restaurants_BIN,,Cell id of choice 6 (<category>_<structure>).
+cell6_category,cell6_category,category,restaurants,,Product category of choice 6.
+cell6_structure,cell6_structure,category,BIN,,Choice-set structure of choice 6; BIN in every calibration choice.
+cell6_tier,cell6_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 6: 1 published values, 2 published category with new values, 3 invented category."
+cell6_format,cell6_format,category,numbers,,"Presentation format of choice 6: numbers, words or pictures."
+cell6_order,cell6_order,category,"HD,HF | HF,HD",,"Option codes of choice 6 in the order shown (HD = premium option, HF = budget option)."
+cell6_stimulus,cell6_stimulus,category,BIN_restaurants_t1 | BIN_restaurants_t2,,Stimulus id of choice 6 (see stimuli/stimuli_prelock.json for the values fielded).
+cell6_sim_placement,cell6_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell6_stem,cell6_stem,text,see the survey file,,The sentence shown above the options of choice 6 (the product and what is being chosen).
+cell6_options,cell6_options,text,see the survey file,JSON,"The options shown in choice 6: code, availability and the HTML text shown (values as displayed)."
+cell6_image,cell6_image,empty,,URL,Image shown in choice 6 for pictures pairs; empty otherwise.
+choice_6,choice_6,integer,"1, 2",1 or 2,Position of the option chosen in choice 6 (1 = the first option shown).
+choice_6_code,choice_6_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 6 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell7_calib_arm,cell7_calib_arm,category,inv_t3::BIN_robot_vacuums_t3,,"Calibration pair shown in choice 7, as <block>::<stimulus id>."
+cell7_calib_block,cell7_calib_block,category,inv_t3,,"Block of the pair in choice 7: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell7_id,cell7_id,category,robot_vacuums_BIN,,Cell id of choice 7 (<category>_<structure>).
+cell7_category,cell7_category,category,robot_vacuums,,Product category of choice 7.
+cell7_structure,cell7_structure,category,BIN,,Choice-set structure of choice 7; BIN in every calibration choice.
+cell7_tier,cell7_tier,integer,3,"1, 2 or 3","Memorization tier of choice 7: 1 published values, 2 published category with new values, 3 invented category."
+cell7_format,cell7_format,category,numbers,,"Presentation format of choice 7: numbers, words or pictures."
+cell7_order,cell7_order,category,"HD,HF",,"Option codes of choice 7 in the order shown (HD = premium option, HF = budget option)."
+cell7_stimulus,cell7_stimulus,category,BIN_robot_vacuums_t3,,Stimulus id of choice 7 (see stimuli/stimuli_prelock.json for the values fielded).
+cell7_sim_placement,cell7_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell7_stem,cell7_stem,text,see the survey file,,The sentence shown above the options of choice 7 (the product and what is being chosen).
+cell7_options,cell7_options,text,see the survey file,JSON,"The options shown in choice 7: code, availability and the HTML text shown (values as displayed)."
+cell7_image,cell7_image,empty,,URL,Image shown in choice 7 for pictures pairs; empty otherwise.
+choice_7,choice_7,integer,"1, 2",1 or 2,Position of the option chosen in choice 7 (1 = the first option shown).
+choice_7_code,choice_7_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 7 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell8_calib_arm,cell8_calib_arm,category,inv_t3::BIN_standing_desks_t3,,"Calibration pair shown in choice 8, as <block>::<stimulus id>."
+cell8_calib_block,cell8_calib_block,category,inv_t3,,"Block of the pair in choice 8: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell8_id,cell8_id,category,standing_desks_BIN,,Cell id of choice 8 (<category>_<structure>).
+cell8_category,cell8_category,category,standing_desks,,Product category of choice 8.
+cell8_structure,cell8_structure,category,BIN,,Choice-set structure of choice 8; BIN in every calibration choice.
+cell8_tier,cell8_tier,integer,3,"1, 2 or 3","Memorization tier of choice 8: 1 published values, 2 published category with new values, 3 invented category."
+cell8_format,cell8_format,category,numbers,,"Presentation format of choice 8: numbers, words or pictures."
+cell8_order,cell8_order,category,"HD,HF",,"Option codes of choice 8 in the order shown (HD = premium option, HF = budget option)."
+cell8_stimulus,cell8_stimulus,category,BIN_standing_desks_t3,,Stimulus id of choice 8 (see stimuli/stimuli_prelock.json for the values fielded).
+cell8_sim_placement,cell8_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell8_stem,cell8_stem,text,see the survey file,,The sentence shown above the options of choice 8 (the product and what is being chosen).
+cell8_options,cell8_options,text,see the survey file,JSON,"The options shown in choice 8: code, availability and the HTML text shown (values as displayed)."
+cell8_image,cell8_image,empty,,URL,Image shown in choice 8 for pictures pairs; empty otherwise.
+choice_8,choice_8,integer,"1, 2",1 or 2,Position of the option chosen in choice 8 (1 = the first option shown).
+choice_8_code,choice_8_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 8 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell9_calib_arm,cell9_calib_arm,category,pictures::BIN_televisions_t2 | pub_t1::BIN_televisions_t1 | pub_t2::BIN_televisions_t2 | words::BIN_televisions_t2,,"Calibration pair shown in choice 9, as <block>::<stimulus id>."
+cell9_calib_block,cell9_calib_block,category,format_pictures | format_words | pub_t1 | pub_t2,,"Block of the pair in choice 9: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell9_id,cell9_id,category,televisions_BIN,,Cell id of choice 9 (<category>_<structure>).
+cell9_category,cell9_category,category,televisions,,Product category of choice 9.
+cell9_structure,cell9_structure,category,BIN,,Choice-set structure of choice 9; BIN in every calibration choice.
+cell9_tier,cell9_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 9: 1 published values, 2 published category with new values, 3 invented category."
+cell9_format,cell9_format,category,numbers | pictures | words,,"Presentation format of choice 9: numbers, words or pictures."
+cell9_order,cell9_order,category,"HD,HF | HF,HD",,"Option codes of choice 9 in the order shown (HD = premium option, HF = budget option)."
+cell9_stimulus,cell9_stimulus,category,BIN_televisions_t1 | BIN_televisions_t2,,Stimulus id of choice 9 (see stimuli/stimuli_prelock.json for the values fielded).
+cell9_sim_placement,cell9_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell9_stem,cell9_stem,text,see the survey file,,The sentence shown above the options of choice 9 (the product and what is being chosen).
+cell9_options,cell9_options,text,see the survey file,JSON,"The options shown in choice 9: code, availability and the HTML text shown (values as displayed)."
+cell9_image,cell9_image,URL,BIN_televisions_t2.png,URL,Image shown in choice 9 for pictures pairs; empty otherwise.
+choice_9,choice_9,integer,"1, 2",1 or 2,Position of the option chosen in choice 9 (1 = the first option shown).
+choice_9_code,choice_9_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 9 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+cell10_calib_arm,cell10_calib_arm,category,pictures::BIN_water_bottles_t2 | pub_t1::BIN_water_bottles_t1 | pub_t2::BIN_water_bottles_t2 | words::BIN_water_bottles_t2,,"Calibration pair shown in choice 10, as <block>::<stimulus id>."
+cell10_calib_block,cell10_calib_block,category,format_pictures | format_words | pub_t1 | pub_t2,,"Block of the pair in choice 10: pub_t1 (published values, check only), pub_t2 (published category, new values), inv_t3 (invented category), format_words, format_pictures."
+cell10_id,cell10_id,category,water_bottles_BIN,,Cell id of choice 10 (<category>_<structure>).
+cell10_category,cell10_category,category,water_bottles,,Product category of choice 10.
+cell10_structure,cell10_structure,category,BIN,,Choice-set structure of choice 10; BIN in every calibration choice.
+cell10_tier,cell10_tier,integer,"1, 2","1, 2 or 3","Memorization tier of choice 10: 1 published values, 2 published category with new values, 3 invented category."
+cell10_format,cell10_format,category,numbers | pictures | words,,"Presentation format of choice 10: numbers, words or pictures."
+cell10_order,cell10_order,category,"HD,HF | HF,HD",,"Option codes of choice 10 in the order shown (HD = premium option, HF = budget option)."
+cell10_stimulus,cell10_stimulus,category,BIN_water_bottles_t1 | BIN_water_bottles_t2,,Stimulus id of choice 10 (see stimuli/stimuli_prelock.json for the values fielded).
+cell10_sim_placement,cell10_sim_placement,category,NA,,Clone placement for similarity cells; NA in the calibration.
+cell10_stem,cell10_stem,text,see the survey file,,The sentence shown above the options of choice 10 (the product and what is being chosen).
+cell10_options,cell10_options,text,see the survey file,JSON,"The options shown in choice 10: code, availability and the HTML text shown (values as displayed)."
+cell10_image,cell10_image,URL,BIN_water_bottles_t2.png,URL,Image shown in choice 10 for pictures pairs; empty otherwise.
+choice_10,choice_10,integer,"1, 2",1 or 2,Position of the option chosen in choice 10 (1 = the first option shown).
+choice_10_code,choice_10_code,category,HD | HF,HD or HF,"Code of the option chosen in choice 10 (HD = premium, HF = budget). The target of each category is fixed in stimuli.json."
+geo_structure,geo_structure,category,FRQ | MOT | PHT | RNG | SIM | SOT | SYM,,"Structure of the comprehension-check item shown on page 1 (FRQ, RNG, PHT, SOT, MOT, SYM or SIM)."
+geo_category,geo_category,category,backpacks,,Product category of the comprehension-check item.
+geo_stimulus,geo_stimulus,category,FRQ_backpacks_t2 | MOT_backpacks_t2 | PHT_backpacks_t2 | RNG_backpacks_t2 | SIM_backpacks_t2 | SOT_backpacks_t2 | SYM_backpacks_t2,,Stimulus id of the comprehension-check item (see stimuli/stimuli_prelock.json).
+geo_order,geo_order,category,"A,B,C,D,E,F,G,H,I,J,K,L | CLONE,HD,HF | DECOY,HD,HF | EXTREME,HF,HD | HD,SYM_DECOY,HF | PHANTOM,HD,HF | RANGE_DECOY,HF,HD",,Option codes in the order shown on the comprehension-check page.
+geo_stem,geo_stem,text,see the survey file,,The sentence shown above the options on the comprehension-check page.
+geo_options,geo_options,text,see the survey file,JSON,"The options shown on the comprehension-check page: code, availability and the HTML text shown."

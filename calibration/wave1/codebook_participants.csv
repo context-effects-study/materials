@@ -1,0 +1,7 @@
+variable,type,values,units,meaning
+participant,text,409 distinct values,,"Participant id, as in the export (PROLIFIC_PID)."
+response_id,text,409 distinct values,,Qualtrics response id.
+test_row,0 or 1,"0, 1",,"1 for an engineering test row (STRESS prefix), removed before the analysis."
+entered_analysis,0 or 1,"0, 1",,1 when the row entered the registered exclusion rules (every non-test row).
+kept,0 or 1,"0, 1",,1 when the respondent passed every exclusion rule.
+exclusion_reasons,text,attention | attention;speeder | preview | speeder,,"Semicolon-separated reasons: preview, incomplete, duplicate, attention, speeder (median choice-page time under 3 seconds), invalid_choice_phantom, repeat_within_participant."

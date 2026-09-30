@@ -1,0 +1,34 @@
+# The Python packages this repository uses, pinned to the versions it was tested with.
+#
+#   Python 3.13.13 (64-bit), Windows 11 Home (build 26200); see README.md, "Computational requirements".
+#
+# Everything except the figures and one power simulation runs on the Python standard library alone:
+#   - numpy       power/clustered_power.py
+#   - matplotlib  figures/build_figure_waf1.py
+#   - playwright  figures/build_figure1.py, build_figure2.py, build_stimulus_figures.py (after installing,
+#                 run once: python -m playwright install chromium)
+#   - pillow      figures/build_figure2.py, build_stimulus_figures.py
+#
+# Not needed for reproduction, and therefore not listed:
+#   - live model calls at Stage 2 (models/run.py --live) need the openai and anthropic packages and read API
+#     keys from the environment;
+#   - rebuilding the picture PNGs (surveys/rasterize.py) needs cairosvg, the rsvg-convert or inkscape
+#     command-line tools, or Playwright. The deposited PNGs are the files participants and models see.
+#
+# The four packages used directly:
+numpy==2.4.6
+matplotlib==3.10.9
+playwright==1.60.0
+pillow==12.2.0
+# and the packages they install, at the versions of the test (the complete list pip reported there):
+contourpy==1.4.0
+cycler==0.12.1
+fonttools==4.66.1
+greenlet==3.5.6
+kiwisolver==1.5.1
+packaging==26.3
+pyee==13.0.1
+pyparsing==3.3.3
+python-dateutil==2.9.0.post0
+six==1.17.0
+typing_extensions==4.16.0

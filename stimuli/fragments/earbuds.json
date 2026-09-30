@@ -1,0 +1,494 @@
+{
+  "category": {
+    "id": "earbuds",
+    "label": "Earbuds",
+    "category_number_v1": 7,
+    "attributes": [
+      {
+        "name": "reviews",
+        "unit": "number of customer reviews",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "memorization_tier": 1,
+    "source": "Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061",
+    "geometry_constraints": [
+      "Reviews attribute has no natural ceiling. Price and reviews trade off cleanly: HD has many more reviews (11,076 vs 1,147) and a higher price ($19.99 vs $5.99), giving ample room for decoy geometry on both attributes.",
+      "Note per the category table of the design: the target's STRONG attribute is reviews (higher is better; HD has ~10x more reviews than HF). The target's WEAK attribute is price (lower is better; HD costs $19.99 vs HF's $5.99)."
+    ]
+  },
+  "stimuli": [
+    {
+      "id": "BIN_earbuds_t1",
+      "category": "earbuds",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "source": "Sharif, Webb, and Bhatia 2025; V1 web appendix BIN-7 exact values",
+      "flags": []
+    },
+    {
+      "id": "FRQ_earbuds_t1",
+      "category": "earbuds",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 10500,
+            "price": 21.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-7 exact values; decoy dominated by HD target (11,076 reviews > 10,500 reviews AND $19.99 < $21.99 on price); decoy not dominated by HF (HF has 1,147 reviews < 10,500 reviews, so HF does not dominate decoy on reviews)",
+      "flags": [
+        "FRQ_DOMINANCE_CONFIRMED: decoy (10,500 reviews / $21.99) is dominated by HD target (11,076 reviews / $19.99) on BOTH attributes; decoy is NOT dominated by HF (HF reviews 1,147 < 10,500, so HF lacks quality superiority over decoy); asymmetric dominance geometry correct."
+      ]
+    },
+    {
+      "id": "RNG_earbuds_t1",
+      "category": "earbuds",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 12500,
+            "price": 34.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-7 exact values; range decoy extends reviews range well beyond HD (12,500 > 11,076) and price range well beyond HD ($34.99 > $19.99), making HD price look moderate; decoy NOT dominated by HD (decoy reviews 12,500 > HD reviews 11,076, so HD cannot dominate decoy on reviews)",
+      "flags": [
+        "RNG_NO_DOMINANCE_CONFIRMED: decoy (12,500 reviews / $34.99) is NOT dominated by HD (11,076 reviews / $19.99) because decoy reviews 12,500 > HD reviews 11,076; range decoy extends the reviews range beyond HD, making HD look moderate; price extension ($34.99 vs $19.99) also makes HD price look reasonable."
+      ]
+    },
+    {
+      "id": "PHT_earbuds_t1",
+      "category": "earbuds",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "reviews": 12000,
+            "price": 19.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "phantom_superior_on": "reviews",
+      "source": "REBUILT (V1 web appendix PHT-7 published phantom was $17.99 / 12,000 reviews - superior to HD on BOTH price ($17.99 < $19.99) AND reviews (12,000 > 11,076), violating R1's correction requiring superiority on EXACTLY ONE attribute). Rebuilt phantom: reviews 12,000 (keeps published value, superior on target's strong attribute) / price $19.99 (equal to HD, not superior). Phantom is now superior on exactly one attribute (reviews) and equal on price. This matches the Pettibone-Wedell PR geometry (equal on weak attribute, better on strong attribute). available=false.",
+      "no_published_analog": false,
+      "flags": [
+        "PHT_rebuilt_R1: published PHT-7 phantom ($17.99 / 12,000 reviews) was superior to HD target on BOTH price ($17.99 < $19.99) and reviews (12,000 > 11,076). This violates the R1 correction: phantom must be superior on EXACTLY ONE attribute. Rebuilt: kept published reviews value 12,000 (superior on target's strong attribute = reviews); set price to $19.99 (equal to HD, satisfying 'equal-or-worse on price'). Published price $17.99 discarded.",
+        "PHT_ONE_ATTRIBUTE_CONFIRMED: rebuilt phantom (12,000 reviews / $19.99) is superior to HD target on reviews only (12,000 > 11,076); equal on price ($19.99 = $19.99). R1 geometry requirement satisfied. Matches Pettibone-Wedell PR placement.",
+        "PHT_UNAVAILABLE: available=false per the geometry rules (Web Appendix B) PHT unified rule."
+      ]
+    },
+    {
+      "id": "SOT_earbuds_t1",
+      "category": "earbuds",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 20000,
+            "price": 34.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_over_target_plus_competitor",
+      "source": "REBUILT (V1 web appendix SOT-7 used old 'add a middle' geometry: Middle = $12.99 / 5,500 reviews, with HD remaining the top extreme. New plan requires the two BIN options PLUS one NEW EXTREME beyond HD so former HD becomes the middle). New extreme: 20,000 reviews / $34.99. Former HD (11,076 reviews / $19.99) is now geometrically the middle option on both attributes.",
+      "flags": [
+        "SOT_GEOMETRY_REBUILT: V1 SOT-7 used old 'add a middle' geometry (Middle = $12.99 / 5,500 reviews; HD = $19.99 / 11,076 remained the top extreme). New plan requires adding an extreme BEYOND HD so HD becomes the middle. Rebuilt with new extreme at 20,000 reviews / $34.99.",
+        "SOT_MIDDLE_VERIFIED: HD (11,076 reviews / $19.99) is strictly between HF (1,147 reviews / $5.99) and EXTREME (20,000 reviews / $34.99) on both reviews (1,147 < 11,076 < 20,000) and price ($5.99 < $19.99 < $34.99). Compromise geometry correct.",
+        "SOT_EXTREME_NOTE: price $34.99 matches the RNG range decoy price for within-category consistency. Reviews value 20,000 is a round number clearly above HD's 11,076, approximately doubling the HD-to-HF gap extended beyond HD."
+      ]
+    },
+    {
+      "id": "MOT_earbuds_t1",
+      "category": "earbuds",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "brand": "Brand A",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "B",
+          "brand": "Brand B",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "C",
+          "brand": "Brand C",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "D",
+          "brand": "Brand D",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "E",
+          "brand": "Brand E",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 6544,
+            "price": 15.49
+          }
+        },
+        {
+          "code": "F",
+          "brand": "Brand F",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 6544,
+            "price": 15.49
+          }
+        },
+        {
+          "code": "G",
+          "brand": "Brand G",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 6544,
+            "price": 15.49
+          }
+        },
+        {
+          "code": "H",
+          "brand": "Brand H",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 6544,
+            "price": 15.49
+          }
+        },
+        {
+          "code": "I",
+          "brand": "Brand I",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "J",
+          "brand": "Brand J",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "K",
+          "brand": "Brand K",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "L",
+          "brand": "Brand L",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_SOT",
+      "source": "Sharif, Webb, and Bhatia 2025 Study 6 published tier values, 4 brands per tier (High/Middle/Low), generic brand names (Brand A through L); High tier: $19.99 / 11,076 reviews; Middle tier: $15.49 / 6,544 reviews; Low tier: $5.99 / 1,147 reviews (the published SOT menu of Study 6; the paper's results section twice prints 6,554, an internal inconsistency with the method section's stimulus listing, which prints 6,544 for both conditions). Middle tier corrected 2026-07-01 from V1's constructed $12.99 / 5,500 (inherited from V1 SOT-7's add-a-middle option), which did not match the published middle; decided by the authors tier-1 fidelity fix.",
+      "flags": [
+        "MOT_MIDDLE_CORRECTED_2026-07-01: V1's MOT-7 middle tier ($12.99 / 5,500 reviews, inherited from V1 SOT-7's constructed add-a-middle option) contradicted the registered exact-published-values tier: Sharif, Webb, and Bhatia 2025 Study 6's published middle option is $15.49 / 6,544 reviews (method section, both MOT and SOT condition listings). Corrected to the published values; decided by the authors (the third stimulus-value correction under the reality-contradicts-registered-claim rule, after the PHT/RNG geometry rebuilds and the M2 anchor restoration). High/Low tiers were already the published extremes (= the published binary focals). The matched EXC control re-derives from these tiers via exc_from_mot at build.",
+        "MOT_NOTE: the MOT test measures extreme-tier share relative to the matched EXC single-option-per-tier control built on the same three tiers; MOT tier structure is independent of the SOT compromise geometry rebuild."
+      ]
+    },
+    {
+      "id": "SYM_earbuds_t1",
+      "category": "earbuds",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 19.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_minus_delta_hf_vs_binary",
+      "source": "V1 web appendix SYM-7 exact values; decoy (1,147 reviews / $19.99) is dominated by BOTH focal options: dominated by HF (same reviews 1,147, but HF is cheaper $5.99 < $19.99) AND dominated by HD (same price $19.99, but HD has far more reviews 11,076 > 1,147). Same-page presentation mandatory per the geometry rules (Web Appendix B).",
+      "flags": [
+        "SYM_DOUBLE_DOMINANCE_CONFIRMED: decoy (1,147 reviews / $19.99) beaten by HF on price at equal reviews ($5.99 < $19.99; same 1,147 reviews), beaten by HD on reviews at equal price (11,076 > 1,147; same $19.99). Both focal options dominate the decoy.",
+        "SYM_SAME_PAGE: same-page flag required per Evangelidis et al. 2023; effect dies on separate pages."
+      ]
+    },
+    {
+      "id": "SIM_earbuds_t1",
+      "category": "earbuds",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "reviews": 1147,
+            "price": 5.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11076,
+            "price": 19.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "reviews": 11500,
+            "price": 19.99
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "clone_steal_from_HD",
+      "source": "CONSTRUCTED (no published analog for SIM in Sharif et al. 2025 or any V1 source). Clone is near-duplicate of HD: same price ($19.99), reviews 11,500 vs HD's 11,076 (minimal upward step of 424 reviews, ~4% difference). Clone is NOT dominated by HD: clone reviews 11,500 > HD reviews 11,076 (so HD cannot dominate clone on reviews); same price so neither dominates on price. Clone shares is_hd=true with HD.",
+      "no_published_analog": true,
+      "flags": [
+        "SIM_NO_PUBLISHED_ANALOG: no Sharif et al. 2025 or V1 stimulus exists for the similarity structure. Constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "SIM_NON_DOMINANCE_CONFIRMED: clone (11,500 reviews / $19.99) is NOT dominated by HD (11,076 reviews / $19.99) because clone reviews 11,500 > HD reviews 11,076; equal price, so neither dominates on price. Guard against Berkowitsch rounding accident satisfied: clone is not a decoy.",
+        "SIM_CLONE_OF_HD: clone shares is_hd=true with HD; distance on reviews is 424 (minimal, ~4%); price is identical at $19.99. Similarity effect predicts clone steals share from HD."
+      ]
+    }
+  ]
+}

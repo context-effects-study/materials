@@ -1,0 +1,13 @@
+variable,type,values,units,meaning
+participant,text,459 distinct values,,"Participant id, as in the export (PROLIFIC_PID)."
+trial_position,integer,"1, 2, 3, 4, 5, 6, 7, 8, 9",,Position of the choice in the respondent's sequence (1 = first).
+pair,text,16 distinct values,,"Calibration pair, as <block>::<stimulus id>."
+block,category,format_pictures | format_words | inv_t3 | pub_t2,,"pub_t1, pub_t2, inv_t3, format_words or format_pictures."
+category,category,backpacks | bluetooth_speakers | earbuds | electric_kettles | hard_drives | restaurants | standing_desks | televisions | water_bottles,,Product category.
+tier,integer,"2, 3",,"Memorization tier (1, 2 or 3)."
+format,category,numbers | pictures | words,,"numbers, words or pictures."
+stimulus_id,text,BIN_backpacks_t2 | BIN_bluetooth_speakers_t2 | BIN_earbuds_t2 | BIN_electric_kettles_t3 | BIN_hard_drives_t2 | BIN_restaurants_t2 | BIN_standing_desks_t3 | BIN_televisions_t2 | BIN_water_bottles_t2,,Stimulus id (values in stimuli/stimuli_prelock.json and the wave's pairs file).
+position_order,text,"HD,HF | HF,HD",,Option codes in the order shown.
+choice,category,COMP | TARGET,,Decoded choice: TARGET (the category's compromise target) or COMP (its rival).
+chose_target,0 or 1,"0, 1",,1 when the target option was chosen. The wave report's share is the mean of this column per pair.
+page_submit_sec,seconds,1.29 to 280.935,seconds,Time from page load to submitting this choice page.

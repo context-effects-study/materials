@@ -1,0 +1,251 @@
+{
+  "survey": "realism_anchor",
+  "version": "anchor-realism-qsf-1.0",
+  "build_date": "2026-07-02",
+  "purpose": "the author flag (a), CALIBRATION_WAVE3 s6.4: rate the PUBLISHED categories' tier-2 pages on the identical 7-point 'reads like a real product page' item, so the 5.0 realism threshold (set with no anchor) has a comparison for the invented categories' 4.36-4.68 wave-3 scores. Changes NO stimuli, NO values.",
+  "deal": {
+    "rule": "one BlockRandomizer SubSet=4 EvenPresentation over the 7 category rating blocks: each rater rates exactly 4 randomly assigned categories, presentation order randomized by the same randomizer",
+    "participants_nominal": 112,
+    "n_per_category_nominal": 64,
+    "pay_usd": 0.4,
+    "fee_multiplier": 1.3334,
+    "cost_all_in": 59.74,
+    "assignment_version": "9349f01eed10"
+  },
+  "item": {
+    "question_text": "The product options above are from one product category. How realistic do they seem to you — do they read like a <b>real product page</b> you might see when shopping online?",
+    "scale": [
+      "1 - Not at all realistic",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7 - Completely realistic"
+    ],
+    "comment_text": "Optional: if anything about the product pages in this study seemed unrealistic, confusing, or odd, please tell us here.",
+    "preamble_deviation": "the measurement sentence + scale are VERBATIM from the wave-2/3 realism item; only the one-sentence preamble differs (anchor raters make no choices): wave piped = 'The product options above are from one of the choices you made earlier, shown again.'; wave static = 'The product options above are from another product category in this study, shown the same way.'; anchor = 'The product options above are from one product category.'"
+  },
+  "render": "STATIC baked context via generate_calibration.realism_static_html (the wave-3 robot_vacuums static realism architecture): G.WIDGET_CSS + stem + cfx-card per option + enrich.option_numbers_html (enriched numbers format), canonical option order",
+  "categories": {
+    "backpacks": {
+      "stimulus_id": "BIN_backpacks_t2",
+      "arm_id": "pub_t2::BIN_backpacks_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_backpacks_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 59.99,
+          "to": 61.99,
+          "lever": "trustworthy two-point solve",
+          "basis": "slope -3.23 pp/$ (49.5% @ 59.99 -> 39.8% @ 62.99); solve for 42.5% = 62.16 -> 61.99 rounded; predicted ~43%"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "capacity": 25,
+          "price": 34.99
+        },
+        "HD": {
+          "capacity": 50,
+          "price": 61.99
+        }
+      },
+      "lock_verdict": "DEFECT CONTINGENCY (pre-registered)"
+    },
+    "bluetooth_speakers": {
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "arm_id": "pub_t2::BIN_bluetooth_speakers_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_bluetooth_speakers_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 89.99,
+          "to": 109.0,
+          "lever": "carry wave-2 shown price",
+          "basis": "the wave-2 measurement point; price is not the wave-3 lever on this arm (wrong-signed slope +0.13)"
+        },
+        {
+          "stimulus": "BIN_bluetooth_speakers_t2",
+          "option": "HF",
+          "attribute": "rating",
+          "from": 3.8,
+          "to": 4.2,
+          "lever": "QUALITY step (wave-3)",
+          "basis": "wave-2 64.4% (wrong-signed on price). Gap 0.9 stars held the pair at 59-73% across three measurements regardless of price level (t1 73.5 @ $69.99; w1 61.9 @ $89.99; w2 64.4 @ $109) - the rating gap, not price, carries the choice. One step: raise the budget option 3.8 -> 4.2 (0.1-star grid; crosses the 4.0 'good product' threshold; gap 0.9 -> 0.5, a 44% cut) at the untouched 2.42x price ratio; aimed at 42.5%"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "rating": 4.2,
+          "price": 44.99
+        },
+        "HD": {
+          "rating": 4.7,
+          "price": 109.0
+        }
+      },
+      "lock_verdict": "LOCK (CI-overlap route)"
+    },
+    "earbuds": {
+      "stimulus_id": "BIN_earbuds_t2",
+      "arm_id": "pub_t2::BIN_earbuds_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_earbuds_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 29.99,
+          "to": 32.99,
+          "lever": "carry wave-2 shown price",
+          "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.71)"
+        },
+        {
+          "stimulus": "BIN_earbuds_t2",
+          "option": "HF",
+          "attribute": "reviews",
+          "from": 2500,
+          "to": 4000,
+          "lever": "QUALITY step (wave-3)",
+          "basis": "wave-2 56.0% - the smallest needed move (-13.5pp). One step: raise the budget option's reviews 2,500 -> 4,000 (nearest-100 realistic; premium's relative advantage 7.2x -> 4.5x, a 38% cut, proportionate to the small imbalance); aimed at 42.5%"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "reviews": 4000,
+          "price": 8.99
+        },
+        "HD": {
+          "reviews": 18000,
+          "price": 32.99
+        }
+      },
+      "lock_verdict": "DEFECT CONTINGENCY (pre-registered)"
+    },
+    "hard_drives": {
+      "stimulus_id": "BIN_hard_drives_t2",
+      "arm_id": "pub_t2::BIN_hard_drives_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_hard_drives_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 99.99,
+          "to": 119.0,
+          "lever": "carry wave-2 shown price",
+          "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.27, brushing the 75 hard limit)"
+        },
+        {
+          "stimulus": "BIN_hard_drives_t2",
+          "option": "HF",
+          "attribute": "storage",
+          "from": 1,
+          "to": 2,
+          "lever": "QUALITY step (wave-3)",
+          "basis": "wave-2 74.5%. One market step up on the budget option (points 1/2/4/6/8 TB): ratio 6x -> 3x; premium's per-TB edge shrinks 2.27x -> 1.14x. Anchor: the tier-1 hard-drives pair at ratio 2x / price 2x measured 43.9% IN BAND (wave 1, n=98); aimed at 42.5%"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "storage": 2,
+          "price": 44.99
+        },
+        "HD": {
+          "storage": 6,
+          "price": 119.0
+        }
+      },
+      "lock_verdict": "LOCK (CI-overlap route)"
+    },
+    "restaurants": {
+      "stimulus_id": "BIN_restaurants_t2",
+      "arm_id": "pub_t2::BIN_restaurants_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_restaurants_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 58,
+          "to": 60.99,
+          "lever": "trustworthy two-point solve",
+          "basis": "slope -3.00 pp/$ (51.8% @ 58 -> 39.8% @ 61.99); solve for 42.5% = 61.09 -> 60.99 rounded; predicted ~42.8%"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "rating": 72,
+          "price": 22
+        },
+        "HD": {
+          "rating": 95,
+          "price": 60.99
+        }
+      },
+      "lock_verdict": "DEFECT CONTINGENCY (pre-registered)"
+    },
+    "televisions": {
+      "stimulus_id": "BIN_televisions_t2",
+      "arm_id": "pub_t2::BIN_televisions_t2",
+      "overrides_applied": [
+        {
+          "stimulus": "BIN_televisions_t2",
+          "option": "HD",
+          "attribute": "price",
+          "from": 399.99,
+          "to": 459.0,
+          "lever": "carry wave-2 shown price",
+          "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.01, flat)"
+        },
+        {
+          "stimulus": "BIN_televisions_t2",
+          "option": "HF",
+          "attribute": "picture_quality",
+          "from": 70,
+          "to": 78,
+          "lever": "QUALITY step (wave-3)",
+          "basis": "wave-2 61.2%. Within-category anchor: gap 33 pts -> 74.7% (t1), gap 26 pts -> 61.2% (w2), implying >=1.9pp per quality point (the confounded price ratio pushed the OTHER way, so the true gap slope is steeper). One step: raise the budget option 70 -> 78 (gap 26 -> 18); predicted ~44-46%, cap-safe (78 << 96)"
+        }
+      ],
+      "final_values": {
+        "HF": {
+          "picture_quality": 78,
+          "price": 139.99
+        },
+        "HD": {
+          "picture_quality": 96,
+          "price": 459.0
+        }
+      },
+      "lock_verdict": "LOCK (CI-overlap route)"
+    },
+    "water_bottles": {
+      "stimulus_id": "BIN_water_bottles_t2",
+      "arm_id": "pub_t2::BIN_water_bottles_t2",
+      "overrides_applied": [],
+      "final_values": {
+        "HF": {
+          "capacity": 16,
+          "price": 8.99
+        },
+        "HD": {
+          "capacity": 48,
+          "price": 24.99
+        }
+      },
+      "lock_verdict": "LOCK (wave-1 point in band; never re-dealt)"
+    }
+  },
+  "enrichment_source": "pretest/wave3_pairs.json 'enrichment' (validated numeral-free)",
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree",
+  "exclusion_rules": "frozen calibration rules: incomplete, duplicate PID, attention_1 != 'Strongly agree', speeder (median rating-page Page Submit < 3.0 s), STRESS_/test PID prefixes removed",
+  "invented_wave3_comparison": {
+    "electric_kettles": 4.36,
+    "robot_vacuums": 4.53,
+    "standing_desks": 4.68,
+    "source": "rereview/CALIBRATION_WAVE3_2026-07-02.md s4 (n=459 each)"
+  },
+  "rr_hygiene": "stimuli.json untouched; values are the wave-3 in-memory effective values, hard-asserted against pretest/FINAL_LOCK_LIST_2026-07-02.json; anchor responses never enter confirmatory analyses; anchor participants join the confirmatory exclusion allowlist like all calibration participants"
+}

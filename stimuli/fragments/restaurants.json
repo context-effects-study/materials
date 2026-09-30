@@ -1,0 +1,492 @@
+{
+  "category": {
+    "id": "restaurants",
+    "label": "Restaurants",
+    "category_number_v1": 6,
+    "attributes": [
+      {
+        "name": "rating",
+        "unit": "0-100 overall rating (Consumer Reports)",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD average entree",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "memorization_tier": 1,
+    "source": "Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061",
+    "geometry_constraints": [
+      "Rating attribute caps at 100. When a structure requires extending the quality range beyond 100, extend via a higher price instead (same handling as Hotels star-rating cap and Bluetooth-speakers rating cap documented in the V1 web appendix)."
+    ]
+  },
+  "stimuli": [
+    {
+      "id": "BIN_restaurants_t1",
+      "category": "restaurants",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "source": "Sharif, Webb, and Bhatia 2025; V1 web appendix BIN-6 exact values",
+      "flags": []
+    },
+    {
+      "id": "FRQ_restaurants_t1",
+      "category": "restaurants",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 96,
+            "price": 43
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-6 exact values; decoy dominated by HD target (98 > 96 on rating AND $40 < $43 on price); decoy not dominated by HF (HF has rating 65 < 96, so HF does not dominate decoy on quality)",
+      "flags": [
+        "FRQ_DOMINANCE_CONFIRMED: decoy (96/$43) dominated by HD (98/$40) on both attributes (98 > 96 on rating; $40 < $43 on price). Decoy not dominated by HF (HF rating 65 < 96)."
+      ]
+    },
+    {
+      "id": "RNG_restaurants_t1",
+      "category": "restaurants",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 99,
+            "price": 75
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-6 exact values; range decoy extends price range well beyond HD ($75 vs $40), making HD price look moderate; decoy rating 99 is marginally above HD rating 98, so decoy is NOT dominated by HD on quality (99 > 98)",
+      "flags": [
+        "RNG_NO_DOMINANCE_CONFIRMED: decoy (99/$75) is not dominated by HD (98/$40) because decoy rating 99 > HD rating 98; satisfies range geometry (extends price range without creating dominance)."
+      ]
+    },
+    {
+      "id": "PHT_restaurants_t1",
+      "category": "restaurants",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "rating": 99,
+            "price": 40
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "REBUILT from V1 web appendix PHT-6 (published: rating 99 / $35). Published phantom was superior on BOTH attributes vs. HD (rating 99 > 98 AND price $35 < $40), violating R1 requirement of exactly-one-attribute superiority. Rebuilt to be superior on EXACTLY ONE attribute: rating 99 > 98 (superior on quality, the target's strong attribute); price $40 = $40 (equal on price). Published values: rating 99, price $35.",
+      "flags": [
+        "PHT_rebuilt_R1: published PHT-6 phantom ($35/99) was superior to HD ($40/98) on BOTH attributes (rating 99 > 98 AND price $35 < $40). This is an R1 violation (phantom must be superior on exactly one attribute). Rebuilt phantom: rating 99 (superior on quality), price $40 (equal to HD). Now superior on exactly one attribute (rating).",
+        "PHT_PUBLISHED_VALUES_RECORDED: published phantom was rating=99, price=$35 (V1 web appendix PHT-6). Rebuilt phantom uses rating=99, price=$40.",
+        "PHT_ONE_ATTRIBUTE_CONFIRMED: rebuilt phantom superior on rating only (99 > 98); equal on price ($40 = $40). R1 geometry requirement satisfied. available=false."
+      ]
+    },
+    {
+      "id": "SOT_restaurants_t1",
+      "category": "restaurants",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 100,
+            "price": 65
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_over_target_plus_competitor",
+      "source": "REBUILT (V1 web appendix SOT-6 used old geometry: added a middle option at $25/82, making HD the top extreme; new plan requires two BIN options PLUS one NEW EXTREME beyond HD so former HD becomes the middle). New extreme: rating 100 / $65. Rating cap (100) reached; extended via higher price ($65 > $40) per geometry_constraints note, following the Hotels and Bluetooth-speakers precedent. Former HD (98/$40) is now geometrically the middle option on both attributes.",
+      "flags": [
+        "SOT_GEOMETRY_REBUILT: V1 SOT-6 used old 'add a middle' geometry (Middle=$25/82, HD=$40/98 remained the top). New plan requires adding an extreme BEYOND HD so HD becomes the middle. Rebuilt with new extreme at rating 100 / $65.",
+        "RATING_CAP_APPLIED: rating attribute caps at 100; extreme extended via higher price ($65) rather than impossible rating (>100), following geometry_constraints and the Hotels and Bluetooth-speakers precedents.",
+        "SOT_MIDDLE_VERIFIED: HD (98/$40) is strictly between HF (65/$7) and EXTREME (100/$65) on both rating (65 < 98 < 100) and price ($7 < $40 < $65).",
+        "SOT_V1_MIDDLE_RECORDED: V1 SOT-6 middle was rating=82, price=$25 (Sharif et al. Study 3). Preserved in MOT menu tiers."
+      ]
+    },
+    {
+      "id": "MOT_restaurants_t1",
+      "category": "restaurants",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "restaurant": "The Capital Grille",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "B",
+          "restaurant": "Fleming's Prime",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "C",
+          "restaurant": "Morton's",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "D",
+          "restaurant": "Ruth's Chris",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "E",
+          "restaurant": "Bonefish Grill",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 82,
+            "price": 25
+          }
+        },
+        {
+          "code": "F",
+          "restaurant": "Carrabba's",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 82,
+            "price": 25
+          }
+        },
+        {
+          "code": "G",
+          "restaurant": "Maggiano's",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 82,
+            "price": 25
+          }
+        },
+        {
+          "code": "H",
+          "restaurant": "BJ's Restaurant",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 82,
+            "price": 25
+          }
+        },
+        {
+          "code": "I",
+          "restaurant": "Applebee's",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "J",
+          "restaurant": "Chili's",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "K",
+          "restaurant": "TGI Friday's",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "L",
+          "restaurant": "Buffalo Wild Wings",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_SOT",
+      "source": "V1 web appendix MOT-6 exact values; restaurant names follow Sharif, Webb, and Bhatia 2025 Study 3 MOT condition exactly (as noted in V1 web appendix: 'restaurant names follow Sharif et al. Study 3 MOT condition exactly'). High tier: rating 98 / $40; Middle tier: rating 82 / $25; Low tier: rating 65 / $7.",
+      "flags": [
+        "MOT_SHARIF_NAMES_PRESERVED: restaurant names are from Sharif, Webb, and Bhatia 2025 Study 3 (original published names), per V1 web appendix MOT-6 annotation and per the task instruction to preserve original restaurant names.",
+        "MOT_NOTE: Middle tier values (82/$25) are inherited from V1 SOT-6's middle option (which itself follows Sharif et al. Study 3). These remain the three menu tiers for MOT even though SOT geometry has been rebuilt for compromise-effect testing. MOT tier structure is independent of the SOT compromise geometry rebuild."
+      ]
+    },
+    {
+      "id": "SYM_restaurants_t1",
+      "category": "restaurants",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 40
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_minus_delta_hf_vs_binary",
+      "source": "V1 web appendix SYM-6 exact values; decoy (65/$40) is dominated by BOTH focal options: dominated by HF (same rating 65, higher price $40 > $7) AND dominated by HD (lower rating 65 < 98, same price $40). Same-page presentation mandatory per the geometry rules (Web Appendix B).",
+      "flags": [
+        "SYM_DOUBLE_DOMINANCE_CONFIRMED: decoy (65/$40) beaten by HF on price at equal rating (rating 65 = 65, price $40 > $7), beaten by HD on rating at equal price (rating 65 < 98, price $40 = $40).",
+        "SYM_SAME_PAGE: same-page flag required per Evangelidis et al. 2023; effect dies on separate pages."
+      ]
+    },
+    {
+      "id": "SIM_restaurants_t1",
+      "category": "restaurants",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 65,
+            "price": 7
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 98,
+            "price": 40
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 99,
+            "price": 40
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "clone_steal_from_HD",
+      "source": "CONSTRUCTED (no published analog for SIM in Sharif, Webb, and Bhatia 2025 or any V1 source). Clone is near-duplicate of HD: same price ($40), rating 99 vs HD's 98 (minimal upward step of 1 point). Clone is NOT dominated by anything: HD has equal price and lower rating (98 < 99), so HD does not dominate clone on quality. Clone is same is_hd=true as HD (premium, high-rating option).",
+      "no_published_analog": true,
+      "flags": [
+        "SIM_NO_PUBLISHED_ANALOG: no Sharif, Webb, and Bhatia 2025 or V1 stimulus exists for the similarity structure. Constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "SIM_NON_DOMINANCE_CONFIRMED: clone (99/$40) is NOT dominated by HD (98/$40) because clone rating 99 > HD rating 98; clone is not dominated by HF (65/$7) because clone rating 99 >> 65 and clone price $40 > $7 (HF beats on price but not rating; no full dominance). Guard against Berkowitsch rounding accident: clone does not silently become a decoy because clone is strictly better than HD on the quality attribute.",
+        "SIM_CLONE_OF_HD: clone shares is_hd=true with HD; distance on rating is 1 point (minimal); price is identical ($40)."
+      ]
+    }
+  ]
+}

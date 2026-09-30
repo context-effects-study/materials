@@ -1,0 +1,57 @@
+{
+  "wave": "wave2",
+  "kit_version": "wave2-pairs-2.0-shared-values",
+  "decided": "2026-07-02 (the author): format arms carry SHARED VALUES - each category's nudge derives from the NUMBERS arm's wave-1 share and the words/pictures arms carry those same values. The design principle 'only the format changes' wins over per-arm nudging. A pictures ceiling recurring at shared values is handled by the registered no-room rule, not by different values. stimuli.json stays UNTOUCHED this wave: the generator applies these overrides in memory; values lock into stimuli.json once, at the final lock (G3).",
+  "arms": [
+    "pub_t2::BIN_backpacks_t2",
+    "pub_t2::BIN_bluetooth_speakers_t2",
+    "pub_t2::BIN_earbuds_t2",
+    "pub_t2::BIN_hard_drives_t2",
+    "pub_t2::BIN_restaurants_t2",
+    "pub_t2::BIN_televisions_t2",
+    "inv_t3::BIN_electric_kettles_t3",
+    "inv_t3::BIN_robot_vacuums_t3",
+    "inv_t3::BIN_standing_desks_t3",
+    "words::BIN_bluetooth_speakers_t2",
+    "words::BIN_hard_drives_t2",
+    "words::BIN_televisions_t2",
+    "words::BIN_water_bottles_t2",
+    "pictures::BIN_bluetooth_speakers_t2",
+    "pictures::BIN_hard_drives_t2",
+    "pictures::BIN_televisions_t2",
+    "pictures::BIN_water_bottles_t2"
+  ],
+  "value_overrides": {
+    "backpacks": {"stimulus": "BIN_backpacks_t2", "option": "HD", "attribute": "price", "from": 59.99, "to": 62.99, "basis": "wave-1 numbers arm 49.5% -> mechanical nudge (CALIBRATION_WAVE1 s2)"},
+    "bluetooth_speakers": {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HD", "attribute": "price", "from": 89.99, "to": 109.00, "basis": "wave-1 numbers arm 61.9% -> mechanical nudge; shared by the words + pictures arms"},
+    "earbuds": {"stimulus": "BIN_earbuds_t2", "option": "HD", "attribute": "price", "from": 29.99, "to": 32.99, "basis": "wave-1 numbers arm 53.8% -> mechanical nudge"},
+    "hard_drives": {"stimulus": "BIN_hard_drives_t2", "option": "HD", "attribute": "price", "from": 99.99, "to": 119.00, "basis": "wave-1 numbers arm 69.4% -> mechanical nudge; shared by the words + pictures arms"},
+    "restaurants": {"stimulus": "BIN_restaurants_t2", "option": "HD", "attribute": "price", "from": 58, "to": 61.99, "basis": "wave-1 numbers arm 51.8% -> mechanical nudge"},
+    "televisions": {"stimulus": "BIN_televisions_t2", "option": "HD", "attribute": "price", "from": 399.99, "to": 459.00, "basis": "wave-1 numbers arm 60.6% -> mechanical nudge; shared by the words + pictures arms"},
+    "electric_kettles": {"stimulus": "BIN_electric_kettles_t3", "option": "HF", "attribute": "price", "from": 24.99, "to": 31.99, "basis": "wave-1 numbers arm 72.2% (TARGET = HF in this category) -> mechanical nudge"},
+    "robot_vacuums": {"stimulus": "BIN_robot_vacuums_t3", "option": "HF", "attribute": "price", "from": 149.99, "to": 159.00, "basis": "wave-1 numbers arm 33.7% (COMP = HF too popular) -> mechanical nudge"},
+    "standing_desks": {"stimulus": "BIN_standing_desks_t3", "option": "HF", "attribute": "price", "from": 199.99, "to": 269.00, "basis": "wave-1 numbers arm 80.1% HARD FLAG (TARGET = HF) -> mechanical nudge; hard limit binds only after the final wave"}
+  },
+  "no_override": {
+    "water_bottles": "the NUMBERS arm (pub_t2, 41.7%) is IN BAND, so the shared values are the CURRENT values (HF 16 oz / $8.99; HD 48 oz / $24.99); the words + pictures arms are re-tested at those unchanged shared values as pure format re-checks."
+  },
+  "realism_categories": ["electric_kettles", "robot_vacuums", "standing_desks"],
+  "delta_from_per_arm_kit": {
+    "note": "the wave-1 report s2 logged PER-ARM mechanical nudges; the author's 2026-07-02 shared-values decision replaces the format arms' per-arm nudges with the NUMBERS arm's nudge. The deltas:",
+    "words::BIN_televisions_t2": "per-arm was HD 399.99 -> 469.00; now the shared 459.00",
+    "words::BIN_water_bottles_t2": "per-arm was HF 8.99 -> 9.49; now NO change (shared in-band values)",
+    "pictures::BIN_bluetooth_speakers_t2": "per-arm was the degenerate no-op HF 44.99 -> 44.99; now carries the shared numbers nudge HD 89.99 -> 109.00",
+    "pictures::BIN_hard_drives_t2": "per-arm was HD 99.99 -> 149.00; now the shared 119.00",
+    "pictures::BIN_televisions_t2": "per-arm was HD 399.99 -> 419.00; now the shared 459.00",
+    "pictures::BIN_water_bottles_t2": "per-arm was HD 24.99 -> 27.99; now NO change (shared in-band values)",
+    "words::BIN_bluetooth_speakers_t2": "no delta (per-arm nudge coincided with the numbers arm's: 109.00)",
+    "words::BIN_hard_drives_t2": "no delta (per-arm nudge coincided with the numbers arm's: 119.00)"
+  },
+  "wave2_images": {
+    "note": "the shared price nudges change the magnitude-bar geometry of 3 pictures stimuli, so those whole-set images are re-rendered at the wave-2 values under NEW filenames (wave-1 assets untouched) and uploaded to the same live host before import; water_bottles reuses its wave-1 image (values unchanged).",
+    "BIN_bluetooth_speakers_t2": "BIN_bluetooth_speakers_t2_wave2.png",
+    "BIN_hard_drives_t2": "BIN_hard_drives_t2_wave2.png",
+    "BIN_televisions_t2": "BIN_televisions_t2_wave2.png",
+    "BIN_water_bottles_t2": "BIN_water_bottles_t2.png (wave-1 image reused; values unchanged)"
+  }
+}

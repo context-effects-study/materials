@@ -1,0 +1,67 @@
+model,level,category,tier,format,effect
+CEILING,two-option cell,0,1,numbers,every effect built on this cell
+CEILING,two-option cell,0,2,numbers,every effect built on this cell
+CEILING,two-option cell,0,2,pictures,every effect built on this cell
+CEILING,two-option cell,0,2,words,every effect built on this cell
+CEILING,two-option cell,1,1,numbers,every effect built on this cell
+CEILING,two-option cell,1,2,numbers,every effect built on this cell
+CEILING,two-option cell,1,2,pictures,every effect built on this cell
+CEILING,two-option cell,1,2,words,every effect built on this cell
+CEILING,two-option cell,2,1,numbers,every effect built on this cell
+CEILING,two-option cell,2,2,numbers,every effect built on this cell
+CEILING,two-option cell,2,2,pictures,every effect built on this cell
+CEILING,two-option cell,2,2,words,every effect built on this cell
+CEILING,two-option cell,3,1,numbers,every effect built on this cell
+CEILING,two-option cell,3,2,numbers,every effect built on this cell
+CEILING,two-option cell,3,2,pictures,every effect built on this cell
+CEILING,two-option cell,3,2,words,every effect built on this cell
+CEILING,two-option cell,4,1,numbers,every effect built on this cell
+CEILING,two-option cell,4,2,numbers,every effect built on this cell
+CEILING,two-option cell,4,2,pictures,every effect built on this cell
+CEILING,two-option cell,4,2,words,every effect built on this cell
+CEILING,two-option cell,5,1,numbers,every effect built on this cell
+CEILING,two-option cell,5,2,numbers,every effect built on this cell
+CEILING,two-option cell,5,2,pictures,every effect built on this cell
+CEILING,two-option cell,5,2,words,every effect built on this cell
+CEILING,two-option cell,6,1,numbers,every effect built on this cell
+CEILING,two-option cell,6,2,numbers,every effect built on this cell
+CEILING,two-option cell,6,2,pictures,every effect built on this cell
+CEILING,two-option cell,6,2,words,every effect built on this cell
+CEILING,two-option cell,7,3,numbers,every effect built on this cell
+CEILING,two-option cell,8,3,numbers,every effect built on this cell
+CEILING,two-option cell,9,3,numbers,every effect built on this cell
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,FRQ
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,FRQ
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,FRQ
+CEILING,"effect and tier, every category at the ceiling",all,2,words,FRQ
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,FRQ
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,MOT
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,MOT
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,MOT
+CEILING,"effect and tier, every category at the ceiling",all,2,words,MOT
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,MOT
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,PHT
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,PHT
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,PHT
+CEILING,"effect and tier, every category at the ceiling",all,2,words,PHT
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,PHT
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,RNG
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,RNG
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,RNG
+CEILING,"effect and tier, every category at the ceiling",all,2,words,RNG
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,RNG
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,SIM
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,SIM
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,SIM
+CEILING,"effect and tier, every category at the ceiling",all,2,words,SIM
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,SIM
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,SOT
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,SOT
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,SOT
+CEILING,"effect and tier, every category at the ceiling",all,2,words,SOT
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,SOT
+CEILING,"effect and tier, every category at the ceiling",all,1,numbers,SYM
+CEILING,"effect and tier, every category at the ceiling",all,2,numbers,SYM
+CEILING,"effect and tier, every category at the ceiling",all,2,pictures,SYM
+CEILING,"effect and tier, every category at the ceiling",all,2,words,SYM
+CEILING,"effect and tier, every category at the ceiling",all,3,numbers,SYM

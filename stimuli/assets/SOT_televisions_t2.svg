@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="612" height="368" font-family="Arial,sans-serif">
+<rect width="612" height="368" fill="white"/>
+<text x="16" y="20" font-size="14" font-weight="bold">Televisions</text>
+<text x="16" y="56" font-size="12" font-weight="bold">Option A</text>
+<text x="16" y="69" font-size="9" fill="#333">ClearView Smart TV</text>
+<text x="166" y="50" font-size="9" fill="#555">picture quality</text>
+<rect x="166" y="54" width="150" height="13" fill="#eee" stroke="#999"/><rect x="166" y="54" width="92.2" height="13" fill="#3b7a57"/>
+<text x="166" y="80" font-size="8.5" font-style="italic" fill="#666">a crisp, watchable everyday picture</text>
+<text x="381" y="50" font-size="9" fill="#555">price</text>
+<rect x="381" y="54" width="150" height="13" fill="#eee" stroke="#999"/><rect x="381" y="54" width="30.4" height="13" fill="#d9822b"/>
+<text x="381" y="80" font-size="8.5" font-style="italic" fill="#666">a budget-friendly price</text>
+<text x="16" y="152" font-size="12" font-weight="bold">Option B</text>
+<text x="16" y="165" font-size="9" fill="#333">CinemaMax Smart TV</text>
+<text x="166" y="146" font-size="9" fill="#555">picture quality</text>
+<rect x="166" y="150" width="150" height="13" fill="#eee" stroke="#999"/><rect x="166" y="150" width="126.5" height="13" fill="#3b7a57"/>
+<text x="166" y="176" font-size="8.5" font-style="italic" fill="#666">near the top of the expert rankings</text>
+<text x="381" y="146" font-size="9" fill="#555">price</text>
+<rect x="381" y="150" width="150" height="13" fill="#eee" stroke="#999"/><rect x="381" y="150" width="93.2" height="13" fill="#d9822b"/>
+<text x="381" y="176" font-size="8.5" font-style="italic" fill="#666">a premium price</text>
+<text x="16" y="248" font-size="12" font-weight="bold">Option C</text>
+<text x="16" y="261" font-size="9" fill="#333">CineRoyal Smart TV</text>
+<text x="166" y="242" font-size="9" fill="#555">picture quality</text>
+<rect x="166" y="246" width="150" height="13" fill="#eee" stroke="#999"/><rect x="166" y="246" width="130.4" height="13" fill="#3b7a57"/>
+<text x="166" y="272" font-size="8.5" font-style="italic" fill="#666">expert scores at the very top</text>
+<text x="381" y="242" font-size="9" fill="#555">price</text>
+<rect x="381" y="246" width="150" height="13" fill="#eee" stroke="#999"/><rect x="381" y="246" width="130.4" height="13" fill="#d9822b"/>
+<text x="381" y="272" font-size="8.5" font-style="italic" fill="#666">a top-shelf price</text>
+<text x="16" y="361" font-size="9" fill="#555">Each bar shows the amount (no numbers). Longer green bar = more picture quality (better); longer amber bar = higher price (more expensive).</text>
+</svg>

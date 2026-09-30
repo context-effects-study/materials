@@ -1,0 +1,500 @@
+{
+  "_tier2_addon_for": "televisions",
+  "stimuli": [
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "BIN_televisions_t2",
+      "structure": "BIN",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "flags": [],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "FRQ_televisions_t2",
+      "structure": "FRQ",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 92,
+            "price": 573.75
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "RNG_televisions_t2",
+      "structure": "RNG",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 1009.8
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "PHT_televisions_t2",
+      "structure": "PHT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "picture_quality": 99,
+            "price": 459.0
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "PHT_PR_GENERATED: superior on the strong attribute only, equal on B (R1/Pettibone-Wedell PR)"
+      ],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "SOT_televisions_t2",
+      "structure": "SOT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 99,
+            "price": 642.6
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_relative_share_over_target_plus_competitor",
+      "flags": [
+        "SOT_GENERATED: new extreme beyond HD; HD is the middle; relative-share statistic"
+      ],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "MOT_televisions_t2",
+      "structure": "MOT",
+      "options": [
+        {
+          "code": "A",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          },
+          "brand": "Brand A",
+          "tier": "High"
+        },
+        {
+          "code": "B",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          },
+          "brand": "Brand B",
+          "tier": "High"
+        },
+        {
+          "code": "C",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          },
+          "brand": "Brand C",
+          "tier": "High"
+        },
+        {
+          "code": "D",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          },
+          "brand": "Brand D",
+          "tier": "High"
+        },
+        {
+          "code": "E",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 87,
+            "price": 299.5
+          },
+          "brand": "Brand E",
+          "tier": "Middle"
+        },
+        {
+          "code": "F",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 87,
+            "price": 299.5
+          },
+          "brand": "Brand F",
+          "tier": "Middle"
+        },
+        {
+          "code": "G",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 87,
+            "price": 299.5
+          },
+          "brand": "Brand G",
+          "tier": "Middle"
+        },
+        {
+          "code": "H",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 87,
+            "price": 299.5
+          },
+          "brand": "Brand H",
+          "tier": "Middle"
+        },
+        {
+          "code": "I",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          },
+          "brand": "Brand I",
+          "tier": "Low"
+        },
+        {
+          "code": "J",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          },
+          "brand": "Brand J",
+          "tier": "Low"
+        },
+        {
+          "code": "K",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          },
+          "brand": "Brand K",
+          "tier": "Low"
+        },
+        {
+          "code": "L",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          },
+          "brand": "Brand L",
+          "tier": "Low"
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_EXC",
+      "flags": [],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "SYM_televisions_t2",
+      "structure": "SYM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 459.0
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "hd_share_vs_binary",
+      "flags": [
+        "SYM_SAME_PAGE: same-page presentation mandatory"
+      ],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "televisions",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?",
+      "id": "SIM_televisions_t2",
+      "structure": "SIM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 78,
+            "price": 139.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "picture_quality": 96,
+            "price": 459.0
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "picture_quality": 80,
+            "price": 178.27
+          },
+          "clone_of": "HF"
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "uncloned_relative_share_HD_vs_HF",
+      "sim_placement": "clone_HF",
+      "placement_variants": {
+        "clone_HD": {
+          "options": [
+            {
+              "code": "HF",
+              "is_hd": false,
+              "available": true,
+              "attrs": {
+                "picture_quality": 78,
+                "price": 139.99
+              }
+            },
+            {
+              "code": "HD",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "picture_quality": 96,
+                "price": 459.0
+              }
+            },
+            {
+              "code": "CLONE",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "picture_quality": 94,
+                "price": 420.72
+              },
+              "clone_of": "HD"
+            }
+          ],
+          "target": "HF",
+          "competitor": "HD",
+          "statistic": "uncloned_relative_share_HF_vs_HD"
+        }
+      },
+      "flags": [
+        "SIM_TWO_PLACEMENT: primary clones the budget option (HF; uncloned focal = HD); placement_variants.clone_HD clones the premium option (HD; uncloned focal = HF). Delivered as two sub-conditions -> doubles SIM participants (authors' design decision 3); the allocation and power are in the cell plan."
+      ],
+      "source": "GENERATED tier-2 (new values, same category; geometry.py); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    }
+  ]
+}

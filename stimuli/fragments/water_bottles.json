@@ -1,0 +1,486 @@
+{
+  "category": {
+    "id": "water_bottles",
+    "label": "Water bottles",
+    "category_number_v1": 8,
+    "attributes": [
+      {
+        "name": "capacity",
+        "unit": "oz",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "memorization_tier": 1,
+    "source": "Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "id": "BIN_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "source": "Sharif, Webb, and Bhatia 2025; V1 web appendix BIN-8 exact values",
+      "flags": []
+    },
+    {
+      "id": "FRQ_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 38,
+            "price": 10.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-8 exact values; decoy (38 oz/$10.99) dominated by HD target (40 oz/$9.99) on BOTH attributes (HD capacity 40 > 38; HD price $9.99 < $10.99); decoy NOT dominated by HF (HF capacity 18 oz < 38 oz, so HF does not beat decoy on capacity)",
+      "flags": [
+        "FRQ_DOMINANCE_CONFIRMED: decoy (38 oz/$10.99) strictly dominated by HD (40 oz/$9.99) on both capacity (40 > 38) and price ($9.99 < $10.99); HF (18 oz/$7.99) does not dominate decoy on capacity (18 < 38); asymmetric dominance geometry satisfied"
+      ]
+    },
+    {
+      "id": "RNG_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 48,
+            "price": 14.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-8 exact values; range decoy (48 oz/$14.99) extends both the capacity range (48 > 40) and the price range ($14.99 > $9.99) well beyond HD, making HD look moderate on price; decoy NOT dominated by HD because decoy capacity 48 oz > HD capacity 40 oz",
+      "flags": [
+        "RNG_NO_DOMINANCE_CONFIRMED: decoy (48 oz/$14.99) is not dominated by HD (40 oz/$9.99) because decoy capacity 48 > HD capacity 40; satisfies range geometry (extends the capacity range beyond HD, making HD appear moderate on price)"
+      ]
+    },
+    {
+      "id": "PHT_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "capacity": 40,
+            "price": 8.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix PHT-8 exact values; phantom (40 oz/$8.99) is superior to HD target on EXACTLY ONE attribute (price: $8.99 < $9.99) and EQUAL on the other (capacity: 40 oz = 40 oz); satisfies R1 correction (never superior on all attributes); available=false",
+      "flags": [
+        "PHT_ONE_ATTRIBUTE_CONFIRMED: phantom (40 oz/$8.99) superior to HD on price only ($8.99 < $9.99), equal on capacity (40 oz = 40 oz); R1 geometry requirement satisfied; published values kept as-is (no rebuild needed)"
+      ]
+    },
+    {
+      "id": "SOT_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 64,
+            "price": 14.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_over_target_plus_competitor",
+      "source": "REBUILT (V1 web appendix SOT-8 used old geometry: added a middle option at 32 oz/$8.99, making HD the top extreme; new plan requires the two BIN options PLUS one NEW EXTREME beyond HD so former HD becomes the middle). New extreme: 64 oz/$14.99. Former HD (40 oz/$9.99) is now geometrically the middle option on both attributes.",
+      "flags": [
+        "SOT_GEOMETRY_REBUILT: V1 SOT-8 used old 'add a middle' geometry (Middle=32 oz/$8.99, HD=40 oz/$9.99 remained the top). New plan requires adding an extreme BEYOND HD so HD becomes the middle. Rebuilt with new extreme at 64 oz/$14.99.",
+        "SOT_MIDDLE_VERIFIED: HD (40 oz/$9.99) is strictly between HF (18 oz/$7.99) and EXTREME (64 oz/$14.99) on both capacity (18 < 40 < 64) and price ($7.99 < $9.99 < $14.99)."
+      ]
+    },
+    {
+      "id": "MOT_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "color": "Grey",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "B",
+          "color": "Blue",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "C",
+          "color": "Purple",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "D",
+          "color": "Pink",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "E",
+          "color": "Grey",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 32,
+            "price": 8.99
+          }
+        },
+        {
+          "code": "F",
+          "color": "Blue",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 32,
+            "price": 8.99
+          }
+        },
+        {
+          "code": "G",
+          "color": "Purple",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 32,
+            "price": 8.99
+          }
+        },
+        {
+          "code": "H",
+          "color": "Pink",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 32,
+            "price": 8.99
+          }
+        },
+        {
+          "code": "I",
+          "color": "Grey",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "J",
+          "color": "Blue",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "K",
+          "color": "Purple",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "L",
+          "color": "Pink",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_SOT",
+      "source": "V1 web appendix MOT-8 exact values; 4 colors per tier (High/Middle/Low); COLORS used instead of brand names following Sharif, Webb, and Bhatia Study 5 (V1 web appendix p.12: 'MOT-8 uses colors rather than brands, following Sharif et al. Study 5'); High tier: 40 oz/$9.99; Middle tier: 32 oz/$8.99; Low tier: 18 oz/$7.99; Colors: Grey, Blue, Purple, Pink",
+      "flags": [
+        "MOT_COLORS_NOT_BRANDS: colors (Grey, Blue, Purple, Pink) used as within-tier differentiators per Sharif, Webb, and Bhatia Study 5, as documented in V1 web appendix for MOT-8. This is the published operationalization for this category.",
+        "MOT_NOTE: Middle tier values (32 oz/$8.99) are inherited from V1 SOT-8's old middle option. These remain the three menu tiers for MOT even though SOT geometry has been rebuilt for compromise-effect testing. MOT tier structure is independent of the SOT compromise geometry rebuild."
+      ]
+    },
+    {
+      "id": "SYM_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 9.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_minus_delta_hf_vs_binary",
+      "source": "V1 web appendix SYM-8 exact values; decoy (18 oz/$9.99) is dominated by BOTH focal options: dominated by HF (same capacity 18 oz, higher price $9.99 > $7.99) AND dominated by HD (lower capacity 18 < 40, same price $9.99 = $9.99). Same-page presentation mandatory per the geometry rules (Web Appendix B).",
+      "flags": [
+        "SYM_DOUBLE_DOMINANCE_CONFIRMED: decoy (18 oz/$9.99) beaten by HF on price at equal capacity ($9.99 > $7.99 at 18 oz = 18 oz), beaten by HD on capacity at equal price (18 oz < 40 oz at $9.99 = $9.99).",
+        "SYM_SAME_PAGE: same-page flag required per Evangelidis et al. 2023; effect dies on separate pages."
+      ]
+    },
+    {
+      "id": "SIM_water_bottles_t1",
+      "category": "water_bottles",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a reusable water bottle. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 18,
+            "price": 7.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 40,
+            "price": 9.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 20,
+            "price": 7.99
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "clone_steal_from_HF",
+      "source": "CONSTRUCTED (no published analog for SIM in Sharif, Webb, and Bhatia 2025 or any V1 source). Clone is near-duplicate of HF: same price ($7.99), capacity 20 oz vs HF's 18 oz (minimal step of 2 oz). Clone is NOT dominated by HF: HF has equal price and lower capacity (18 < 20), so HF does not dominate clone on capacity. Clone is same is_hd=false as HF.",
+      "no_published_analog": true,
+      "flags": [
+        "SIM_NO_PUBLISHED_ANALOG: no Sharif, Webb, and Bhatia 2025 or V1 stimulus exists for the similarity structure. Constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "SIM_NON_DOMINANCE_CONFIRMED: clone (20 oz/$7.99) is NOT dominated by HF (18 oz/$7.99) because clone capacity 20 > HF capacity 18; clone is not dominated by HD (40 oz/$9.99) on both attributes (clone is cheaper: $7.99 < $9.99). Guard against Berkowitsch rounding accident: validate that clone does not silently become a decoy.",
+        "SIM_CLONE_OF_HF: clone shares is_hd=false with HF; distance on capacity is 2 oz (minimal); price is identical ($7.99)."
+      ]
+    }
+  ]
+}
