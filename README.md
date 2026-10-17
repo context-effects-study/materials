@@ -141,8 +141,8 @@ python run_all.py
 deposited copy (images pixel for pixel) and prints a summary; it exits with an error if any step does not
 reproduce. The calibration reports are written to `reproduction/` and compared row by row with the reports of
 record in `calibration/*/results/`, which differ from a new run only in their first line (the name of the
-input file), one column title, and the working label of the final calibration lock. Everything the checks
-write goes to `reproduction/`; the deposited folders are left as they were. Every script that uses random
+input file), one column title, and the working label of the final calibration lock. The figures, the stimulus explorer, the printable views of the four calibration surveys and two run reports
+(`analysis/results_pack/RUN_REPORT.md` and `analysis/RESULTS_PACK_SELFTEST.md`) are rebuilt in place and compared with the deposited copies; with the versions pinned in `requirements.txt` they come out identical, apart from the run times printed in the two reports. Everything else the checks write goes to `reproduction/`. Every script that uses random
 numbers has a fixed seed, named in its header (for example 20260613 for the rehearsal, 20260929 for the
 newer power simulations, 11 and 7 for the older ones, "context-fx-backbone-2026" for the backbone survey).
 
