@@ -17,7 +17,7 @@ which `run_all.py` reproduces from the deposited data. `figures/build_figure_waf
 | Water bottles, new values | 96 | 41.7 | [32.3, 51.7] | In the band | None; values kept as final |
 | Electric kettles (invented) | 392 | 72.2 | [67.6, 76.4] | Adjust | Budget price 24.99 to 31.99 |
 | Robot vacuums (invented) | 392 | 33.7 | [29.2, 38.5] | Adjust | Budget price 149.99 to 159.00 |
-| Standing desks (invented) | 392 | 80.1 | [75.9, 83.8] | Adjust (outside 25-75; the limits bind only after the final wave) | Budget price 199.99 to 269.00 |
+| Standing desks (invented) | 392 | 80.1 | [75.9, 83.8] | Adjust (outside 25-75; the limits apply only after the final wave) | Budget price 199.99 to 269.00 |
 | Bluetooth speakers, words | 97 | 61.9 | [51.9, 70.9] | Adjust | Same values as the numbers pair |
 | Hard drives, words | 97 | 67.0 | [57.2, 75.6] | Adjust | Same values as the numbers pair |
 | Televisions, words | 99 | 63.6 | [53.8, 72.4] | Adjust | Same values as the numbers pair |

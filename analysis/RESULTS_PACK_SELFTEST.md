@@ -6,7 +6,7 @@ reversed-ladder pattern; this rehearsal runs the REAL pipeline and asserts the c
 renders and routes every planted branch, plus one planted case per repaired defect. The Stage 2 run executes the
 SAME code on real contract-A/B exports.)
 
-seed=20260613  runtime=83.63s  pack=results_pack/
+seed=20260613  runtime=81.4s  pack=results_pack/
 
 ## PASS/FAIL table
 | check | result | detail |
@@ -20,7 +20,7 @@ seed=20260613  runtime=83.63s  pack=results_pack/
 | T2 reads OVERRIDER as recognizes-but-does-not-show | PASS | recognizes-but-does-not-show -> rational override (predicts LOW/ANTI) |
 | T3 detects REASONER ladder decline | PASS | declines down the ladder -> reason-construction (S3) |
 | T4 reported descriptively for REASONER (no reading, decides no scenario) | PASS | descriptive: numbers minus pictures +0.764 (95 percent interval 0.177 to 1.172); no registered reading, decides no scenario |
-| T5 detects CONVERGE family rising trajectory | PASS | newer more faithful -> fidelity rises with capability (today's map is a floor) |
+| T5 detects CONVERGE family rising trajectory | PASS | newer more faithful -> rising fidelity across generations (S6) |
 | model criterion: REFUSER -> not assessable | PASS |  |
 | model criterion: CEILING -> no-room cells flagged, not assessable | PASS |  |
 | model criterion: FAITHFUL -> assessable | PASS |  |

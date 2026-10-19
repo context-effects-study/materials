@@ -5,7 +5,7 @@
 - mode: REHEARSAL
 - seed: 20260613
 - python: 3.13.13 (Windows)
-- runtime_sec: 21.76
+- runtime_sec: 20.32
 - human choice rows: 280000
 - models scored: 15
 - Bayes factor: half-normal prior, positive direction, scale 10.0 points

@@ -2,7 +2,7 @@
 answers carry the sampling noise of the repeated draws.
 
 It runs the full analysis (analyze.build_pack) many times on the dress-rehearsal profiles at the planned human
-sizes, with every pattern-test reading resolved against its bootstrap interval, under three kinds of model
+sizes, with every pattern-test result judged against its bootstrap interval, under three kinds of model
 noise: noise-free, every call an independent draw at the planted share, and each condition giving its modal
 answer in 90 percent of its draws. The design requirement: each profile routes to its intended scenario or to
 not resolved, and to a wrong scenario in at most 1 of 20 runs. Each run uses its own interpreter. Standard

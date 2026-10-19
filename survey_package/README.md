@@ -49,8 +49,7 @@ varies across participants, except in the pictures version, where it is the orde
 check, one page of every kind of choice page in numbers, words and pictures, the demographic questions, the closing
 page, and the two pages shown when a participant stops early. Each screen was rendered from these survey files,
 filled with a real participant script, in a web browser. It is the easiest way to see Surveys 3 and 4, whose
-choice pages depend on the assignment service. Since the screens were rendered, the surveys print every price of a
-constructed option with two decimals ($41.50 where a screen shows $41.5); no value changed.
+choice pages depend on the assignment service.
 
 ## The mapping files
 
@@ -64,7 +63,7 @@ Each `*_MAPPING.json` records how the survey was built and what is needed to rea
   service address and the survey name it asks for), the address of the pictures (pictures version only), and the
   correct answer of the attention check.
 
-The data export itself carries, for each choice, the page shown, the order of its options and the option chosen,
+For each choice, the data export also records the page shown, the order of its options and the option chosen,
 so the choices can be decoded from the export alone.
 
 ## Importing a survey into your own Qualtrics account

@@ -19,10 +19,10 @@ from registered_constants import (C, HOLM_FAMILIES, CLASS_ORDER, CALIBRATION_DEC
 DEFAULT_OUT = os.path.join(HERE, "REGISTERED_CONSTANTS.md")
 
 FAMILY_WORDS = {
-    "non_similarity": "the six non-similarity effects (frequency decoy, range decoy, phantom, compromise, "
+    "non_similarity": "the six effects other than similarity (frequency decoy, range decoy, phantom, compromise, "
                       "upscaling, extremity)",
-    "similarity": "similarity alone, because it is scored apart",
-    "format_interaction": "the four format interaction tests (frequency decoy and compromise, each in "
+    "similarity": "similarity alone, because it is analyzed separately",
+    "format_interaction": "the four tests of whether the format changes an effect (frequency decoy and compromise, each in "
                           "words and in pictures, against numbers)",
 }
 
@@ -37,7 +37,7 @@ RULE_ROWS = [
      "A model's class for an effect is computed on the effect's pooled estimate, pooled over the same "
      "categories and tiers, with the same weights, as the human confirmatory test; the classes of single "
      "tiers and categories are descriptive. A model's overall class is its most frequent class across the six "
-     "non-similarity effects that passed the human criterion; ties go to the less faithful class, in the "
+     "effects other than similarity that passed the human criterion; ties go to the less faithful class, in the "
      "order " + ", ".join(CLASS_ORDER) + "."),
     ("Method, model estimates",
      "A model effect is the mean over every combination of stimulus, option order and paraphrase and the "
@@ -45,51 +45,75 @@ RULE_ROWS = [
      "three paraphrases; the flag is descriptive, is reported beside the class, and at small effects often "
      "reflects the variation between repeated calls."),
     ("Step 3, pattern tests",
-     "A reading that a group falls short (a steep memorization gradient, a declining or reversed "
-     "argument-strength ladder) also needs that group's value "
-     "before folding to be below 1; an overshoot there is reported descriptively and its cells carry the "
-     "OVER class."),
+     "We conclude that a group falls short (a steep fall from the published values to the new values, a "
+     "decline or a reversal down the argument-strength ordering) only when that group's value before the "
+     "replacement by 2 minus the value is also below 1; a group whose effect is too large is only described, "
+     "and its cells are classed OVER."),
     ("Step 3, pattern tests",
-     "Every reading of the memorization, argument-strength and trajectory tests is judged against a 95 "
-     "percent interval from 2,000 resamples that redraw, together, the human participants within each cell and "
-     "the model calls within each combination of stimulus, option order and paraphrase. Each resample recomputes "
-     "the quantity the reading uses, with the cells in each group and their directions fixed by the estimates "
-     "themselves; a resample in which a group's human effects sum to zero or less leaves that group undefined, and "
-     "such resamples widen the interval at both ends."),
+     "Every result of the memorization, argument-strength and trajectory tests is judged against a 95 "
+     "percent interval from 2,000 resamples that redraw, together, the human participants within each "
+     "cell and the model calls within each combination of stimulus, option order and paraphrase. Each "
+     "resample recomputes the quantity the conclusion uses, with the cells in each group, and the sign "
+     "each cell is scored with, set once from the full-sample estimates; a resample in which a group's "
+     "human effects sum to zero or less leaves that group's fidelity undefined and counts as minus "
+     "infinity for the lower end of the interval and plus infinity for the upper end, so such "
+     "resamples can only widen it."),
     ("Step 3, pattern tests",
-     "A reading that a difference exists needs its estimate past the cutoff and its interval clear of the "
-     "no-difference range; a reading of no difference needs its estimate inside the no-difference range and its "
-     "interval short of the cutoff. A reading whose estimate meets these conditions while its whole interval lies "
-     "on the other side of the cutoff is not resolved. Any other result is reported as not resolved and supports "
-     "no scenario; when the interval rules out every registered reading of a test, the result is described but is "
-     "still not resolved."),
+     "We conclude that a difference exists when its estimate passes the cutoff and its interval lies wholly "
+     "outside the range treated as no difference; we conclude that there is no difference when the estimate "
+     "lies inside that range and the interval lies wholly short of the cutoff. A result whose estimate meets "
+     "these conditions while its whole interval lies on the other side of the cutoff (a percentile interval "
+     "need not contain the estimate) is not resolved. Any other result is reported as not resolved, and no "
+     "scenario is based on it; when the interval rules out every conclusion fixed in advance for a test, the "
+     "result is described but is still not resolved."),
     ("Step 3, pattern tests",
-     "A scenario that attributes an account is claimed only when the reading it rests on is resolved: retrieval "
-     "(S2) needs a resolved steep memorization reading, reason construction (S3) a resolved decline down the "
-     "argument-strength ladder, rational override (S4) a resolved knows-without-shows reading on at least one effect together "
-     "with a LOW or ANTI overall class, the reversed-ladder readings a resolved reversal, and rising fidelity (S6) "
-     "a resolved rise across generations. When a reading such a scenario rests on is not resolved, neither that "
-     "scenario nor any later one in the decision tree is claimed, and the model is reported as not resolved, with "
-     "the scenarios left open, unless every way the reading could resolve leads to the same scenario (rational "
-     "override and systematic inversion are both S4); high fidelity (S1) is the one exception."),
+     "A scenario that names an account is claimed only when the result it depends on is resolved: "
+     "retrieval (S2) needs a resolved steep fall in the memorization test, reason construction (S3) a "
+     "resolved decline down the argument-strength ordering, rational override (S4) a resolved finding that "
+     "the model knows the manipulation and does not show the effect, on at least one effect, together with a "
+     "LOW or ANTI overall class, the conclusions about a reversed ordering a resolved reversal, and rising "
+     "fidelity (S6) a resolved rise across generations. When a result that such a scenario depends on is "
+     "not resolved, neither that scenario nor any later one in the decision tree is claimed, and the model is "
+     "reported as not resolved, with the possible scenarios listed, unless every way the result could be "
+     "resolved leads to the same scenario (rational override and systematic inversion are both S4); high "
+     "fidelity (S1) is the one exception and has its own rule in the next row."),
     ("Step 3, pattern tests",
-     "High fidelity (S1) needs the HIGH overall class, the effects shown without recognition, and no resolved "
-     "steep memorization reading, reversed ladder or decline down the argument-strength ladder. A reading that is "
-     "not resolved blocks it only when that reading's estimate points to an account (a steep gradient, a reversed "
-     "ladder, a ladder decline, a rise across generations); the model is then reported as not resolved, with high "
-     "fidelity and every account whose reading stays open left possible. Otherwise, when any pattern test is not "
-     "resolved, S1 is reported with the qualifier \"pattern tests not resolved at the design's resolution\", naming "
-     "the open tests. S1 is not claimed when a positive control failed."),
+     "High fidelity (S1) needs the HIGH overall class, no effect classed LOW or ANTI, every effect the model shows "
+     "shown without identifying "
+     "the manipulation (S1 is not claimed when the manipulation is identified for any effect that is shown), "
+     "and no resolved steep fall in the memorization test, reversed ordering or decline down the "
+     "argument-strength ordering. A result that is not resolved prevents S1 from being claimed only when its "
+     "estimate, taken alone, agrees with an account (a steep fall in the memorization test, a reversed "
+     "ordering, a decline down the ordering, a rise across generations); the model is then reported as not "
+     "resolved, with high fidelity and every account whose test is not resolved listed as possible. "
+     'Otherwise, when any pattern test is not resolved, S1 is reported with the note "pattern tests not '
+     "resolved at the design's resolution\", naming the tests that are not resolved. S1 is not claimed when a "
+     "positive control failed."),
     ("Step 3, knows-it-versus-shows-it test (T2)",
-     "For rational override the reading is resolved against 95 percent intervals: the model knows the "
-     "manipulation when its recognition rate and the rate's interval (probe calls resampled within each stimulus) "
+     "For rational override, both parts are judged against 95 percent intervals: the model knows the "
+     "manipulation when its recognition rate and the rate's interval (recognition calls resampled within each stimulus) "
      "lie at or above one half, and it does not show the effect when its pooled effect and that effect's interval "
      "over calls lie at or below 3 points."),
     ("Step 3, format test (T4)",
-     "Descriptive only: fidelity in numbers, words and pictures, and the difference between numbers and pictures "
-     "with its 95 percent interval, are reported beside the argument-strength test. The format test has no reading "
-     "and decides no scenario. It is also reported with the model's numbers calls restricted to the option order "
-     "its picture shows, on the model side only."),
+     "Descriptive only: fidelity in numbers, words and pictures, and the difference between numbers "
+     "and pictures with its 95 percent interval, are reported beside the argument-strength test. No "
+     "conclusion is drawn from the format test and no scenario depends on it. It is also reported with the "
+     "model's numbers calls restricted to the option order its picture shows, on the model side only."),
+    ("Step 4, scenarios and accounts",
+     "We check the scenarios in this order, and the first that applies is our conclusion for the model: (1) a "
+     "reversed argument-strength ordering with the manipulation identified on every attraction or compromise "
+     "effect the model misses, which we conclude is rational override on the choice sets that give an argument; "
+     "(2) S4, when the model identifies the manipulation on at least one effect and its choices do not follow it, "
+     "with a LOW or ANTI "
+     "overall class; (3) S2; (4) S6; (5) S5; (6) a reversed ordering without that recognition, reported as a "
+     "difference from people with no account attached; (7) S1; (8) S3; (9) a mixed pattern, HIGH on some effects "
+     "and LOW or ANTI on others, reported as a mixed pattern, with each effect's class and account; (10) S4 for an "
+     "ANTI overall class without recognition (systematic inversion). A model that matches none is reported by "
+     "the result of each test."),
+    ("Step 4, scenarios and accounts",
+     "A family's pattern is consistent when all its models receive the same overall class; when the models of a "
+     "family receive different overall classes, the pattern is family-specific (S5), reported per family, and "
+     "the combined map is labeled heterogeneous."),
     ("Step 1, stimulus handling",
      "The deviation sensitivity analysis removes seven calibration pairs: the six pairs retained after "
      "failing the calibration rule (backpacks, earbuds and restaurants at new values, the standing desks, "
@@ -212,12 +236,12 @@ def build():
         "is descriptive (estimate and interval, no reading). Any other result is not resolved and supports no scenario; "
         "when the interval rules out every registered reading, the result is described and is still not resolved. "
         "The undershoot requirement applies to the memorization sensitivity re-readings too. A scenario that "
-        "attributes an account (retrieval, reason construction, rational override, the reversed ladders, rising "
+        "attributes an account (retrieval, reason construction, rational override, the reversed orderings, rising "
         "fidelity) is claimed only on its resolved reading; when that reading is open, neither it nor any later "
         "scenario is claimed and the model is reported as not resolved, with the scenarios left open, unless every "
         "way the reading could resolve leads to the same scenario. High fidelity "
         "needs no resolved steep "
-        "memorization reading, reversed ladder or ladder decline, is blocked by an open reading only when that "
+        "memorization reading, reversed ordering or decline down the ordering, is blocked by an open reading only when that "
         "reading's estimate points to an account, and carries the qualifier \"pattern tests not resolved at the "
         "design's resolution\" (naming the open tests) whenever a pattern test is open. The human resample treats "
         "each participant's choices in different "
@@ -239,13 +263,13 @@ def build():
         "descriptive in every case).",
         "- **Memorization sensitivity.** The published-values and new-values tiers, each effect on the same "
         "categories in both tiers; baselines inside the 25 to 75 percent limits only, then a weighted "
-        "regression of each category-tier cell's fidelity on the memorization tier, the cell's baseline distance "
+        "regression of each category-tier cell's fidelity on the stimulus tier, the cell's baseline distance "
         "from 50 percent, and whether the cell's decoys target the premium or the budget option. Both re-readings "
         "are resolved against their own 95 percent intervals, as the memorization test is.",
         f"- **Phantom equivalence.** The quantity bounded is the pooled human phantom effect. It is judged "
         f"absent when its 90 percent interval lies inside minus {C.PHANTOM_BAND_PP:g} to plus "
         f"{C.PHANTOM_BAND_PP:g} points.",
-        f"- **Reversed ladder.** When the bottom position (extremity) exceeds both the top position (attraction) "
+        f"- **Reversed ordering.** When the bottom position (extremity) exceeds both the top position (attraction) "
         f"and the middle position (compromise) by more than {C.T3_LADDER_STEP:g}, the reading is evidence against "
         f"reason construction; recognition at or above {C.RECOGNITION_CUTOFF:g} on every attraction or compromise "
         "effect the model misses attributes it to rational override on choice sets that offer an argument, "

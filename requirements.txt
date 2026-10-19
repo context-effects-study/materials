@@ -5,9 +5,9 @@
 # Everything except the figures and one power simulation runs on the Python standard library alone:
 #   - numpy       power/clustered_power.py
 #   - matplotlib  figures/build_figure_waf1.py
-#   - playwright  figures/build_figure1.py, build_figure2.py, build_stimulus_figures.py (after installing,
+#   - playwright  figures/build_stimulus_figures.py (after installing,
 #                 run once: python -m playwright install chromium)
-#   - pillow      figures/build_figure2.py, build_stimulus_figures.py
+#   - pillow      figures/build_stimulus_figures.py
 #
 # Not needed for reproduction, and therefore not listed:
 #   - live model calls at Stage 2 (models/run.py --live) need the openai and anthropic packages and read API

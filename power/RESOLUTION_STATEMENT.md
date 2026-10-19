@@ -6,26 +6,26 @@
 
 | test | reading | true difference (fidelity units) | runs resolving the reading | mean estimate | median interval |
 |---|---|---|---|---|---|
-| memorization (T1) | steep | 0 (drop from the published to the invented tier) | 0.00 steep; 0.00 flat | 0.10 | -0.35 to 0.62 |
-| memorization (T1) | steep | 0.3 (drop from the published to the invented tier) | 0.00 steep | -0.01 | -0.43 to 0.55 |
-| memorization (T1) | steep | 0.5 (drop from the published to the invented tier) | 0.00 steep | 0.05 | -0.39 to 0.66 |
-| memorization (T1) | steep | 0.7 (drop from the published to the invented tier) | 0.00 steep | 0.03 | -0.38 to 0.57 |
-| memorization (T1) | steep | 0.9 (drop from the published to the invented tier) | 0.00 steep | 0.05 | -0.37 to 0.55 |
-| memorization (T1) | steep | 1.1 (drop from the published to the invented tier) | 0.00 steep | -0.04 | -0.38 to 0.51 |
-| memorization (T1) | steep | 1.4 (drop from the published to the invented tier) | 0.00 steep | 0.07 | -0.41 to 0.63 |
-| memorization (T1) | steep | 1.6 (drop from the published to the invented tier) | 0.00 steep | 0.09 | -0.38 to 0.61 |
-| memorization (T1) | steep | 1.8 (drop from the published to the invented tier) | 0.00 steep | 0.08 | -0.35 to 0.59 |
-| memorization (T1) | steep | 2 (drop from the published to the invented tier) | 0.00 steep | 0.03 | -0.38 to 0.58 |
+| memorization (T1) | steep | 0 (drop from the published to the new-values tier) | 0.00 steep; 0.00 flat | 0.10 | -0.35 to 0.62 |
+| memorization (T1) | steep | 0.3 (drop from the published to the new-values tier) | 0.00 steep | 0.11 | -0.36 to 0.63 |
+| memorization (T1) | steep | 0.5 (drop from the published to the new-values tier) | 0.05 steep | 0.35 | -0.24 to 0.85 |
+| memorization (T1) | steep | 0.7 (drop from the published to the new-values tier) | 0.20 steep | 0.50 | -0.12 to 0.95 |
+| memorization (T1) | steep | 0.9 (drop from the published to the new-values tier) | 0.45 steep | 0.71 | 0.10 to 1.16 |
+| memorization (T1) | steep | 1.1 (drop from the published to the new-values tier) | 0.85 steep | 1.05 | 0.54 to 1.60 |
+| memorization (T1) | steep | 1.4 (drop from the published to the new-values tier) | 1.00 steep | 1.33 | 0.77 to 1.85 |
+| memorization (T1) | steep | 1.6 (drop from the published to the new-values tier) | 1.00 steep | 1.39 | 0.77 to 1.86 |
+| memorization (T1) | steep | 1.8 (drop from the published to the new-values tier) | 1.00 steep | 1.65 | 1.14 to 1.97 |
+| memorization (T1) | steep | 2 (drop from the published to the new-values tier) | 1.00 steep | 1.73 | 1.19 to 1.98 |
 | argument strength (T3) | declines | 0 (top minus bottom position) | 0.00 declines; 0.00 flat | 0.02 | -0.38 to 0.38 |
-| argument strength (T3) | declines | 0.3 (top minus bottom position) | 0.00 declines | 0.12 | -0.31 to 0.39 |
-| argument strength (T3) | declines | 0.5 (top minus bottom position) | 0.00 declines | 0.29 | -0.16 to 0.63 |
-| argument strength (T3) | declines | 0.7 (top minus bottom position) | 0.40 declines | 0.52 | 0.04 to 0.86 |
-| argument strength (T3) | declines | 0.9 (top minus bottom position) | 0.75 declines | 0.75 | 0.28 to 1.02 |
-| argument strength (T3) | declines | 1.1 (top minus bottom position) | 1.00 declines | 0.95 | 0.42 to 1.23 |
-| argument strength (T3) | declines | 1.4 (top minus bottom position) | 1.00 declines | 1.27 | 0.80 to 1.63 |
-| argument strength (T3) | declines | 1.6 (top minus bottom position) | 1.00 declines | 1.44 | 0.91 to 1.75 |
-| argument strength (T3) | declines | 1.8 (top minus bottom position) | 1.00 declines | 1.66 | 1.18 to 1.89 |
-| argument strength (T3) | declines | 2 (top minus bottom position) | 1.00 declines | 1.78 | 1.34 to 1.95 |
+| argument strength (T3) | declines | 0.3 (top minus bottom position) | 0.00 declines | 0.09 | -0.31 to 0.45 |
+| argument strength (T3) | declines | 0.5 (top minus bottom position) | 0.05 declines | 0.35 | -0.11 to 0.64 |
+| argument strength (T3) | declines | 0.7 (top minus bottom position) | 0.30 declines | 0.46 | -0.02 to 0.81 |
+| argument strength (T3) | declines | 0.9 (top minus bottom position) | 0.75 declines | 0.77 | 0.33 to 1.11 |
+| argument strength (T3) | declines | 1.1 (top minus bottom position) | 0.95 declines | 0.93 | 0.45 to 1.26 |
+| argument strength (T3) | declines | 1.4 (top minus bottom position) | 1.00 declines | 1.31 | 0.80 to 1.68 |
+| argument strength (T3) | declines | 1.6 (top minus bottom position) | 1.00 declines | 1.41 | 0.83 to 1.74 |
+| argument strength (T3) | declines | 1.8 (top minus bottom position) | 1.00 declines | 1.60 | 1.09 to 1.87 |
+| argument strength (T3) | declines | 2 (top minus bottom position) | 1.00 declines | 1.79 | 1.36 to 1.94 |
 | formats (T4) | falls | 0 (numbers minus pictures) | 0.00 falls; 0.00 flat | -0.41 | -1.53 to 0.96 |
 | formats (T4) | falls | 0.3 (numbers minus pictures) | 0.00 falls | -0.12 | -1.37 to 0.90 |
 | formats (T4) | falls | 0.5 (numbers minus pictures) | 0.00 falls | -0.06 | -1.38 to 1.04 |
@@ -124,7 +124,7 @@
 | Formats (T4) | none (descriptive) | not resolvable at this design; reported as an estimate with its interval, with no reading |
 | Trajectory (T5) | rising | 0.8 between the newer and the older generation |
 | Knows it versus shows it (T2) | shows | a model effect 6 points above the 3-point cutoff; does not show: 6 points below it |
-| Knows it versus shows it (T2) | knows | a recognition rate of 0.7 (51 probe calls per effect, each an independent draw; binomial approximation; a model that answers every probe of a stimulus alike is read at its point) |
+| Knows it versus shows it (T2) | knows | a recognition rate of 0.7 (51 recognition calls per effect, each an independent draw; binomial approximation; for a model that gives the same answer to every recognition call for a stimulus, the interval has no width and the model is judged by its point estimate) |
 | Class boundary LOW / PARTIAL (25 percent) | class | 0.15 below and 0.25 above, as a share of the human effect |
 | Class boundary PARTIAL / HIGH (70 percent) | class | 0.2 below and 0.2 above |
 | Class boundary HIGH / OVER (150 percent) | class | 0.1 below and 0.3 above |

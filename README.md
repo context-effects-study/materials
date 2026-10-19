@@ -16,7 +16,7 @@ Each item, and the file or folder that holds it:
 | Data dictionary | `analysis/DATA_DICTIONARY.md` (the confirmatory human table, the model call log and the results pack); `calibration/<study>/codebook_*.csv` (every calibration data file) |
 | Research assistant instructions | `docs/ADMINISTRATION.md` (fielding each survey on Prolific and Qualtrics, step by step) |
 | Implementation plans | `docs/HUMAN_PROTOCOL.md` (recruitment, assignment, top-up, exclusions), `surveys/SURVEY_SPEC.md` (the exclusion rules), `models/README.md` and `models/MANIFEST.md` (the model conditions and the exact call plan) |
-| Decision trees | `figures/figure1.png` (Figure 1), implemented in `analysis/analyze.py`, with every cutoff in `analysis/REGISTERED_CONSTANTS.md` |
+| Decision trees | `figures/figure3.png` (Figure 3), implemented in `analysis/analyze.py`, with every cutoff in `analysis/REGISTERED_CONSTANTS.md` and every reading in Web Appendix Table WA-E5 |
 | Power analysis | `power/` (every power figure in the Method and Web Appendix E, each with its script, and for the pattern tests the resolution statement, the pattern-test counterpart of power) |
 | Data analysis code | `analysis/` (the registered analysis, its tests and mutation check), `calibration/` (the pre-test analyses) |
 | Simulated data | `analysis/demo_data/` (the dress rehearsal's synthetic data in the registered formats) and `analysis/results_pack/` (the analysis run on them) |
@@ -31,7 +31,7 @@ This is the Stage 1 release. It holds everything needed to check and rerun the p
 code that builds and checks them; the completed stimulus calibration pre-test (four studies, with
 de-identified data, codebooks, surveys and analysis code); the five confirmatory surveys, ready to import;
 the model runner and its exact call plan; the registered analysis, rehearsed end to end on synthetic data and
-covered by tests; the power analyses; and every figure with the script that draws it. No confirmatory data
+covered by tests; the power analyses; and every figure, with the script that draws each figure computed from data. No confirmatory data
 have been collected. At Stage 2 the confirmatory human data, the complete model call log and the results pack
 will be added to a new version of this release.
 
@@ -40,6 +40,13 @@ will be added to a new version of this release.
 - `stimulus-explorer.html` opens in any web browser, offline, and shows all 165 stimuli. You can filter by
   product category, effect, tier and format, see each choice set as a participant sees it with every
   option's role named, and read the exact text each model receives.
+- `analysis-explorer.html` opens in any web browser, offline, and follows each simulated model of the analysis
+  rehearsal through every step of the registered analysis. Press Play and each step is drawn in turn, with the
+  model's own numbers: whether the comparison can be made, the human benchmarks, the model's effects on the
+  fidelity map, each pattern test against its cutoffs, and the checking order of Step 4, ending at the scenario
+  the model is assigned and whether that is the scenario the model was built to reach. A second view sorts all
+  simulated models into the checking order at once, and a third shows how the folders of this repository fit
+  together. No coding is needed to read it.
 - `survey_package/` holds the five confirmatory Qualtrics surveys ready to import into your own Qualtrics
   account, with a walkthrough of every screen (`SURVEY_WALKTHROUGH.pdf`) and instructions.
 - `python run_all.py` regenerates every reproducible output and checks each against the copy deposited here
@@ -50,14 +57,15 @@ will be added to a new version of this release.
 | Folder or file | What is inside | Manuscript |
 |---|---|---|
 | `stimulus-explorer.html` | All 165 stimuli as participants and models see them (offline, one file) | Method; Web Appendix B |
+| `analysis-explorer.html` | Each simulated model of the rehearsal followed through Steps 0 to 4 of the analysis, drawn step by step with Play controls; all models sorted into the checking order; a map of the folders (offline, one file) | Analysis Plan; Figure 3; Table 4 |
 | `calibration/` | The calibration pre-test: its design and dated amendments, and one folder per study (waves 1, 2, 3 and the realism comparison study), each with the survey as fielded and a printable PDF view of it, the de-identified export (every row, exclusions applied in code), processed files with exclusion flags, codebooks, a script that reproduces the study's reported numbers, the report of record and a short report | Method (calibration); Web Appendix F |
 | `stimuli/` | The single stimulus file (165 stimuli), the code that builds and checks it, and the source of every published value | Method; Table 2; Web Appendix B |
 | `surveys/` | The five confirmatory Qualtrics surveys, their generators and design keys, the participant scripts, a screenshot walkthrough, and the assignment service used by three surveys | Method, Human study; Table 2 |
 | `survey_package/` | The same five surveys and design keys, with the walkthrough and the pictures, ready to import | Method, Human study |
 | `models/` | The model runner, the ten-model lineup, the registered prompt wording, and the exact call plan (1,285,630 calls) | Method, Model study; Table 2; Table 3; Web Appendix D |
-| `analysis/` | The registered analysis, its table of every cutoff, the export reader, the data dictionary, the dress rehearsal with its synthetic data and results pack, the tests and the mutation check | Analysis Plan; Table 4; Web Appendices C and E |
+| `analysis/` | The registered analysis, its table of every cutoff, the export reader, the data dictionary, the dress rehearsal with its synthetic data and results pack, the tests and the mutation check | Analysis Plan; Table 4; Web Appendices C and E (Tables WA-E1 and WA-E5) |
 | `power/` | The power analyses and simulations | Method, power; Web Appendix E |
-| `figures/` | Figures 1 and 2, Figure WA-F1 and the Web Appendix B stimulus figures, each with the script that draws it | Figures 1 and 2; Web Appendices B and F |
+| `figures/` | Figures 1 to 3 and Figures WA-A1 and WA-E1 (drawings, deposited as images), and Figure WA-F1 and the Web Appendix B stimulus figures, each with the script that draws it | Figures 1 to 3; Web Appendices A, B, E and F |
 | `docs/` | The human study protocol and the step-by-step instructions for fielding the surveys | Method, Human study |
 | `run_all.py` | Regenerates every reproducible output and checks it against the deposited copy | all of the above |
 
@@ -170,11 +178,15 @@ mutation check of the analysis, which breaks one rule at a time and requires a t
 | Output | Script | Command |
 |---|---|---|
 | Table 1, the replication record of the seven effects | none: a synthesis of the literature (sources in Web Appendix A) | |
+| Figure 1, what the study does for one choice set | none: a drawing; its option values are the backpacks stimulus at new values in `stimuli/stimuli.json` | |
+| Figure 2, the pattern each account predicts | none: a drawing of the registered predictions (Analysis Plan, Step 3) | |
 | Table 2, the design: structures, tiers, formats and choice counts | `stimuli/build_stimuli.py`, `surveys/scriptset_sim.py`, `surveys/deal.py`, `models/build_manifest.py` | `python run_all.py --part surveys --part models` (cells and scripts in `surveys/out/*_MAPPING.json`; calls in `models/MANIFEST.md`) |
 | Table 3, the ten models and how each is run | `models/run.py` (`MODEL_REGISTRY`), listed in `models/README.md` and `models/MANIFEST.md` | `python models/build_manifest.py` |
-| Figure 1, the decision tree | `figures/build_figure1.py` | `python figures/build_figure1.py` |
-| Figure 2, one choice set in three formats | `figures/build_figure2.py` | `python figures/build_figure2.py` |
+| Figure 3, the decision tree | none: a drawing of the registered rule that `analysis/analyze.py` applies | |
 | Table 4, the seven named scenarios | `analysis/analyze.py` (routing in `analysis/results_pack/tree_routing.csv`) | `python analysis/analyze.py` |
+| The analysis explorer (`analysis-explorer.html`) | `analysis/build_analysis_explorer.py`, from `analysis/results_pack/` | `python analysis/build_analysis_explorer.py` |
+| Figure WA-A1, the seven effects as backpack choice sets | none: a drawing; its values are the backpacks stimuli in `stimuli/stimuli.json` | |
+| Figure WA-E1, the five fidelity classes on the fidelity map | none: a drawing of the class cutoffs in `analysis/REGISTERED_CONSTANTS.md` | |
 | Power figures in the Method | `power/power_sim.py`, `power/clustered_power.py`, `power/power_added_cells.py` | `python run_all.py --part power` |
 | Web Appendix B, the stimulus tables and figures | `stimuli/gen_appendix_table.py` (`stimuli/STIMULUS_APPENDIX.md`), `figures/build_stimulus_figures.py` (`figures/stimulus_figures/`) | `python stimuli/gen_appendix_table.py`; `python figures/build_stimulus_figures.py` |
 | Web Appendices C and E, the walk-throughs and secondary readings | `analysis/analyze.py` | `python analysis/analyze.py` |
@@ -183,6 +195,7 @@ mutation check of the analysis, which breaks one rule at a time and requires a t
 | Table WA-E2, the first-choice rule | `power/first_trial_rule_sim.py` (`power/FIRST_TRIAL_RULE_SIM.md`) | `python power/first_trial_rule_sim.py` |
 | Table WA-E3, the format interaction | `power/power_format_interaction.py` (`power/POWER_FORMAT_INTERACTION.md`) | `python power/power_format_interaction.py` |
 | Table WA-E4, the smallest difference the design resolves | `power/resolution_statement.py` (`power/RESOLUTION_STATEMENT.md`) | `python power/resolution_statement.py` |
+| Table WA-E5, what each check and test compares and what each outcome will mean | the conclusions fixed in advance, applied by `analysis/analyze.py` | `python analysis/analyze.py` |
 | The faithful profile at larger samples (Web Appendix E) | `power/faithful_resolution_by_sample.py` (`power/FAITHFUL_RESOLUTION_BY_SAMPLE.md`) | `python power/faithful_resolution_by_sample.py` |
 | Table WA-F1, the four calibration studies | the study READMEs in `calibration/` (records, not computed) | |
 | Tables WA-F2 and WA-F3, wave 1 | `calibration/calibration_analysis.py` | `python run_all.py --part calibration` |
@@ -198,7 +211,7 @@ mutation check of the analysis, which breaks one rule at a time and requires a t
 At the provider's default temperature each model call is one draw from the model's distribution of answers,
 so in the confirmatory condition every prompt is sent 10 times and every picture prompt 60 times. Every call
 is logged with the full prompt, the raw reply, the model id requested and the id the provider returned, the
-draw number, the sampling and reasoning settings actually applied, the parse result and a timestamp
+draw number, the sampling and reasoning settings actually applied, whether a choice could be read from the answer, and a timestamp
 (`analysis/DATA_DICTIONARY.md`, part B). At Stage 2 the complete log of every call will be deposited with the
 data, together with the confirmatory human exports and the results pack. The analysis reproduces exactly from
 the deposited log:

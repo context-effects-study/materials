@@ -1,2 +1,2 @@
-delta_pp,ci90_lo_pp,ci90_hi_pp,band_pp,p_tost,equivalent
--0.47479,-1.219061,0.269481,4.0,0.0,True
+delta_pp,ci90_lo_pp,ci90_hi_pp,band_pp,p_tost,equivalent,reading
+-0.47479,-1.219061,0.269481,4.0,0.0,True,absent: the 90 percent interval lies inside plus or minus 4 points

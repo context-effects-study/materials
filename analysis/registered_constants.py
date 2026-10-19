@@ -55,9 +55,9 @@ class RegisteredConstants:
     FIDELITY_RATIO_MIN: float = -1.0         # and every group fidelity is capped below at this value
     T1_STEEP_DROP: float = 0.30              # memorization: fidelity drop tier 1 -> tier 2 (paired) above this = steep
     T1_FLAT_SLOPE: float = 0.10              # memorization: |tier 1 -> tier 2 change| below this = flat
-    RECOGNITION_CUTOFF: float = 0.50         # recognition-probe rate at or above this = "knows it"
-    T3_LADDER_STEP: float = 0.30             # ladder: top-minus-bottom gap above this = declines (or reversed)
-    T3_LADDER_FLAT: float = 0.12             # ladder: |top-minus-bottom| below this = flat
+    RECOGNITION_CUTOFF: float = 0.50         # recognition-question rate at or above this = "knows it"
+    T3_LADDER_STEP: float = 0.30             # ordering: top-minus-bottom gap above this = declines (or reversed)
+    T3_LADDER_FLAT: float = 0.12             # ordering: |top-minus-bottom| below this = flat
     T5_TRAJECTORY_STEP: float = 0.15         # trajectory: new-minus-old fidelity beyond this = moves
     T5_REASONING_STEP: float = 0.15          # reasoning toggle: off-minus-on fidelity above this = lowers
     MODEL_ACCOUNT_MIN_AGREE: int = 4         # per-effect accounts must agree on this many effects
@@ -99,7 +99,7 @@ CALIBRATION_DECISION_RULE = dict(band_lo_pct=40.0, band_hi_pct=45.0,
 # adjustable pairs retained after failing the decision rule, by option identity, and the published pairs whose
 # measured POINT share lies outside the 25 to 75 percent hard limits (only water bottles, 80.0 percent;
 # televisions at 74.7 percent is inside, and its hard-limit flag is a data error). SEVEN pairs. (category,
-# memorization tier, format). The analysis computes all seven from the calibration record, by the decision rule
+# stimulus tier, format). The analysis computes all seven from the calibration record, by the decision rule
 # and by the point rule, and REFUSES to run when the result differs from this list; no flag decides anything.
 DEVIATION_SENSITIVITY_PAIRS = (
     ("backpacks", 2, "numbers"), ("earbuds", 2, "numbers"), ("restaurants", 2, "numbers"),
@@ -118,135 +118,142 @@ S2C = "Step 2, fidelity classes"
 S2E = "Method, model estimates"
 S3P = "Step 3, pattern tests"
 MEANING = {
-    "HOLM_ALPHA": (S0H, "Holm-corrected significance level, applied separately within each registered family "
-                        "(the six non-similarity effects; similarity alone; the four format interaction tests)."),
+    "HOLM_ALPHA": (S0H, "Holm-corrected significance level, applied separately within each family fixed in advance "
+                        "(the six effects other than similarity; similarity alone; the four tests of whether the format "
+                        "changes an effect)."),
     "BF_GATE": (S0H, "An effect replicates only if its Bayes factor for an effect in the predicted direction "
                      "over no effect is above 3."),
     "BF_PRIOR_SCALE_PP": (S0H, "Scale of the half-normal prior on the effect (positive values only): about the "
                                "median published effect across the seven effects."),
-    "MOST_FAILED_MIN": (S0H, "Scenario S7 (Human effects fail) applies when four or more of the six "
-                             "non-similarity effects fail the human replication criterion."),
-    "POSITIVE_CONTROL_ALPHA": (S0H, "The positive controls are the frequency-decoy cells whose target is the "
-                                    "premium option and the compromise effect. The premium-target frequency-decoy "
-                                    "control holds when its pooled contrast runs in the predicted direction, is "
-                                    "significant at .05, and has a Bayes factor above 3; the compromise control "
-                                    "holds when compromise meets the human replication criterion."),
+    "MOST_FAILED_MIN": (S0H, "Scenario S7 (Human effects fail) applies when four or more of the six effects other "
+                             "than similarity fail the human replication criterion."),
+    "POSITIVE_CONTROL_ALPHA": (S0H, "The positive controls are the frequency-decoy cells whose target is the premium option and the "
+                                    "compromise effect. The premium-target frequency-decoy control passes when its pooled difference is "
+                                    "in the predicted direction, is significant at .05, and has a Bayes factor above 3; the "
+                                    "compromise control passes when compromise meets the human replication criterion."),
     "PARSE_FLOOR": (S0M, "A model cell needs at least 95 percent readable answers."),
     "REFUSAL_CEIL": (S0M, "A model may refuse at most 5 percent of calls."),
-    "CEIL_HI": (S0M, "A model's share of one option above 90 percent in a two-option cell leaves no room to "
-                     "move; that cell is held out."),
-    "CEIL_LO": (S0M, "A model's share of one option below 10 percent in a two-option cell leaves no room to "
-                     "move; that cell is held out."),
+    "CEIL_HI": (S0M, "A model's share of one option above 90 percent in a two-option cell means that the model almost "
+                     "always makes the same choice, so a decoy can barely change it; that cell is left out."),
+    "CEIL_LO": (S0M, "A model's share of one option below 10 percent in a two-option cell means that nearly all of the "
+                     "model's choices are of the other option, so a decoy can barely change them; that cell is left out."),
     "NOT_ASSESSABLE_FRAC": (S0M, "A model is not assessable when it loses more than one third of its cells, "
                                  "counting together the cells with fewer than 95 percent readable answers "
-                                 "(unreadable answers and refusals both count against a cell) and the cells held "
+                                 "(unreadable answers and refusals both count against a cell) and the cells left "
                                  "out by the ceiling rule."),
-    "COMPROMISE_TARGET_MAX_BASELINE_PCT": (S1S, "A compromise cell is descriptive when the compromise target's "
-                                                "measured two-option share is at or above 50 percent."),
+    "COMPROMISE_TARGET_MAX_BASELINE_PCT": (S1S, "A compromise cell is only described, not tested, when the compromise "
+                                                "target's measured two-option share is 50 percent or more."),
     "COMPROMISE_RULE_COVERS_PUBLISHED_TIER": (S1S, "The compromise rule above also applies to the published-"
                                                    "values tier, whose values were never adjusted (five of its "
                                                    "seven compromise targets start at 64.6 to 80.0 percent), "
                                                    "because the compromise effect can reverse when the target "
                                                    "starts ahead."),
-    "HARD_LIMIT_LO_PCT": (S1S, "Lower registered limit on a two-option baseline share, applied to the measured "
+    "HARD_LIMIT_LO_PCT": (S1S, "Lower limit, fixed in advance, on a two-option baseline share, applied to the measured "
                                "share itself (the point estimate)."),
-    "HARD_LIMIT_HI_PCT": (S1S, "Upper registered limit on a two-option baseline share, applied to the measured "
+    "HARD_LIMIT_HI_PCT": (S1S, "Upper limit, fixed in advance, on a two-option baseline share, applied to the measured "
                                "share itself (the point estimate)."),
     "FIRST_TRIAL_ALPHA": (S1F, "Family-wise level for comparing first-choice and later-choice estimates across "
                                "the seven pooled effects (Holm)."),
-    "FIRST_TRIAL_MIN_DIVERGENCE_PP": (S1F, "The check fires only if a significant effect also differs by more "
+    "FIRST_TRIAL_MIN_DIVERGENCE_PP": (S1F, "The first-trial estimates become the benchmark only if a significant effect also differs by more "
                                            "than 5 points between the full-sample and the first-trial estimate."),
-    "FIRST_TRIAL_MIN_EFFECT_PP": (S1F, "After the check fires, an effect is confirmatory only if its first-trial "
-                                       "size is at least 8 points; a smaller effect that replicates is classed "
-                                       "descriptively only and leaves the model's overall class, the model-level "
-                                       "account and every pattern test."),
+    "FIRST_TRIAL_MIN_EFFECT_PP": (S1F, "When the first-trial estimates become the benchmark, an effect is confirmatory only if its "
+                                       "first-trial size is at least 8 points; a smaller effect that replicates is classed descriptively "
+                                       "only and is left out of the model's overall class, the account for the model as a whole and every "
+                                       "pattern test."),
     "SIM_TOPUP_ALPHA": (S1T, "The similarity effect is estimated separately from core-design choices and from "
                              "similarity-supplement choices; their difference is tested at .05."),
     "SIM_TOPUP_MAX_GAP_PP": (S1T, "If the two estimates differ by more than 5 points and the difference is "
                                   "significant, the core-design estimate becomes the similarity benchmark."),
     "NEAR_NULL_HUMAN_PP": (S2C, "Human effects smaller than 2 points are not classed."),
-    "HIGH_RATIO": (S2C, "HIGH: same direction and the model effect is between 70 and 150 percent of the human "
-                        "effect."),
-    "OVER_RATIO": (S2C, "OVER: same direction and above 150 percent of the human effect. An OVER effect on the "
-                        "published-values tier is read as consistent with retrieval of a described regularity, "
-                        "and so is a model phantom effect that is OVER against a replicated human phantom effect "
-                        "or, where the human phantom effect failed the criterion, larger than 3 points in the "
-                        "phantom's predicted direction."),
-    "PARTIAL_RATIO": (S2C, "PARTIAL: same direction and 25 to 70 percent of the human effect; below 25 percent, "
-                           "or reversed by 3 points or less, is LOW."),
-    "ANTI_MIN_PP": (S2C, "The registered minimum model effect. ANTI: a model effect opposite in sign to a "
-                         "replicated human effect and larger than 3 points (a smaller reversal is LOW). The same "
-                         "3 points decide whether a model shows an effect in the knows-it-versus-shows-it test, "
-                         "whether a model effect in a cell whose effect failed in humans is reported as an "
-                         "effect without a human counterpart, and whether a budget-target human effect reads as "
-                         "the disadvantaged-target reversal in the decoy-target moderator."),
+    "HIGH_RATIO": (S2C, "HIGH: same sign and the model effect is between 70 and 150 percent of the human effect."),
+    "OVER_RATIO": (S2C, "OVER: same sign and above 150 percent of the human effect. We count an OVER effect on the "
+                        "published-values tier as consistent with retrieval of a published finding, and the same for "
+                        "a model phantom effect that is OVER against a replicated human phantom effect or, where the "
+                        "human phantom effect failed the criterion, larger than 3 points in the phantom's predicted "
+                        "direction."),
+    "PARTIAL_RATIO": (S2C, "PARTIAL: same sign and 25 to 70 percent of the human effect; below 25 percent, or reversed by 3 "
+                           "points or less, is LOW."),
+    "ANTI_MIN_PP": (S2C, "The smallest model effect that counts. ANTI: a model effect opposite in sign to a replicated human "
+                         "effect and larger than 3 points (a smaller reversal is LOW). The same 3-point cutoff decides "
+                         "whether a model shows an effect in the knows-it-versus-shows-it test, whether a model effect "
+                         "in a cell whose effect failed in people is reported as an effect without a human "
+                         "counterpart, and whether a budget-target human effect counts as the disadvantaged-target "
+                         "reversal (a fall in the share of the budget option the decoy was built to favor) in the "
+                         "comparison of decoy targets."),
     "BOOTSTRAP_RESAMPLES": (S2E, "Beside every model effect the analysis reports the number of calls behind it "
                                  "and a percentile bootstrap interval from 2,000 resamples of the calls, drawn "
                                  "within each combination of stimulus, option order and paraphrase, with a fixed "
                                  "seed; the interval describes the model effect and is never a test. The same "
                                  "2,000 resamples, drawn together with resamples of the human participants within "
-                                 "each cell, give the intervals the pattern-test readings are resolved against."),
+                                 "each cell, give the intervals against which we judge the result of each pattern test."),
     "BOOTSTRAP_LEVEL": (S2E, "The bootstrap interval covers the central 95 percent of the resampled effects."),
     "BOOTSTRAP_SEED": (S2E, "The fixed seed of the bootstrap, so the reported intervals reproduce exactly."),
-    "FIDELITY_FOLD_AT": (S3P, "A group's fidelity is the model effect divided by the human effect, pooled across "
-                              "the group's cells and weighted by the size of the human effect. A value above 1 "
-                              "is folded to 2 minus the value, so an overshoot and an undershoot of the same "
-                              "size count alike."),
+    "FIDELITY_FOLD_AT": (S3P, "A group's fidelity (a group is one side of a pattern-test comparison, such as one tier, one position "
+                              "in the argument-strength ordering, or one generation) is the model effect divided by the human effect, pooled across the "
+                              "group's cells and weighted by the size of the human effect. A value above 1 is replaced by 2 minus "
+                              "the value, so an effect that is too large and one that is too small by the same amount count alike."),
     "FIDELITY_RATIO_MIN": (S3P, "Every group fidelity is capped below at -1 (a full reversal)."),
     "T1_STEEP_DROP": ("Step 3, memorization test (T1)",
-                      "Steep: fidelity falls by more than 0.30 from the published-values tier to the new-values "
+                      "Steep fall: fidelity falls by more than 0.30 from the published-values tier to the new-values "
                       "tier, compared on the same categories (each effect on the categories it has on both tiers). "
-                      "The invented tier is a supporting extension, reported descriptively."),
+                      "The invented tier extends the comparison and is only described."),
     "T1_FLAT_SLOPE": ("Step 3, memorization test (T1)",
-                      "Flat: fidelity changes by less than 0.10 between the two tiers. A steep reading also needs "
-                      "the 95 percent interval of the drop to lie wholly above 0.10, and a flat reading "
-                      "needs that interval to lie wholly below 0.30; any other result is not resolved."),
+                      "No difference: fidelity changes by less than 0.10 between the two tiers. A conclusion of a steep "
+                      "fall also needs the 95 percent interval of the fall to lie wholly above 0.10, and a conclusion of "
+                      "no difference needs that interval to lie wholly below 0.30; any other result is not resolved."),
     "RECOGNITION_CUTOFF": ("Step 3, knows-it-versus-shows-it test (T2)",
-                           "A model knows the manipulation when the recognition probe detects it in at least "
-                           "half of the probe calls. For a reversed ladder, recognition at or above this on "
-                           "every attraction or compromise effect the model misses (classed LOW or ANTI) reads "
-                           "as rational override on choice sets that offer an argument; otherwise the reversed "
-                           "ladder is reported with no account attributed."),
+                           "A model knows the manipulation when it identifies the manipulation in at least half of its recognition "
+                           "calls. When fidelity rises down the argument-strength ordering and the model identifies the "
+                           "manipulation at or above this rate on every attraction or compromise effect it misses (classed LOW "
+                           "or ANTI), we conclude rational override on the choice sets that give an argument; otherwise we "
+                           "report the reversed ordering as a difference from people with no account attached."),
     "T3_LADDER_STEP": ("Step 3, argument-strength test (T3)",
-                       "Declines: the top position exceeds the bottom position by more than 0.30; a resolved "
-                       "decline reads as reason construction (S3). Reversed: the bottom position exceeds both the "
-                       "top and the middle position by more than 0.30."),
+                       "Decline: fidelity at the top position exceeds fidelity at the bottom position by more than "
+                       "0.30; a resolved decline supports reason construction (S3). Reversal: fidelity at the bottom "
+                       "position exceeds fidelity at both the top and the middle position by more than 0.30."),
     "T3_LADDER_FLAT": ("Step 3, argument-strength test (T3)",
-                       "Flat: the top and bottom positions lie within 0.12 of one another. A declining or reversed "
-                       "reading also needs the 95 percent interval of each difference it uses to lie wholly beyond "
-                       "0.12, and a flat reading needs the interval of the top minus the bottom position to lie "
-                       "wholly within 0.30 either way; any other result is not resolved."),
+                       "No difference: the top and bottom positions lie within 0.12 of one another. A conclusion of a "
+                       "decline or a reversal also needs the 95 percent interval of each difference it uses to lie wholly "
+                       "beyond 0.12, and a conclusion of no difference needs the interval of the top minus the bottom "
+                       "position to lie wholly within 0.30 either way; any other result is not resolved."),
     "T5_TRAJECTORY_STEP": ("Step 3, trajectory test (T5)",
-                           "Rising or falling: newer-generation fidelity minus older-generation fidelity beyond "
-                           "0.15 either way, with its whole 95 percent interval beyond 0.15 on the same side; flat: "
-                           "a difference within 0.15, with the whole interval within 0.15; any other result is not "
-                           "resolved."),
+                           "Rise or fall: newer-generation fidelity minus older-generation fidelity beyond "
+                           "0.15 either way, with its whole 95 percent interval beyond 0.15 on the same side; no "
+                           "difference: a difference within 0.15, with the whole interval within 0.15; any other result "
+                           "is not resolved. A resolved rise leads to rising fidelity (S6); a resolved fall is reported "
+                           "as lower fidelity in the newer generation and assigns no scenario."),
     "T5_REASONING_STEP": ("Step 3, trajectory test (T5)",
                           "Reasoning comparison: reasoning lowers fidelity when fidelity at the lower reasoning "
                           "setting exceeds "
                           "fidelity at the higher setting by more than 0.15, with its whole 95 percent interval "
                           "above 0.15; no clear effect when the difference and its whole interval lie at or below "
                           "0.15; any other result is not resolved."),
-    "MODEL_ACCOUNT_MIN_AGREE": ("Precedence rule, accounts",
-                                "A model-level account is claimed only when the per-effect readings agree on at "
-                                "least four of the six non-similarity effects that passed the human criterion; "
-                                "otherwise accounts are reported per effect only."),
+    "MODEL_ACCOUNT_MIN_AGREE": ("Step 4, scenarios and accounts",
+                                "For each effect, the account follows from the effect's class and from whether the "
+                                "model identifies the manipulation: identified and not shown, rational override; HIGH "
+                                "and shown without identifying it, deep mimicry; HIGH and shown while identifying it, "
+                                "reproduction of a known effect; ANTI without identifying it, systematic inversion, "
+                                "which supports no account; PARTIAL, OVER and LOW, reported by their class. We conclude "
+                                "that one account explains the model as a whole only when at least four of the six "
+                                "effects other than similarity that replicated in people support it; otherwise we "
+                                "report the accounts effect by effect."),
     "PHANTOM_BAND_PP": ("Phantom equivalence",
-                        "The pooled human phantom effect is judged absent when its 90 percent interval lies "
-                        "inside minus 4 to plus 4 points."),
+                        "We apply the equivalence judgment only when the pooled human phantom effect misses the "
+                        "replication criterion: the phantom then counts as absent when its 90 percent interval lies "
+                        "inside minus 4 to plus 4 points, and as not detected otherwise. A phantom that meets the "
+                        "criterion is reported as present."),
     "PHANTOM_EQUIV_ALPHA": ("Phantom equivalence",
                             "The equivalence judgment is two one-sided tests at .05 each, which is the 90 percent "
                             "interval."),
-    "ASYMMETRY_EQUAL_PP": ("Secondary readings",
-                           "Decoy-target moderator: premium and budget target effects within 2 points read as "
-                           "symmetric."),
-    "DIVERGENCE_EQUAL_PP": ("Secondary readings",
-                            "Persona condition and sequential sessions: within 2 points of the neutral condition "
-                            "reads as agreement."),
-    "FORMAT_MODEL_FOLLOW_RATIO": ("Secondary readings",
-                                  "Format module: when the human format interaction is significant, a model "
-                                  "follows it if its own interaction has the same sign and at least 25 percent "
-                                  "of the human size."),
+    "ASYMMETRY_EQUAL_PP": ("Secondary comparisons",
+                           "Decoy targets: when premium-target and budget-target effects lie within 2 points of each "
+                           "other, we conclude that the effect is symmetric."),
+    "DIVERGENCE_EQUAL_PP": ("Secondary comparisons",
+                            "Persona condition and sequential sessions: when a result lies within 2 points of the neutral "
+                            "condition, we conclude that the two agree."),
+    "FORMAT_MODEL_FOLLOW_RATIO": ("Secondary comparisons",
+                                  "Format module: when the human format interaction is significant, a model reproduces it if its "
+                                  "own interaction has the same sign and at least 25 percent of the human size."),
     "RERUN_RULE": ("Re-running the model calls",
                    "A re-run of the model calls reproduces a model effect when the deposited estimate lies "
                    "inside the re-run's 95 percent bootstrap interval over calls."),

@@ -835,6 +835,17 @@ def phantom_equivalence(delta, se):
                 delta_pp=delta * 100, band_pp=PHANTOM_BAND_PP)
 
 
+def phantom_reading(replicated, peq):
+    """2026-10-17 (Equivalence and statistics): the equivalence judgment is read only when the phantom misses the human
+    replication criterion, where it separates a phantom shown to be smaller than 4 points (absent) from one that was not
+    detected. A phantom that meets the criterion is present, whatever its equivalence interval."""
+    if replicated:
+        return "present: meets the replication criterion (equivalence not read)"
+    if peq["equivalent"]:
+        return "absent: the 90 percent interval lies inside plus or minus 4 points"
+    return "not detected: the 90 percent interval reaches beyond plus or minus 4 points"
+
+
 def first_trial_check(human_rows, design=None, drop_by_effect=None):
     """Step 1 comparability check. For each of the seven pooled confirmatory contrasts (numeric
     backbone, all tiers), compare the estimate from participants' FIRST choices with the estimate from
@@ -1463,11 +1474,11 @@ def test_T5_trajectory(fidelity_old, fidelity_new, reasoning_on=None, reasoning_
     else:
         delta = fidelity_new - fidelity_old
         if delta > step:
-            point = "newer more faithful -> fidelity rises with capability (today's map is a floor)"
+            point = "newer more faithful -> rising fidelity across generations (S6)"
         elif delta < -step:
-            point = "newer less faithful -> fidelity is not a free byproduct of capability"
+            point = "newer less faithful -> fidelity is lower in the newer generation; no scenario assigned"
         else:
-            point = "flat across generations -> capability gains do not buy simulation validity"
+            point = "flat across generations -> no difference between generations; its size is reported"
         if not resolve:
             traj = point
             p_rising = "T" if delta > step else "F"
@@ -1486,7 +1497,7 @@ def test_T5_trajectory(fidelity_old, fidelity_new, reasoning_on=None, reasoning_
     if reasoning_on is not None and reasoning_off is not None:
         r = reasoning_off - reasoning_on
         rstep = RC.T5_REASONING_STEP
-        rpoint = ("reasoning-on lowers fidelity -> deliberation toward 'correct' answers (links T2)"
+        rpoint = ("reasoning-on lowers fidelity -> read together with T2, as the output-level form of rational override"
                   if r > rstep else "reasoning toggle: no clear effect")
         if not resolve:
             reasoning_reading = rpoint
@@ -1732,7 +1743,7 @@ def overall_class(effect_classes, criterion):
 
 
 def route_model(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agree,
-                family_consistent, family_rising, effect_classes=None, overall=None):
+                family_consistent, family_rising, effect_classes=None, overall=None, t2_known_shown=False):
     """Route one model's outcome to a decision-tree branch, ending at a named scenario or an
     individual-reading composite. Applies the registered precedence rules:
       (1) a steep T1 gradient overrides T3 (recitation shaped like reasoning), including a reversed
@@ -1761,10 +1772,11 @@ def route_model(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agr
         return ("T2 recognizes-but-does-not-show overrides magnitude -> rational override", "S4")
     # Precedence (1): steep memorization gradient sets the headline over T3.
     if t1_steep:
-        return ("T1 steep gradient (overrides T3) -> fidelity only on classic tier", "S2")
+        return ("T1 steep fall from the published values to the new values (overrides T3) -> retrieval of published "
+                "results", "S2")
     # S6 (Rising fidelity) before S1/S5: a rising family is a trajectory story.
     if family_rising:
-        return ("PARTIAL/HIGH today + rising T5 across the family generations", "S6")
+        return ("rising T5 across the family generations, whatever the class of the current model", "S6")
     # S5 (Family-specific): family-specific patterns that are not a clean generation improvement.
     if not family_consistent:
         return ("family-specific patterns -> per-model validation only", "S5")
@@ -1774,22 +1786,23 @@ def route_model(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agr
         return ("T3 reversed ladder, not recognized on the missed effects -> evidence against "
                 "reason-construction; divergence reported with no account attributed", "REVERSED_LADDER")
     # Faithful everywhere. Under registered rule (a), S1 no longer needs a flat
-    # memorization reading, only the absence of a steep one (and of a ladder decline).
-    if (dom == "HIGH" and not t1_steep and not t2_override and not t3_declines
+    # memorization reading, only the absence of a steep one (and of a ladder decline). 2026-10-17: no effect may read recognizes-and-shows (t2_known_shown).
+    # 2026-10-18 (fresh-reader finding M3): no effect may be classed LOW or ANTI, or S1's conclusion ("the model
+    # reproduces the human context effects we tested") would cover a model that reverses one; it is a mixed pattern.
+    eff_classes = effect_classes if effect_classes is not None else effect_level_classes(scored_cells)
+    faithful_effects = [st for st, c in eff_classes.items() if c == "HIGH"]
+    reversed_low_effects = [st for st, c in eff_classes.items() if c in ("ANTI", "LOW")]
+    if (dom == "HIGH" and not t1_steep and not t2_override and not t2_known_shown and not t3_declines
+            and not reversed_low_effects
             and not any(str(t.get("reading", "")).startswith("uninformative") for t in (t1, t3))):
-        return ("HIGH + no steep T1 + shows-without-recognizing", "S1")
+        return ("HIGH + no LOW or ANTI effect + no steep T1 + shows-without-recognizing", "S1")
     # S3 (Reason construction): a decline down the argument-strength ladder.
     if t3_declines:
         return ("T3 decline down the argument-strength ladder -> reason-construction", "S3")
     # PARTIAL fidelity at the MODEL level: faithful on some effects, reversed or low on others.
-    eff_classes = effect_classes if effect_classes is not None else effect_level_classes(scored_cells)
-    faithful_effects = [st for st, c in eff_classes.items() if c == "HIGH"]
-    reversed_low_effects = [st for st, c in eff_classes.items() if c in ("ANTI", "LOW")]
     if faithful_effects and reversed_low_effects:
         return ("mixed at the effect level: faithful on some effects, reversed or low on others "
                 "-> PARTIAL fidelity (per-effect accounts side by side)", "PARTIAL")
-    if dom == "PARTIAL" and t5["trajectory"].startswith("newer more faithful"):
-        return ("PARTIAL today + rising T5", "S6")
     if dom == "ANTI":
         return ("ANTI class without recognition override -> systematic inversion", "S4")
     return (f"individual-reading composite (dominant {dom})", "COMPOSITE")
@@ -1805,7 +1818,7 @@ def _uninf(t, key="reading"):
 
 def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agree, family_consistent,
                    family_has_generations, effect_classes=None, overall=None, t2_state=None, open_blocks="any",
-                   s1_point_guard=True):
+                   s1_point_guard=True, t2_known_shown=False):
     """The router with interval-resolved readings (the second revision, rule 1, as amended by the authors'
     rules (a) and (b)). It walks the registered precedence order of route_model:
       - A route that attributes an account is STRICT: it is taken only when its own reading is
@@ -1814,8 +1827,8 @@ def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, 
         only the earlier guard below withholds (and then leaves possible, with every account left open). When
         its own reading is set out (F), the walk goes on. A resolved steep memorization reading excludes both
         reversed ladders; an open one blocks them (the steep reading would take precedence if resolved).
-      - S1 (High fidelity) needs the HIGH overall class, the effects shown without recognition as registered (the
-        knows-it-versus-shows-it reading at the point), and NO resolved steep memorization reading, reversed ladder
+      - S1 (High fidelity) needs the HIGH overall class, the effects shown without recognition as registered, and NO resolved
+        steep memorization reading, reversed ladder
         or ladder decline. An open reading blocks it only when that reading's estimate
         points to an account (a steep gradient, a reversed ladder, a ladder decline, a rise across generations; round
         4 adopted this
@@ -1874,8 +1887,9 @@ def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, 
          (s_rev if s_steep == "F" else ("U" if s_rev != "F" else "F")), f_rev),
         ("S4", "T2 recognizes-but-does-not-show overrides magnitude -> rational override",
          dom in ("LOW", "ANTI"), True, s_kws, f_kws),
-        ("S2", "T1 steep gradient (overrides T3) -> fidelity only on classic tier", True, True, s_steep, f_steep),
-        ("S6", "PARTIAL/HIGH today + rising T5 across the family generations", bool(family_has_generations), True,
+        ("S2", "T1 steep fall from the published values to the new values (overrides T3) -> retrieval of published "
+         "results", True, True, s_steep, f_steep),
+        ("S6", "rising T5 across the family generations, whatever the class of the current model", bool(family_has_generations), True,
          s_rise, f_rise),
         ("S5", "family-specific patterns -> per-model validation only", not family_consistent, False, "T", True),
         ("REVERSED_LADDER", "T3 reversed ladder, not recognized on the missed effects -> evidence against "
@@ -1883,7 +1897,8 @@ def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, 
          s_rev, f_rev),
         # S1 under rule (a); a failed positive control leaves the pattern tests uninformative and S1 is not
         # claimed
-        ("S1", "", dom == "HIGH" and not t2_override and s_steep != "T" and s_decl != "T" and s_rev != "T"
+        ("S1", "", dom == "HIGH" and not t2_override and not t2_known_shown and s_steep != "T" and s_decl != "T"
+         and s_rev != "T" and not reversed_low_effects
          and not (_uninf(t1) or _uninf(t3)),
          False, "T", True),
         ("S3", "T3 resolved decline down the argument-strength ladder -> reason-construction (the format test, T4, "
@@ -1891,7 +1906,6 @@ def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, 
         ("PARTIAL", "mixed at the effect level: faithful on some effects, reversed or low on others -> PARTIAL "
          "fidelity (per-effect accounts side by side)", bool(faithful_effects and reversed_low_effects), False, "T",
          True),
-        ("S6", "PARTIAL today + rising T5", dom == "PARTIAL" and bool(family_has_generations), True, s_rise, f_rise),
         ("S4", "ANTI class without recognition override -> systematic inversion", dom == "ANTI", False, "T", True),
         ("COMPOSITE", f"individual-reading composite (dominant {dom})", True, False, "T", True),
     ]
@@ -1913,7 +1927,8 @@ def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, 
             open_tests = [n for n, t in (("T1", t1), ("T3", t3)) if not t.get("resolved", True) and not _uninf(t)]
             if family_has_generations and not t5.get("resolved", True) and not _uninf(t5, "trajectory"):
                 open_tests.append("T5")
-            lbl = "HIGH + no resolved steep T1, reversed ladder or ladder decline + shows-without-recognizing"
+            lbl = ("HIGH + no LOW or ANTI effect + no resolved steep T1, reversed ladder or ladder decline + "
+                   "shows-without-recognizing")
             if open_tests:
                 lbl += "; qualifier: " + S1_QUALIFIER + " (open: " + ", ".join(open_tests) + ")"
             return lbl, "S1", ["S1"]
@@ -1949,10 +1964,13 @@ def _blocked(blocked, then):
 OVERSHOOT = "overshoot (same direction, above 150 percent of the human size)"
 RETRIEVAL_READING = "consistent with retrieval of a described regularity"
 OVER_PHANTOM = "overshoot on the phantom, " + RETRIEVAL_READING
+KNOWN_EFFECT = "reproduction of a known effect (recognized and shown; deliberate or learned)"
+INVERSION = "systematic inversion (reversed without recognition; no account attributed)"
 ACCOUNT_FAMILY = {
     "deep pattern-mimicry": "deep pattern-mimicry",
     "rational-override": "rational override",
-    "rational-override (reversal)": "rational override",
+    "systematic inversion (reversed without recognition; no account attributed)": "systematic inversion",
+    "reproduction of a known effect (recognized and shown; deliberate or learned)": "reproduction of a known effect",
     "partial (direction transfers, size off)": "partial",
     "low fidelity": "low fidelity",
     OVERSHOOT: "overshoot",
@@ -2004,12 +2022,16 @@ def attribute_effect_accounts(model, scored_cells, recog_by_struct, criterion, n
         rec = recog_by_struct.get(st, 0.0)
         if rec >= RC.RECOGNITION_CUTOFF and not shows:
             out[st] = "rational-override"
+        elif cls == "HIGH" and rec >= RC.RECOGNITION_CUTOFF:
+            # 2026-10-17 (Table 5, T2): recognized and shown; the test cannot tell deliberate from learned reproduction
+            out[st] = KNOWN_EFFECT
         elif cls == "HIGH":
             out[st] = "deep pattern-mimicry"
         elif cls == "OVER":
             out[st] = OVER_PHANTOM if st == "PHT" else OVERSHOOT
         elif cls == "ANTI":
-            out[st] = "rational-override (reversal)"
+            # 2026-10-17 (Table 4): reversed without recognition; rational override rests on the first route of S4 only
+            out[st] = INVERSION
         elif cls == "PARTIAL":
             out[st] = "partial (direction transfers, size off)"
         else:
@@ -2428,6 +2450,8 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
     peq = phantom_equivalence(pooled["PHT"]["delta"], pooled["PHT"]["se"])
     numbers["human.PHT.equivalence_band_pp"] = PHANTOM_BAND_PP
     numbers["human.PHT.within_band"] = peq["equivalent"]
+    peq["reading"] = phantom_reading(criterion["PHT"]["replicated"], peq)
+    numbers["human.PHT.reading"] = peq["reading"]
     numbers["human.PHT.equivalence.ci90_lo_pp"] = round(peq["ci90_lo_pp"], 2)
     numbers["human.PHT.equivalence.ci90_hi_pp"] = round(peq["ci90_hi_pp"], 2)
     numbers["human.PHT.equivalence.p_tost"] = round(peq["p_tost"], 6)
@@ -2587,6 +2611,9 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
         numbers[f"model.{model}.criterion.parse_rate"] = round(ginfo["parse_rate"], 4)
         numbers[f"model.{model}.criterion.refusal_rate"] = round(ginfo["refusal_rate"], 4)
         numbers[f"model.{model}.criterion.not_assessable"] = ginfo["not_assessable"]
+        # the share of cells lost and the no-room (ceiling) cells, so a reader sees why a model fails Step 0
+        numbers[f"model.{model}.criterion.frac_cells_lost"] = round(ginfo["frac_lost"], 3)
+        numbers[f"model.{model}.criterion.n_no_room_cells"] = len(ginfo["no_room_cells"])
 
         recog_by_struct = {}
         for st in EFFECTS:
@@ -3158,6 +3185,9 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
                                                          t4_undefined=t4_undefined),
                                     overall=overall, pooled=pooled, t1=t1, t2_override=t2_override,
                                     t2_state=t2_state,
+                                    # S1 needs every shown effect shown without recognition (2026-10-17)
+                                    t2_known_shown=any(d["reading"].startswith("recognizes-and-shows")
+                                                       for d in t2_per.values()),
                                     t2_per=t2_per, t3=t3, t4=t4, recog_by_struct=recog_by_struct,
                                     fidelity_by_struct=fidelity_by_struct, no_counterpart=no_counterpart,
                                     t1_sensitivity=t1s)
@@ -3217,7 +3247,8 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
             model, res["scored_cells"], res["t1"], res["t2_override"], res["t3"], res["t4"],
             t5_for, res["ginfo"], res["agree"],
             family_consistent.get(fam, True), family_has_generations.get(fam, False),
-            effect_classes=res["eff_cls"], overall=res["overall"], t2_state=res["t2_state"])
+            effect_classes=res["eff_cls"], overall=res["overall"], t2_state=res["t2_state"],
+            t2_known_shown=res["t2_known_shown"])
         accounts = attribute_effect_accounts(model, res["scored_cells"], res["recog_by_struct"], criterion,
                                              res["no_counterpart"], effect_classes=res["eff_cls"],
                                              pooled=res["pooled"], phantom_retrieval=(model in phantom_retrieval))
@@ -3345,7 +3376,7 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
                ["effect", "full_pp", "first_pp", "later_pp", "divergence_pp", "first_minus_later_se_pp",
                 "z", "p", "holm_p", "holm_reject", "diverges", "n_first", "n_full"], ft_rows)
     _write_csv(os.path.join(TESTS_DIR, "phantom_equivalence.csv"),
-               ["delta_pp", "ci90_lo_pp", "ci90_hi_pp", "band_pp", "p_tost", "equivalent"],
+               ["delta_pp", "ci90_lo_pp", "ci90_hi_pp", "band_pp", "p_tost", "equivalent", "reading"],
                [{k: (round(v, 6) if isinstance(v, float) else v) for k, v in peq.items()}])
     _write_csv(os.path.join(TESTS_DIR, "format_interaction.csv"),
                ["test", "effect", "format", "categories", "format_pp", "numbers_pp", "interaction_pp",

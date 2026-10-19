@@ -1231,6 +1231,75 @@ def test_r3_S1_needs_no_flat_memorization_reading():
     assert s != "S1", (b, s)                                # a failed positive control: no S1
 
 
+def test_s1_needs_every_shown_effect_unrecognized():
+    """the authors' rule of 2026-10-17 (the code follows the registered "effects shown without recognition"): a HIGH model
+    that identifies the manipulation on an effect it shows (recognizes-and-shows) is not S1, in both routers; the same
+    model with no such effect is S1 (the control)."""
+    assert _route(_T1_FLAT)[1] == "S1"                                      # control
+    b, s, _ = _route(_T1_FLAT, t2_known_shown=True)
+    assert s != "S1", (b, s)                                                # recognizes-and-shows keeps it out of S1
+    agree = dict(dominant_class="HIGH")
+    legacy = lambda **kw: analyze.route_model("m", [], _T1_FLAT, False, _T3_FLAT, _T4_FLAT, _T5_NONE, _GI, agree,
+                                              True, False, effect_classes={"FRQ": "HIGH"}, overall="HIGH", **kw)[1]
+    assert legacy() == "S1" and legacy(t2_known_shown=True) != "S1"
+
+
+def test_s1_needs_no_low_or_anti_effect():
+    """2026-10-18 (fresh-reader finding M3): a HIGH model that reverses one effect without identifying the manipulation
+    is not S1, whose conclusion says it reproduces the human effects; it is the mixed pattern (PARTIAL), in both routers.
+    The same model with every effect HIGH is S1 (the control)."""
+    all_high = {"FRQ": "HIGH", "RNG": "HIGH", "SOT": "HIGH", "SYM": "HIGH", "MOT": "HIGH"}
+    one_anti = dict(all_high, SOT="ANTI")
+    assert _route(_T1_FLAT, overall="HIGH", classes=all_high)[1] == "S1"
+    b, s, _ = _route(_T1_FLAT, overall="HIGH", classes=one_anti)
+    assert s == "PARTIAL", (b, s)
+    agree = dict(dominant_class="HIGH")
+    legacy = lambda cl: analyze.route_model("m", [], _T1_FLAT, False, _T3_FLAT, _T4_FLAT, _T5_NONE, _GI, agree,
+                                            True, False, effect_classes=cl, overall="HIGH")[1]
+    assert legacy(all_high) == "S1" and legacy(one_anti) == "PARTIAL"
+
+
+def test_per_effect_readings_follow_tables_4_and_5():
+    """2026-10-17 (editor audit SC-8, SC-9): a HIGH effect the model identifies when asked is reproduction of a known
+    effect, not deep mimicry (Table 5, T2); an ANTI effect without recognition is systematic inversion and does not count
+    toward rational override (Table 4, S4 first route only); a recognized effect the model does not show stays rational
+    override, and an unrecognized HIGH effect stays deep mimicry (the controls)."""
+    criterion = {st: dict(replicated=True) for st in analyze.EFFECTS}
+    classes = {"FRQ": "HIGH", "RNG": "HIGH", "SOT": "ANTI", "SYM": "LOW", "PHT": "PARTIAL", "MOT": "ANTI",
+               "SIM": "HIGH"}
+    pooled = {"FRQ": (10.0, 10.0), "RNG": (8.0, 9.0), "SOT": (-6.0, 8.0), "SYM": (0.0, 10.0),   # points
+              "PHT": (2.0, 5.0), "MOT": (-5.0, 7.0), "SIM": (5.0, 5.0)}
+    recog = {"FRQ": 0.9, "RNG": 0.1, "SOT": 0.0, "SYM": 0.8, "PHT": 0.0, "MOT": 0.0, "SIM": 0.0}
+    acc = analyze.attribute_effect_accounts("m", [], recog, criterion, effect_classes=classes, pooled=pooled)
+    assert acc["FRQ"] == analyze.KNOWN_EFFECT, acc["FRQ"]
+    assert acc["RNG"] == "deep pattern-mimicry", acc["RNG"]
+    assert acc["SOT"] == analyze.INVERSION and acc["MOT"] == analyze.INVERSION, acc
+    assert acc["SYM"] == "rational-override", acc["SYM"]
+    inv4 = {"FRQ": analyze.INVERSION, "RNG": analyze.INVERSION, "SOT": analyze.INVERSION, "MOT": analyze.INVERSION,
+            "SYM": "low fidelity", "PHT": "low fidelity", "SIM": "low fidelity"}
+    assert analyze.model_level_account(inv4, criterion)[0] == "systematic inversion"
+    known4 = dict(inv4, FRQ=analyze.KNOWN_EFFECT, RNG=analyze.KNOWN_EFFECT, SOT=analyze.KNOWN_EFFECT,
+                  MOT=analyze.KNOWN_EFFECT)
+    assert analyze.model_level_account(known4, criterion)[0] == "reproduction of a known effect"
+
+
+def test_phantom_equivalence_is_read_only_when_the_phantom_misses_the_criterion():
+    """2026-10-17 (editor audit SC-12): a phantom that meets the replication criterion is present even when its 90%
+    interval lies inside plus or minus 4 points; a phantom that misses it is absent when inside, not detected when not."""
+    inside, outside = dict(equivalent=True), dict(equivalent=False)
+    assert analyze.phantom_reading(True, inside).startswith("present")
+    assert analyze.phantom_reading(False, inside).startswith("absent")
+    assert analyze.phantom_reading(False, outside).startswith("not detected")
+
+
+def test_trajectory_readings_are_the_registered_ones():
+    """2026-10-17 (editor audit SC-14): the printed trajectory readings are the paper's, and a fall assigns no scenario."""
+    T5 = analyze.test_T5_trajectory
+    assert T5(0.5, 0.9)["trajectory"] == "newer more faithful -> rising fidelity across generations (S6)"
+    assert "no scenario" in T5(0.9, 0.5)["trajectory"]
+    assert "no difference between generations" in T5(0.7, 0.75)["trajectory"]
+
+
 def test_r3_account_routes_are_strict():
     """Rule (b): an account-attributing route is taken only on a resolved reading; when the estimate points to it
     and the interval leaves it open, the model is NOT_RESOLVED (no later route is claimed); an open reading whose
@@ -1827,7 +1896,12 @@ ORDER = [
     "test_r2_synthetic_exact_prompts_are_deterministic", "test_r2_arm_key_reused_for_other_rows_is_refused",
     "test_r2_phantom_retrieval_reading", "test_r2_effects_below_the_first_trial_floor_are_descriptive",
     # the registered rules (a) to (d)
-    "test_r3_S1_needs_no_flat_memorization_reading", "test_r3_account_routes_are_strict",
+    "test_r3_S1_needs_no_flat_memorization_reading", "test_s1_needs_every_shown_effect_unrecognized",
+    "test_s1_needs_no_low_or_anti_effect",
+    "test_per_effect_readings_follow_tables_4_and_5",
+    "test_phantom_equivalence_is_read_only_when_the_phantom_misses_the_criterion",
+    "test_trajectory_readings_are_the_registered_ones",
+    "test_r3_account_routes_are_strict",
     "test_r3_comparison_options_of_the_router", "test_r4_kept_members_reproduce_the_registered_readings",
     "test_r4_guard_leaves_S1_possible",
     "test_r5_format_test_is_descriptive_and_reason_construction_reads_the_ladder",

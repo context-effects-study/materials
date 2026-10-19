@@ -6,7 +6,7 @@ order (order_plan.py), paraphrase, format and prompting mode, sends it to the mo
 chosen letter, decodes it with the same per-structure codebook the human data use, and writes one record
 per call (the fields are listed in analysis/DATA_DICTIONARY.md, part B): the full prompt, the raw reply,
 the model id requested and the id the provider returned, the sampling settings actually applied, the
-reasoning setting, the parse result, any exclusion reason, latency, cost and a timestamp. Every call is
+reasoning setting, whether a choice could be read from the reply, any exclusion reason, latency, cost and a timestamp. Every call is
 recorded, including refusals and unparseable replies. Each call has a deterministic record id, so an
 interrupted run resumes where it stopped, and a cost cap stops the run cleanly.
 
