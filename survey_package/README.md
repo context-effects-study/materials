@@ -14,7 +14,7 @@ Each participant takes one survey only.
 | `survey2_sim.qsf` | Survey 2, the similarity survey: similarity pages only, shown with numbers, so each similarity condition reaches its registered size with the near copy placed next to either original option | 1,000 | 7 | 7,000 |
 | `survey3_words.qsf` | Survey 3, words version: two-option, frequency-decoy and compromise pages with every attribute value and price spelled out in words (Bluetooth speakers, external hard drives, televisions, water bottles) | 2,800 | 3 | 8,400 |
 | `survey3_pictures.qsf` | Survey 3, pictures version: the same pages with the values drawn as bars and no numbers (Bluetooth speakers, televisions, water bottles) | 2,100 | 3 | 6,300 |
-| `survey4_pricefree.qsf` | Survey 4, the price-free survey: two-option, frequency-decoy, range-decoy and phantom pages whose options differ on two quality ratings and carry no price (external hard drives, restaurants, televisions) | 2,800 | 3 | 8,400 |
+| `survey4_pricefree.qsf` | Survey 4, the price-free survey: two-option, frequency-decoy, range-decoy and phantom pages whose options differ on two quality ratings and show no price (external hard drives, restaurants, televisions) | 2,800 | 3 | 8,400 |
 | | Total | 17,700 | | 93,100 |
 
 The nine kinds of choice page in Survey 1 are the two-option baseline, compromise, frequency decoy, range decoy,
@@ -93,7 +93,7 @@ Two things are placeholders on purpose and are filled in only at the approved St
 (the bracketed note on the consent page is replaced with the approved consent text) and the Prolific completion
 code (`cc=REPLACE_COMPLETION_CODE` in the closing redirect). While they stand, a survey cannot be fielded by
 accident. The assignment service address is a placeholder only in these copies; the surveys held for the study
-carry the working one. The pages, their wording, the values, the scripts and the option orders stay as they are.
+hold the working one. The pages, their wording, the values, the scripts and the option orders stay as they are.
 
 ## Checking the files
 

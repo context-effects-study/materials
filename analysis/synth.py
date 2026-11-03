@@ -4,7 +4,7 @@ It writes data in exactly the shapes the study will produce: a human long table 
 columns analysis/ingest.py writes) and a model call log (one record per call, the fields models/run.py
 writes). Into both it plants known truths: human effect sizes, model behavior profiles, a recognition-probe
 outcome, a format drop and a generation trajectory, so analyze.py can be scored against an answer key.
-The profiles cover every named scenario of the decision tree and the two worked walk-throughs. Fixed seed.
+The profiles cover every named scenario of the decision rule and the three worked walk-throughs. Fixed seed.
 
 Run: python analysis/synth.py      (a short check that the planted human effects are recovered)
 """
@@ -93,51 +93,59 @@ def _clip(p):
 
 
 # ---------------------------------------------------------------------------
-# Model archetypes. Each is built to drive ONE decision-tree outcome. The
-# scenario it is meant to show is recorded so the rehearsal can assert routing.
-# family lets S5 (Family-specific) be planted as two members of one family
-# that disagree. generation/reasoning drive the trajectory test T5.
+# Model archetypes. Each is built to reach ONE outcome of decision tree B (2026-11-03: Step 0; does the model
+# match people, S1 or S7 if so; if not, every failure signature that is present, S6 when all are absent). The
+# scenario it is meant to reach is recorded so the rehearsal and the analysis explorer can assert routing; a
+# joint such as "S2+S4" means two signatures planted at once. family pairs two members of one family (the
+# family's classes are reported beside each model); generation/reasoning drive the trajectory test T5,
+# which is also reported beside each model and decides nothing.
 # ---------------------------------------------------------------------------
 MODEL_ARCHETYPES = {
-    # S1 High fidelity: matches humans everywhere, flat across tiers and formats, does not
-    # recognize the manipulation (shows-without-recognizing).
+    # S1: matches humans everywhere, flat across tiers and formats, does not recognize the manipulation
+    # (shows-without-recognizing).
     "FAITHFUL":   dict(scenario="S1", family="famA", generation="new", reasoning="off"),
-    # S2 Retrieval only (the original MEMORIZER): effect only on the classic published tier.
-    "PARROT":     dict(scenario="S2", family="famB", generation="new", reasoning="off"),
-    # S3 Reason construction (the original LADDER, now also text-bound across formats for the
-    # confirmatory T4 signature): fidelity graded down the argument ladder AND falling numbers->pictures.
+    # Two signatures at once (re-planted 2026-11-03): an effect only on the classic published tier (retrieval,
+    # S2), and no upscaling effect anywhere while naming the upscaling decoy when asked (rational override, S4).
+    "PARROT":     dict(scenario="S2+S4", family="famB", generation="new", reasoning="off"),
+    # S3, reason construction: fidelity graded down the argument ladder (and falling numbers->pictures, which
+    # the descriptive format test reports).
     "REASONER":   dict(scenario="S3", family="famC", generation="new", reasoning="off"),
-    # S4 Rational override: recognizes the decoy but does not move; inverts the effects (ANTI/LOW).
+    # S4, rational override: recognizes the decoy but does not move; inverts the effects (ANTI).
     "OVERRIDER":  dict(scenario="S4", family="famD", generation="new", reasoning="on"),
-    # S5 Family-specific: two members of one family disagree -> family-specific patterns.
-    "DIVIDED_A":  dict(scenario="S5", family="famE", generation="new", reasoning="off"),  # faithful member
-    "DIVIDED_B":  dict(scenario="S5", family="famE", generation="new", reasoning="off"),  # anti member
-    # S6 Rising fidelity: PARTIAL today, but the NEWER generation of this family is more faithful (rising T5).
+    # Two members of one family that disagree: the family's overall classes differ (reported beside each
+    # model). The faithful member reaches S1; the reversed member, ANTI without recognition, reaches S6.
+    "DIVIDED_A":  dict(scenario="S1", family="famE", generation="new", reasoning="off"),  # faithful member
+    "DIVIDED_B":  dict(scenario="S6", family="famE", generation="new", reasoning="off"),  # anti member
+    # A family whose newer generation is more faithful (a rising trajectory, reported beside each model): the
+    # older member is PARTIAL overall and reaches S6; the newer member matches people and, re-planted
+    # 2026-11-03, names the decoy on the attraction and compromise effects it shows, so it reaches S7.
     "CONVERGE_OLD": dict(scenario="S6", family="famF", generation="old", reasoning="off"),
-    "CONVERGE_NEW": dict(scenario="S6", family="famF", generation="new", reasoning="off"),
-    # Two worked walk-throughs from the Analysis Plan.
-    # Walk 1: match on classic, diverge on novel (headline retrieval surprise) -> S2 reading via T1.
-    "WALK1_PARROT": dict(scenario="WALK1", family="famG", generation="new", reasoning="off"),
-    # Walk 2: faithful on attraction-frequency, reverses compromise, flat T1, recognizes compromise.
-    "WALK2_MIXED": dict(scenario="WALK2", family="famH", generation="new", reasoning="off"),
+    "CONVERGE_NEW": dict(scenario="S7", family="famF", generation="new", reasoning="off"),
+    # The worked walk-throughs of Web Appendix C.
+    # Walk 1: match on classic, diverge on novel -> S2 (retrieval present, the other signatures absent).
+    "WALK1_PARROT": dict(scenario="S2", family="famG", generation="new", reasoning="off"),
+    # Walk 2: faithful on attraction-frequency, reverses compromise, flat T1, recognizes compromise. One effect is
+    # ANTI, so it does not match people; it names the compromise decoy and does not follow it -> S4 (under the
+    # four questions of 2026-11-02 its HIGH overall class sent it to S6).
+    "WALK2_MIXED": dict(scenario="S4", family="famH", generation="new", reasoning="off"),
     # A ceiling-heavy model: picks the target in nearly every binary set, so no room to move ->
-    # the model criterion's not-assessable / no-room-to-move branch (Step 0b).
+    # the model criterion's not-assessable / no-room-to-move branch (Step 0).
     "CEILING":    dict(scenario="GATE_CEILING", family="famI", generation="new", reasoning="off"),
     # A refuser: high refusal/unparse rate -> the model criterion's parse/refusal failure branch.
     "REFUSER":    dict(scenario="GATE_REFUSAL", family="famJ", generation="new", reasoning="off"),
-    # Reviewer 4's own example: the model misses the established effects whose
-    # sets offer a statable argument (attraction LOW, compromise reversed) and matches the effects whose
-    # sets offer none (upscaling, extremity). Two versions: it RECOGNIZES the manipulation on the effects
-    # it misses (-> rational override on arguable sets), or it does not (-> reversed ladder, no account).
-    "R4_ARGUABLE_OVERRIDE": dict(scenario="REVERSED_LADDER_OVERRIDE", family="famK", generation="new",
-                                 reasoning="off"),
-    "R4_ARGUABLE_NORECOG":  dict(scenario="REVERSED_LADDER", family="famL", generation="new",
-                                 reasoning="off"),
-    # rule 2: overshoots every effect threefold on the published tier and matches the human
-    # size on the other two tiers. Its pooled class is OVER and each published-tier cell reads "consistent
-    # with retrieval of a described regularity"; with the combined fidelity the memorization test no longer
-    # reads the overshoot as a steep gradient.
-    "OVERSHOOT_T1": dict(scenario="COMPOSITE", family="famM", generation="new", reasoning="off"),
+    # Walk 3 (one reviewer's example): the model misses the established effects whose sets offer a statable
+    # argument (attraction LOW, compromise reversed) and matches the effects whose sets offer none (upscaling,
+    # extremity), so fidelity rises down the ordering (described by T3). With the phantom failing in people,
+    # its overall class is LOW (a tie of LOW and HIGH goes to LOW), so it does not match people. Two versions: it
+    # RECOGNIZES the manipulation on the effects it misses (-> rational override present, S4), or it does not
+    # (-> every signature absent, S6).
+    "R4_ARGUABLE_OVERRIDE": dict(scenario="S4", family="famK", generation="new", reasoning="off"),
+    "R4_ARGUABLE_NORECOG":  dict(scenario="S6", family="famL", generation="new", reasoning="off"),
+    # Overshoots every effect threefold on the published tier and matches the human size on the other two
+    # tiers. Its pooled class is OVER and each published-tier cell reads "consistent with retrieval of a
+    # described regularity"; with the combined fidelity the memorization test does not read the overshoot as a
+    # steep fall, and an OVER overall class does not match people; no signature is present -> S6.
+    "OVERSHOOT_T1": dict(scenario="S6", family="famM", generation="new", reasoning="off"),
 }
 
 # ---------------------------------------------------------------------------
@@ -172,6 +180,10 @@ def model_effect(model, struct, tier, fmt):
             # although the planted human phantom is null: the rehearsal case for "an effect without a
             # human counterpart". The phantom exits fidelity scoring, so no routing input changes.
             return 0.08
+        if struct == "SYM":
+            # 2026-11-03: no upscaling effect on any tier, with the upscaling decoy named when asked
+            # (model_recognizes): a knows-without-shows beside the retrieval pattern, two signatures at once.
+            return 0.0
         return h if tier == 1 else 0.0
     if model == "REASONER":
         # fidelity graded by the argument ladder AND by format (text-bound).
@@ -214,11 +226,17 @@ def model_recognizes(model, struct):
     """The planted recognition-probe outcome for test T2 (knows-it). True = the probe (run in
     isolated calls) reports the model detects the decoy/manipulation for this structure.
     OVERRIDER recognizes everything (and does not move). WALK2 recognizes the compromise it reverses.
+    PARROT recognizes the upscaling decoy it does not follow; CONVERGE_NEW recognizes the attraction and
+    compromise decoys whose effects it shows (2026-11-03).
     FAITHFUL does not recognize (shows-without-recognizing). Others: low recognition by default."""
     if model == "OVERRIDER":
         return True
     if model == "WALK2_MIXED":
         return struct == "SOT"                     # recognizes the compromise it reverses
+    if model == "PARROT":
+        return struct == "SYM"                     # names the upscaling decoy, shows no upscaling effect
+    if model == "CONVERGE_NEW":
+        return struct in ("FRQ", "RNG", "SOT")     # names the decoys whose effects it shows (S7)
     if model == "R4_ARGUABLE_OVERRIDE":
         return struct in ("FRQ", "RNG", "SOT")     # recognizes the arguable sets it declines to follow
     return False
@@ -228,7 +246,7 @@ def model_recognizes(model, struct):
 # HUMAN generator (contract A long format). One row per choice. Plants the
 # human truths, a per-participant random intercept (clustering via icc), a
 # first-trial subsample (trial_position), and a format dimension. A "surprise"
-# flag plants the S7 branch (most human effects fail the human criterion).
+# flag plants the S5 branch (most human effects fail the human criterion).
 # ---------------------------------------------------------------------------
 def gen_human(n_per_cell, rng, icc=0.10, surprise=False, with_formats=False, first_trial_break=False,
               null_effects=None, effect_overrides=None, format_attenuation=None,
@@ -236,7 +254,7 @@ def gen_human(n_per_cell, rng, icc=0.10, surprise=False, with_formats=False, fir
               topup_shift=0.0, null_on_hd_target=None):
     """Generate contract-A human long rows.
     icc: intraclass correlation -> per-participant random intercept (clustering).
-    surprise: if True, plant most human effects at NULL (the S7 human-criterion-failure scenario).
+    surprise: if True, plant most human effects at NULL (the S5 human-criterion-failure scenario).
     with_formats: if True, also generate the words/pictures format module cells (for T4 human bench).
     first_trial_break: if True, plant a first-trial divergence on FRQ in EVERY tier (first choices
         show the effect 12 points larger, later choices 2 points smaller), to exercise the registered
@@ -279,7 +297,7 @@ def gen_human(n_per_cell, rng, icc=0.10, surprise=False, with_formats=False, fir
                     if not _format_cell(cat, struct, tier, fmt):
                         continue            # the format module: tier 2, BIN/FRQ/SOT only (2026-09-29)
                     if surprise:
-                        # S7: only the two positive controls survive; everything else is a human null.
+                        # S5: only the two positive controls survive; everything else is a human null.
                         eff = TRUTH[struct] * TIER_ATTEN[tier] if struct in ("FRQ",) else 0.0
                     elif struct in null_effects:
                         eff = 0.0     # planted human null (exits fidelity scoring via the criterion)

@@ -9,7 +9,7 @@ Run from the repository root:
                                              # analysis or figures (the option can be repeated)
     python run_all.py --quick                # skip the slowest steps (clustered power, first-choice rule
                                              # simulation, analysis tests)
-    python run_all.py --full                 # also the four long checks, about 80 minutes in all: the
+    python run_all.py --full                 # also the four long checks, about 90 minutes in all: the
                                              # routing stability of the planted model profiles, the
                                              # resolution statement, the faithful profile at larger samples,
                                              # and mutation testing of the analysis
@@ -363,7 +363,7 @@ def constants_table():
 
 def rehearsal():
     # Creates analysis/results_pack/ and analysis/RESULTS_PACK_SELFTEST.md: the analysis plan run end to end
-    # on synthetic data (Steps 0 to 3, Table 4 routing, the two walk-throughs of Web Appendix C, the
+    # on synthetic data (Steps 0 to 4, Table 4 routing, the three walk-throughs of Web Appendix C, the
     # secondary readings of Web Appendix E). Seed 20260613. Every data file must be identical; only the
     # recorded runtime and interpreter lines change between runs.
     before = snapshot("analysis/results_pack/**/*", "analysis/RESULTS_PACK_SELFTEST.md")
@@ -467,7 +467,7 @@ def main():
     ap = argparse.ArgumentParser(description="Regenerate and check every reproducible output.")
     ap.add_argument("--part", action="append", choices=PARTS, help="run one part only (may be repeated)")
     ap.add_argument("--quick", action="store_true", help="skip the slow steps")
-    ap.add_argument("--full", action="store_true", help="also run the two long checks")
+    ap.add_argument("--full", action="store_true", help="also run the four long checks")
     a = ap.parse_args()
     parts = set(a.part or PARTS)
     t0 = time.time()

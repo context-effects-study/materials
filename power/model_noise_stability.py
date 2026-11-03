@@ -5,7 +5,10 @@ It runs the full analysis (analyze.build_pack) many times on the dress-rehearsal
 sizes, with every pattern-test result judged against its bootstrap interval, under three kinds of model
 noise: noise-free, every call an independent draw at the planted share, and each condition giving its modal
 answer in 90 percent of its draws. The design requirement: each profile routes to its intended scenario or to
-not resolved, and to a wrong scenario in at most 1 of 20 runs. Each run uses its own interpreter. Standard
+not resolved (counting a profile planted with two failures that shows one of them, the other still possible), and
+to a wrong scenario in at most 1 of 20 runs. The report also gives how often the faithful profile reaches S1, which
+it does whenever its classes match people and no test shows or points to a failure (a test points to a failure when
+the failure is not resolved but its estimate passes the cutoff). Each run uses its own interpreter. Standard
 library only. Seeds 20260929 plus 1000 times the run number.
 
 Output: power/MODEL_NOISE_STABILITY.md and power/model_noise_stability_runs.csv (one row per run).
@@ -26,10 +29,7 @@ import synth    # noqa: E402
 # The ceiling and refusal archetypes route to CRITERION_FAIL deterministically under any draw noise (a 97 percent
 # binary share, half the calls refused), and the persona and sequential arms serve only their own readings, so
 # the sweep leaves them out to fit the memory of a shared machine; the rehearsal covers all of them.
-EXPECT = {"FAITHFUL": "S1", "PARROT": "S2", "REASONER": "S3", "OVERRIDER": "S4", "DIVIDED_A": "S5",
-          "DIVIDED_B": "S5", "CONVERGE_OLD": "S6", "CONVERGE_NEW": "S6", "WALK1_PARROT": "S2",
-          "WALK2_MIXED": "PARTIAL", "R4_ARGUABLE_OVERRIDE": "REVERSED_LADDER_OVERRIDE",
-          "R4_ARGUABLE_NORECOG": "REVERSED_LADDER", "OVERSHOOT_T1": "COMPOSITE"}
+EXPECT = {m: a["scenario"] for m, a in synth.MODEL_ARCHETYPES.items() if not a["scenario"].startswith("GATE_")}
 WITH_FORMATS = ("FAITHFUL", "REASONER", "WALK2_MIXED", "PARROT", "OVERRIDER", "DIVIDED_A", "DIVIDED_B",
                 "CONVERGE_OLD", "CONVERGE_NEW", "WALK1_PARROT", "CEILING", "REFUSER")
 NOISE = {"deterministic": dict(consistency="exact"),
@@ -45,35 +45,25 @@ def outcome(model, got, possible):
     """intended / not_resolved / not_resolved_excluded / wrong for one archetype in one run, each archetype on its
     own route. A NOT_RESOLVED
     route whose possible scenarios do not include the intended one is reported apart (not_resolved_excluded): it
-    claims no scenario, so the set criterion allows it, but the intervals have already set the intended one out."""
+    claims no scenario, so the set criterion allows it, but the intervals have already set the intended one out.
+    Under decision tree B a partly resolved run (analyze.route_outcome) is counted as not resolved."""
     want = EXPECT[model]
-    if got == want:
-        return "intended"
-    if got == NR:
-        return "not_resolved" if (possible is None or want in possible) else "not_resolved_excluded"
-    return "wrong"
+    if got == NR and possible is None:
+        return "not_resolved"
+    how = analyze.route_outcome(want, got, possible)
+    return "not_resolved" if how == "partly_resolved" else how
 
 
-VARIANTS = {"favoured": dict(open_blocks="favoured"), "guard": dict(s1_point_guard=True),
-            "favoured_guard": dict(open_blocks="favoured", s1_point_guard=True)}
-# The registered rule includes the guard (s1_point_guard=True is the router's default), so "guard" is now the registered rule
-# itself and "favoured" already carries the guard; the earlier comparison without the guard is in the earlier report.
-VARIANT_WORDS = {"ruled": "the registered rule (an open account reading "
-                          "blocks every later route, and withholds S1 only when its estimate points to an account)",
-                 "favoured": "an open account reading blocks only when its estimate points to the route (guard kept)",
-                 "guard": "the registered rule again (the guard is part of the rule)",
-                 "favoured_guard": "the same as the second row (the guard is part of every rule)"}
-
-
-def route_at_level(res, model, level, t5_rows, family_of, generation_of, **opts):
+def route_at_level(res, model, level, t5_rows, family_of, generation_of):
     """Re-read one model's T1, T3 and T4 (and its family's T5) at another interval level from the replicates the
-    pack kept, and route it again with the same three-valued router. At 0.95 this reproduces the pack's route."""
+    pack kept, and route it again with the same router (the simple rule: T5 and the family's classes are reported
+    and decide nothing). At 0.95 this reproduces the pack's route."""
     mr = res["model_results"][model]
     rr = mr["resolution_reps"]
     iv = lambda reps: (call_bootstrap.interval(reps, level) if reps else None)  # noqa: E731
     t1 = analyze.test_T1_memorization(rr["t1_points"], rr["t1_raw"], drop_ci=iv(rr["t1"]), resolve=True)
     has_mid = rr["t3_points"].get(analyze.LADDER_MIDDLE) is not None
-    t3 = analyze.test_T3_ladder(rr["t3_points"], mr["eff_cls"], mr["recog_by_struct"], rr["t3_raw"],
+    t3 = analyze.test_T3_ladder(rr["t3_points"], rr["t3_raw"],
                                 ci=dict(top_minus_bottom=iv(rr["t3_tmb"]),
                                         bottom_minus_middle=(iv(rr["t3_bmm"]) if has_mid else None)), resolve=True)
     t4 = analyze.test_T4_formats(rr["t4_points"], rr["t4_undefined"], rr["t4_raw"], diff_ci=iv(rr["t4"]),
@@ -94,14 +84,14 @@ def route_at_level(res, model, level, t5_rows, family_of, generation_of, **opts)
         # a failed positive control makes every pattern-test reading uninformative (resolved, routing nowhere),
         # exactly as build_pack marks them
         t1 = dict(t1, reading="uninformative", p_steep="F", p_flat="F", resolved=True)
-        t3 = dict(t3, reading="uninformative", reversed=False, attribution="", p_declines="F", p_reversed="F",
-                  p_flat="F", resolved=True)
+        t3 = dict(t3, reading="uninformative", reversed=False, p_declines="F", p_reversed="F", p_flat="F",
+                  resolved=True)
         t4 = dict(t4, reading="uninformative", p_falls="F", p_flat="F", resolved=True)
         t5 = dict(t5, trajectory="uninformative", p_rising="F", p_falling="F", p_flat="F", resolved=True)
-    fam_consistent = len({res["model_results"][m]["overall"] for m in members}) <= 1
-    _, s, poss = analyze.route_resolved(model, mr["scored_cells"], t1, mr["t2_override"], t3, t4, t5, mr["ginfo"],
-                                        mr["agree"], fam_consistent, has_gen, effect_classes=mr["eff_cls"],
-                                        overall=mr["overall"], t2_state=mr["t2_state"], **opts)
+    _, s, poss = analyze.route_model(t1, mr["t2_state"], t3, mr["overall"], mr["eff_cls"],
+                                     t2_override=mr["t2_override"], t2_known_shown=mr["t2_known_shown"],
+                                     not_assessable=mr["ginfo"]["not_assessable"],
+                                     human_effects_fail=res["most_failed"])
     open_tests = [n for n, t in (("T1", t1), ("T3", t3), ("T4", t4)) if not t.get("resolved", True)]
     if has_gen and not t5.get("resolved", True):
         open_tests.append("T5")
@@ -166,10 +156,6 @@ def one_run(seed, noise_key):
         got = route.get(m, "missing")
         poss = [p for p in possible.get(m, "").split(";") if p]
         row[f"route_{m}"] = got
-        row[f"qualifier_{m}"] = next((r.get("qualifier", "") for r in res["routing_rows"] if r["model"] == m), "")
-        for vname, vopts in VARIANTS.items():
-            row[f"route_{vname}_{m}"] = route_at_level(res, m, 0.95, res["test_T5_rows"], family_of, generation_of,
-                                                       **vopts)[0]
         row[f"possible_{m}"] = ";".join(poss)
         row[f"out_{m}"] = outcome(m, got, poss or None)
         for lv in LEVELS:
@@ -280,7 +266,7 @@ def main():
         groups[r["noise"]].append(r)
     order = [n for n in ("independent", "deterministic", "consistent") if n in groups]
     L = ["# The design requirement: routing of the planted archetypes with every reading resolved against its interval", "",
-         f"(Generated by model_noise_stability.py, 2026-09-29, {len(runs)} runs of the full pipeline with the joint "
+         f"(Generated by model_noise_stability.py, decision tree B of 2026-11-03, {len(runs)} runs of the full pipeline with the joint "
          "bootstrap on"
          + (" (report rebuilt from the banked model_noise_stability_runs.csv)" if args.report_only
             else f", {round(time.time() - t0)} s") + ". Planned human sizes: 350 choices per published-tier cell, 700 "
@@ -292,8 +278,9 @@ def main():
          "condition still carries some model-side noise; faithful_resolution_by_sample.py removes it entirely); "
          "consistent = each prompt gives its modal answer in 90 percent of its draws.", "",
          "## Share of runs per archetype (95 percent, the registered level)", "",
-         "Each cell: intended scenario / not resolved with the intended scenario still possible / not resolved with "
-         "the intended scenario already ruled out / wrong scenario. Each archetype is counted on its own route.", "",
+         "Each cell: intended scenario / not resolved (or partly resolved) with the intended scenario still possible / "
+         "not resolved with the intended scenario already ruled out / wrong scenario. Each archetype is counted on its "
+         "own route.", "",
          "| archetype (intended) | " + " | ".join(f"{n} (n={len(groups[n])})" for n in order) + " |",
          "|---|" + "---|" * len(order)]
     for m, want in EXPECT.items():
@@ -305,45 +292,14 @@ def main():
     # which readings stay open, per archetype, under the criterion's condition
     # the route counts per archetype
     L += ["", f"## Route counts per archetype under {GATE_NOISE} draws ({len(groups.get(GATE_NOISE, []))} runs)", "",
-          "S1 counts include S1 with a qualifier (in brackets: how many of them carry one).", "",
           "| archetype (intended) | routes |", "|---|---|"]
     for m, want in EXPECT.items():
         gr = groups.get(GATE_NOISE, [])
         counts = defaultdict(int)
         for r in gr:
             counts[r[f"route_{m}"]] += 1
-        q = sum(1 for r in gr if r[f"route_{m}"] == "S1" and r.get(f"qualifier_{m}"))
-        parts = [f"{sc} {n}" + (f" ({q} qualified)" if sc == "S1" and q else "")
-                 for sc, n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
+        parts = [f"{sc} {n}" for sc, n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
         L.append(f"| {m} ({want}) | " + ", ".join(parts) + " |")
-    # the design comparisons: the registered rule against three alternatives, from the same runs
-    L += ["", f"## The same {GATE_NOISE} runs under alternative routing rules (comparisons, not the registered rule)", "",
-          "| rule | FAITHFUL routed to S1 | archetypes with a wrong scenario in more than 1 of 20 runs | criterion |",
-          "|---|---|---|---|"]
-    gr = groups.get(GATE_NOISE, [])
-    for vname in ("ruled",) + tuple(VARIANTS):
-        key = (lambda m: f"route_{m}") if vname == "ruled" else (lambda m, v=vname: f"route_{v}_{m}")
-        if not gr or key("FAITHFUL") not in gr[0]:
-            continue
-        n_s1 = sum(1 for r in gr if r[key("FAITHFUL")] == "S1")
-        bad = []
-        for m, want in EXPECT.items():
-            nw = sum(1 for r in gr if r[key(m)] not in (want, NR))
-            if nw > GATE_MAX_WRONG * len(gr) / 20.0:
-                bad.append(f"{m} {nw}")
-        ok = (not bad) and n_s1 > len(gr) / 2.0
-        L.append(f"| {VARIANT_WORDS[vname]} | {n_s1} of {len(gr)} | {'; '.join(bad) or 'none'} | "
-                 f"{'passes' if ok else 'fails'} |")
-    for vname in VARIANTS:
-        if not gr or f"route_{vname}_FAITHFUL" not in gr[0]:
-            continue
-        L += ["", f"Route counts under: {VARIANT_WORDS[vname]}", "", "| archetype (intended) | routes |", "|---|---|"]
-        for m, want in EXPECT.items():
-            counts = defaultdict(int)
-            for r in gr:
-                counts[r[f"route_{vname}_{m}"]] += 1
-            L.append(f"| {m} ({want}) | " + ", ".join(f"{sc} {n}" for sc, n in
-                                                      sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))) + " |")
     L += ["", f"## Readings left open under {GATE_NOISE} draws (share of runs in which each test is not resolved)", "",
           "| archetype | T1 | T3 | T4 | T5 |", "|---|---|---|---|---|"]
     rs = groups.get(GATE_NOISE, [])
@@ -402,14 +358,13 @@ def main():
             allowed = GATE_MAX_WRONG * len(rs) / 20.0
             if nwrong > allowed:
                 fails.append(f"{m} wrong in {nwrong} of {len(rs)} runs")
-        # the faithful archetype reaches S1, with or without the qualifier, in
-        # most runs
-        n_s1 = sum(1 for r in rs if r["route_FAITHFUL"] == "S1")
-        if not n_s1 > len(rs) / 2.0:
-            fails.append(f"FAITHFUL reaches S1 in only {n_s1} of {len(rs)} runs")
+    # the faithful archetype's S1 rate is reported, not gated (under decision tree B it reaches S1 from its classes)
+    n_s1 = sum(1 for r in rs if r["route_FAITHFUL"] == "S1")
+    n_open_s1 = sum(1 for r in rs if r["route_FAITHFUL"] == NR and "S1" in r["possible_FAITHFUL"].split(";"))
     L += ["", "## The design requirement", "",
           (f"Under {GATE_NOISE} draws at the planned human sizes, a wrong scenario appears in at most {GATE_MAX_WRONG} of "
-           "20 runs per archetype, and the faithful archetype reaches S1 (with or without the qualifier) in most runs. "
+           f"20 runs per archetype. Reported, not gated: the faithful archetype reaches S1 in {n_s1} of {len(rs)} runs "
+           f"and is not resolved with S1 still possible in {n_open_s1}. "
            + ("PASS." if rs and not fails and consistent_95 else
               ("REFUSED: " + "; ".join(fails) + "." if fails else
                ("REFUSED: the 95 percent re-reading does not reproduce the pack." if rs else

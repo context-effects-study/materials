@@ -1,15 +1,15 @@
 # Demonstration data
 
-Synthetic data in the exact formats the confirmatory study will produce, written by
-`analysis/write_demo_data.py` from the dress rehearsal's own synthetic data (`analysis/synth.py`, seed
-20260613). They contain no real responses. The effects planted in them are the rehearsal's answer key, not
-predictions.
+These files hold simulated data in the exact formats of the data that the confirmatory study will collect.
+`analysis/write_demo_data.py` writes them from the simulated data on which we ran the analysis
+(`analysis/synth.py`, seed 20260613). They contain no real responses. We built known effects into them so
+that the run can check that the analysis finds those effects, and these effects are not predictions.
 
 | File | Format | Rows |
 |---|---|---|
-| `human_long_demo.csv` | the human long table, `analysis/DATA_DICTIONARY.md` part A | 280,000 choices from 274,000 synthetic participants |
-| `model_log_demo.jsonl` | the model call log, part B (the fields the analysis reads) | 38,340 neutral-condition calls of the planted profile FAITHFUL |
+| `human_long_demo.csv` | the human data with one row per choice, `analysis/DATA_DICTIONARY.md` part A | 280,000 choices from 274,000 simulated participants |
+| `model_log_demo.jsonl` | the model call log, part B (the fields that the analysis reads) | 38,340 calls in the neutral condition of the simulated model FAITHFUL |
 
-`python analysis/analyze.py` analyzes these data (with the other fourteen planted profiles, which it
-regenerates in memory) and must end with ALL CHECKS PASS. `python analysis/write_demo_data.py` rewrites
-both files identically.
+`python analysis/analyze.py` analyzes these data, together with the other fourteen simulated models, which it
+builds again in memory, and it must end with ALL CHECKS PASS. `python analysis/write_demo_data.py` writes
+both files again, identical to these.

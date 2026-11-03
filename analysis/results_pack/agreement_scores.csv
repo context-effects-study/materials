@@ -1,6 +1,6 @@
 model,class,effects_classed,sign_agreement,mad_pp,calibration_slope,cells_scored,cells_excluded
 FAITHFUL,HIGH,5,1.0,1.05,1.005,18,0
-PARROT,PARTIAL,5,0.889,5.85,0.903,18,0
+PARROT,PARTIAL,5,0.889,6.62,0.27,18,0
 REASONER,PARTIAL,5,1.0,3.41,0.695,18,0
 OVERRIDER,ANTI,5,0.0,19.0,-0.994,18,0
 DIVIDED_A,HIGH,5,1.0,1.05,1.005,18,0

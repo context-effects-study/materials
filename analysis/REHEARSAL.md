@@ -1,51 +1,63 @@
-# What the dress rehearsal shows, and its limits
+# What the run on simulated data checks, and what it cannot show
 
-The dress rehearsal is what `python analysis/analyze.py` runs. It builds data with known answers planted in
-them (`synth.py`), runs the registered analysis on those data, and checks that the analysis recovers each
-planted answer and writes the complete results pack. It uses no real data and no network. Its table of
-checks, each marked PASS or FAIL with the value found, is written to `RESULTS_PACK_SELFTEST.md` on every run,
-and the run exits with an error unless every check passes.
+`python analysis/analyze.py` without arguments runs the pre-registered analysis on simulated data. The script
+`synth.py` writes data in which we built known answers. The analysis then runs on those data, and the run checks
+that the analysis finds each known answer and writes every results file. The run uses no real data and no
+network. On every run, the script writes its table of checks to `RESULTS_PACK_SELFTEST.md`, with each check
+marked PASS or FAIL and the value that the analysis found. The run exits with an error unless every check
+passes.
 
-## What the planted data cover
+## What the simulated data cover
 
-- **Step 0, the validity criteria.** Human effects planted to replicate (the two positive controls,
-  attraction with a frequency decoy and compromise), a planted true null (the phantom, which must fail the
-  replication criterion and fall inside the equivalence band), a planted reversed effect (which must not
-  count as replicated), and models built to fail the data-quality criterion (a refuser and a model at the
-  ceiling) beside one that passes.
-- **Step 1, the human benchmarks.** Effects recovered near their planted sizes, with cluster-robust
-  intervals and first-choice-only estimates, and a planted divergence that the first-choice check must catch
-  while raising no false alarm on the main data.
-- **Step 2, the fidelity map and classes.** Each model's effects scored against the human benchmark into
-  HIGH, OVER, PARTIAL, LOW or ANTI on the pooled estimate, with sign agreement, mean absolute deviation and a
-  calibration slope. The synthetic model log carries the registered repeated draws (10 per text prompt, 60
-  per picture prompt), and beside every model effect the pack reports the number of calls and a descriptive
-  bootstrap interval over calls. By design the model effects carry no test and no power.
-- **Step 3, the pattern tests.** A planted memorization gradient (T1), a planted recognition-probe outcome
-  (T2), a planted decline down the argument-strength ladder (T3), a planted drop from numbers to pictures
-  (T4) and a planted rise across two generations of one model family (T5), each reading resolved against
-  its interval; the format interaction tests with and without a planted attenuation; the secondary contrasts
-  and moderators; the positive control and the first-choice check.
-- **The decision tree.** Every planted model profile must be routed to the scenario it was built to show
-  (S1 to S7, the reversed-ladder readings, and the not-assessable branch), and the two worked walk-throughs
-  must reach their registered readings. How often each profile still reaches its scenario once the model
-  answers carry the sampling noise of the repeated draws is measured separately by
-  `power/model_noise_stability.py`.
-- **The rules one by one.** `test_analysis.py` checks each rule on small data in which that rule alone decides
-  the outcome, and `mutate_checks.py` breaks each rule in a copy of the code and requires a test or the
-  rehearsal to fail.
-- **The pack.** Every file is written with no missing value except the cells that are blank by definition,
-  every number the manuscript cites has its key in `numbers.json`, and at the fixed seed every data file is
-  identical from run to run (only the runtime line of `RUN_REPORT.md` changes).
+- **Step 0, the validity criteria.** In the simulated people, the two positive controls (the attraction effect
+  with a frequency decoy, and the compromise effect) are built to replicate. The phantom effect is built to be
+  zero, so it must fail the replication criterion and fall inside the equivalence band. One effect is built to
+  reverse, and it must not count as replicated. Two simulated models are built to fail the criterion for
+  readable answers: one refuses to answer, and one always chooses the same option. A third model is built to
+  pass. A second set of simulated people, in which most effects fail, must lead to the conclusion that the
+  human effects failed (S5).
+- **Step 1, the human effects.** The analysis must estimate each effect close to the size that we built into
+  the data, with intervals that treat each participant's choices as one cluster, and with estimates from first
+  choices only. The data also contain one effect that differs between first and later choices. The check of
+  first choices must detect it, and it must raise no false alarm on the other effects.
+- **Step 2, the fidelity map and the classes.** The analysis places each model effect in one of the classes
+  HIGH, OVER, PARTIAL, LOW and ANTI, by comparing its pooled estimate with the human effect. It also computes
+  the sign agreement, the mean absolute deviation and the slope of the model effects on the human effects. The
+  simulated model log has the pre-registered number of repeated calls (10 for each text prompt and 60 for each
+  picture prompt). Beside every model effect, the results files give the number of calls and a descriptive
+  bootstrap interval over calls. As pre-registered, no model effect has a significance test or a power
+  calculation.
+- **Step 3, the pattern tests.** The simulated models include five built patterns: a fall in fidelity from
+  the published values to new values (the memorization test, T1); a model that names the decoy and does not
+  follow it (the knows-it-versus-shows-it test, T2); a decline in fidelity down the argument-strength ordering
+  (T3); a fall from numbers to pictures (the format test, T4, which is only described); and a rise in fidelity
+  from the older to the newer model of one developer (the trajectory test, T5). The analysis must detect each
+  pattern against its interval. The run also checks the tests of whether the format changes an effect, with and
+  without a built-in difference, the secondary comparisons, the positive controls and the check of first
+  choices.
+- **Step 4, the conclusion for each model.** The analysis asks whether each simulated model matches people and,
+  if it does not, which failures it shows. Every simulated model must reach the conclusion that it was built to
+  reach. Together, the models cover the seven scenarios S1 to S7, a model that shows two failures at once
+  (retrieval and rational override), and a model that cannot be assessed. The three worked walk-throughs of Web
+  Appendix C must also reach their pre-registered conclusions. A separate script,
+  `power/model_noise_stability.py`, measures how often each simulated model still reaches its conclusion when
+  every model answer is a random draw.
+- **Each rule on its own.** `test_analysis.py` checks each rule on small data in which that rule alone decides the
+  outcome. `mutate_checks.py` breaks each rule in a copy of the code and requires a test or the run on simulated
+  data to fail.
+- **The results files.** Every file must be complete, with no missing value except in the cells that are blank by
+  definition. Every number that the manuscript will cite must have its key in `numbers.json`. With the fixed seed,
+  every data file must come out identical on every run; only the line with the run time in `RUN_REPORT.md`
+  changes.
 
-## Limits
+## What the run cannot show
 
-- **Synthetic data only.** The analysis of real data (`analyze.py --human ... --model ...`) runs the same
-  scoring, testing and routing code, and it has been run end to end on synthetic files written in the real
-  data formats; it has not been run on real data because none exist yet.
-- **The rehearsal proves the code does what the plan says, not that the plan is right.** The planted truths
-  are chosen to exercise every branch; they are not predictions.
-- **The cluster-robust standard error** of a two-cell contrast is computed in closed form with each
-  participant as a cluster (`statlib.cluster_robust_diff_props`). This is the standard estimator for that
-  contrast and is exact when each participant appears once per cell, which the backbone's no-repeat design
-  ensures.
+- **The data are simulated.** On real data (`analyze.py --human ... --model ...`), the analysis runs the same code
+  for scoring, testing and reaching conclusions. We ran it end to end on simulated files written in the formats of
+  the real data. We have not run it on real data, because none exist yet.
+- **The run shows that the code does what the plan says, not that the plan is right.** We chose the built answers
+  so that every branch of the analysis runs. They are not predictions.
+- **The standard error of a difference between two cells** treats each participant as a cluster, and the code
+  computes it from a formula (`statlib.cluster_robust_diff_props`). This is the standard estimator for such a
+  difference. It is exact when each participant appears at most once in each cell, and the design ensures this,
+  because no script shows a participant the same cell twice.

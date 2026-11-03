@@ -3,19 +3,20 @@
 It reads the human long table (analysis/ingest.py) and the model call log (models/run.py), whose fields are
 listed in analysis/DATA_DICTIONARY.md, and writes the results pack (part C there): the human benchmarks
 with the validity criteria of Step 0, the fidelity map and agreement scores of Step 2, the pattern tests
-T1 to T5 and the secondary contrasts of Step 3, the routing of the decision tree to the seven named
-scenarios, and every number the results section will cite (numbers.json). All statistics are in
+T1 to T5 and the secondary contrasts of Step 3, the two questions of Step 4 (does the model match people; if
+not, which failures it shows) that lead to the seven named scenarios, and every number the results section will
+cite (numbers.json). All statistics are in
 statlib.py, in plain Python.
 
 Two ways to run, one pipeline:
   python analysis/analyze.py
-      the dress rehearsal: synth.py plants known human effects and twelve model behavior profiles, each
+      the dress rehearsal: synth.py plants known human effects and fifteen model behavior profiles, each
       built to produce one named scenario or walk-through; the analysis runs on them and the run passes
       only if it recovers every planted effect and routes every profile to its scenario. Fixed seed
       20260613. Writes analysis/results_pack/ and analysis/RESULTS_PACK_SELFTEST.md.
   python analysis/analyze.py --human human_long.csv --model model_log.jsonl
       the same code on real data (used at Stage 2).
-Manuscript: Analysis Plan (Steps 0 to 3, the precedence rule, Table 3 and the two worked walk-throughs)
+Manuscript: Analysis Plan (Steps 0 to 4, Table 4 and the three worked walk-throughs)
 and Web Appendices C and E.
 """
 from __future__ import annotations
@@ -62,8 +63,6 @@ T4_PRE_ROUND5_FLAT = 0.12
 LADDER_TOP = ("FRQ", "RNG")
 LADDER_MIDDLE = "SOT"
 LADDER_BOTTOM = "MOT"
-ARGUABLE_ANCHORS = ("FRQ", "RNG", "SOT")      # the attraction and compromise rungs
-ARGUMENT_OVERRIDE = "rational override on choice sets that offer an argument"
 
 # Registered thresholds, bound from the ONE constants structure (registered_constants.py). Effects are
 # proportions inside the code and points in every output, so point-valued constants are divided by 100.
@@ -92,18 +91,42 @@ if RC.RERUN_RULE != RC.BOOTSTRAP_LEVEL:
     raise ValueError("RERUN_RULE must equal BOOTSTRAP_LEVEL: a re-run is read against the re-run's own bootstrap "
                      "interval over calls, which the pack computes at BOOTSTRAP_LEVEL")
 
-# The scenario names a reader sees; the IDs stay as data keys.
+# The scenario names a reader sees (decision tree B, 2026-11-03: S1 to S5 keep their names, S6 is a failure that no
+# account predicts and S7 a known effect reproduced); the IDs stay as data keys.
 SCENARIO_NAMES = {
     "S1": "High fidelity", "S2": "Retrieval only", "S3": "Reason construction", "S4": "Rational override",
-    "S5": "Family-specific", "S6": "Rising fidelity", "S7": "Human effects fail",
-    "S7-not-triggered": "Human effects hold (S7 not triggered)",
-    "REVERSED_LADDER_OVERRIDE": "Reversed ladder, rational override on choice sets that offer an argument",
-    "REVERSED_LADDER": "Reversed ladder, no account attributed",
-    "PARTIAL": "Partial fidelity (per-effect accounts side by side)",
-    "COMPOSITE": "Composite of the individual readings", "CRITERION_FAIL": "Not assessable (Step 0b)",
-    "NOT_RESOLVED": "Not resolved (the route depends on a pattern test the intervals leave open)",
+    "S5": "Human effects fail", "S6": "A failure that no account predicts", "S7": "A known effect reproduced",
+    "S5-not-triggered": "Human effects hold (S5 not triggered)",
+    "CRITERION_FAIL": "Not assessable (Step 0)",
+    "NOT_RESOLVED": "Not resolved (no failure signature is present and at least one is not resolved)",
 }
 NOT_RESOLVED_SCENARIO = "NOT_RESOLVED"
+# Decision tree B, step 1: does the model match people? The two conclusions of a match.
+MATCH_QUESTION = "Does the model match people?"
+MATCH_CONCLUSIONS = ("S1", "S7")
+# Step 2, for a model that does not match: the three failure signatures, listed by scenario number. There is no order
+# among them and no stop: every one is read and every present one is reported.
+SIGNATURES = (
+    ("S2", "retrieval", "the memorization test (T1)"),
+    ("S3", "reason construction", "the argument-strength test (T3)"),
+    ("S4", "rational override", "the knows-it-versus-shows-it test (T2)"),
+)
+SIGNATURE_STATES = ("present", "absent", "not resolved", "not judged")
+CATCH_ALL = "S6"
+# the joint of several present signatures in a scenario code (for example S2+S3)
+JOINT = "+"
+
+
+def scenario_name(code):
+    """The name a reader sees for a scenario code, including a joint of present signatures ('S2+S4' -> 'Retrieval
+    only and rational override')."""
+    if code in SCENARIO_NAMES:
+        return SCENARIO_NAMES[code]
+    parts = code.split(JOINT)
+    if len(parts) > 1 and all(p in SCENARIO_NAMES for p in parts):
+        names = [SCENARIO_NAMES[p] for p in parts]
+        return " and ".join([names[0]] + [n[0].lower() + n[1:] for n in names[1:]])
+    return code
 
 # Fidelity-map classes that never enter agreement scoring.
 UNINFORMATIVE = "uninformative (positive control failed)"
@@ -114,6 +137,8 @@ NON_SCORED = ("n/a", "excluded(no-room)", "excluded(criterion-exit)", "no-human-
               DESCRIPTIVE_FLOOR)
 # The classes a scored model effect can take.
 SCORED_CLASSES = ("ANTI", "HIGH", "LOW", "OVER", "PARTIAL")
+# The reading an OVER effect on the published tier or on the phantom receives (Step 2; reported, decides nothing).
+RETRIEVAL_READING = "consistent with retrieval of a described regularity"
 
 
 def _int(v, default=0):
@@ -1266,20 +1291,17 @@ def t2_override_state(per):
     return "T" if "T" in states else ("U" if "U" in states else "F")
 
 
-def test_T3_ladder(fidelity_by_struct, effect_classes=None, recog_by_struct=None, raw=None, ci=None,
-                   resolve=False):
-    """T3 with the earlier resolution. ci = dict(top_minus_bottom=(lo, hi), bottom_minus_middle=(lo, hi)
-    or None when the middle rung is absent), the 95 percent intervals of the joint bootstrap. With resolve=True:
+def test_T3_ladder(fidelity_by_struct, raw=None, ci=None, resolve=False):
+    """T3 with the interval resolution. ci = dict(top_minus_bottom=(lo, hi), bottom_minus_middle=(lo, hi) or None when
+    the middle rung is absent), the 95 percent intervals of the joint bootstrap. With resolve=True:
       declines  top minus bottom above 0.30 (the bottom rung undershooting), with its interval's lower end above
-                0.12 (the flat cutoff);
+                0.12 (the flat cutoff); the reason-construction signature (S3) of decision tree B reads this state
+                (p_declines);
       reversed  bottom above the top and the middle rung by more than 0.30 (both undershooting), with both
-                intervals' lower ends above 0.12;
+                intervals' lower ends above 0.12; described only (it is no failure signature and decides nothing);
       flat      top and bottom within 0.12, with the interval of top minus bottom inside 0.30 either way;
-      otherwise not resolved (when the intervals rule out every reading, the reading says so, is reported
-      descriptively and routes as 'neither').
-    The reversed ladder's attribution (recognition on the missed effects) is always computed from the point
-    classes and kept in private keys, so an open reversed reading can be routed with what it would attribute."""
-    res = _test_T3_point(fidelity_by_struct, effect_classes, recog_by_struct, raw)
+      otherwise not resolved."""
+    res = _test_T3_point(fidelity_by_struct, raw)
     res.update(point_reading=res["reading"], point_reversed=res["reversed"])
     if not resolve:
         res.update(p_declines=("T" if res["reading"].startswith("declines") else "F"),
@@ -1317,56 +1339,38 @@ def test_T3_ladder(fidelity_by_struct, effect_classes=None, recog_by_struct=None
             res.update(reversed=False)
         return res
     if p_declines == "F" and p_reversed == "F" and p_flat == "F":
-        # every reading set out: not resolved as the rule words it, reported descriptively, routes as 'neither'
+        # every reading set out: not resolved as the rule words it, reported descriptively; a decline is set out
         res.update(base_keys, reading=_ruled_out_all(res["reading"], "top minus bottom rung", tmb), reversed=False,
-                   resolved=False, attribution="", missed_effects="", missed_recognition="")
+                   resolved=False)
         return res
     res.update(base_keys, reading=_not_resolved(res["reading"], "top minus bottom rung"
                                                 + (" and bottom minus middle rung" if mid is not None else ""),
-                                                tmb), reversed=False, resolved=False, attribution="",
-               missed_effects="", missed_recognition="")
+                                                tmb), reversed=False, resolved=False)
     return res
 
 
-def _test_T3_point(fidelity_by_struct, effect_classes=None, recog_by_struct=None, raw=None):
+def _test_T3_point(fidelity_by_struct, raw=None):
     """T3 (supporting): does fidelity change down the argument-strength ladder? Reads the registered
     anchor rungs: attraction (FRQ, RNG) at the top, compromise (SOT) in the middle, extremity (MOT) at
-    the bottom. Since 2026-09-29 each rung is the combined group fidelity of the effect's POOLED
-    estimate (it was the tier-1 cell, where five of the seven compromise cells are descriptive).
-      declines  top minus bottom above 0.30 -> reason-construction;
-      reversed  (2026-09-29) bottom above BOTH the top and the middle rung by more than 0.30, i.e.
-                fidelity lower where the set offers a statable argument and higher where it offers
-                none -> evidence AGAINST reason-construction. Attribution by the knows-it-versus-shows-it
-                test on the effects the model misses (attraction or compromise classed LOW or ANTI):
-                recognition at or above the registered cutoff on every one of them -> rational override
-                on choice sets that offer an argument; otherwise -> a divergence with no account
-                attributed;
+    the bottom. Each rung is the combined group fidelity of the effect's POOLED estimate.
+      declines  top minus bottom above 0.30 -> reason construction (S3);
+      reversed  bottom above BOTH the top and the middle rung by more than 0.30, i.e. fidelity lower where
+                the set offers a statable argument and higher where it offers none: evidence against
+                reason construction, described only (2026-11-02: no account is attached to it);
       flat      |top minus bottom| below 0.12 -> the ladder gives the account no support;
       otherwise non-monotone or shallow -> reported descriptively, no registered reading."""
-    effect_classes = effect_classes or {}
-    recog_by_struct = recog_by_struct or {}
     high = [fidelity_by_struct[s] for s in LADDER_TOP if fidelity_by_struct.get(s) is not None]
     low = fidelity_by_struct.get(LADDER_BOTTOM)
     mid = fidelity_by_struct.get(LADDER_MIDDLE)
-    base = dict(reversed=False, attribution="", missed_effects="", missed_recognition="")
     if not high or low is None:
-        return dict(reading="insufficient rungs", high_rung=None, mid_rung="", low_rung=low, **base)
+        return dict(reading="insufficient rungs", high_rung=None, mid_rung="", low_rung=low, reversed=False)
     h = sum(high) / len(high)
     step = RC.T3_LADDER_STEP
     # the directional guard (UNDERSHOOT_NOTE): a decline needs the bottom rung to undershoot; a reversal
     # needs the top rungs (and the middle one when present) to undershoot.
     top_under = raw is None or all(_undershoots(raw, s) for s in LADDER_TOP if fidelity_by_struct.get(s) is not None)
     mid_under = raw is None or mid is None or _undershoots(raw, LADDER_MIDDLE)
-    # what a reversed reading would attribute (computed always, so an open reversed reading carries it)
-    missed = [st for st in ARGUABLE_ANCHORS if effect_classes.get(st) in ("LOW", "ANTI")]
-    rec = {st: recog_by_struct.get(st, 0.0) for st in missed}
-    recognized = bool(missed) and all(v >= RC.RECOGNITION_CUTOFF for v in rec.values())
-    rev_base = dict(reversed=True, attribution=(ARGUMENT_OVERRIDE if recognized else "no account attributed"),
-                    missed_effects=";".join(missed),
-                    missed_recognition=";".join(f"{k}={round(v, 3)}" for k, v in rec.items()))
-    rev_reading = ("reversed ladder: fidelity rises down the ladder -> evidence against reason-construction; "
-                   + ("recognized on every missed attraction or compromise effect -> " + ARGUMENT_OVERRIDE
-                      if recognized else "not recognized on the missed effects -> divergence, no account attributed"))
+    is_reversed = False
     if h - low > step and not _undershoots(raw, LADDER_BOTTOM):
         reading = "non-monotone or shallow: " + UNDERSHOOT_NOTE
     elif h - low > step:
@@ -1374,17 +1378,17 @@ def _test_T3_point(fidelity_by_struct, effect_classes=None, recog_by_struct=None
     elif (low - h > step) and (mid is None or low - mid > step) and not (top_under and mid_under):
         reading = "non-monotone or shallow: " + UNDERSHOOT_NOTE
     elif (low - h > step) and (mid is None or low - mid > step):
-        reading = rev_reading
-        base = dict(rev_base)
+        reading = ("reversed ladder: fidelity rises down the ladder -> evidence against reason-construction; "
+                   "described, no conclusion of its own")
+        is_reversed = True
     elif abs(h - low) < RC.T3_LADDER_FLAT:
         reading = "flat: pattern mimicry at depth, ladder gives the account no support"
     else:
         reading = "non-monotone or shallow: flagged, reported descriptively, no registered reading"
     return dict(reading=reading, high_rung=round(h, 3), mid_rung=(round(mid, 3) if mid is not None else ""),
-                low_rung=round(low, 3), _top_minus_bottom=h - low,
+                low_rung=round(low, 3), reversed=is_reversed, _top_minus_bottom=h - low,
                 _bottom_minus_middle=(low - mid if mid is not None else None),
-                _guard_declines=_undershoots(raw, LADDER_BOTTOM), _guard_reversed=(top_under and mid_under),
-                _reversed_reading=rev_reading, _reversed_base=rev_base, **base)
+                _guard_declines=_undershoots(raw, LADDER_BOTTOM), _guard_reversed=(top_under and mid_under))
 
 
 def test_T4_formats(fidelity_by_format, undefined=None, raw=None, diff_ci=None, resolve=False):
@@ -1463,7 +1467,8 @@ def test_T5_trajectory(fidelity_old, fidelity_new, reasoning_on=None, reasoning_
     difference (traj_ci: newer minus older; reason_ci: the lower minus the higher reasoning setting):
     rising (falling) needs the difference and the whole interval above 0.15 (below -0.15); flat needs the
     difference and the whole interval within 0.15; reasoning lowers fidelity when the difference and the whole
-    interval exceed 0.15, and has no clear effect when both lie at or below 0.15; otherwise not resolved."""
+    interval exceed 0.15, and has no clear effect when both lie at or below 0.15; otherwise not resolved.
+    Since 2026-11-02 every T5 reading is reported beside the model's conclusion and decides no scenario."""
     step = RC.T5_TRAJECTORY_STEP
     p_rising = p_falling = p_flat = "F"
     tlo = thi = rlo = rhi = None
@@ -1474,7 +1479,7 @@ def test_T5_trajectory(fidelity_old, fidelity_new, reasoning_on=None, reasoning_
     else:
         delta = fidelity_new - fidelity_old
         if delta > step:
-            point = "newer more faithful -> rising fidelity across generations (S6)"
+            point = "newer more faithful -> fidelity is higher in the newer generation; no scenario assigned"
         elif delta < -step:
             point = "newer less faithful -> fidelity is lower in the newer generation; no scenario assigned"
         else:
@@ -1717,342 +1722,182 @@ def test_T1_sensitivity(slice_cells, design, t1_primary, resolve=False):
 
 
 # ===================================================================================================
-# THE TREE ROUTER -- applies precedence and attributes accounts PER EFFECT, ending at a scenario.
+# THE ROUTER -- decision tree B (2026-11-03): Step 0, does the model match people, and if not, why not.
 # ===================================================================================================
-def effect_level_classes(scored_cells):
-    """LEGACY (per-tier cells): collapse a model's scored cells to one class per effect by majority.
-    Since 2026-09-29 the registered class per effect is computed on the effect's POOLED
-    estimate in build_pack; this helper remains for callers that hold only per-tier cells."""
-    by_struct = defaultdict(list)
-    for c in scored_cells:
-        by_struct[c["structure"]].append(c["class"])
-    out = {}
-    for st, classes in by_struct.items():
-        cls = majority_class(classes)
-        if cls != "n/a":
-            out[st] = cls
-    return out
-
-
 def overall_class(effect_classes, criterion):
-    """rule 3: a model's overall class is its most frequent class across the six non-similarity
-    effects that passed the human criterion (ties by the registered alphabetical rule)."""
+    """A model's overall class is its most frequent class across the six non-similarity effects that passed
+    the human criterion (ties to the less faithful class, CLASS_ORDER)."""
     return majority_class([effect_classes.get(st) for st in REGULARITY_EFFECTS
                            if criterion[st].get("confirmatory", criterion[st]["replicated"])
                            and effect_classes.get(st) is not None])
-
-
-def route_model(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agree,
-                family_consistent, family_rising, effect_classes=None, overall=None, t2_known_shown=False):
-    """Route one model's outcome to a decision-tree branch, ending at a named scenario or an
-    individual-reading composite. Applies the registered precedence rules:
-      (1) a steep T1 gradient overrides T3 (recitation shaped like reasoning), including a reversed
-          ladder;
-      (2) T2 recognizes-but-does-not-show overrides the magnitude (fidelity-class) readings; a reversed
-          ladder whose missed effects are all recognized is the more specific form of this override
-          and is read first.
-    effect_classes / overall: the pooled per-effect classes and the overall class; when not
-    given (legacy callers) they are derived from the per-tier cells and agree.
-    A pattern-test reading marked uninformative starts with
-    'uninformative' and so triggers no branch.
-    Returns (branch_label, scenario)."""
-    if gate_info["not_assessable"]:
-        return ("Step 0b: model loses >1/3 cells or fails parse/refusal -> not assessable", "CRITERION_FAIL")
-    dom = overall if overall is not None else agree["dominant_class"]
-    t1_steep = t1["reading"].startswith("steep")
-    t3_declines = t3["reading"].startswith("declines")
-    t3_reversed = bool(t3.get("reversed"))
-    # Reversed ladder with recognition on every missed attraction or compromise effect (2026-09-29).
-    if t3_reversed and not t1_steep and t3.get("attribution") == ARGUMENT_OVERRIDE:
-        return ("T3 reversed ladder + recognition on every missed attraction or compromise effect -> "
-                + ARGUMENT_OVERRIDE + " (evidence against reason-construction)",
-                "REVERSED_LADDER_OVERRIDE")
-    # Precedence (2): rational override (this model's own behavior takes precedence even in a family).
-    if t2_override and dom in ("LOW", "ANTI"):
-        return ("T2 recognizes-but-does-not-show overrides magnitude -> rational override", "S4")
-    # Precedence (1): steep memorization gradient sets the headline over T3.
-    if t1_steep:
-        return ("T1 steep fall from the published values to the new values (overrides T3) -> retrieval of published "
-                "results", "S2")
-    # S6 (Rising fidelity) before S1/S5: a rising family is a trajectory story.
-    if family_rising:
-        return ("rising T5 across the family generations, whatever the class of the current model", "S6")
-    # S5 (Family-specific): family-specific patterns that are not a clean generation improvement.
-    if not family_consistent:
-        return ("family-specific patterns -> per-model validation only", "S5")
-    # Reversed ladder without recognition: read before S1, because a model faithful on the argument-free
-    # effects and missing the arguable ones can carry a HIGH majority class without being faithful.
-    if t3_reversed:
-        return ("T3 reversed ladder, not recognized on the missed effects -> evidence against "
-                "reason-construction; divergence reported with no account attributed", "REVERSED_LADDER")
-    # Faithful everywhere. Under registered rule (a), S1 no longer needs a flat
-    # memorization reading, only the absence of a steep one (and of a ladder decline). 2026-10-17: no effect may read recognizes-and-shows (t2_known_shown).
-    # 2026-10-18 (fresh-reader finding M3): no effect may be classed LOW or ANTI, or S1's conclusion ("the model
-    # reproduces the human context effects we tested") would cover a model that reverses one; it is a mixed pattern.
-    eff_classes = effect_classes if effect_classes is not None else effect_level_classes(scored_cells)
-    faithful_effects = [st for st, c in eff_classes.items() if c == "HIGH"]
-    reversed_low_effects = [st for st, c in eff_classes.items() if c in ("ANTI", "LOW")]
-    if (dom == "HIGH" and not t1_steep and not t2_override and not t2_known_shown and not t3_declines
-            and not reversed_low_effects
-            and not any(str(t.get("reading", "")).startswith("uninformative") for t in (t1, t3))):
-        return ("HIGH + no LOW or ANTI effect + no steep T1 + shows-without-recognizing", "S1")
-    # S3 (Reason construction): a decline down the argument-strength ladder.
-    if t3_declines:
-        return ("T3 decline down the argument-strength ladder -> reason-construction", "S3")
-    # PARTIAL fidelity at the MODEL level: faithful on some effects, reversed or low on others.
-    if faithful_effects and reversed_low_effects:
-        return ("mixed at the effect level: faithful on some effects, reversed or low on others "
-                "-> PARTIAL fidelity (per-effect accounts side by side)", "PARTIAL")
-    if dom == "ANTI":
-        return ("ANTI class without recognition override -> systematic inversion", "S4")
-    return (f"individual-reading composite (dominant {dom})", "COMPOSITE")
-
-
-# one qualifier, covering whichever pattern tests are open
-S1_QUALIFIER = "pattern tests not resolved at the design's resolution"
 
 
 def _uninf(t, key="reading"):
     return str(t.get(key, "")).startswith("uninformative")
 
 
-def route_resolved(model, scored_cells, t1, t2_override, t3, t4, t5, gate_info, agree, family_consistent,
-                   family_has_generations, effect_classes=None, overall=None, t2_state=None, open_blocks="any",
-                   s1_point_guard=True, t2_known_shown=False):
-    """The router with interval-resolved readings (the second revision, rule 1, as amended by the authors'
-    rules (a) and (b)). It walks the registered precedence order of route_model:
-      - A route that attributes an account is STRICT: it is taken only when its own reading is
-        resolved in its favour (T). When its own reading is open (U), the route is blocked: it is not taken and no
-        later route may be taken either, except S1, which
-        only the earlier guard below withholds (and then leaves possible, with every account left open). When
-        its own reading is set out (F), the walk goes on. A resolved steep memorization reading excludes both
-        reversed ladders; an open one blocks them (the steep reading would take precedence if resolved).
-      - S1 (High fidelity) needs the HIGH overall class, the effects shown without recognition as registered, and NO resolved
-        steep memorization reading, reversed ladder
-        or ladder decline. An open reading blocks it only when that reading's estimate
-        points to an account (a steep gradient, a reversed ladder, a ladder decline, a rise across generations; round
-        4 adopted this
-        guard). When any pattern test is not resolved, S1 carries the one qualifier "pattern tests not resolved at
-        the design's resolution" and the open tests are listed.
-      - The class- and family-based routes (family-specific S5, PARTIAL, systematic inversion, COMPOSITE) read no
-        interval; they are taken unless a blocked route precedes them, in which case the model is NOT_RESOLVED
-        with the blocked scenarios and this one left possible.
-    t2_state: the model-level state of the knows-it-versus-shows-it override ('T', 'F' or 'U'; see
-    t2_override_state); None falls back to the point flag (legacy callers).
-    open_blocks and s1_point_guard: the registered rule is the default; the other values exist for the design comparisons of the stability sweep only
-    (open_blocks="favoured" lets an open account reading block later routes only when its point estimate favours the
-    route; s1_point_guard=False never withholds S1 for an open reading).
-    Returns (branch, scenario, the scenarios left possible)."""
-    if gate_info["not_assessable"]:
-        return ("Step 0b: model loses >1/3 cells or fails parse/refusal -> not assessable", "CRITERION_FAIL", ["CRITERION_FAIL"])
-    dom = overall if overall is not None else agree["dominant_class"]
-
-    def state(t, key, text_key, prefix):
-        if _uninf(t, text_key):
-            return "F"
-        if key in t:
-            return t[key]
-        return "T" if str(t.get(text_key, "")).startswith(prefix) else "F"
-
-    def favours(t, text_key, point_key, prefix):
-        if _uninf(t, text_key):
-            return False
-        return str(t.get(point_key, t.get(text_key, ""))).startswith(prefix)
-
-    s_steep = state(t1, "p_steep", "reading", "steep")
-    f_steep = favours(t1, "reading", "point_reading", "steep")
-    s_rev = state(t3, "p_reversed", "reading", "reversed")
-    if "p_reversed" not in t3 and t3.get("reversed") and not _uninf(t3):
-        s_rev = "T"
-    f_rev = (not _uninf(t3)) and bool(t3.get("point_reversed", t3.get("reversed")))
-    rev_attr = (t3.get("_reversed_base") or {}).get("attribution") or t3.get("attribution", "")
-    # reason construction (S3) rests on a resolved decline down the argument-strength ladder; the
-    # format test is descriptive and decides no scenario
-    s_decl = state(t3, "p_declines", "reading", "declines")
-    f_decl = favours(t3, "reading", "point_reading", "declines")
-    s_rise = state(t5, "p_rising", "trajectory", "newer more faithful") if family_has_generations else "F"
-    f_rise = family_has_generations and favours(t5, "trajectory", "point_trajectory", "newer more faithful")
-    s_kws = t2_state if t2_state is not None else ("T" if t2_override else "F")
-    f_kws = bool(t2_override)
-    eff_classes = effect_classes if effect_classes is not None else effect_level_classes(scored_cells)
-    faithful_effects = [st for st, c in eff_classes.items() if c == "HIGH"]
-    reversed_low_effects = [st for st, c in eff_classes.items() if c in ("ANTI", "LOW")]
-
-    # (scenario, branch, applies, strict, own state, point favours)
-    steps = [
-        ("REVERSED_LADDER_OVERRIDE",
-         "T3 reversed ladder + recognition on every missed attraction or compromise effect -> "
-         + ARGUMENT_OVERRIDE + " (evidence against reason-construction)",
-         rev_attr == ARGUMENT_OVERRIDE and s_steep != "T", True,
-         (s_rev if s_steep == "F" else ("U" if s_rev != "F" else "F")), f_rev),
-        ("S4", "T2 recognizes-but-does-not-show overrides magnitude -> rational override",
-         dom in ("LOW", "ANTI"), True, s_kws, f_kws),
-        ("S2", "T1 steep fall from the published values to the new values (overrides T3) -> retrieval of published "
-         "results", True, True, s_steep, f_steep),
-        ("S6", "rising T5 across the family generations, whatever the class of the current model", bool(family_has_generations), True,
-         s_rise, f_rise),
-        ("S5", "family-specific patterns -> per-model validation only", not family_consistent, False, "T", True),
-        ("REVERSED_LADDER", "T3 reversed ladder, not recognized on the missed effects -> evidence against "
-         "reason-construction; divergence reported with no account attributed", rev_attr != ARGUMENT_OVERRIDE, True,
-         s_rev, f_rev),
-        # S1 under rule (a); a failed positive control leaves the pattern tests uninformative and S1 is not
-        # claimed
-        ("S1", "", dom == "HIGH" and not t2_override and not t2_known_shown and s_steep != "T" and s_decl != "T"
-         and s_rev != "T" and not reversed_low_effects
-         and not (_uninf(t1) or _uninf(t3)),
-         False, "T", True),
-        ("S3", "T3 resolved decline down the argument-strength ladder -> reason-construction (the format test, T4, "
-         "reported beside it, descriptive)", True, True, s_decl, f_decl),
-        ("PARTIAL", "mixed at the effect level: faithful on some effects, reversed or low on others -> PARTIAL "
-         "fidelity (per-effect accounts side by side)", bool(faithful_effects and reversed_low_effects), False, "T",
-         True),
-        ("S4", "ANTI class without recognition override -> systematic inversion", dom == "ANTI", False, "T", True),
-        ("COMPOSITE", f"individual-reading composite (dominant {dom})", True, False, "T", True),
-    ]
-    blocked = []
-    for scen, branch, applies, strict, own, fav in steps:
-        if not applies:
-            continue
-        if scen == "S1":
-            # the earlier guard: an open reading whose estimate points to an account withholds S1; the model is
-            # NOT_RESOLVED between S1 (the open readings resolve against their accounts) and those accounts. The
-            # accounts before S1 are already in `blocked`; reason construction (S3) comes after S1 and is added here
-            # when its reading is open, on the same terms as the accounts before it (open_blocks).
-            if s1_point_guard and ((s_steep == "U" and f_steep) or (s_rev == "U" and f_rev)
-                                   or (s_decl == "U" and f_decl) or (s_rise == "U" and f_rise)):
-                s3_open = s_decl == "U" and (f_decl or open_blocks == "any")
-                return _blocked(blocked + (["S3"] if s3_open else []), "S1")
-            # otherwise S1 is never blocked by an open reading (rule (a)); it carries the one qualifier and
-            # names every pattern test that stays open
-            open_tests = [n for n, t in (("T1", t1), ("T3", t3)) if not t.get("resolved", True) and not _uninf(t)]
-            if family_has_generations and not t5.get("resolved", True) and not _uninf(t5, "trajectory"):
-                open_tests.append("T5")
-            lbl = ("HIGH + no LOW or ANTI effect + no resolved steep T1, reversed ladder or ladder decline + "
-                   "shows-without-recognizing")
-            if open_tests:
-                lbl += "; qualifier: " + S1_QUALIFIER + " (open: " + ", ".join(open_tests) + ")"
-            return lbl, "S1", ["S1"]
-        if strict:
-            if own == "T":
-                if blocked:
-                    return _blocked(blocked, scen)
-                return branch, scen, [scen]
-            if own == "U" and (fav or open_blocks == "any"):
-                blocked.append(scen)
-            continue
-        if blocked:
-            return _blocked(blocked, scen)
-        return branch, scen, [scen]
-    return _blocked(blocked, "COMPOSITE")
+_STATE_WORD = {"T": "present", "F": "absent", "U": "not resolved"}
 
 
-def _blocked(blocked, then):
-    possible = sorted(set(blocked) | {then})
-    if len(possible) == 1:
-        # every way the open reading could resolve ends at the same scenario (for example rational override or
-        # systematic inversion, both S4): the scenario stands, the account it rests on is reported as open
-        return (f"{then}: reached whichever way the open reading resolves; the account it rests on is not resolved",
-                then, possible)
-    return ("not resolved: the estimates point to " + ", ".join(dict.fromkeys(blocked)) + ", whose reading the "
-            "95 percent interval leaves open, so no later route is claimed; possible scenarios "
-            + ", ".join(possible), NOT_RESOLVED_SCENARIO, possible)
+def _signature_state(t, key, prefix):
+    """The state of one failure signature from its test: 'present' (the result resolved), 'absent' (the interval rules
+    it out, or another reading resolved), 'not resolved' (the interval leaves it open), or 'not judged' (a positive
+    control failed in people, so the test is uninformative). Without a stored state the reading text decides (a
+    reading given at the point)."""
+    if _uninf(t):
+        return "not judged"
+    if key in t:
+        return _STATE_WORD[t[key]]
+    return "present" if str(t.get("reading", "")).startswith(prefix) else "absent"
 
 
-# ===================================================================================================
-# THE PER-EFFECT ACCOUNT ATTRIBUTION (accounts attach to EFFECTS, not models).
-# ===================================================================================================
-OVERSHOOT = "overshoot (same direction, above 150 percent of the human size)"
-RETRIEVAL_READING = "consistent with retrieval of a described regularity"
-OVER_PHANTOM = "overshoot on the phantom, " + RETRIEVAL_READING
-KNOWN_EFFECT = "reproduction of a known effect (recognized and shown; deliberate or learned)"
-INVERSION = "systematic inversion (reversed without recognition; no account attributed)"
-ACCOUNT_FAMILY = {
-    "deep pattern-mimicry": "deep pattern-mimicry",
-    "rational-override": "rational override",
-    "systematic inversion (reversed without recognition; no account attributed)": "systematic inversion",
-    "reproduction of a known effect (recognized and shown; deliberate or learned)": "reproduction of a known effect",
-    "partial (direction transfers, size off)": "partial",
-    "low fidelity": "low fidelity",
-    OVERSHOOT: "overshoot",
-    OVER_PHANTOM: "retrieval of a described regularity",
-}
+def classes_match(overall, effect_classes):
+    """The class half of step 1 of decision tree B: the overall class is HIGH and no effect is classed LOW or ANTI.
+    The classes are point readings of Step 2."""
+    return overall == "HIGH" and not any(c in ("LOW", "ANTI") for c in (effect_classes or {}).values())
 
 
-def attribute_effect_accounts(model, scored_cells, recog_by_struct, criterion, no_counterpart=None,
-                              effect_classes=None, pooled=None, phantom_retrieval=False):
-    """For each effect, attribute the account implicated, per the per-effect rule: a single model can
-    fall under different accounts for different effects. Returns {struct: account}.
-
-    effect_classes / pooled: the effect's class on its pooled estimate and the
-    pooled (model_pp, human_pp); the model 'shows' the effect when its pooled effect exceeds 3 points in
-    the human direction, the T2 rule. Without them (legacy callers) the per-tier cells are used.
-
-    An effect that fails the human criterion exits fidelity scoring entirely (general rule, driven by the
-    criterion result, not by any effect name). If the model nonetheless shows an effect larger than the
-    registered minimum there, the account says so: an effect without a human counterpart."""
-    no_counterpart = no_counterpart or set()
-    out = {}
-    by_struct = defaultdict(list)
-    for c in scored_cells:
-        by_struct[c["structure"]].append(c)
-    for st in EFFECTS:
-        if not criterion[st]["replicated"]:
-            out[st] = ("human-null (exits fidelity scoring); model shows an effect without a human counterpart"
-                       if st in no_counterpart else "human-null (exits fidelity scoring)")
-            if st == "PHT" and phantom_retrieval:
-                out[st] += "; " + RETRIEVAL_READING
-            continue
-        if effect_classes is not None:
-            cls = effect_classes.get(st)
-            if cls in (UNINFORMATIVE, DESCRIPTIVE_FLOOR):
-                out[st] = cls
-                continue
-            if cls not in SCORED_CLASSES:
-                out[st] = "not scorable"
-                continue
-            mp, hp = (pooled or {}).get(st, (0.0, 1.0))
-            shows = round(mp * (1.0 if hp > 0 else -1.0), 9) > RC.ANTI_MIN_PP
-        else:
-            cs = [c for c in by_struct.get(st, []) if c["class"] not in NON_SCORED]
-            if not cs:
-                out[st] = "not scorable"
-                continue
-            cls = majority_class([c["class"] for c in cs])
-            shows = any(c["model_pp"] > 0 and c["human_pp"] > 0 for c in cs)
-        rec = recog_by_struct.get(st, 0.0)
-        if rec >= RC.RECOGNITION_CUTOFF and not shows:
-            out[st] = "rational-override"
-        elif cls == "HIGH" and rec >= RC.RECOGNITION_CUTOFF:
-            # 2026-10-17 (Table 5, T2): recognized and shown; the test cannot tell deliberate from learned reproduction
-            out[st] = KNOWN_EFFECT
-        elif cls == "HIGH":
-            out[st] = "deep pattern-mimicry"
-        elif cls == "OVER":
-            out[st] = OVER_PHANTOM if st == "PHT" else OVERSHOOT
-        elif cls == "ANTI":
-            # 2026-10-17 (Table 4): reversed without recognition; rational override rests on the first route of S4 only
-            out[st] = INVERSION
-        elif cls == "PARTIAL":
-            out[st] = "partial (direction transfers, size off)"
-        else:
-            out[st] = "low fidelity"
+def pointing_signatures(states, t1, t3, t2_override=False):
+    """The failure signatures that are not resolved but whose estimate passes the cutoff, so that the test points to
+    the failure: T1 an estimated steep fall (the
+    point reading, above 0.30 with the undershoot guard), T3 an estimated decline (the point reading, above 0.30), and
+    rational override a model that knows the manipulation, by its point estimate, on an effect it does not show
+    (t2_override). A signature that is not judged (a failed positive control) is not interpreted and points nowhere."""
+    point = lambda t: str(t.get("point_reading", t.get("reading", "")))  # noqa: E731
+    out = []
+    if states["S2"] == "not resolved" and point(t1).startswith("steep"):
+        out.append("S2")
+    if states["S3"] == "not resolved" and point(t3).startswith("declines"):
+        out.append("S3")
+    if states["S4"] == "not resolved" and t2_override:
+        out.append("S4")
     return out
 
 
-def model_level_account(accounts, criterion):
-    """The registered model-level account rule (2026-09-29): an account is claimed for the MODEL only
-    when the per-effect readings agree on at least four of the six non-similarity effects that passed
-    the human criterion; otherwise accounts are reported per effect only.
-    Returns (account or 'per-effect only', n_agreeing, n_eligible)."""
-    eligible = [st for st in REGULARITY_EFFECTS if criterion[st].get("confirmatory", criterion[st]["replicated"])
-                and accounts.get(st) in ACCOUNT_FAMILY]
-    counts = Counter(ACCOUNT_FAMILY[accounts[st]] for st in eligible)
-    if not counts:
-        return "per-effect only", 0, len(eligible)
-    best = max(sorted(counts), key=lambda k: counts[k])
-    if counts[best] >= RC.MODEL_ACCOUNT_MIN_AGREE:
-        return best, counts[best], len(eligible)
-    return "per-effect only", counts[best], len(eligible)
+def matches_people(overall, effect_classes, states, pointing):
+    """Step 1 of decision tree B: the model matches people when its classes match (classes_match), none of the three
+    failure signatures is present, and no test points to a failure. A signature that is
+    not resolved, with its estimate short of the cutoff, or not judged, does not block a match."""
+    present = any(s == "present" for s in states.values())
+    return classes_match(overall, effect_classes) and not present and not pointing
+
+
+def signature_states(t1, t2_state, t3, t2_override=False):
+    """Step 2 of decision tree B, for a model that does not match people: the state of each failure signature,
+    {scenario: 'present' | 'absent' | 'not resolved' | 'not judged'}, read with no order among them.
+      S2, retrieval: a resolved steep fall from the published to the new values (T1, p_steep);
+      S3, reason construction: a resolved decline down the argument-strength ordering (T3, p_declines);
+      S4, rational override: a resolved knows-without-shows on at least one effect (t2_state; with no state given,
+          the point flag t2_override). The positive controls leave T2 readable on the other effects."""
+    s4 = t2_state if t2_state is not None else ("T" if t2_override else "F")
+    return {"S2": _signature_state(t1, "p_steep", "steep"), "S3": _signature_state(t3, "p_declines", "declines"),
+            "S4": _STATE_WORD[s4]}
+
+
+def signatures_text(states):
+    """The signature states as written in tree_routing.csv: 'S2=present;S3=absent;S4=not resolved'."""
+    return ";".join(f"{code}={states[code]}" for code, _, _ in SIGNATURES)
+
+
+def route_model(t1, t2_state, t3, overall, effect_classes, t2_override=False, t2_known_shown=False,
+                not_assessable=False, human_effects_fail=False):
+    """Route one model through decision tree B. Step 0 first: four or more of the six effects other than similarity
+    failing in people gives S5 for every model (the comparison is only described); a model that is not assessable
+    stops there (CRITERION_FAIL). Then every failure signature is read (signature_states), with the ones a test points to
+    (pointing_signatures), and:
+      1. Does the model match people?
+         If so, S1 when it names the decoy on no effect, and S7 when it names the decoy on at least one effect
+.
+      2. If not, why not? The conclusion is every present signature, joined with '+' in the order S2, S3, S4; with none
+         present it is S6 when every signature is absent, and NOT_RESOLVED otherwise. The list returned beside a
+         conclusion of present signatures holds them and then every signature still possible (not resolved or not
+         judged); beside NOT_RESOLVED it holds the signatures still possible and then S6, or, for a model whose classes
+         match and that only a pointing test blocked, the match it would reach (S1 or S7) in place of S6.
+    Returns (branch, scenario, the scenarios that the conclusion holds or that are still possible)."""
+    if human_effects_fail:
+        return ("Step 0: four or more of the six effects other than similarity fail in people; the model "
+                "comparison is only described", "S5", ["S5"])
+    if not_assessable:
+        return ("Step 0: model loses >1/3 cells or fails parse/refusal -> not assessable", "CRITERION_FAIL",
+                ["CRITERION_FAIL"])
+    states = signature_states(t1, t2_state, t3, t2_override)
+    pointing = pointing_signatures(states, t1, t3, t2_override)
+    named = "S7" if (t2_override or t2_known_shown) else "S1"
+    if matches_people(overall, effect_classes, states, pointing):
+        if named == "S7":
+            return ("matches people (overall class HIGH, no effect LOW or ANTI, no test shows or points to a failure) "
+                    "and names the decoy on at least one effect -> S7, a known effect reproduced", "S7", ["S7"])
+        return ("matches people (overall class HIGH, no effect LOW or ANTI, no test shows or points to a failure) and "
+                "shows every effect without naming the decoy -> S1", "S1", ["S1"])
+    names = {code: name for code, name, _ in SIGNATURES}
+    low_anti = sorted(st for st, c in (effect_classes or {}).items() if c in ("LOW", "ANTI"))
+    classes_ok = classes_match(overall, effect_classes)
+    blocked = (("; a failure is present" if any(v == "present" for v in states.values()) else "")
+               + (f"; a test points to {', '.join(names[c] for c in pointing)}" if pointing else ""))
+    why_not = (f"does not match people (overall class {overall}"
+               + (f"; LOW or ANTI: {', '.join(low_anti)}" if low_anti else "")
+               + (blocked if classes_ok else "")
+               + "); failure signatures: " + ", ".join(f"{name} {states[code]}" for code, name, _ in SIGNATURES))
+    present = [code for code, _, _ in SIGNATURES if states[code] == "present"]
+    still = [code for code, _, _ in SIGNATURES if states[code] in ("not resolved", "not judged")]
+    if present:
+        scen = JOINT.join(present)
+        return (f"{why_not} -> {scen}" + (f"; still possible beside it: {', '.join(still)}" if still else ""),
+                scen, present + still)
+    if not still:
+        return (f"{why_not} -> S6, a failure that no account predicts", CATCH_ALL, [CATCH_ALL])
+    possible = still + [named if classes_ok else CATCH_ALL]
+    return (f"{why_not} -> not resolved; still possible: " + ", ".join(possible), NOT_RESOLVED_SCENARIO, possible)
+
+
+def route_outcome(want, got, possible):
+    """How a route compares with the scenario a simulated model was built to reach (the rehearsal's noise table and
+    the routing-stability study): 'intended' (the same), 'not_resolved' (NOT_RESOLVED with every planted signature
+    still possible), 'partly_resolved' (some planted signatures present, the others still possible, nothing else
+    present), 'not_resolved_excluded' or 'wrong'. Neither
+    of the two open outcomes claims a signature that was not planted."""
+    if got == want:
+        return "intended"
+    planted = set(want.split(JOINT))
+    possible = set(possible or ())
+    if got == NOT_RESOLVED_SCENARIO:
+        return "not_resolved" if planted <= possible else "not_resolved_excluded"
+    claimed = set(got.split(JOINT))
+    if claimed < planted and planted <= possible:
+        return "partly_resolved"
+    return "wrong"
+
+
+def over_readings(st, cls, passed, model_effect, published_tier_class):
+    """The retrieval readings reported beside an effect's class (Step 2; they decide nothing): an OVER effect on the
+    phantom against a replicated human phantom, a model phantom larger than 3 points (in the phantom's predicted
+    direction) where the human phantom failed the criterion, and an OVER class on the published tier.
+    model_effect is the pooled model effect (a proportion); published_tier_class the effect's tier-1 class."""
+    notes = []
+    if passed and st == "PHT" and cls == "OVER":
+        notes.append("OVER on the phantom: " + RETRIEVAL_READING)
+    if st == "PHT" and not passed and _pts(model_effect) > RC.ANTI_MIN_PP:
+        notes.append("phantom larger than 3 points where the human phantom failed: " + RETRIEVAL_READING)
+    if passed and published_tier_class == "OVER":
+        notes.append("OVER on the published tier: " + RETRIEVAL_READING)
+    return notes
+
+
+def per_effect_report(criterion, effect_classes, t2_per, no_counterpart=None):
+    """What is reported for each effect beside a model's conclusion (no account is attached): its fidelity class
+    (or why it has none) and whether the model named the decoy when asked (the knows-it reading at the point; the
+    phantom is not asked). Returns ({effect: class text}, {effect: 'yes', 'no' or 'not asked'})."""
+    no_counterpart = no_counterpart or set()
+    classes, named = {}, {}
+    for st in EFFECTS:
+        if not criterion[st]["replicated"]:
+            classes[st] = ("fails in people, and the model shows an effect without a human counterpart"
+                           if st in no_counterpart else "fails in people")
+        else:
+            classes[st] = effect_classes.get(st) or "not classed"
+        d = (t2_per or {}).get(st)
+        named[st] = ("not asked" if d is None else ("yes" if d.get("knows") else "no"))
+    return classes, named
 
 
 # ===================================================================================================
@@ -2338,7 +2183,6 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
     # effects that replicate but fall under the 8-point floor after a first-trial fallback
     floor_effects = {st for st in EFFECTS if criterion[st]["replicated"] and not criterion[st]["confirmatory"]}
     numbers["human.first_trial.below_floor_effects"] = ";".join(sorted(floor_effects))
-    phantom_retrieval = set()     # models whose phantom reads as retrieval
     numbers["human.positive_controls.frq_premium.delta_pp"] = round(pc["frq_premium"]["delta_pp"], 2)
     numbers["human.positive_controls.frq_premium.holds"] = pc["frq_premium"]["holds"]
     numbers["human.positive_controls.sot.holds"] = pc["sot"]["holds"]
@@ -2727,18 +2571,7 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
             pooled_m[st] = meff
             pdeltas, psens = paraphrase_signs(recs, st, (1, 2, 3), "numbers", "neutral", design,
                                               drop_for(st) | nr, "backbone", None, weights=human_weights(h))
-            notes = []
-            # the phantom's retrieval reading: OVER against a replicated human phantom, or a
-            # model phantom larger than 3 points (in the phantom's predicted direction) where the human phantom
-            # effect failed the criterion.
-            if passed and st == "PHT" and cls == "OVER":
-                notes.append("OVER on the phantom: " + RETRIEVAL_READING)
-            if st == "PHT" and not passed and _pts(meff) > RC.ANTI_MIN_PP:
-                notes.append("phantom larger than 3 points where the human phantom failed: " + RETRIEVAL_READING)
-                phantom_retrieval.add(model)
-            if passed and tier_class.get((st, 1)) == "OVER":
-                notes.append("OVER on the published tier: " + RETRIEVAL_READING)
-            over_reading = "; ".join(notes)
+            over_reading = "; ".join(over_readings(st, cls, passed, meff, tier_class.get((st, 1))))
             psens_out = "n/a" if psens is None else psens
             effect_class_rows.append(dict(
                 model=model, effect=st, human_gate=("passed" if passed else "failed"),
@@ -2950,13 +2783,12 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
         t3_ci = dict(top_minus_bottom=rep_interval(t3_tmb_reps),
                      bottom_minus_middle=(rep_interval(t3_bmm_reps)
                                           if fidelity_by_struct.get(LADDER_MIDDLE) is not None else None))
-        t3 = test_T3_ladder(fidelity_by_struct, eff_cls, recog_by_struct, raw_by_struct, ci=t3_ci, resolve=True)
+        t3 = test_T3_ladder(fidelity_by_struct, raw_by_struct, ci=t3_ci, resolve=True)
         if failed_controls:
             t3 = dict(t3, reading=_mark_uninformative(t3["reading"], failed_controls), reversed=False,
-                      attribution="", p_declines="F", p_reversed="F", p_flat="F", resolved=True)
+                      p_declines="F", p_reversed="F", p_flat="F", resolved=True)
         test_T3_rows.append(dict(model=model, **t3))
         numbers[f"model.{model}.T3.reading"] = t3["reading"]
-        numbers[f"model.{model}.T3.attribution"] = t3["attribution"]
 
         # ---- T4: formats, group fidelity on the per-format pooled estimates (tier 2, same categories);
         #      a format whose human effect is under 2 points has no registered reading ----
@@ -3225,16 +3057,10 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
             numbers[f"model.{m}.T5.trajectory"] = t5["trajectory"]
             numbers[f"model.{m}.T5.reasoning_reading"] = t5["reasoning_reading"]
 
-    # ---- family consistency (Step 4) and routing ----
-    family_consistent = {}
-    family_has_generations = {}
+    # ---- Step 4: decision tree B, with the trajectory test and the family's classes reported beside it ----
+    family_classes = {}
     for fam, members in members_by_family.items():
-        doms = set(model_results[m]["overall"] for m in members)
-        family_consistent[fam] = (len(doms) <= 1)
-        gens = {generation_of[m]: m for m in members}
-        # the rising-fidelity branch reads the family's T5 trajectory (every member of a family with an older and
-        # a newer member carries the same generation comparison); route_resolved reads it from each model's row.
-        family_has_generations[fam] = "old" in gens and "new" in gens
+        family_classes[fam] = {m: model_results[m]["overall"] for m in members}
 
     pc_text = ("held" if not failed_controls
                else "failed: " + ", ".join({"FRQ": "frequency decoy (premium target)",
@@ -3242,51 +3068,62 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
     for model, res in model_results.items():
         fam = family_of[model]
         t5_for = next((r for r in test_T5_rows if r["model"] == model), {"trajectory": "n/a"})
-        # rule 1: the three-valued router (an open reading supports no scenario)
-        branch, scenario, possible = route_resolved(
-            model, res["scored_cells"], res["t1"], res["t2_override"], res["t3"], res["t4"],
-            t5_for, res["ginfo"], res["agree"],
-            family_consistent.get(fam, True), family_has_generations.get(fam, False),
-            effect_classes=res["eff_cls"], overall=res["overall"], t2_state=res["t2_state"],
-            t2_known_shown=res["t2_known_shown"])
-        accounts = attribute_effect_accounts(model, res["scored_cells"], res["recog_by_struct"], criterion,
-                                             res["no_counterpart"], effect_classes=res["eff_cls"],
-                                             pooled=res["pooled"], phantom_retrieval=(model in phantom_retrieval))
-        mla, n_agree, n_elig = model_level_account(accounts, criterion)
-        if res["ginfo"]["not_assessable"]:
-            mla = "none (model not assessable)"   # no account is claimed for a model that fails Step 0b
+        branch, scenario, possible = route_model(
+            res["t1"], res["t2_state"], res["t3"], res["overall"], res["eff_cls"], t2_override=res["t2_override"],
+            t2_known_shown=res["t2_known_shown"], not_assessable=res["ginfo"]["not_assessable"],
+            human_effects_fail=most_failed)
+        cls_by_effect, named = per_effect_report(criterion, res["eff_cls"], res.get("t2_per"), res["no_counterpart"])
+        # the failure signatures (read for every assessable model, since a present one blocks a match) and what step 1
+        # of the tree answered
+        if scenario in ("S5", "CRITERION_FAIL"):
+            match_text = "not asked (Step 0)"
+            sig_text = "not read (Step 0)"
+            point_text = "not read (Step 0)"
+        else:
+            states = signature_states(res["t1"], res["t2_state"], res["t3"], res["t2_override"])
+            sig_text = signatures_text(states)
+            match_text = "yes" if scenario in MATCH_CONCLUSIONS else "no"      # read from the route, never recomputed
+            point_text = ";".join(pointing_signatures(states, res["t1"], res["t3"], res["t2_override"])) or "none"
+        fc = family_classes.get(fam, {model: res["overall"]})
+        consistent = ("one model" if len(fc) == 1 else ("yes" if len(set(fc.values())) == 1 else "no"))
         over_notes = [f"{r['effect']}: {r['over_reading']}" for r in effect_class_rows
                       if r["model"] == model and r["over_reading"]]
         routing_rows.append(dict(model=model, family=fam, branch=branch, scenario=scenario,
-                                 model_level_account=(mla if res["ginfo"]["not_assessable"]
-                                                      else f"{mla} ({n_agree} of {n_elig} eligible effects agree)"),
-                                 per_effect_accounts=";".join(f"{k}={v}" for k, v in sorted(accounts.items())),
-                                 over_readings=" | ".join(over_notes), positive_controls=pc_text,
-                                 possible_scenarios=";".join(possible),
-                                 qualifier=(S1_QUALIFIER if "; qualifier: " in branch else ""),
-                                 open_pattern_tests=(branch.split("(open: ", 1)[1].rstrip(")").replace(", ", ";")
-                                                     if "; qualifier: " in branch else "")))
-        numbers[f"model.{model}.scenario_qualifier"] = (
-            routing_rows[-1]["qualifier"] + (" (open: " + routing_rows[-1]["open_pattern_tests"].replace(";", ", ")
-                                             + ")" if routing_rows[-1]["open_pattern_tests"] else ""))
+                                 possible_scenarios=";".join(possible), matches_people=match_text,
+                                 signatures=sig_text, pointing=point_text,
+                                 effect_classes=";".join(f"{st}={cls_by_effect[st]}" for st in EFFECTS),
+                                 named_decoy=";".join(f"{st}={named[st]}" for st in EFFECTS),
+                                 trajectory=t5_for.get("trajectory", "n/a"),
+                                 reasoning=t5_for.get("reasoning_reading", ""),
+                                 family_consistent=consistent,
+                                 family_classes=";".join(f"{m}={c}" for m, c in sorted(fc.items())),
+                                 over_readings=" | ".join(over_notes), positive_controls=pc_text))
         numbers[f"model.{model}.scenario"] = scenario
         numbers[f"model.{model}.branch"] = branch
-        numbers[f"model.{model}.model_level_account"] = mla
-        for st, acc in accounts.items():
-            numbers[f"model.{model}.account.{st}"] = acc
+        numbers[f"model.{model}.possible_scenarios"] = ";".join(possible)
+        numbers[f"model.{model}.matches_people"] = match_text
+        numbers[f"model.{model}.signatures"] = sig_text
+        numbers[f"model.{model}.pointing"] = point_text
+        numbers[f"model.{model}.family_consistent"] = consistent
+        for st in EFFECTS:
+            numbers[f"model.{model}.named_decoy.{st}"] = named[st]
 
-    # ---- S7 human-side scenario (four or more of the six non-similarity effects fail) ----
-    s7_triggered = most_failed
+    # ---- S5, human effects fail: four or more of the six non-similarity effects fail (Step 0). The models are
+    #      routed to S5 above when the main human data fail; the rehearsal also checks a separate failing sample ----
+    s5_triggered = most_failed
     if surprise_human_rows is not None:
-        sgate7, _, _, scontrols, smost = human_gate(surprise_human_rows, design, drop_confirm)
-        s7_triggered = smost
+        sgate5, _, _, scontrols, smost = human_gate(surprise_human_rows, design, drop_confirm)
+        s5_triggered = smost
         routing_rows.append(dict(model="(human data)", family="-",
-                                 branch="Step 0a: four or more of the six non-similarity effects fail the human criterion",
-                                 scenario="S7" if s7_triggered else "S7-not-triggered",
-                                 model_level_account="-",
-                                 per_effect_accounts=";".join(f"{st}={'fail' if not sgate7[st]['replicated'] else 'replicate'}" for st in EFFECTS)))
-        numbers["human.surprise.scenario"] = "S7" if s7_triggered else "S7-not-triggered"
-        numbers["human.surprise.n_failed"] = sum(1 for st in REGULARITY_EFFECTS if not sgate7[st]["replicated"])
+                                 branch="Step 0: four or more of the six effects other than similarity fail in people",
+                                 scenario="S5" if s5_triggered else "S5-not-triggered", possible_scenarios="-",
+                                 matches_people="-", signatures="-", pointing="-",
+                                 effect_classes=";".join(f"{st}={'fails in people' if not sgate5[st]['replicated'] else 'replicates'}"
+                                                         for st in EFFECTS),
+                                 named_decoy="-", trajectory="-", reasoning="-", family_consistent="-",
+                                 family_classes="-", over_readings="-", positive_controls="-"))
+        numbers["human.surprise.scenario"] = "S5" if s5_triggered else "S5-not-triggered"
+        numbers["human.surprise.n_failed"] = sum(1 for st in REGULARITY_EFFECTS if not sgate5[st]["replicated"])
 
     # =========================== WRITE THE PACK ===========================
     _write_csv(os.path.join(PACK, "human_benchmarks.csv"),
@@ -3340,8 +3177,8 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
                 "behavior_lo_pp", "behavior_hi_pp", "knows", "shows", "reading", "knows_state", "shows_state",
                 "override_state"], test_T2_rows)
     _write_csv(os.path.join(TESTS_DIR, "T3_ladder.csv"),
-               ["model", "high_rung", "mid_rung", "low_rung", "tmb_lo", "tmb_hi", "bmm_lo", "bmm_hi", "reading",
-                "attribution", "missed_effects", "missed_recognition"], test_T3_rows)
+               ["model", "high_rung", "mid_rung", "low_rung", "tmb_lo", "tmb_hi", "bmm_lo", "bmm_hi", "reading"],
+               test_T3_rows)
     _write_csv(os.path.join(TESTS_DIR, "T4_formats.csv"),
                ["model", "numbers", "words", "pictures", "undefined", "diff_lo", "diff_hi", "reading",
                 "numbers_picture_order", "reading_picture_order"], test_T4_rows)
@@ -3407,11 +3244,12 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
     _write_csv(os.path.join(PACK, "secondary_contrasts.csv"),
                ["contrast", "frequency_pp", "range_pp", "contrast_pp", "reading"], secondary_rows)
     for r in routing_rows:
-        r["scenario_name"] = SCENARIO_NAMES.get(r["scenario"], r["scenario"])
+        r["scenario_name"] = scenario_name(r["scenario"])
     _write_csv(os.path.join(PACK, "tree_routing.csv"),
-               ["model", "family", "branch", "scenario", "scenario_name", "model_level_account",
-                "per_effect_accounts", "over_readings", "positive_controls", "possible_scenarios", "qualifier",
-                "open_pattern_tests"],
+               ["model", "family", "branch", "scenario", "scenario_name", "possible_scenarios", "matches_people",
+                "signatures", "pointing", "effect_classes",
+                "named_decoy", "trajectory", "reasoning", "family_consistent", "family_classes", "over_readings",
+                "positive_controls"],
                routing_rows)
 
     numbers["design.source"] = design.source
@@ -3443,7 +3281,7 @@ def build_pack(human_rows, models, human_rows_with_formats=None, human_rows_firs
                 fidelity_rows=fidelity_rows, agreement_rows=agreement_rows, routing_rows=routing_rows,
                 model_gate_rows=model_gate_rows, test_T1_rows=test_T1_rows, test_T2_rows=test_T2_rows,
                 test_T3_rows=test_T3_rows, test_T4_rows=test_T4_rows, test_T5_rows=test_T5_rows,
-                bench_rows=bench_rows, model_results=model_results, s7_triggered=s7_triggered,
+                bench_rows=bench_rows, model_results=model_results, s5_triggered=s5_triggered,
                 asym_rows=asym_rows, divergence_rows=divergence_rows,
                 rng_minus_frq_pp=rng_minus_frq_pp, first_trial=ft, phantom=peq, format_tests=fmt_tests,
                 fmt_model_rows=fmt_model_rows, no_counterpart_rows=no_counterpart_rows,
@@ -3487,7 +3325,7 @@ def _write_run_report(seed, runtime, mode, human_rows, models, criterion, model_
                      f"{round(criterion[st]['holm_p'], 4)} | {round(criterion[st]['bf10'], 2)} |")
     lines += ["", "## Scenario routing", "", "| model | scenario | name |", "|---|---|---|"]
     for r in routing_rows:
-        lines.append(f"| {r['model']} | {r['scenario']} | {SCENARIO_NAMES.get(r['scenario'], r['scenario'])} |")
+        lines.append(f"| {r['model']} | {r['scenario']} | {scenario_name(r['scenario'])} |")
     open(os.path.join(PACK, "RUN_REPORT.md"), "w", encoding="utf-8", newline="\n").write("\n".join(lines) + "\n")
 
 
@@ -3566,9 +3404,11 @@ def run_rehearsal(consistency="default"):
         "human.FRQ.pooled.delta_pp", "human.FRQ.criterion.replicated", "human.PHT.within_band",
         "human.first_trial.fallback_triggered", "model.FAITHFUL.dominant_class",
         "model.FAITHFUL.scenario", "model.OVERRIDER.scenario", "model.PARROT.scenario",
-        "model.REASONER.T4.reading", "model.WALK2_MIXED.account.SOT",
+        "model.REASONER.T4.reading", "model.WALK2_MIXED.named_decoy.SOT",
         "human.PHT.equivalence.ci90_lo_pp", "human.format_interaction.FRQ.pictures.significant",
-        "model.FAITHFUL.model_level_account", "model.PARROT.no_human_counterpart",
+        "model.FAITHFUL.family_consistent", "model.PARROT.no_human_counterpart",
+        "model.FAITHFUL.possible_scenarios", "model.CONVERGE_NEW.T5.trajectory",
+        "model.FAITHFUL.matches_people", "model.PARROT.signatures",
     ]
     have = all(k in res["numbers"] for k in need_keys)
     checks.append(("numbers.json carries every key the manuscript references", have,
@@ -3608,21 +3448,14 @@ def run_rehearsal(consistency="default"):
                    mg["CEILING"]["not_assessable"] is True and mg["CEILING"]["n_no_room_cells"] > 0, ""))
     checks.append(("model criterion: FAITHFUL -> assessable", mg["FAITHFUL"]["not_assessable"] is False, ""))
 
-    expect = {
-        "FAITHFUL": "S1", "PARROT": "S2", "REASONER": "S3", "OVERRIDER": "S4",
-        "CONVERGE_OLD": "S6", "CONVERGE_NEW": "S6", "WALK1_PARROT": "S2",
-        "R4_ARGUABLE_OVERRIDE": "REVERSED_LADDER_OVERRIDE", "R4_ARGUABLE_NORECOG": "REVERSED_LADDER",
-        "OVERSHOOT_T1": "COMPOSITE",
-    }
-    # a route stands only when the intervals settle every reading it depends on. At the
-    # rehearsal's human sizes the memorization and format intervals of FAITHFUL, REASONER, CONVERGE_OLD,
-    # WALK2_MIXED and the two reversed-ladder archetypes reach a cutoff their route depends on (for the reversed
-    # ladders, the steep cutoff that the precedence rule would put ahead of the ladder), so those archetypes may
-    # route to NOT_RESOLVED; they pass only if their planted scenario is among the ones left possible (never a
-    # wrong scenario). Every other archetype must route exactly as planted. The rates over many seeds are the
-    # stability sweep's (power/model_noise_stability.py).
-    # Rule (a): FAITHFUL must reach S1, with the qualifier when its memorization reading is open.
-    may_stay_open = {"REASONER", "CONVERGE_OLD", "WALK2_MIXED", "R4_ARGUABLE_OVERRIDE", "R4_ARGUABLE_NORECOG"}
+    # Decision tree B (2026-11-03): every planted archetype must land exactly where synth.py says it is built to
+    # land (MODEL_ARCHETYPES[...]["scenario"], a joint such as S2+S4 when several signatures are planted); the two
+    # not-assessable archetypes stop at Step 0 (checked below).
+    # An archetype listed in may_stay_open may instead be not resolved with its planted scenario still possible
+    # (never a wrong scenario); at the rehearsal's sizes none needs it. The rates over many seeds at the planned
+    # sizes are the stability sweep's (power/model_noise_stability.py).
+    expect = {m: a["scenario"] for m, a in synth.MODEL_ARCHETYPES.items() if not a["scenario"].startswith("GATE_")}
+    may_stay_open = set()
 
     def routed_as_planted(r, want, model):
         if r is None:
@@ -3637,14 +3470,22 @@ def run_rehearsal(consistency="default"):
                                                  if model in may_stay_open else ""))
         checks.append((lbl, routed_as_planted(r, want, model),
                        (f"{r['scenario']} (possible: {r['possible_scenarios']})" if r else "missing")))
-    divided = [r for r in res["routing_rows"] if r["model"] in ("DIVIDED_A", "DIVIDED_B")]
-    checks.append(("routing: DIVIDED family -> S5 (family-specific)",
-                   any(r["scenario"] == "S5" for r in divided),
-                   ",".join(r["scenario"] for r in divided)))
-    s7 = next((r for r in res["routing_rows"] if r["model"] == "(human data)"), None)
-    checks.append(("routing: human data with most effects failing -> S7 (Human effects fail)",
-                   s7 is not None and s7["scenario"] == "S7",
-                   s7["scenario"] if s7 else "missing"))
+    # beside each model: whether the models of its family share an overall class, and the trajectory test
+    div = [find_route(m) for m in ("DIVIDED_A", "DIVIDED_B")]
+    conv = [find_route(m) for m in ("CONVERGE_OLD", "CONVERGE_NEW")]
+    checks.append(("beside each model: the DIVIDED family's classes differ (HIGH and ANTI) and are reported, and decide "
+                   "nothing (S1 and S6)",
+                   all(r is not None and r["family_consistent"] == "no" and "DIVIDED_A=HIGH" in r["family_classes"]
+                       and "DIVIDED_B=ANTI" in r["family_classes"] for r in div),
+                   "; ".join(f"{r['model']}: {r['family_consistent']} ({r['family_classes']})" for r in div if r)))
+    checks.append(("beside each model: the CONVERGE family's rising trajectory (T5) is reported for both members and "
+                   "decides nothing (S6 and S7)",
+                   all(r is not None and r["trajectory"].startswith("newer more faithful") for r in conv),
+                   "; ".join(f"{r['model']}: {r['trajectory'][:40]}" for r in conv if r)))
+    s5 = next((r for r in res["routing_rows"] if r["model"] == "(human data)"), None)
+    checks.append(("routing: human data with most effects failing -> S5 (Human effects fail)",
+                   s5 is not None and s5["scenario"] == "S5",
+                   s5["scenario"] if s5 else "missing"))
     for model in ("CEILING", "REFUSER"):
         r = find_route(model)
         checks.append((f"routing: {model} -> CRITERION_FAIL", r is not None and r["scenario"] == "CRITERION_FAIL",
@@ -3653,11 +3494,13 @@ def run_rehearsal(consistency="default"):
     w1 = find_route("WALK1_PARROT")
     checks.append(("walk-through 1 (match classic / diverge novel) -> S2 via T1", w1 and w1["scenario"] == "S2", w1["scenario"] if w1 else "missing"))
     w2 = find_route("WALK2_MIXED")
-    w2_ok = w2 and ("FRQ=deep pattern-mimicry" in w2["per_effect_accounts"]) and ("SOT=rational-override" in w2["per_effect_accounts"])
-    checks.append(("walk-through 2 (faithful FRQ, reversed SOT) -> per-effect accounts side by side", bool(w2_ok),
-                   w2["per_effect_accounts"] if w2 else "missing"))
+    w2_ok = (w2 and "FRQ=HIGH" in w2["effect_classes"] and "SOT=ANTI" in w2["effect_classes"]
+             and "FRQ=no" in w2["named_decoy"] and "SOT=yes" in w2["named_decoy"])
+    checks.append(("walk-through 2 (faithful FRQ, reversed SOT) -> each effect's class and whether the model named the "
+                   "decoy, side by side", bool(w2_ok),
+                   (w2["effect_classes"] + " | " + w2["named_decoy"]) if w2 else "missing"))
 
-    frq_t1 = res["numbers"].get("human.FRQ.t1.numbers.delta_pp", 0)
+    frq_t1 =res["numbers"].get("human.FRQ.t1.numbers.delta_pp", 0)
     checks.append(("human FRQ tier-1 effect recovered near planted +10pp", abs(frq_t1 - 10.0) <= 3.0, f"{frq_t1}pp"))
     sim_pooled = res["numbers"].get("human.SIM.pooled.delta_pp", 0)
     # pooled over 7 published slices at tier 1, 7 at tier 2, and 3 invented slices at tier 3.
@@ -3667,10 +3510,28 @@ def run_rehearsal(consistency="default"):
                    abs(sim_pooled - sim_planted) <= 2.0, f"{sim_pooled}pp vs planted ~{round(sim_planted, 2)}pp"))
 
     # ==================== FIVE FIXES (2026-06-13): each ends in a rehearsal check ====================
-    checks.append(("FIX1 walk-through 2 routes to PARTIAL (registered verdict, not HIGH/COMPOSITE), or is not resolved "
-                   "with PARTIAL still possible",
-                   routed_as_planted(w2, "PARTIAL", "WALK2_MIXED"),
-                   (f"{w2['scenario']} (possible: {w2['possible_scenarios']})" if w2 else "missing")))
+    checks.append(("FIX1 walk-through 2 routes to S4: its ANTI compromise effect means it does not match people, and it "
+                   "names the compromise decoy without following it (rational override present; retrieval and reason "
+                   "construction absent)",
+                   routed_as_planted(w2, "S4", "WALK2_MIXED") and w2["matches_people"] == "no"
+                   and "S4=present" in w2["signatures"] and "S2=absent" in w2["signatures"]
+                   and "S3=absent" in w2["signatures"],
+                   (f"{w2['scenario']} ({w2['signatures']})" if w2 else "missing")))
+    # several signatures at once, and a match with the decoy named (decision tree B)
+    par = find_route("PARROT")
+    checks.append(("tree B: PARROT does not match people and shows two failure signatures at once, retrieval and "
+                   "rational override (S2+S4), both reported",
+                   par is not None and par["scenario"] == "S2+S4" and par["matches_people"] == "no"
+                   and par["possible_scenarios"] == "S2;S4"
+                   and par["scenario_name"] == "Retrieval only and rational override",
+                   (f"{par['scenario']} ({par['signatures']})" if par else "missing")))
+    cnew = find_route("CONVERGE_NEW")
+    checks.append(("tree B: CONVERGE_NEW matches people (no failure present) and names the decoy on effects it shows "
+                   "-> S7, a known effect reproduced",
+                   cnew is not None and cnew["scenario"] == "S7" and cnew["matches_people"] == "yes"
+                   and "=present" not in cnew["signatures"]
+                   and "FRQ=yes" in cnew["named_decoy"],
+                   (f"{cnew['scenario']} ({cnew['named_decoy']})" if cnew else "missing")))
     pht_cells = [r for r in res["fidelity_rows"] if r["structure"] == "PHT"]
     pht_none_scored = all(r["class"] in ("excluded(criterion-exit)", "no-human-counterpart") for r in pht_cells)
     checks.append(("FIX2a phantom (criterion-failed) cells exit scoring: none score as a fidelity class",
@@ -3684,9 +3545,9 @@ def run_rehearsal(consistency="default"):
     _INDEX_CACHE.clear()   # the cache also holds the released list
     second_fails = (not g2["PHT"]["replicated"]) and (not g2["SIM"]["replicated"])
     others_hold = all(g2[st]["replicated"] for st in ("FRQ", "RNG", "SOT", "SYM", "MOT"))
-    accounts2 = attribute_effect_accounts("FAITHFUL", [], {}, g2)
+    classes2, _ = per_effect_report(g2, {}, {})
     faithful_sim = model_effect(models["FAITHFUL"], "SIM", 1, "numbers", design)[0]
-    both_exit = (accounts2["PHT"].startswith("human-null") and accounts2["SIM"].startswith("human-null")
+    both_exit = (classes2["PHT"].startswith("fails in people") and classes2["SIM"].startswith("fails in people")
                  and gate_exit_class(faithful_sim) == "no-human-counterpart")
     checks.append(("FIX2b criterion-driven exit is general: a SECOND criterion-failed effect (SIM) also exits",
                    second_fails and others_hold and both_exit,
@@ -3789,19 +3650,24 @@ def run_rehearsal(consistency="default"):
     # D10: the reversed ladder.
     r4o = next(r for r in res["test_T3_rows"] if r["model"] == "R4_ARGUABLE_OVERRIDE")
     r4n = next(r for r in res["test_T3_rows"] if r["model"] == "R4_ARGUABLE_NORECOG")
-    checks.append(("D10 Reviewer 4's pattern WITH recognition -> reversed ladder, rational override on choice sets that offer an argument",
-                   r4o["reversed"] and r4o["attribution"] == ARGUMENT_OVERRIDE,
-                   f"{r4o['reading'][:60]} missed={r4o['missed_effects']} rec={r4o['missed_recognition']}"))
-    checks.append(("D10 Reviewer 4's pattern WITHOUT recognition -> reversed ladder, no account attributed",
-                   r4n["reversed"] and r4n["attribution"] == "no account attributed",
-                   f"missed={r4n['missed_effects']} rec={r4n['missed_recognition']}"))
+    r4o_route, r4n_route = find_route("R4_ARGUABLE_OVERRIDE"), find_route("R4_ARGUABLE_NORECOG")
+    checks.append(("D10 walk-through 3 WITH recognition: fidelity rises down the ordering (described by T3), the model "
+                   "does not match people, and it names the decoy where it misses the effect -> rational override, S4",
+                   r4o["reversed"] and r4o_route is not None and r4o_route["scenario"] == "S4"
+                   and "S3=absent" in r4o_route["signatures"],
+                   f"{r4o['reading'][:60]}; {r4o_route['scenario'] if r4o_route else 'missing'}"))
+    checks.append(("D10 walk-through 3 WITHOUT recognition: the same reversed ordering, every failure signature absent "
+                   "-> S6",
+                   r4n["reversed"] and r4n_route is not None and r4n_route["scenario"] == "S6"
+                   and r4n_route["signatures"] == "S2=absent;S3=absent;S4=absent",
+                   f"{r4n['reading'][:60]}; {r4n_route['scenario'] if r4n_route else 'missing'}"))
     # R1: an effect without a human counterpart.
     par_nc = [r for r in res["no_counterpart_rows"] if r["model"] == "PARROT" and r["effect"] == "PHT"]
     anti_on_failed = [r for r in res["fidelity_rows"] if not g[r["structure"]]["replicated"] and r["class"] == "ANTI"]
     checks.append(("R1 PARROT's published-tier phantom (humans null) is listed as an effect without a human counterpart; no ANTI on a failed effect",
                    len(par_nc) >= 1 and not anti_on_failed,
                    f"{[(r['tier'], r['model_pp']) for r in par_nc]}"))
-    # R2: S7 needs four of the six non-similarity effects.
+    # R2: S5 needs four of the six non-similarity effects.
     H4 = synth.gen_human(N_HUMAN, random.Random(seed + 304), icc=0.10, null_effects={"RNG", "SYM", "MOT"})
     _, _, _, _, m4 = human_gate(H4, design)
     H4 = None
@@ -3810,15 +3676,16 @@ def run_rehearsal(consistency="default"):
     g3, _, _, _, m3 = human_gate(H3, design)
     H3 = None
     _INDEX_CACHE.clear()   # the cache also holds the released list
-    checks.append(("R2 S7 needs four of the six non-similarity effects: 4 fail -> S7; 3 fail (+ similarity) -> not S7",
+    checks.append(("R2 S5 needs four of the six non-similarity effects: 4 fail -> S5; 3 fail (+ similarity) -> not S5",
                    m4 is True and m3 is False and not g3["SIM"]["replicated"], f"4-fail->{m4}, 3-fail+SIM->{m3}"))
-    # R3: the model-level account rule.
-    fa = find_route("FAITHFUL"); re_ = find_route("REASONER"); ov = find_route("OVERRIDER")
-    checks.append(("R3 model-level account: FAITHFUL claims deep pattern-mimicry, OVERRIDER rational override, REASONER per-effect only",
-                   fa["model_level_account"].startswith("deep pattern-mimicry")
-                   and ov["model_level_account"].startswith("rational override")
-                   and re_["model_level_account"].startswith("per-effect only"),
-                   f"FAITHFUL: {fa['model_level_account']}; REASONER: {re_['model_level_account']}"))
+    # R3 (decision tree B): no account is attached to an effect; each model's row reports every effect's
+    # class and whether the model named the decoy.
+    rows_m = [r for r in res["routing_rows"] if not r["model"].startswith("(")]
+    checks.append(("R3 no account is attached: every model's row reports each effect's class and whether it named the "
+                   "decoy, and the routing file has no account column",
+                   all(len(r["effect_classes"].split(";")) == len(EFFECTS) and len(r["named_decoy"].split(";")) == len(EFFECTS)
+                       for r in rows_m) and not any("account" in k for k in rows_m[0]),
+                   f"{rows_m[0]['model']}: {rows_m[0]['effect_classes'][:80]}"))
 
     # one rehearsal case per rule ====================
     # rule 1: a reversal of 3 points or less is LOW, a larger one ANTI.
@@ -3914,13 +3781,15 @@ def run_rehearsal(consistency="default"):
     ends_ok = all(t1_rows[m]["drop_lo"] != "" and t3_rows[m]["tmb_lo"] != ""
                   for m in t1_rows if not mg[m]["not_assessable"])
     fa_route = find_route("FAITHFUL")
-    checks.append(("R3-a FAITHFUL reaches S1 without a resolved flat memorization reading, qualified 'pattern tests not "
-                   "resolved at the design's resolution' whenever a pattern test is open, the open tests listed",
-                   fa_route is not None and fa_route["scenario"] == "S1"
-                   and ((fa_route["qualifier"] == S1_QUALIFIER) == bool(fa_route["open_pattern_tests"]))
-                   and (("T1" in fa_route["open_pattern_tests"].split(";")) == (not t1_faith["resolved"])),
-                   f"{fa_route['scenario'] if fa_route else 'missing'}; qualifier: "
-                   f"{fa_route['qualifier'] if fa_route else ''}; T1 resolved: {t1_faith['resolved']}"))
+    t3_faith = t3_rows.get("FAITHFUL", {})
+    checks.append(("R3-a FAITHFUL reaches S1: it matches people (overall class HIGH, no effect LOW or ANTI, no test shows "
+                   "or points to a failure) and names the decoy on no effect",
+                   fa_route is not None and fa_route["scenario"] == "S1" and fa_route["matches_people"] == "yes"
+                   and "=present" not in fa_route["signatures"] and fa_route["pointing"] == "none"
+                   and t1_faith["p_steep"] != "T"
+                   and t3_faith.get("p_declines") != "T",
+                   f"{fa_route['scenario'] if fa_route else 'missing'}; T1 {t1_faith['reading'][:50]}; "
+                   f"T3 {str(t3_faith.get('reading', ''))[:50]}"))
     checks.append(("R2-1 every T1 and T3 reading is resolved against an interval of the joint bootstrap; the human side "
                    "varies (FAITHFUL's deterministic prompts still give a T1 interval of positive width around its point)",
                    widths_ok and ends_ok,
@@ -3928,8 +3797,7 @@ def run_rehearsal(consistency="default"):
                    f"routes {', '.join(r['model'] + '=' + r['scenario'] for r in res['routing_rows'] if r['scenario'] == NOT_RESOLVED_SCENARIO)}"))
 
     # ============ THE RULED SAMPLING NOISE: reported as a finding, not a pass condition ============
-    want_all = dict(expect, DIVIDED_A="S5", DIVIDED_B="S5", WALK2_MIXED="PARTIAL", CEILING="CRITERION_FAIL",
-                    REFUSER="CRITERION_FAIL")
+    want_all = dict(expect, CEILING="CRITERION_FAIL", REFUSER="CRITERION_FAIL")
     noise_table = []
     models = None
     if consistency == "exact":
@@ -3954,9 +3822,12 @@ def run_rehearsal(consistency="default"):
             nmodels = None       # release before the next noise level (memory only)
             _INDEX_CACHE.clear()   # the cache also holds the released list
             routes = {r["model"]: r["scenario"] for r in nres["routing_rows"]}
+            poss_n = {r["model"]: r["possible_scenarios"].split(";") for r in nres["routing_rows"]}
             t1n = {r["model"]: r["reading"].split(":")[0] for r in nres["test_T1_rows"]}
             for model, want in want_all.items():
-                noise_table.append((label, model, want, routes.get(model, "missing"), t1n.get(model, "")))
+                got = routes.get(model, "missing")
+                noise_table.append((label, model, want, got, t1n.get(model, ""),
+                                    route_outcome(want, got, poss_n.get(model))))
 
     runtime = time.time() - t0
     _print_and_write_selftest(checks, res, runtime, seed, noise_table)
@@ -3978,16 +3849,14 @@ def _scan_missing(pack_dir):
                                                   "adjusted_slope", "adjusted_drop", "adjusted_drop_lo",
                                                   "adjusted_drop_hi", "baseline_coef", "target_coef",
                                                   "covariates_omitted"},
-        "tests/T3_ladder.csv": {"mid_rung", "high_rung", "low_rung", "attribution", "missed_effects",
-                                "missed_recognition", "tmb_lo", "tmb_hi", "bmm_lo", "bmm_hi"},
+        "tests/T3_ladder.csv": {"mid_rung", "high_rung", "low_rung", "tmb_lo", "tmb_hi", "bmm_lo", "bmm_hi"},
         "tests/T4_formats.csv": {"words", "numbers", "pictures", "undefined", "numbers_picture_order", "diff_lo",
                                  "diff_hi"},
         "tests/T5_trajectory.csv": {"delta", "reasoning_reading", "traj_lo", "traj_hi", "reason_lo", "reason_hi"},
         "tests/T2_recognition.csv": {"recognition_lo", "recognition_hi", "behavior_lo_pp", "behavior_hi_pp"},
         "tests/similarity_topup_check.csv": {"backbone_pp", "topup_pp", "diff_pp", "diff_se_pp", "z", "p"},
         "effect_classes.csv": {"over_reading", "paraphrase_pp", "descriptive_class"},
-        "tree_routing.csv": {"over_readings", "positive_controls", "possible_scenarios", "qualifier",
-                             "open_pattern_tests"},
+        "tree_routing.csv": {"over_readings", "positive_controls", "reasoning"},
         "descriptive_slices.csv": {"ci_lo_pp", "ci_hi_pp", "boot_lo_pp", "boot_hi_pp", "n", "baseline_target_pct"},
         "price_free_arm.csv": {"ci_lo_pp", "ci_hi_pp", "boot_lo_pp", "boot_hi_pp"},
     }
@@ -4012,8 +3881,8 @@ def _print_and_write_selftest(checks, res, runtime, seed, noise_table=None):
         "# Full dress rehearsal (analyze.py on synthetic data)",
         "",
         "(synth.py plants known human effects",
-        "and a model archetype for every named scenario S1-S7, the two worked walk-throughs, and Reviewer 4's",
-        "reversed-ladder pattern; this rehearsal runs the REAL pipeline and asserts the complete contract-C pack",
+        "and a model archetype for every named scenario S1-S7 of decision tree B and the three worked walk-throughs",
+        "of Web Appendix C; this rehearsal runs the REAL pipeline and asserts the complete contract-C pack",
         "renders and routes every planted branch, plus one planted case per repaired defect. The Stage 2 run executes the",
         "SAME code on real contract-A/B exports.)",
         "",
@@ -4029,20 +3898,23 @@ def _print_and_write_selftest(checks, res, runtime, seed, noise_table=None):
     lines += ["", f"## OVERALL: {'ALL CHECKS PASS' if allok else 'FAILURE'}", "",
               "Scenario routing: " + ", ".join(f"{r['model']}={r['scenario']}" for r in res["routing_rows"]) + "."]
     if noise_table:
-        n_ok = sum(1 for _, _, want, got, _ in noise_table if got == want)
-        n_open = sum(1 for _, _, want, got, _ in noise_table if got == NOT_RESOLVED_SCENARIO)
-        n_wrong = len(noise_table) - n_ok - n_open
+        n_ok = sum(1 for row in noise_table if row[5] == "intended")
+        n_open = sum(1 for row in noise_table if row[5] in ("not_resolved", "not_resolved_excluded"))
+        n_part = sum(1 for row in noise_table if row[5] == "partly_resolved")
+        n_wrong = len(noise_table) - n_ok - n_open - n_part
         lines += ["", "## The same archetypes under the ruled sampling noise (REPORTED, not a pass condition)", "",
                   "The pass/fail table above runs the registered call plan (orders x paraphrases x 10 draws, 60 for "
                   "pictures) with every prompt deterministic and the cell shares exactly as planted. Below, the same "
                   "seed re-routes every archetype with the ruled binomial draws. A route that is not resolved is the "
                   "design's precision, not a code defect; power/MODEL_NOISE_STABILITY.md gives the rates over "
                   f"many seeds. Here: {n_ok} of {len(noise_table)} routed as planted, {n_open} not resolved, "
+                  f"{n_part} partly resolved (a planted signature present, the other planted ones still possible), "
                   f"{n_wrong} to another scenario.", "",
                   "| model noise | archetype | planted | routed | T1 reading |", "|---|---|---|---|---|"]
-        for label, model, want, got, t1r in noise_table:
-            flag = ("" if got == want else (" (open)" if got == NOT_RESOLVED_SCENARIO else " (another scenario)"))
-            lines.append(f"| {label} | {model} | {want} | {got}{flag} | {t1r} |")
+        flags = {"intended": "", "not_resolved": " (open)", "not_resolved_excluded": " (open)",
+                 "partly_resolved": " (partly resolved)", "wrong": " (another scenario)"}
+        for label, model, want, got, t1r, how in noise_table:
+            lines.append(f"| {label} | {model} | {want} | {got}{flags[how]} | {t1r} |")
     text = "\n".join(lines) + "\n"
     open(os.path.join(HERE, "RESULTS_PACK_SELFTEST.md"), "w", encoding="utf-8", newline="\n").write(text)
     print(text)

@@ -1,8 +1,11 @@
 """build_stimulus_figures.py: draws the Web Appendix B stimulus figures and builds the offline stimulus explorer.
 
-1. figures/stimulus_figures/: every choice set of every product category, drawn as the survey page shows it,
-   with each option's role named in words (6.5 inches wide, at most 9 inches tall, no text under 6 point,
-   480 dpi).
+1. figures/stimulus_figures/: Figure WA-B1, one survey page (the backpacks frequency-decoy set at tier 2) with
+   each option's role named under its card, and Figures WA-B2 to WA-B4, the picture of the frequency-decoy
+   set of each of the three pictures categories at the full text width, so its own text prints at 6 point or
+   more (6.5 inches wide, at most 9 inches tall, IBM Plex Sans from the font files in figures/fonts/, no figure
+   text under 6.5 point, 480 dpi). The values of every choice set are in the tables that
+   stimuli/gen_appendix_table.py writes.
 2. stimulus-explorer.html: one self-contained page with all 165 stimuli, filters, the participant's view,
    each option's role, and the exact text a model receives. It opens offline in any browser.
 
@@ -10,8 +13,9 @@ Nothing is typed twice: option cards come from the survey generators' own functi
 runner's own prompt builder (models/run.py), and the pictures from the registered PNG files through the
 runner's hash check. The survey joins a value and its description with an em dash; the figures and the
 explorer print a spaced hyphen instead. The script stops when a printed value, word, name or description
-differs from stimuli.json, when a role label or the design geometry behind it does not hold, when text
-overflows its box or is under 6 point, when a figure is taller than 9 inches, when a choice set is missing,
+differs from stimuli.json, when a role label, its colour or the design geometry behind it does not hold, when
+figure text overflows its box, is under 6.5 point or is set in another face, when a figure is taller than 9
+inches, when a picture differs from the registered file, when a pictures set or a choice set is missing,
 or when the explorer, opened offline in a browser with the network blocked, makes a network request or shows
 model text that differs from the runner's. Screenshots of the explorer and a list of the figures go to
 reproduction/stimulus_figures/.
@@ -59,7 +63,6 @@ except Exception:
 # print geometry: the page is laid out at 624 CSS px = 6.5 in, so 1 px = 0.75 pt
 FIG_W_PX = 624
 FIG_MAX_H_PX = 864          # 9 in
-MIN_FONT_PX = 8.0           # 6 pt
 DPR = 5                     # 3120 px wide = 480 dpi
 DPI = round(FIG_W_PX * DPR / 6.5)
 PIC_W_PX = 600              # picture width on the page; its smallest text must stay at or above 6 pt
@@ -556,316 +559,159 @@ def picture_payload(dset):
 
 
 # ---------------------------------------------------------------------------------------------------
-# the print figures
+# the print figures (2026-11-02): four figures; the values of every choice set are in the tables
 # ---------------------------------------------------------------------------------------------------
+# The values of every choice set are in the stimulus tables of Web Appendix B (gen_appendix_table.py), and the
+# figures show only what a table cannot. Figure WA-B1 is one survey page (the backpacks frequency-decoy set at tier
+# 2), with each option's role named under its card; Figures WA-B2 to WA-B4 are the registered picture of the
+# frequency-decoy set of each pictures category at the full text width, so the picture's own text is readable (the
+# two-option and compromise pictures have the same layout). Style: IBM Plex Sans read from the font files in fonts/,
+# one colour per role (target blue, competitor grey, added option ochre), nothing under 6.5 pt, few words.
+FONTS = os.path.join(HERE, "fonts")
+FIG_MIN_PX = 6.5 / 0.75                 # 6.5 pt, the smallest type of the figure style
+PIC_PRINT_W = 620                       # the picture is printed 620 px (6.46 in) wide, its 1 px border included
+PIC_MIN_PT = 6.0                        # the smallest text inside a printed picture
+PICTURE_SET = "FRQ"                     # the set shown for each pictures category
+INK, INK2, RULE = "#1d1d1f", "#5b5f66", "#dedede"
+ROLE_COLOUR = {"target": "#2441c3", "competitor": "#aeb4c0", "added": "#c27910"}
+SURVEY_SET = ("backpacks", 2, "FRQ")    # the set of Figure WA-B1
+
 FIG_CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#fff}
-body{font-family:Arial,Helvetica,sans-serif;color:#1c1c1c}
-.fig{width:624px;padding:3px 3px 3px}
-.fhead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #1c1c1c;padding-bottom:2px}
-.fcat{font-size:12px;font-weight:bold}
-.fmeta{font-size:9px}
-.stem{font-size:9px;line-height:1.3;margin-top:3px}
-.stem .lbl{font-weight:bold}
-.key{font-size:8px;line-height:1.3;color:#333;margin:2px 0 5px}
-.row{display:flex;gap:9px;margin-bottom:6px}
-.row>.panel,.row>.info{flex:1 1 0;min-width:0}
-.panel{border:1px solid #8c8c8c;border-radius:4px;padding:3px 6px 5px}
-.ptitle{font-size:10px;font-weight:bold;line-height:1.25}
-.ptitle .code{font-weight:normal;color:#444}
-.pmeasure{font-size:8px;line-height:1.25;color:#333;margin-bottom:1px}
-.opt{position:relative;margin-top:8px}
-.tab{position:absolute;left:6px;top:-5px;z-index:1;font-size:8px;line-height:8px;font-weight:bold;text-transform:uppercase;letter-spacing:.02em;padding:0 3px;border:1px solid #1c1c1c;border-radius:2px;background:#fff;color:#1c1c1c;white-space:nowrap}
-.tab.target{background:#1c1c1c;color:#fff}
-.tab.added{background:#dcdcdc;border-color:#6a6a6a}
-.card{border:1px solid #bfc6cd;border-radius:5px;background:#fff;padding:5px 6px 2px}
-.cfx-attr{font-size:9px;line-height:1.2}
-.card.un{border-style:dashed;background:#f1f2f3}
-.card.un .cfx-attr{color:#5e5e5e}
-.cfx-badge{display:inline-block;font-size:8px;line-height:10px;color:#6e3d00;background:#ffe3bd;border-radius:2px;padding:0 3px;margin:1px 0 1px}
-.xhead{display:flex;gap:5px;margin:3px 0 0}
-.xhead div{font-size:8px;font-weight:bold;line-height:1.2}
-.xrow{display:flex;gap:5px;align-items:center}
-.xlab{width:62px;flex:none;font-size:8px;font-weight:bold;text-transform:uppercase;line-height:1.2}
-.xexc{width:98px;flex:none}
-.xsep{width:1px;align-self:stretch;background:#8c8c8c;flex:none}
-.xmot{flex:1 1 0;display:flex;gap:4px;min-width:0}
-.xmot>.opt,.xexc>.opt{flex:1 1 0;min-width:0;margin-top:3px}
-.xrow .card{padding:3px 5px 2px}
-.xh1{width:62px;flex:none}.xh2{width:98px;flex:none}.xh3{width:1px;flex:none}.xh4{flex:1 1 0}
-.info{border:1px dashed #8c8c8c;border-radius:4px;padding:5px 7px;font-size:8.5px;line-height:1.35;color:#222}
-.info b{font-size:9px}
-.sect{font-size:10px;font-weight:bold;margin:2px 0 3px;padding-top:2px;border-top:1px solid #8c8c8c}
-.picblock{border:1px solid #8c8c8c;border-radius:4px;padding:3px 6px 5px;margin-bottom:6px}
-img.pic{display:block;width:600px;margin:3px auto 0;border:1px solid #d5d9dd;border-radius:4px}
-.btnrow{display:flex;gap:8px;margin-top:1px}
-.btnrow>.opt{flex:1 1 0;min-width:0}
-.behind{font-size:8px;color:#333;line-height:1.25;margin-top:2px}
-.mx{margin-bottom:6px;border-bottom:1px solid #8c8c8c}
-.mxhead,.mxrow{display:flex;gap:5px}
-.mxhead{padding-bottom:1px}
-.mxhead .mxc{font-size:8px;font-weight:bold;text-transform:uppercase;letter-spacing:.03em;color:#333;padding-left:1px}
-.mxrow{border-top:1px solid #8c8c8c;padding:2px 0 4px}
-.mxl{width:104px;flex:none;padding:1px 2px 0 0}
-.mx.wide .mxl{width:150px}
-.mxc{flex:1 1 0;min-width:0}
-.mxl .ptitle{font-size:9px;line-height:1.2}
-.mxl .pmeasure{margin-top:1px}
-.mxrow .opt{margin-top:6px}
-.mxempty{margin-top:6px;border:1px dotted #b8b8b8;border-radius:5px;height:calc(100% - 6px);min-height:18px;display:flex;align-items:center;justify-content:center}
-.mxempty span{font-size:8px;color:#555}
-.pfblock{margin-bottom:4px}
-.pfhead{font-size:10px;font-weight:bold;line-height:1.2;margin-top:3px}
-.pfblock .stem{font-size:8.5px;margin:1px 0 3px}
-.note2{font-size:8px;line-height:1.3;color:#333;margin:-2px 0 6px}
-"""
+body{font-family:'Plex',sans-serif;color:%(ink)s}
+.fig{width:624px;padding:4px 2px 2px}
+.page{border:1px solid %(rule)s;border-radius:6px;padding:12px 14px 14px}
+.q{font-size:10px;line-height:1.4;margin-bottom:10px}
+.cards{display:flex;gap:10px;align-items:stretch}
+.opt{flex:1 1 0;min-width:0;display:flex}
+.card{flex:1 1 auto;border:1px solid #c9ced6;border-radius:6px;padding:7px 8px 8px}
+.cfx-attr{font-size:10px;line-height:1.35}
+.cfx-attr+.cfx-attr{margin-top:3px}
+.cfx-attr b{font-weight:600}
+.roles{display:flex;gap:10px;padding:0 15px;margin-top:7px}
+.role{flex:1 1 0;min-width:0}
+.bar{height:3px;border-radius:1.5px}
+.lab{font-size:10px;font-weight:600;line-height:1.3;margin-top:3px}
+.pp{width:%(picw)spx}
+img.pic{display:block;width:%(picw)spx;border:1px solid %(rule)s;border-radius:3px}
+""" % dict(ink=INK, rule=RULE, picw=PIC_PRINT_W)
+
+
+def font_css():
+    """The three IBM Plex Sans faces, embedded from the font files so the figure draws the same on any machine."""
+    faces = []
+    for weight, name in ((400, "Regular"), (500, "Medium"), (600, "SemiBold")):
+        path = os.path.join(FONTS, f"IBMPlexSans-{name}.ttf")
+        if not os.path.isfile(path):
+            refuse(f"font file missing: {path}")
+        b64 = base64.b64encode(open(path, "rb").read()).decode("ascii")
+        faces.append(f"@font-face{{font-family:'Plex';src:url(data:font/ttf;base64,{b64}) format('truetype');"
+                     f"font-weight:{weight};font-style:normal}}")
+    return "".join(faces)
 
 
 def esc(s):
     return html.escape(s, quote=True)
 
 
-def card_block(dset, opt, idx, focal, with_tab=True, short=False):
-    label, kind = role_of(dset, opt, focal, short)
-    un = not opt.get("available", True)
-    body = survey_card_html(dset, opt, idx)
-    badge = "<span class='cfx-badge'>currently unavailable</span>" if un else ""
-    tab = f"<div class='tab {kind}'>{esc(label)}</div>" if with_tab else ""
-    behind = f"<div class='behind'>{esc(behind_text(dset, opt))}</div>" if dset["fmt"] == "pictures" else ""
-    return (f"<div class='opt' data-code='{esc(opt['code'])}' data-idx='{idx}'>{tab}"
-            f"<div class='card{' un' if un else ''}'>{body}{badge}</div>{behind}</div>")
+def page(body):
+    return (f"<!doctype html><html><head><meta charset='utf-8'><style>{font_css()}{FIG_CSS}</style></head><body>"
+            f"<div class='fig'>{body}</div></body></html>")
 
 
-def panel_html(dset, focal, suffix=""):
-    name, code = panel_name(dset, focal)
-    cards = "".join(card_block(dset, o, i, focal) for i, o in enumerate(dset["options"]))
-    return (f"<section class='panel' data-set='{esc(dset['key'])}'><div class='ptitle'>{esc(name)}{esc(suffix)} "
-            f"<span class='code'>({code})</span></div><div class='pmeasure'>{esc(measure_text(dset))}</div>"
-            f"{cards}</section>")
-
-
-def extremity_html(exc, mot, focal):
-    rows = []
-    for tier in ("High", "Middle", "Low"):
-        eo = [(i, o) for i, o in enumerate(exc["options"]) if o["tier"] == tier]
-        mo = [(i, o) for i, o in enumerate(mot["options"]) if o["tier"] == tier]
-        if len(eo) != 1 or len(mo) != 4:
-            refuse(f"{mot['key']}: tier {tier} holds {len(eo)} control and {len(mo)} menu options")
-        rows.append(
-            f"<div class='xrow' data-tier='{tier}'><div class='xlab'>{esc(TIER_WORDS[tier])}</div>"
-            f"<div class='xexc' data-set='{esc(exc['key'])}'>{card_block(exc, eo[0][1], eo[0][0], focal, False)}</div>"
-            f"<div class='xsep'></div><div class='xmot' data-set='{esc(mot['key'])}'>"
-            + "".join(card_block(mot, o, i, focal, False) for i, o in mo) + "</div></div>")
-    return ("<section class='panel xpanel'><div class='ptitle'>Extremity menu and its control "
-            "<span class='code'>(MOT, EXC)</span></div>"
-            f"<div class='pmeasure'>{esc(measure_text(mot))}</div>"
-            "<div class='xhead'><div class='xh1'></div><div class='xh2'>Control (EXC)</div>"
-            "<div class='xh3'></div><div class='xh4'>Menu (MOT): four options per tier, identical within a tier</div></div>"
-            + "".join(rows) + "</section>")
-
-
-def picture_html(dset, focal):
-    pic = picture_payload(dset)
-    name, code = panel_name(dset, focal)
-    btns = "".join(card_block(dset, o, i, focal) for i, o in enumerate(dset["options"]))
-    return (f"<section class='picblock' data-set='{esc(dset['key'])}'><div class='ptitle'>{esc(name)}, pictures "
-            f"<span class='code'>({code})</span></div><div class='pmeasure'>{esc(measure_text(dset))}</div>"
-            f"<img class='pic' alt='' src='data:image/png;base64,{pic['b64']}'>"
-            f"<div class='btnrow'>{btns}</div></section>")
-
-
-def page(head_left, head_right, stem, key_line, body):
-    stem_html = f"<div class='stem'><span class='lbl'>Question above every set:</span> \u201c{esc(stem)}\u201d</div>" if stem else ""
-    return (f"<!doctype html><html><head><meta charset='utf-8'><style>{FIG_CSS}</style></head><body>"
-            f"<div class='fig'><div class='fhead'><span class='fcat'>{esc(head_left)}</span>"
-            f"<span class='fmeta'>{esc(head_right)}</span></div>{stem_html}"
-            f"<div class='key'>{esc(key_line)}</div>{body}</div></body></html>")
-
-
-KEY_NUMBERS = ("Tabs above the cards name each option's role for readers; participants saw the cards alone, "
-               "in a random order.")
-KEY_PICTURES = ("Tabs name each option's role for readers. The picture and its answer buttons are the survey "
-                "page's; every participant saw this fixed order.")
-
-
-def one_stem(sets):
-    stems = {d["stim"]["stem"] for d in sets}
-    if len(stems) != 1:
-        refuse(f"sets on one figure carry {len(stems)} different questions")
-    return stems.pop()
-
-
-def find(sets, cat, tier, S, fmt="numbers", placement=None):
+def find(sets, cat, tier, S, fmt="numbers"):
     hits = [d for d in sets if d["cat"]["id"] == cat and d["stim"]["memorization_tier"] == tier
-            and d["stim"]["structure"] == S and d["fmt"] == fmt and (placement is None or d["placement"] == placement)]
+            and d["stim"]["structure"] == S and d["fmt"] == fmt]
     if len(hits) != 1:
-        refuse(f"expected one set for {cat} tier {tier} {S} {fmt} {placement}, found {len(hits)}")
+        refuse(f"expected one set for {cat} tier {tier} {S} {fmt}, found {len(hits)}")
     return hits[0]
 
 
-def matrix_html(rows, focal, suffix=""):
-    """One row per choice set; the two original options always in the first two columns and the added
-    option in the third, so a reader sees what each structure adds by reading down one column."""
-    cid = rows[0]["cat"]["id"]
-    fw = focal[cid]
-    if CATS[cid]["price_free"]:
-        heads = [f"Option with the {fw['HF']}", f"Option with the {fw['HD']}", "Added option"]
-    else:
-        heads = ["Budget option", "Premium option", "Added option"]
-    sparse = not any(in_scope(d) for d in rows)      # value-only cards are narrow: give the labels room
-    out = [f"<div class='mx{' wide' if sparse else ''}'><div class='mxhead'><div class='mxl'></div>"
-           + "".join(f"<div class='mxc'>{esc(h)}</div>" for h in heads) + "</div>"]
-    for d in rows:
-        name, code = panel_name(d, focal)
-        cells = {0: "", 1: "", 2: ""}
-        for i, o in enumerate(d["options"]):
-            col = {"HF": 0, "HD": 1}.get(o["code"], 2)
-            if cells[col]:
-                refuse(f"{d['key']}: two options in one column")
-            cells[col] = card_block(d, o, i, focal, short=True)
-        if not cells[2]:
-            cells[2] = "<div class='mxempty'><span>no added option</span></div>"
-        out.append(f"<section class='mxrow' data-set='{esc(d['key'])}'><div class='mxl'><div class='ptitle'>"
-                   f"{esc(name)}{esc(suffix)} <span class='code'>({code})</span></div>"
-                   f"<div class='pmeasure'>{esc(measure_text(d))}</div></div>"
-                   + "".join(f"<div class='mxc'>{cells[c]}</div>" for c in range(3)) + "</section>")
-    out.append("</div>")
-    return "".join(out)
+def survey_role(dset, opt, focal):
+    """(label, kind) printed under a card: the role, and for the two original options which one it is."""
+    label, kind = role_of(dset, opt, focal)
+    if opt["code"] in ("HF", "HD"):
+        word, _, who = label.partition(" · ")
+        return f"{word[0].upper()}{word[1:]} ({who} option)", kind
+    return label[0].upper() + label[1:], kind
 
 
-def tier_figure(sets, cid, tier, focal):
-    g = lambda S, p=None: find(sets, cid, tier, S, placement=p)   # noqa: E731
-    used = [g("BIN"), g("SOT"), g("FRQ"), g("RNG"), g("PHT"), g("SYM"), g("SIM", "clone_HF"), g("SIM", "clone_HD"),
-            g("EXC"), g("MOT")]
-    body = matrix_html(used[:8], focal)
-    body += extremity_html(used[8], used[9], focal)
-    cat = CATS[cid]
-    return page(cat["label"], f"{TIER_LABEL[tier]}, numbers format", one_stem(used), KEY_NUMBERS, body), used
+def survey_figure(sets, focal):
+    """Figure WA-B1: one survey page, its question and three cards as participants saw them, and each option's role
+    under its card (participants saw no roles, and the cards in a random order)."""
+    d = find(sets, *SURVEY_SET)
+    cards, roles = [], []
+    for i, o in enumerate(d["options"]):
+        label, kind = survey_role(d, o, focal)
+        cards.append(f"<div class='opt' data-set='{esc(d['key'])}' data-code='{esc(o['code'])}' data-idx='{i}'>"
+                     f"<div class='card'>{survey_card_html(d, o, i)}</div></div>")
+        roles.append(f"<div class='role' data-code='{esc(o['code'])}'><div class='bar' style='background:"
+                     f"{ROLE_COLOUR[kind]}'></div><div class='lab'>{esc(label)}</div></div>")
+    body = (f"<div class='page'><div class='q'>{esc(d['stim']['stem'])}</div>"
+            f"<div class='cards'>{''.join(cards)}</div></div><div class='roles'>{''.join(roles)}</div>")
+    return page(body), [d]
 
 
-def formats_figure_1(sets, cid, focal):
-    words = [find(sets, cid, 2, S, "words") for S in ("BIN", "FRQ", "SOT")]
-    pics = [d for d in sets if d["cat"]["id"] == cid and d["fmt"] == "pictures"]
-    fig_numbers = FIG_NO[(cid, 2)]
-    keeps_digit = any(re.search(r"\d", v) for d in words for w in d["words"].values() for v in w.values())
-    spelled = ("Every value is written out in words, except the 100 of a rating out of 100"
-               if keeps_digit else "Every number is written out in words")
-    info = (f"{spelled}; the product names, the descriptions and the values are those "
-            f"of the numbers version at tier 2 (Figure WA-B{fig_numbers}).")
-    if not pics:
-        info += (" The pictures version of this category was removed from the design after calibration "
-                 "(Web Appendix F), so none is shown.")
-    body = "<div class='sect'>Words version</div>"
-    body += matrix_html(words, focal, ", words")
-    body += f"<div class='note2'>{esc(info)}</div>"
-    used = list(words)
-    if pics:
-        pb = find(sets, cid, 2, "BIN", "pictures")
-        own = pb["image"].get("per_format_values")
-        body += ("<div class='sect'>Pictures version" + (", with its own calibrated values" if own else
-                 ", at the same values as the numbers version") + "</div>")
-        body += picture_html(pb, focal)
-        used.append(pb)
-    cat = CATS[cid]
-    return page(cat["label"], "Tier 2: new values, words and pictures formats" if pics else
-                "Tier 2: new values, words format", one_stem(used), KEY_NUMBERS if not pics else
-                KEY_NUMBERS + " Picture sets keep one fixed order.", body), used
-
-
-def formats_figure_2(sets, cid, focal, S):
-    """One picture per page: each picture must stay at least 6 inches wide to keep its smallest text at
-    6 pt, so the frequency-decoy and compromise pictures (3.6 inches tall each) cannot share a page."""
-    used = [find(sets, cid, 2, S, "pictures")]
-    own = used[0]["image"].get("per_format_values")
-    body = ("<div class='sect'>Pictures version, continued" + (", with its own calibrated values" if own else
-            ", at the same values as the numbers version") + "</div>")
-    body += "".join(picture_html(d, focal) for d in used)
-    cat = CATS[cid]
-    return page(cat["label"], "Tier 2: new values, pictures format", one_stem(used), KEY_PICTURES, body), used
-
-
-def pricefree_figure(sets, focal):
-    blocks, used = [], []
-    for cid in PRICE_FREE:
-        cs = [find(sets, cid, 2, S) for S in ("BIN", "FRQ", "RNG", "PHT")]
-        used += cs
-        cat = CATS[cid]
-        attrs = " and ".join(a["name"].replace("_", " ") for a in cat["attributes"])
-        label = cat["label"].split(" (")[0] + f", price-free ({attrs})"
-        blocks.append(f"<div class='pfblock'><div class='pfhead'>{esc(label)}</div><div class='stem'>"
-                      f"<span class='lbl'>Question above every set:</span> \u201c{esc(one_stem(cs))}\u201d</div>"
-                      + matrix_html(cs, focal) + "</div>")
-    return page("The three price-free categories", "Tier 2: new values, numbers format", None,
-                KEY_NUMBERS + " Each category trades two quality attributes and has no price.", "".join(blocks)), used
+def pictures_figure(sets, cid):
+    """Figures WA-B2 to WA-B4: the registered picture of one category's frequency-decoy set at the full text width,
+    and nothing else. The two-option and compromise pictures are not printed but pass the same picture checks."""
+    for S in ("BIN", "SOT"):
+        picture_payload(find(sets, cid, 2, S, "pictures"))
+    d = find(sets, cid, 2, PICTURE_SET, "pictures")
+    pic = picture_payload(d)
+    return (page(f"<section class='pp' data-set='{esc(d['key'])}'><img class='pic' alt='' "
+                 f"src='data:image/png;base64,{pic['b64']}'></section>"), [d])
 
 
 def figure_plan(sets):
-    plan = []
+    plan = [dict(kind="survey", slug="survey_page")]
     for cid in APPENDIX_ORDER:
-        cat = CATS[cid]
-        if cat["price_free"]:
-            if cid == PRICE_FREE[0]:
-                plan.append(dict(kind="pricefree", cid=cid, slug="price_free_categories"))
-            continue
-        tiers = sorted({s["memorization_tier"] for s in DATA["stimuli"] if s["category"] == cid})
-        for t in tiers:
-            plan.append(dict(kind="tier", cid=cid, tier=t, slug=f"{cid}_tier{t}"))
-        if any(d["cat"]["id"] == cid and d["fmt"] == "words" for d in sets):
-            has_pics = any(d["cat"]["id"] == cid and d["fmt"] == "pictures" for d in sets)
-            plan.append(dict(kind="formats1", cid=cid, slug=f"{cid}_words" + ("_and_pictures" if has_pics else "")))
-            if has_pics:
-                plan.append(dict(kind="formats2", cid=cid, S="FRQ", slug=f"{cid}_pictures_frequency_decoy"))
-                plan.append(dict(kind="formats2", cid=cid, S="SOT", slug=f"{cid}_pictures_compromise"))
+        if any(d["cat"]["id"] == cid and d["fmt"] == "pictures" for d in sets):
+            plan.append(dict(kind="pictures", cid=cid, slug=f"{cid}_pictures"))
     for n, f in enumerate(plan, start=1):
         f["n"] = n
         f["file"] = f"figure_wab{n:02d}_{f['slug']}.png"
-        if f["kind"] == "tier":
-            FIG_NO[(f["cid"], f["tier"])] = n
     return plan
 
 
 def build_figure_html(f, sets, focal):
-    if f["kind"] == "tier":
-        return tier_figure(sets, f["cid"], f["tier"], focal)
-    if f["kind"] == "formats1":
-        return formats_figure_1(sets, f["cid"], focal)
-    if f["kind"] == "formats2":
-        return formats_figure_2(sets, f["cid"], focal, f["S"])
-    return pricefree_figure(sets, focal)
+    if f["kind"] == "survey":
+        return survey_figure(sets, focal)
+    return pictures_figure(sets, f["cid"])
 
 
-# the page-side reader: every option as printed, every text run's size and box, every overflow
+# the page-side reader: every card and picture as printed, every text run's size, face and box, every overflow
 EXTRACT_JS = r"""
-(root) => {
+async (root) => {
+  await document.fonts.ready;
   const R = document.querySelector(root);
   const box = R.getBoundingClientRect();
-  const out = {height: box.height, width: box.width, opts: [], fonts: [], overflow: [], outside: [], text: R.innerText};
+  const out = {height: box.height, width: box.width, opts: [], fonts: [], families: [], overflow: [], outside: [],
+               text: R.innerText, pics: [], faces: [...document.fonts].map(f => [f.family, String(f.weight), f.status])};
   R.querySelectorAll('.opt').forEach(o => {
-    const holder = o.closest('[data-set]');
-    const tab = o.querySelector('.tab');
-    const row = o.closest('.xrow');
-    const badge = o.querySelector('.cfx-badge');
-    const behind = o.querySelector('.behind');
-    const cell = o.closest('.mxc');
-    let col = null;
-    if (cell) {
-      const i = [...cell.parentElement.children].indexOf(cell);
-      col = cell.closest('.mx').querySelector('.mxhead').children[i].innerText;
-    }
-    out.opts.push({set: holder ? holder.dataset.set : null, code: o.dataset.code, idx: +o.dataset.idx, col: col,
-      tab: tab ? tab.innerText : null, row: row ? row.querySelector('.xlab').innerText : null,
+    const role = R.querySelector(`.role[data-code="${o.dataset.code}"]`);
+    out.opts.push({set: o.dataset.set, code: o.dataset.code, idx: +o.dataset.idx, col: null,
+      tab: role ? role.querySelector('.lab').innerText.toLowerCase() : null,
+      bar: role ? getComputedStyle(role.querySelector('.bar')).backgroundColor : null,
       lines: [...o.querySelectorAll('.card .cfx-attr')].map(e => e.innerText),
-      un: o.querySelector('.card').classList.contains('un'), badge: badge ? badge.innerText : null,
-      behind: behind ? behind.innerText : null});
+      un: false, badge: null, behind: null,
+      left: o.getBoundingClientRect().left, roleLeft: role ? role.getBoundingClientRect().left : null});
+  });
+  R.querySelectorAll('.pp').forEach(p => {
+    const img = p.querySelector('img.pic');
+    out.pics.push({set: p.dataset.set, src: img.getAttribute('src'), width: img.getBoundingClientRect().width,
+                   natural: img.naturalWidth});
   });
   const walker = document.createTreeWalker(R, NodeFilter.SHOW_TEXT);
-  const boxes = '.tab,.card,.panel,.picblock,.info,.fig,.opt,.behind,.xlab,.xh2,.xh4,.stem,.fhead,.key,.sect,.mxl,.mxc,.mxempty,.note2,.pfhead';
+  const boxes = '.fig,.page,.q,.card,.opt,.role,.lab,.pp';
   while (walker.nextNode()) {
     const n = walker.currentNode;
     if (!n.textContent.trim()) continue;
     const el = n.parentElement;
-    out.fonts.push([parseFloat(getComputedStyle(el).fontSize), n.textContent.trim().slice(0, 50)]);
+    const cs = getComputedStyle(el);
+    out.fonts.push([parseFloat(cs.fontSize), n.textContent.trim().slice(0, 50)]);
+    out.families.push([cs.fontFamily, cs.fontWeight]);
     const holder = el.closest(boxes);
     const hb = holder.getBoundingClientRect();
     const rg = document.createRange(); rg.selectNodeContents(n);
@@ -876,52 +722,64 @@ EXTRACT_JS = r"""
     }
   }
   R.querySelectorAll('*').forEach(el => {
-    if (el.clientWidth > 0 && (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1)
-        && getComputedStyle(el).overflow !== 'visible')
-      out.overflow.push(el.className + ': ' + (el.innerText || '').slice(0, 40));
-    if (el.clientWidth > 0 && el.scrollWidth > el.clientWidth + 1 && /\b(card|tab|panel|picblock|info|opt|behind)\b/.test(el.className))
+    if (el.clientWidth > 0 && (el.scrollWidth > el.clientWidth + 1) && /\b(card|page|pp|pt|lab|q)\b/.test(el.className))
       out.overflow.push(el.className + ' is wider than its box: ' + (el.innerText || '').slice(0, 40));
   });
-  document.querySelectorAll('.opt').forEach(o => {
-    const t = o.querySelector('.tab'); if (!t) return;
-    const a = t.getBoundingClientRect(), b = o.getBoundingClientRect();
-    if (a.right > b.right + 0.5) out.overflow.push('tab wider than its card: ' + t.innerText);
-  });
-  const imgs = [...R.querySelectorAll('img.pic')].map(i => [i.getBoundingClientRect().width, i.naturalWidth]);
-  out.imgs = imgs;
   return out;
 }
 """
 
 
-def check_page_record(rec, used, focal, max_h=FIG_MAX_H_PX, pic_w=PIC_W_PX):
-    """Every failure on one rendered page: values, roles, coverage, dashes, sizes, overflow, height."""
+def check_page_record(rec, used, focal, max_h=FIG_MAX_H_PX):
+    """Every failure on one rendered figure: values, names, descriptions and roles of the cards; the registered
+    picture bytes, its set and its print width (its own smallest text at least 6 pt); the type (IBM Plex, at least
+    6.5 pt), dashes, overflow, width and height."""
     errs = []
     if rec["height"] > max_h + 0.01:
-        errs.append(f"page is {rec['height']:.0f} px tall ({rec['height'] / 96:.2f} in), over {max_h / 96:.1f} in")
+        errs.append(f"figure is {rec['height']:.0f} px tall ({rec['height'] / 96:.2f} in), over {max_h / 96:.1f} in")
     if abs(rec["width"] - FIG_W_PX) > 0.5:
-        errs.append(f"page is {rec['width']:.0f} px wide, not {FIG_W_PX}")
+        errs.append(f"figure is {rec['width']:.0f} px wide, not {FIG_W_PX}")
     if EM in rec["text"] or EN in rec["text"]:
         errs.append("an em or en dash is printed")
-    small = [f for f in rec["fonts"] if f[0] < MIN_FONT_PX - 1e-6]
+    small = [f for f in rec["fonts"] if f[0] < FIG_MIN_PX - 1e-6]
     if small:
-        errs.append(f"{len(small)} text runs under 6 pt, e.g. {small[:3]}")
+        errs.append(f"{len(small)} text runs under 6.5 pt, e.g. {small[:3]}")
+    if any("Plex" not in fam for fam, _ in rec["families"]):
+        errs.append("text set in a face other than IBM Plex Sans")
+    weights = {w for _, w in rec["families"]}
+    loaded = {w for fam, w, st in rec["faces"] if "Plex" in fam and st == "loaded"}
+    if not weights <= loaded:
+        errs.append(f"IBM Plex weights {sorted(weights - loaded)} were not loaded from the font files")
     if rec["outside"]:
         errs.append(f"text outside its box: {rec['outside'][:4]}")
     if rec["overflow"]:
         errs.append(f"overflow: {rec['overflow'][:4]}")
-    for w, nat in rec.get("imgs", []):
-        if abs(w - pic_w) > 0.5:
-            errs.append(f"a picture is drawn {w:.1f} px wide, not {pic_w}")
-    by_set = {}
-    for o in rec["opts"]:
-        by_set.setdefault(o["set"], []).append(o)
     want_keys = {d["key"] for d in used}
-    if set(by_set) != want_keys:
-        errs.append(f"sets printed {sorted(set(by_set) ^ want_keys)[:4]} differ from the sets planned")
+    printed = {o["set"] for o in rec["opts"]} | {p["set"] for p in rec["pics"]}
+    if printed != want_keys:
+        errs.append(f"sets printed {sorted(printed ^ want_keys)[:4]} differ from the sets planned")
     for d in used:
-        got = by_set.get(d["key"], [])
-        if [o["code"] for o in got] and sorted(o["idx"] for o in got) != list(range(len(d["options"]))):
+        if d["fmt"] == "pictures":
+            pics = [p for p in rec["pics"] if p["set"] == d["key"]]
+            if len(pics) != 1:
+                errs.append(f"{d['key']}: printed {len(pics)} times")
+                continue
+            p = pics[0]
+            pay = picture_payload(d)
+            if p["src"] != "data:image/png;base64," + pay["b64"]:
+                errs.append(f"{d['key']}: the printed picture is not the registered file")
+            if abs(p["width"] - PIC_PRINT_W) > 0.5:
+                errs.append(f"{d['key']}: the picture is drawn {p['width']:.1f} px wide, not {PIC_PRINT_W}")
+            # the picture's own smallest text, at the printed width inside its 1 px border
+            min_pt = pay["min_pt"] * (p["width"] - 2) / PIC_W_PX
+            if min_pt < PIC_MIN_PT - 1e-9:
+                errs.append(f"{d['key']}: the picture's smallest text prints at {min_pt:.2f} pt, under {PIC_MIN_PT} pt")
+            if d["stim"]["structure"] != PICTURE_SET:
+                errs.append(f"{d['key']}: the figure shows the {d['stim']['structure']} picture, not the {PICTURE_SET} one")
+            errs += check_geometry(d)
+            continue
+        got = [o for o in rec["opts"] if o["set"] == d["key"]]
+        if sorted(o["idx"] for o in got) != list(range(len(d["options"]))):
             errs.append(f"{d['key']}: {len(got)} options printed for {len(d['options'])}")
             continue
         for o in got:
@@ -930,6 +788,12 @@ def check_page_record(rec, used, focal, max_h=FIG_MAX_H_PX, pic_w=PIC_W_PX):
                 errs.append(f"{d['key']}: option {o['idx']} printed as {o['code']}, is {opt['code']}")
                 continue
             errs += check_option_record(d, opt, o["idx"], o, focal)
+            kind = role_of(d, opt, focal)[1]
+            rgb = "rgb(%d, %d, %d)" % tuple(int(ROLE_COLOUR[kind][i:i + 2], 16) for i in (1, 3, 5))
+            if o["bar"] != rgb:
+                errs.append(f"{d['key']} option {opt['code']}: the role colour is {o['bar']}, not the {kind} colour")
+            if o["roleLeft"] is None or abs(o["roleLeft"] - o["left"]) > 1.5:
+                errs.append(f"{d['key']} option {opt['code']}: the role label is not under its card")
         errs += check_geometry(d)
     return errs
 
@@ -963,16 +827,22 @@ def render_figures(sets, focal, only=None, draft=False):
             im.save(out, dpi=(DPI, DPI), optimize=True)
             for d in used:
                 seen[d["key"]] = seen.get(d["key"], 0) + 1
+            words = len(re.findall(r"[A-Za-z0-9$][^\s]*", rec["text"]))
             results.append(dict(f, height_in=rec["height"] / 96, px=im.size, n_sets=len(used),
-                                n_options=len(rec["opts"]), min_font_pt=min(x[0] for x in rec["fonts"]) * 0.75,
+                                words=words, min_font_pt=min([x[0] for x in rec["fonts"]], default=0) * 0.75,
                                 pages=[d["key"] for d in used]))
-            print(f"  Figure WA-B{f['n']:<2} {f['file']:<52} {rec['height'] / 96:4.2f} in tall, "
-                  f"{len(used):2d} sets, {len(rec['opts']):2d} options, checks passed")
+            print(f"  Figure WA-B{f['n']:<2} {f['file']:<44} {rec['height'] / 96:4.2f} in tall, "
+                  f"{len(used)} sets, {words} words, checks passed")
         br.close()
     if not only and not draft:
-        missing = [d["key"] for d in sets if seen.get(d["key"]) != 1]
+        pics = [d["key"] for d in sets if d["fmt"] == "pictures" and d["stim"]["structure"] == PICTURE_SET]
+        missing = [k for k in pics if seen.get(k) != 1]
         if missing:
-            refuse(f"{len(missing)} choice sets are not printed exactly once in the figures: {missing[:6]}")
+            refuse(f"{len(missing)} pictures categories do not have their {PICTURE_SET} picture printed exactly once: "
+                   f"{missing[:6]}")
+        stale = sorted(set(os.listdir(FIG_DIR)) - {f["file"] for f in plan})
+        if stale:
+            refuse(f"the figure folder holds files that no figure writes: {stale[:6]}")
     return results
 
 
@@ -1588,8 +1458,10 @@ def build_explorer(sets, focal):
         refuse("explorer:\n  " + "\n  ".join(probs[:20]))
     os.makedirs(OFFLINE_DIR, exist_ok=True)
     extra = []
+    # the analysis explorer (build_analysis_explorer.py) has shared this folder since 2026-10-18 (2026-11-02 fix)
+    extra = [f for f in extra if f != "analysis-explorer.html"]
     if extra:
-        refuse(f"the offline folder must hold only the explorer; it also holds {extra}")
+        refuse(f"the offline folder must hold only the explorers; it also holds {extra}")
     with open(EXPLORER, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(page_html)
     return data, page_html, keymap
@@ -1798,25 +1670,26 @@ def selftest(sets, focal):
     from playwright.sync_api import sync_playwright
     import copy
     plan = figure_plan(sets)
-    f = next(x for x in plan if x["kind"] == "tier" and x["cid"] == "bluetooth_speakers" and x["tier"] == 2)
-    f5 = next(x for x in plan if x["kind"] == "formats1" and x["cid"] == "bluetooth_speakers")
+    f1 = next(x for x in plan if x["kind"] == "survey")
+    f2 = next(x for x in plan if x["kind"] == "pictures" and x["cid"] == "bluetooth_speakers")
+    bin_set = find(sets, "bluetooth_speakers", 2, "BIN", "pictures")
     with sync_playwright() as p:
         br = p.chromium.launch(headless=True)
         pg = br.new_page(viewport={"width": FIG_W_PX + 40, "height": 1200})
-        page_html, used = build_figure_html(f, sets, focal)
-        pg.set_content(page_html)
-        clean = pg.evaluate(EXTRACT_JS, ".fig")
-        page5, used5 = build_figure_html(f5, sets, focal)
-        pg.set_content(page5)
-        clean5 = pg.evaluate(EXTRACT_JS, ".fig")
-        # a page whose text is too small and whose tab spills out of its card
-        bad_css = page_html.replace(".cfx-attr{font-size:9px", ".cfx-attr{font-size:7.5px").replace(
-            "white-space:nowrap}", "white-space:nowrap;width:400px}")
-        pg.set_content(bad_css)
+        page1, used1 = build_figure_html(f1, sets, focal)
+        pg.set_content(page1)
+        clean1 = pg.evaluate(EXTRACT_JS, ".fig")
+        page2, used2 = build_figure_html(f2, sets, focal)
+        pg.set_content(page2)
+        clean2 = pg.evaluate(EXTRACT_JS, ".fig")
+        # a page whose card text is too small, and one taller than 9 inches
+        pg.set_content(page1.replace(".cfx-attr{font-size:10px", ".cfx-attr{font-size:8px"))
         small = pg.evaluate(EXTRACT_JS, ".fig")
-        tall = page_html.replace("<div class='key'>", "<div class='key' style='margin-bottom:300px'>")
-        pg.set_content(tall)
-        tall_rec = pg.evaluate(EXTRACT_JS, ".fig")
+        pg.set_content(page1.replace("<div class='roles'>", "<div class='roles' style='margin-top:800px'>"))
+        tall = pg.evaluate(EXTRACT_JS, ".fig")
+        # a page whose fonts are not embedded (the browser falls back to its own face)
+        pg.set_content(page1.replace(font_css(), ""))
+        nofont = pg.evaluate(EXTRACT_JS, ".fig")
         br.close()
 
     def mutate(rec, fn):
@@ -1824,43 +1697,57 @@ def selftest(sets, focal):
         fn(r)
         return r
 
-    def opt_of(r, key, code):
-        return next(o for o in r["opts"] if o["set"] == key and o["code"] == code)
+    def opt_of(r, code):
+        return next(o for o in r["opts"] if o["code"] == code)
 
-    k_frq = "FRQ_bluetooth_speakers_t2|numbers|"
-    k_sot = "SOT_bluetooth_speakers_t2|numbers|"
-    k_pht = "PHT_bluetooth_speakers_t2|numbers|"
-    k_words = "FRQ_bluetooth_speakers_t2|words|"
-    k_pic = "BIN_bluetooth_speakers_t2|pictures|"
+    def pic_of(r, S):
+        return next(x for x in r["pics"] if x["set"].startswith(S + "_"))
+
+    def set_line(r, code, i, old, new):
+        o = opt_of(r, code)
+        o["lines"][i] = o["lines"][i].replace(old, new)
+
     cases = [
-        ("a price one cent off", clean, used, lambda r: opt_of(r, k_frq, "HF")["lines"].__setitem__(2, opt_of(r, k_frq, "HF")["lines"][2].replace("$44.99", "$44.98"))),
-        ("a rating changed", clean, used, lambda r: opt_of(r, k_sot, "HD")["lines"].__setitem__(1, opt_of(r, k_sot, "HD")["lines"][1].replace("4.7", "4.8"))),
-        ("a description swapped", clean, used, lambda r: opt_of(r, k_frq, "DECOY")["lines"].__setitem__(1, "4.1 stars - a favorite among reviewers")),
-        ("a product name changed", clean, used, lambda r: opt_of(r, k_frq, "HD")["lines"].__setitem__(0, "NimbusSound Speaker")),
-        ("target and competitor tabs swapped", clean, used, lambda r: (opt_of(r, k_frq, "HF").__setitem__("tab", "COMPETITOR \u00b7 BUDGET"), opt_of(r, k_frq, "HD").__setitem__("tab", "TARGET \u00b7 PREMIUM"))),
-        ("the compromise target not called the middle", clean, used, lambda r: opt_of(r, k_sot, "HD").__setitem__("tab", "TARGET \u00b7 PREMIUM")),
-        ("a decoy called a range decoy", clean, used, lambda r: opt_of(r, k_frq, "DECOY").__setitem__("tab", "RANGE DECOY")),
-        ("the budget card under the premium column", clean, used, lambda r: opt_of(r, k_frq, "HF").__setitem__("col", "PREMIUM OPTION")),
-        ("an option dropped", clean, used, lambda r: r["opts"].remove(opt_of(r, k_frq, "DECOY"))),
-        ("the phantom shown as available", clean, used, lambda r: opt_of(r, k_pht, "PHANTOM").__setitem__("un", False)),
-        ("the unavailable tag missing", clean, used, lambda r: opt_of(r, k_pht, "PHANTOM").__setitem__("badge", None)),
-        ("an em dash printed", clean, used, lambda r: r.__setitem__("text", r["text"] + " \u2014 ")),
-        ("a spelled price one cent off", clean5, used5, lambda r: opt_of(r, k_words, "HF")["lines"].__setitem__(2, opt_of(r, k_words, "HF")["lines"][2].replace("ninety-nine cents", "ninety-eight cents"))),
-        ("a spelled rating changed", clean5, used5, lambda r: opt_of(r, k_words, "HD")["lines"].__setitem__(1, opt_of(r, k_words, "HD")["lines"][1].replace("seven", "six"))),
-        ("a value behind the bars changed", clean5, used5, lambda r: opt_of(r, k_pic, "HF").__setitem__("behind", "Values behind the bars: 4.2 stars, $44.99")),
-        ("the text under 6 pt and a tab wider than its card", small, used, lambda r: None),
-        ("the figure taller than 9 inches", tall_rec, used, lambda r: None),
+        ("a price one cent off", clean1, used1, lambda r: set_line(r, "HF", 2, "$34.99", "$34.98")),
+        ("a capacity changed", clean1, used1, lambda r: set_line(r, "HD", 1, "50 liters", "51 liters")),
+        ("a description swapped", clean1, used1, lambda r: set_line(r, "DECOY", 1, "space for most weekend hauls",
+                                                                     "expedition-size space for weekend trips")),
+        ("a product name changed", clean1, used1, lambda r: set_line(r, "HD", 0, "Crestway Trek Pack", "Crestway Pack")),
+        ("target and competitor labels swapped", clean1, used1,
+         lambda r: (opt_of(r, "HF").__setitem__("tab", "target (budget option)"),
+                    opt_of(r, "HD").__setitem__("tab", "competitor (premium option)"))),
+        ("the decoy called a range decoy", clean1, used1, lambda r: opt_of(r, "DECOY").__setitem__("tab", "range decoy")),
+        ("an option dropped", clean1, used1, lambda r: r["opts"].remove(opt_of(r, "DECOY"))),
+        ("the target drawn in the competitor's colour", clean1, used1,
+         lambda r: opt_of(r, "HD").__setitem__("bar", "rgb(174, 180, 192)")),
+        ("a role label away from its card", clean1, used1,
+         lambda r: opt_of(r, "HF").__setitem__("roleLeft", opt_of(r, "HF")["roleLeft"] + 60)),
+        ("an em dash printed", clean1, used1, lambda r: r.__setitem__("text", r["text"] + " — ")),
+        ("text in another face", clean1, used1, lambda r: r["families"].append(["Arial", "400"])),
+        ("text under 6.5 pt", small, used1, lambda r: None),
+        ("the figure taller than 9 inches", tall, used1, lambda r: None),
+        ("the font files not embedded", nofont, used1, lambda r: None),
+        ("a picture that is not the registered file", clean2, used2,
+         lambda r: pic_of(r, "FRQ").__setitem__("src", pic_of(r, "FRQ")["src"][:-8] + "AAAAAAA=")),
+        ("the picture of another set printed", clean2, used2,
+         lambda r: pic_of(r, "FRQ").__setitem__("set", bin_set["key"])),
+        ("the two-option picture planned and printed instead", clean2, [bin_set],
+         lambda r: pic_of(r, "FRQ").update(set=bin_set["key"],
+                                           src="data:image/png;base64," + picture_payload(bin_set)["b64"])),
+        ("the picture drawn narrower (its text under 6 pt)", clean2, used2,
+         lambda r: pic_of(r, "FRQ").__setitem__("width", 400)),
+        ("the picture missing", clean2, used2, lambda r: r["pics"].remove(pic_of(r, "FRQ"))),
     ]
     ok = True
-    base_errs = check_page_record(clean, used, focal) + check_page_record(clean5, used5, focal)
-    print(f"  clean pages: {len(base_errs)} failures (must be 0)")
+    base_errs = check_page_record(clean1, used1, focal) + check_page_record(clean2, used2, focal)
+    print(f"  clean figures: {len(base_errs)} failures (must be 0)" + (f"  ({base_errs[:2]})" if base_errs else ""))
     ok &= not base_errs
     for name, rec, u, fn in cases:
         errs = check_page_record(mutate(rec, fn), u, focal)
         print(f"  planted: {name:<48} refused: {'yes' if errs else 'NO'}" + (f"  ({errs[0][:90]})" if errs else ""))
         ok &= bool(errs)
     # a design error: the decoy placed so the competitor, not the target, dominates it
-    d = copy.deepcopy(next(x for x in sets if x["key"] == k_frq))
+    d = copy.deepcopy(next(x for x in sets if x["key"] == "FRQ_bluetooth_speakers_t2|numbers|"))
     d["target"], d["competitor"] = d["competitor"], d["target"]
     g = check_geometry(d)
     print(f"  planted: {'target and competitor swapped in the design':<48} refused: {'yes' if g else 'NO'}")
@@ -1878,7 +1765,7 @@ def selftest(sets, focal):
 
 
 # ---------------------------------------------------------------------------------------------------
-DATA, CATS, FIG_NO = None, None, {}
+DATA, CATS = None, None
 
 
 def main(argv):

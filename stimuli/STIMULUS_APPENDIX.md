@@ -2,1880 +2,298 @@
 
 *Every value below is read from `stimuli.json`, the single source of truth that the survey, the model runner, and the dashboard also read. Regenerated on every stimulus change, so the appendix can never drift from the delivered stimuli (the V1 defect this design eliminates). Values are FINAL as of 2026-07-02 (the calibration pre-test is complete; the full three-wave record, the final-values list, and the routing records are in the deposited calibration materials).*
 
-**Scope:** 13 product categories, 165 stimuli across three memorization tiers, nine choice structures (the eight effect and control structures plus the matched single-option-per-tier extremity control), plus a words/pictures format module on four categories.
-
-## Structure codes
-BIN = binary baseline; FRQ = frequency decoy (slightly worse than the target on both attributes); RNG = range decoy (matches the target on its strong attribute and extends the attribute range past the target on its weak attribute, so the target dominates it); PHT = phantom (unavailable, superior on the strong attribute only); SOT = compromise (two binary options plus a new extreme, so the former premium becomes the middle); MOT = multiple-options-per-tier (the extremity treatment menu); EXC = the matched extremity control (one option at each of the treatment menu's three quality tiers, so the two menus share their tiers and differ only in options per tier); SYM = symmetric decoy (upscaling); SIM = similarity (a non-dominated near-duplicate of one option, placed at about twelve percent of the focal gap from its original and floored at one distinguishable unit of the attribute, so on coarse integer attributes such as storage sizes the clone's step is a larger fraction of the gap).
-
-The published categories carry the exact published focal (binary) values at tier 1. The constructed structures (PHT, SIM, SOT, RNG) are rebuilt around those focal values to the registered geometry at every tier, because the corresponding prior variants violated it (a phantom superior on both attributes, an added middle for compromise, a non-dominated range decoy); the same correction applies to the one frequency decoy whose prior variant tied the target on an attribute (external hard drives, tier 1, rebuilt to the registered worse-on-both form); the prior values are preserved in the deposited materials. For the three categories drawn from Evangelidis, Levav, and Simonson 2023a (backpacks, Bluetooth speakers, external hard drives), the published studies provide binary focal values only, so the extremity menu's High and Low tiers carry those published focals and its middle-tier values are documented midpoint constructions between them, recorded in the per-category source notes of the deposited materials.
-
-## Status after the completed calibration pre-test (2026-07-02)
-- **Hotels dropped, backpacks restored.** Hotels' 5-star rating ceiling left no room for a range decoy or compromise extreme, so the category was dropped at the stimulus-design stage and backpacks (no ceiling) restored. Roster = 13 categories (10 main + 3 price-free variants).
-- **Values are final.** Three calibration waves (1,174 participants) set the binary baselines; every stimulus carries `calibration_locked: true` in the deposited stimulus file, and each calibrated binary cell carries its measured share, interval, and routing record. Pairs that ended outside the registered band carry their documented-deviation flags (including the compromise-precondition flags on the affected compromise cells).
-- **The pictures hard-drives cells were removed from the design.** That pair stayed beyond the 25-75 percent hard limits in all three waves (the registered stimulus-defect contingency); its three pictures-format cells left the confirmatory inventory, while the numbers and words hard-drives pairs ended inside the band and stay in the design.
-- **Two pictures pairs carry per-format final values** (Bluetooth speakers, televisions): the calibration found no single value set that placed all of a category's formats in band, so their pictures variants carry their own values (shown in their own option tables below).
-- **Enriched product-page text is canonical for the adjustable tiers** (tiers 2 and 3, the structures sharing the calibrated binary control): every option carries a brand-neutral, numeral-free model name and one plain-language qualifier per attribute (the table at the end of this appendix). Tier-1 text stays exactly as published; the extremity menus and their matched controls stay sparse (the extremity comparison is internal to that matched pair).
-- **Price-free robustness arm present** (the three `_pf` categories): two quality attributes, no price, attraction family only - answers the AE's price-as-signal point (AE 8a).
-
-## Product categories
-
-| # | Category | Attributes | Source | Tier(s) | Price-free |
-|---|---|---|---|---|---|
-| 1 | Backpacks | capacity (liters (L), higher better), price (USD, lower better) | Evangelidis, Levav, and Simonson 2023a, Journal of Consumer Research 50(3), doi:10.1093/jcr/ucac059 | 1,2 | no |
-| 2 | Bluetooth speakers | rating (stars (Amazon, out of 5), higher better), price (USD, lower better) | Evangelidis, Levav, and Simonson 2023a, Journal of Consumer Research 50(3), doi:10.1093/jcr/ucac059 | 1,2 | no |
-| 3 | Earbuds | reviews (number of customer reviews, higher better), price (USD, lower better) | Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061 | 1,2 | no |
-| 4 | Electric kettles | power (watts, higher better), price (USD, lower better) | INVENTED for the never-published tier-3 (no context-effects paper uses this category) | 3 | no |
-| 5 | External hard drives | storage (TB, higher better), price ($, lower better) | Evangelidis, Levav & Simonson 2023 | 1,2 | no |
-| 6 | External hard drives (price-free: capacity vs speed) | capacity (TB, higher better), read speed (MB/s, higher better) | Price-free variant of hard_drives (price-free robustness arm) | 2 | yes |
-| 7 | Restaurants | rating (0-100 overall rating (Consumer Reports), higher better), price (USD average entree, lower better) | Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061 | 1,2 | no |
-| 8 | Restaurants (price-free: food vs service) | food rating (0-100, higher better), service rating (0-100, higher better) | Price-free variant of restaurants (price-free robustness arm) | 2 | yes |
-| 9 | Robot vacuums | suction (Pa, higher better), price (USD, lower better) | INVENTED for the never-published tier-3 (no context-effects paper uses this category) | 3 | no |
-| 10 | Standing desks | weight capacity (lbs, higher better), price (USD, lower better) | INVENTED for the never-published tier-3 (no context-effects paper uses this category) | 3 | no |
-| 11 | Televisions | picture quality (0-100 expert scale, higher better), price ($, lower better) | Sharif, Webb, and Bhatia (2025), Journal of Consumer Research, doi:10.1093/jcr/ucaf061 | 1,2 | no |
-| 12 | Televisions (price-free: picture vs sound) | picture quality (0-100 expert scale, higher better), sound quality (0-100 expert scale, higher better) | Price-free variant of televisions (price-free robustness arm) | 2 | yes |
-| 13 | Water bottles | capacity (oz, higher better), price (USD, lower better) | Sharif, Webb, and Bhatia 2025, Journal of Consumer Research, doi:10.1093/jcr/ucaf061 | 1,2 | no |
+These are the stimulus tables of Web Appendix B, as the web appendix prints them. Each table lists every option of one product category once, with one group of columns for each stimulus tier of the category. A cell holding only "<" joins the cell on its left in the Word document, so a tier heading spans its columns and a pre-test share spans its tier.
 
 ## Backpacks
 
+**TABLE WA-B1.** BACKPACKS: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD | yes | 40 | 39.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 42.9 percent [36.1, 49.9], n = 196; published values, checked only.
-
-**FRQ** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| DECOY | DECOY | yes | 38 | 42.99 |
-
-**RNG** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 40 | 87.98 |
-
-**PHT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 44 | 39.99 |
-
-**SOT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| EXTREME | EXTREME | yes | 45 | 55.99 |
-
-**MOT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| A | High tier | yes | 40 | 39.99 |
-| B | High tier | yes | 40 | 39.99 |
-| C | High tier | yes | 40 | 39.99 |
-| D | High tier | yes | 40 | 39.99 |
-| E | Middle tier | yes | 35 | 34.99 |
-| F | Middle tier | yes | 35 | 34.99 |
-| G | Middle tier | yes | 35 | 34.99 |
-| H | Middle tier | yes | 35 | 34.99 |
-| I | Low tier | yes | 30 | 29.99 |
-| J | Low tier | yes | 30 | 29.99 |
-| K | Low tier | yes | 30 | 29.99 |
-| L | Low tier | yes | 30 | 29.99 |
-
-**EXC** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 40 | 39.99 |
-| EXC_M | Middle tier | yes | 35 | 34.99 |
-| EXC_L | Low tier | yes | 30 | 29.99 |
-
-**SYM** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| SYM_DECOY | SYM_DECOY | yes | 30 | 39.99 |
-
-**SIM** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 30 | 29.99 |
-| HD | HD/target | yes | 40 | 39.99 |
-| CLONE | CLONE (clone of HF) | yes | 31 | 31.19 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 30 | 29.99 |
-| HD | HD | yes | 40 | 39.99 |
-| CLONE | CLONE (clone of HD) | yes | 39 | 38.79 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD | yes | 50 | 61.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 28.5 percent [24.6, 32.8], n = 459; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| DECOY | DECOY | yes | 44 | 77.49 |
-
-**RNG** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 50 | 136.38 |
-
-**PHT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 60 | 61.99 |
-
-**SOT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| EXTREME | EXTREME | yes | 62 | 86.79 |
-
-**MOT** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| A | High tier | yes | 50 | 61.99 |
-| B | High tier | yes | 50 | 61.99 |
-| C | High tier | yes | 50 | 61.99 |
-| D | High tier | yes | 50 | 61.99 |
-| E | Middle tier | yes | 38 | 48.49 |
-| F | Middle tier | yes | 38 | 48.49 |
-| G | Middle tier | yes | 38 | 48.49 |
-| H | Middle tier | yes | 38 | 48.49 |
-| I | Low tier | yes | 25 | 34.99 |
-| J | Low tier | yes | 25 | 34.99 |
-| K | Low tier | yes | 25 | 34.99 |
-| L | Low tier | yes | 25 | 34.99 |
-
-**EXC** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 50 | 61.99 |
-| EXC_M | Middle tier | yes | 38 | 48.49 |
-| EXC_L | Low tier | yes | 25 | 34.99 |
-
-**SYM** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| SYM_DECOY | SYM_DECOY | yes | 25 | 61.99 |
-
-**SIM** (stem: "Imagine you are shopping for a backpack. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 25 | 34.99 |
-| HD | HD/target | yes | 50 | 61.99 |
-| CLONE | CLONE (clone of HF) | yes | 28 | 38.23 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 25 | 34.99 |
-| HD | HD | yes | 50 | 61.99 |
-| CLONE | CLONE (clone of HD) | yes | 47 | 58.75 |
-
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Capacity (L) | Price | Name | Capacity (L) | Price |
+| Budget option | 30 | $29.99 | Ridgeline Daypack | 25 | $34.99 |
+| Premium option (target of the decoys) | 40 | $39.99 | Crestway Trek Pack | 50 | $61.99 |
+| Frequency decoy | 38 | $42.99 | Summitline Cargo Pack | 44 | $77.49 |
+| Range decoy | 40 | $87.98 | Peakford Expedition Pack | 50 | $136.38 |
+| Phantom (shown as unavailable) | 44 | $39.99 | Traildom Ultra Pack | 60 | $61.99 |
+| New extreme (compromise) | 45 | $55.99 | Basecamp Hauler Pack | 62 | $86.79 |
+| Symmetric decoy (upscaling) | 30 | $39.99 | Cityline Commuter Pack | 25 | $61.99 |
+| Clone of the budget option | 31 | $31.19 | Ridgeway Daypack | 28 | $38.23 |
+| Clone of the premium option | 39 | $38.79 | Crestline Trek Pack | 47 | $58.75 |
+| Extremity menu, middle tier | 35 | $34.99 |  | 38 | $48.49 |
+| Premium option's share in the pre-test | 42.9% [36.1, 49.9], n = 196; checked only | < | 28.5% [24.6, 32.8], n = 459; retained | < | < |
 
 ## Bluetooth speakers
 
+**TABLE WA-B2.** BLUETOOTH SPEAKERS: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: -)
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Rating (stars) | Price | Name | Rating (stars) | Price |
+| Budget option (target of the decoys at tier 2) | 3.6 | $39.99 | EchoTone Portable Speaker | 4.2 | $44.99 |
+| Premium option (target of the decoys at tier 1) | 4.5 | $69.99 | NimbusSound Portable Speaker | 4.7 | $109.00 |
+| Frequency decoy | 4.3 | $74.99 | SoundCove Portable Speaker | 4.1 | $56.24 |
+| Range decoy | 4.5 | $153.98 | BreezeBeat Portable Speaker | 4 | $44.99 |
+| Phantom (shown as unavailable) | 4.9 | $69.99 | TonePort Portable Speaker | 4.2 | $40.49 |
+| New extreme (compromise) | 5 | $97.99 | AuraPeak Portable Speaker | 5 | $152.60 |
+| Symmetric decoy (upscaling) | 3.6 | $69.99 | DriftTone Portable Speaker | 4.2 | $109.00 |
+| Clone of the budget option | 3.7 | $43.59 | EchoTune Portable Speaker | 4.3 | $52.67 |
+| Clone of the premium option | 4.4 | $66.39 | NimbusBeat Portable Speaker | 4.6 | $101.32 |
+| Extremity menu, middle tier | 4 | $54.99 |  | 4.5 | $77.00 |
+| Premium option's share in the pre-test | 73.5% [64.0, 81.2], n = 98; checked only | < | 35.9% [28.8, 43.8], n = 153; final | < | < |
+| Premium option's share in the pre-test, words version |  | < | 34.0% [27.0, 41.8], n = 153; final | < | < |
+| Premium option's share in the pre-test, pictures version |  | < | 37.3% [30.0, 45.1], n = 153; final | < | < |
 
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD | yes | 4.5 | 69.99 |
+*Format module:* the baseline, frequency-decoy and compromise sets are also shown in words, with the names, descriptions and values of tier 2 and every number written out ("four point two stars"), and in pictures, with values of their own (Table WA-B3).
 
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 73.5 percent [64.0, 81.2], n = 98; published values, checked only.
+**TABLE WA-B3.** BLUETOOTH SPEAKERS: THE VALUES BEHIND THE PICTURES
 
-**FRQ** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| DECOY | DECOY | yes | 4.3 | 74.99 |
-
-**RNG** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 4.5 | 153.98 |
-
-**PHT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 4.9 | 69.99 |
-
-**SOT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| EXTREME | EXTREME | yes | 5 | 97.99 |
-
-**MOT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| A | High tier | yes | 4.5 | 69.99 |
-| B | High tier | yes | 4.5 | 69.99 |
-| C | High tier | yes | 4.5 | 69.99 |
-| D | High tier | yes | 4.5 | 69.99 |
-| E | Middle tier | yes | 4 | 54.99 |
-| F | Middle tier | yes | 4 | 54.99 |
-| G | Middle tier | yes | 4 | 54.99 |
-| H | Middle tier | yes | 4 | 54.99 |
-| I | Low tier | yes | 3.6 | 39.99 |
-| J | Low tier | yes | 3.6 | 39.99 |
-| K | Low tier | yes | 3.6 | 39.99 |
-| L | Low tier | yes | 3.6 | 39.99 |
-
-**EXC** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 4.5 | 69.99 |
-| EXC_M | Middle tier | yes | 4 | 54.99 |
-| EXC_L | Low tier | yes | 3.6 | 39.99 |
-
-**SYM** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| SYM_DECOY | SYM_DECOY | yes | 3.6 | 69.99 |
-
-**SIM** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.6 | 39.99 |
-| HD | HD/target | yes | 4.5 | 69.99 |
-| CLONE | CLONE (clone of HF) | yes | 3.7 | 43.59 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 3.6 | 39.99 |
-| HD | HD | yes | 4.5 | 69.99 |
-| CLONE | CLONE (clone of HD) | yes | 4.4 | 66.39 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4.2 | 44.99 |
-| HD | HD | yes | 4.7 | 109 |
-
-*Format module:* WORDS (e.g. Option HF: rating = four point two stars, price = forty-four dollars and ninety-nine cents) and PICTURES (`assets/BIN_bluetooth_speakers_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 5ab2fc21cc42...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.8 | 44.99 |
-| HD | HD | yes | 4.7 | 84.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 35.9 percent [28.8, 43.8], n = 153; final.
-
-*Calibration (words pair):* premium option (HD, the compromise target) share 34.0 percent [27.0, 41.8], n = 153; final.
-
-*Calibration (pictures pair):* premium option (HD, the compromise target) share 37.3 percent [30.0, 45.1], n = 153; final.
-
-**FRQ** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 4.2 | 44.99 |
-| HD | HD | yes | 4.7 | 109 |
-| DECOY | DECOY | yes | 4.1 | 56.24 |
-
-*Format module:* WORDS (e.g. Option HF: rating = four point two stars, price = forty-four dollars and ninety-nine cents) and PICTURES (`assets/FRQ_bluetooth_speakers_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 8464be78a21e...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 3.8 | 44.99 |
-| HD | HD | yes | 4.7 | 84.99 |
-| DECOY | DECOY | yes | 3.6 | 56.24 |
-
-**RNG** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 4.2 | 44.99 |
-| HD | HD | yes | 4.7 | 109 |
-| RANGE_DECOY | RANGE_DECOY | yes | 4 | 44.99 |
-
-**PHT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 4.2 | 44.99 |
-| HD | HD | yes | 4.7 | 109 |
-| PHANTOM | PHANTOM | NO (phantom) | 4.2 | 40.49 |
-
-**SOT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4.2 | 44.99 |
-| HD | HD/target | yes | 4.7 | 109 |
-| EXTREME | EXTREME | yes | 5 | 152.6 |
-
-*Format module:* WORDS (e.g. Option HF: rating = four point two stars, price = forty-four dollars and ninety-nine cents) and PICTURES (`assets/SOT_bluetooth_speakers_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 56410d41cea7...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 3.8 | 44.99 |
-| HD | HD/target | yes | 4.7 | 84.99 |
-| EXTREME | EXTREME | yes | 5 | 118.99 |
-
-**MOT** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| A | High tier | yes | 4.7 | 109 |
-| B | High tier | yes | 4.7 | 109 |
-| C | High tier | yes | 4.7 | 109 |
-| D | High tier | yes | 4.7 | 109 |
-| E | Middle tier | yes | 4.5 | 77 |
-| F | Middle tier | yes | 4.5 | 77 |
-| G | Middle tier | yes | 4.5 | 77 |
-| H | Middle tier | yes | 4.5 | 77 |
-| I | Low tier | yes | 4.2 | 44.99 |
-| J | Low tier | yes | 4.2 | 44.99 |
-| K | Low tier | yes | 4.2 | 44.99 |
-| L | Low tier | yes | 4.2 | 44.99 |
-
-**EXC** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 4.7 | 109 |
-| EXC_M | Middle tier | yes | 4.5 | 77 |
-| EXC_L | Low tier | yes | 4.2 | 44.99 |
-
-**SYM** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4.2 | 44.99 |
-| HD | HD/target | yes | 4.7 | 109 |
-| SYM_DECOY | SYM_DECOY | yes | 4.2 | 109 |
-
-**SIM** (stem: "Imagine you are shopping for a Bluetooth speaker. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4.2 | 44.99 |
-| HD | HD/target | yes | 4.7 | 109 |
-| CLONE | CLONE (clone of HF) | yes | 4.3 | 52.67 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 4.2 | 44.99 |
-| HD | HD | yes | 4.7 | 109 |
-| CLONE | CLONE (clone of HD) | yes | 4.6 | 101.32 |
-
+| Option | Pictures version | < |
+|---|---|---|
+|  | Rating (stars) | Price |
+| Budget option (target of the decoys) | 3.8 | $44.99 |
+| Premium option | 4.7 | $84.99 |
+| Frequency decoy | 3.6 | $56.24 |
+| New extreme (compromise) | 5 | $118.99 |
 
 ## Earbuds
 
+**TABLE WA-B4.** EARBUDS: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD | yes | 11076 | 19.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 71.6 percent [64.9, 77.4], n = 197; published values, checked only.
-
-**FRQ** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| DECOY | DECOY | yes | 10500 | 21.99 |
-
-**RNG** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 11076 | 43.98 |
-
-**PHT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 15000 | 19.99 |
-
-**SOT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| EXTREME | EXTREME | yes | 16000 | 27.99 |
-
-**MOT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| A | High tier | yes | 11076 | 19.99 |
-| B | High tier | yes | 11076 | 19.99 |
-| C | High tier | yes | 11076 | 19.99 |
-| D | High tier | yes | 11076 | 19.99 |
-| E | Middle tier | yes | 6544 | 15.49 |
-| F | Middle tier | yes | 6544 | 15.49 |
-| G | Middle tier | yes | 6544 | 15.49 |
-| H | Middle tier | yes | 6544 | 15.49 |
-| I | Low tier | yes | 1147 | 5.99 |
-| J | Low tier | yes | 1147 | 5.99 |
-| K | Low tier | yes | 1147 | 5.99 |
-| L | Low tier | yes | 1147 | 5.99 |
-
-**EXC** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 11076 | 19.99 |
-| EXC_M | Middle tier | yes | 6544 | 15.49 |
-| EXC_L | Low tier | yes | 1147 | 5.99 |
-
-**SYM** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| SYM_DECOY | SYM_DECOY | yes | 1147 | 19.99 |
-
-**SIM** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1147 | 5.99 |
-| HD | HD/target | yes | 11076 | 19.99 |
-| CLONE | CLONE (clone of HF) | yes | 2300 | 7.67 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 1147 | 5.99 |
-| HD | HD | yes | 11076 | 19.99 |
-| CLONE | CLONE (clone of HD) | yes | 9900 | 18.31 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD | yes | 18000 | 32.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 61.0 percent [56.5, 65.4], n = 459; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| DECOY | DECOY | yes | 14500 | 41.24 |
-
-**RNG** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 18000 | 72.58 |
-
-**PHT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 23600 | 32.99 |
-
-**SOT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| EXTREME | EXTREME | yes | 25000 | 46.19 |
-
-**MOT** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| A | High tier | yes | 18000 | 32.99 |
-| B | High tier | yes | 18000 | 32.99 |
-| C | High tier | yes | 18000 | 32.99 |
-| D | High tier | yes | 18000 | 32.99 |
-| E | Middle tier | yes | 11000 | 20.99 |
-| F | Middle tier | yes | 11000 | 20.99 |
-| G | Middle tier | yes | 11000 | 20.99 |
-| H | Middle tier | yes | 11000 | 20.99 |
-| I | Low tier | yes | 4000 | 8.99 |
-| J | Low tier | yes | 4000 | 8.99 |
-| K | Low tier | yes | 4000 | 8.99 |
-| L | Low tier | yes | 4000 | 8.99 |
-
-**EXC** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 18000 | 32.99 |
-| EXC_M | Middle tier | yes | 11000 | 20.99 |
-| EXC_L | Low tier | yes | 4000 | 8.99 |
-
-**SYM** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| SYM_DECOY | SYM_DECOY | yes | 4000 | 32.99 |
-
-**SIM** (stem: "Imagine you are shopping for wireless earbuds. The number of reviews indicates how many customers have purchased and reviewed the product. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF | yes | 4000 | 8.99 |
-| HD | HD/target | yes | 18000 | 32.99 |
-| CLONE | CLONE (clone of HF) | yes | 5700 | 11.87 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | reviews | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 4000 | 8.99 |
-| HD | HD | yes | 18000 | 32.99 |
-| CLONE | CLONE (clone of HD) | yes | 16300 | 30.11 |
-
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Reviews | Price | Name | Reviews | Price |
+| Budget option | 1,147 | $5.99 | BeatBuds Wireless Earbuds | 4,000 | $8.99 |
+| Premium option (target of the decoys) | 11,076 | $19.99 | TempoPods Wireless Earbuds | 18,000 | $32.99 |
+| Frequency decoy | 10,500 | $21.99 | PulseBuds Wireless Earbuds | 14,500 | $41.24 |
+| Range decoy | 11,076 | $43.98 | SonicPods Wireless Earbuds | 18,000 | $72.58 |
+| Phantom (shown as unavailable) | 15,000 | $19.99 | EchoBuds Wireless Earbuds | 23,600 | $32.99 |
+| New extreme (compromise) | 16,000 | $27.99 | MegaPods Wireless Earbuds | 25,000 | $46.19 |
+| Symmetric decoy (upscaling) | 1,147 | $19.99 | AirChime Wireless Earbuds | 4,000 | $32.99 |
+| Clone of the budget option | 2,300 | $7.67 | BeatPods Wireless Earbuds | 5,700 | $11.87 |
+| Clone of the premium option | 9,900 | $18.31 | TempoBuds Wireless Earbuds | 16,300 | $30.11 |
+| Extremity menu, middle tier | 6,544 | $15.49 |  | 11,000 | $20.99 |
+| Premium option's share in the pre-test | 71.6% [64.9, 77.4], n = 197; checked only | < | 61.0% [56.5, 65.4], n = 459; retained | < | < |
 
 ## Electric kettles
 
+**TABLE WA-B5.** ELECTRIC KETTLES: EVERY OPTION
 
-### Tier 3 - invented (never-published) category
+*Question above every set:* "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1000 | 31.99 |
-| HD | HD | yes | 2400 | 59.99 |
-
-*Calibration (numbers pair):* budget option (HF) share 44.7 percent [40.2, 49.2]; compromise target (HD, the premium option) share 55.3 percent [50.8, 59.8], n = 459; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 1000 | 31.99 |
-| HD | HD | yes | 2400 | 59.99 |
-| DECOY | DECOY | yes | 650 | 39.99 |
-
-**RNG** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 1000 | 31.99 |
-| HD | HD | yes | 2400 | 59.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 450 | 31.99 |
-
-**PHT** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 1000 | 31.99 |
-| HD | HD | yes | 2400 | 59.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 1000 | 28.79 |
-
-**SOT** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1000 | 31.99 |
-| HD | HD/target | yes | 2400 | 59.99 |
-| EXTREME | EXTREME | yes | 3100 | 83.99 |
-
-**MOT** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| A | High tier | yes | 2400 | 59.99 |
-| B | High tier | yes | 2400 | 59.99 |
-| C | High tier | yes | 2400 | 59.99 |
-| D | High tier | yes | 2400 | 59.99 |
-| E | Middle tier | yes | 1700 | 45.99 |
-| F | Middle tier | yes | 1700 | 45.99 |
-| G | Middle tier | yes | 1700 | 45.99 |
-| H | Middle tier | yes | 1700 | 45.99 |
-| I | Low tier | yes | 1000 | 31.99 |
-| J | Low tier | yes | 1000 | 31.99 |
-| K | Low tier | yes | 1000 | 31.99 |
-| L | Low tier | yes | 1000 | 31.99 |
-
-**EXC** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 2400 | 59.99 |
-| EXC_M | Middle tier | yes | 1700 | 45.99 |
-| EXC_L | Low tier | yes | 1000 | 31.99 |
-
-**SYM** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1000 | 31.99 |
-| HD | HD/target | yes | 2400 | 59.99 |
-| SYM_DECOY | SYM_DECOY | yes | 1000 | 59.99 |
-
-**SIM** (stem: "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF | yes | 1000 | 31.99 |
-| HD | HD/target | yes | 2400 | 59.99 |
-| CLONE | CLONE (clone of HF) | yes | 1168 | 35.35 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | power | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 1000 | 31.99 |
-| HD | HD | yes | 2400 | 59.99 |
-| CLONE | CLONE (clone of HD) | yes | 2232 | 56.63 |
-
+| Option | Tier 3: invented category | < | < |
+|---|---|---|---|
+|  | Name | Power (W) | Price |
+| Budget option (target of the decoys) | BrewMate Electric Kettle | 1,000 | $31.99 |
+| Premium option | ThermoJet Electric Kettle | 2,400 | $59.99 |
+| Frequency decoy | WarmWave Electric Kettle | 650 | $39.99 |
+| Range decoy | CozyPot Electric Kettle | 450 | $31.99 |
+| Phantom (shown as unavailable) | BrewJoy Electric Kettle | 1,000 | $28.79 |
+| New extreme (compromise) | VoltBrew Electric Kettle | 3,100 | $83.99 |
+| Symmetric decoy (upscaling) | SteamLine Electric Kettle | 1,000 | $59.99 |
+| Clone of the budget option | BrewMade Electric Kettle | 1,168 | $35.35 |
+| Clone of the premium option | ThermoJolt Electric Kettle | 2,232 | $56.63 |
+| Extremity menu, middle tier |  | 1,700 | $45.99 |
+| Premium option's share in the pre-test | 55.3% [50.8, 59.8], n = 459; retained | < | < |
 
 ## External hard drives
 
+**TABLE WA-B6.** EXTERNAL HARD DRIVES: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: -)
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Storage (TB) | Price | Name | Storage (TB) | Price |
+| Budget option | 2 | $39.99 | DataPort External Drive | 2 | $44.99 |
+| Premium option (target of the decoys) | 4 | $79.99 | VaultMax External Drive | 6 | $119.00 |
+| Frequency decoy | 3 | $84.99 | StorEdge External Drive | 5 | $148.75 |
+| Range decoy | 4 | $175.98 | ArchivePro External Drive | 6 | $261.80 |
+| Phantom (shown as unavailable) | 5 | $79.99 | DataVault Pro External Drive | 8 | $119.00 |
+| New extreme (compromise) | 5 | $111.99 | MaxStore External Drive | 8 | $166.60 |
+| Symmetric decoy (upscaling) | 2 | $79.99 | FlexDrive External Drive | 2 | $119.00 |
+| Clone of the budget option | 3 | $44.79 | DataDock External Drive | 3 | $53.87 |
+| Clone of the premium option | 3 | $75.19 | VaultMate External Drive | 5 | $110.12 |
+| Extremity menu, middle tier | 3 | $59.99 |  | 4 | $82.00 |
+| Premium option's share in the pre-test | 43.9% [34.5, 53.7], n = 98; checked only | < | 47.0% [39.2, 55.0], n = 151; final | < | < |
+| Premium option's share in the pre-test, words version |  | < | 40.0% [32.6, 47.9], n = 155; final | < | < |
+| Premium option's share in the pre-test, pictures version |  | < | 79.1% [72.0, 84.8], n = 153; removed | < | < |
 
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD | yes | 4 | 79.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 43.9 percent [34.5, 53.7], n = 98; published values, checked only.
-
-**FRQ** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| DECOY | DECOY | yes | 3 | 84.99 |
-
-**RNG** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 4 | 175.98 |
-
-**PHT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 5 | 79.99 |
-
-**SOT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| EXTREME | EXTREME | yes | 5 | 111.99 |
-
-**MOT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| A | High tier | yes | 4 | 79.99 |
-| B | High tier | yes | 4 | 79.99 |
-| C | High tier | yes | 4 | 79.99 |
-| D | High tier | yes | 4 | 79.99 |
-| E | Middle tier | yes | 3 | 59.99 |
-| F | Middle tier | yes | 3 | 59.99 |
-| G | Middle tier | yes | 3 | 59.99 |
-| H | Middle tier | yes | 3 | 59.99 |
-| I | Low tier | yes | 2 | 39.99 |
-| J | Low tier | yes | 2 | 39.99 |
-| K | Low tier | yes | 2 | 39.99 |
-| L | Low tier | yes | 2 | 39.99 |
-
-**EXC** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 4 | 79.99 |
-| EXC_M | Middle tier | yes | 3 | 59.99 |
-| EXC_L | Low tier | yes | 2 | 39.99 |
-
-**SYM** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| SYM_DECOY | SYM_DECOY | yes | 2 | 79.99 |
-
-**SIM** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 39.99 |
-| HD | HD/target | yes | 4 | 79.99 |
-| CLONE | CLONE (clone of HF) | yes | 3 | 44.79 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 2 | 39.99 |
-| HD | HD | yes | 4 | 79.99 |
-| CLONE | CLONE (clone of HD) | yes | 3 | 75.19 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD | yes | 6 | 119 |
-
-*Format module:* WORDS only (e.g. Option HF: storage = two TB, price = forty-four dollars and ninety-nine cents). The pictures cells of this category were removed from the design at the final calibration wave (registered stimulus-defect contingency; three waves beyond the 25-75 percent hard limits).
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 47.0 percent [39.2, 55.0], n = 151; final.
-
-*Calibration (words pair):* premium option (HD, the compromise target) share 40.0 percent [32.6, 47.9], n = 155; final.
-
-*Calibration (pictures pair):* premium option (HD, the compromise target) share 79.1 percent [72.0, 84.8], n = 153; removed.
-
-**FRQ** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| DECOY | DECOY | yes | 5 | 148.75 |
-
-*Format module:* WORDS only (e.g. Option HF: storage = two TB, price = forty-four dollars and ninety-nine cents). The pictures cells of this category were removed from the design at the final calibration wave (registered stimulus-defect contingency; three waves beyond the 25-75 percent hard limits).
-
-**RNG** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| RANGE_DECOY | RANGE_DECOY | yes | 6 | 261.8 |
-
-**PHT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| PHANTOM | PHANTOM | NO (phantom) | 8 | 119 |
-
-**SOT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| EXTREME | EXTREME | yes | 8 | 166.6 |
-
-*Format module:* WORDS only (e.g. Option HF: storage = two TB, price = forty-four dollars and ninety-nine cents). The pictures cells of this category were removed from the design at the final calibration wave (registered stimulus-defect contingency; three waves beyond the 25-75 percent hard limits).
-
-**MOT** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| A | High tier | yes | 6 | 119 |
-| B | High tier | yes | 6 | 119 |
-| C | High tier | yes | 6 | 119 |
-| D | High tier | yes | 6 | 119 |
-| E | Middle tier | yes | 4 | 82 |
-| F | Middle tier | yes | 4 | 82 |
-| G | Middle tier | yes | 4 | 82 |
-| H | Middle tier | yes | 4 | 82 |
-| I | Low tier | yes | 2 | 44.99 |
-| J | Low tier | yes | 2 | 44.99 |
-| K | Low tier | yes | 2 | 44.99 |
-| L | Low tier | yes | 2 | 44.99 |
-
-**EXC** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 6 | 119 |
-| EXC_M | Middle tier | yes | 4 | 82 |
-| EXC_L | Low tier | yes | 2 | 44.99 |
-
-**SYM** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| SYM_DECOY | SYM_DECOY | yes | 2 | 119 |
-
-**SIM** (stem: "Imagine you are shopping for an external hard drive. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 44.99 |
-| HD | HD/target | yes | 6 | 119 |
-| CLONE | CLONE (clone of HF) | yes | 3 | 53.87 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | storage | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 2 | 44.99 |
-| HD | HD | yes | 6 | 119 |
-| CLONE | CLONE (clone of HD) | yes | 5 | 110.12 |
-
+*Format module:* the baseline, frequency-decoy and compromise sets are also shown in words, with the names, descriptions and values of tier 2 and every number written out ("two TB"); the pictures version was removed after the pre-test.
 
 ## External hard drives (price-free: capacity vs speed)
 
+**TABLE WA-B7.** EXTERNAL HARD DRIVES WITHOUT PRICES: EVERY OPTION
 
-### Tier 2 - new values (same category)
+*Question above every set:* "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?"; statistic: -)
-
-| Option | role | available | capacity | read speed |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 3000 |
-| HD | HD | yes | 8 | 1200 |
-
-**FRQ** (stem: "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | read speed |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 3000 |
-| HD | HD/target | yes | 8 | 1200 |
-| DECOY | DECOY | yes | 7 | 1104 |
-
-**RNG** (stem: "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | read speed |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 3000 |
-| HD | HD/target | yes | 8 | 1200 |
-| RANGE_DECOY | RANGE_DECOY | yes | 8 | 900 |
-
-**PHT** (stem: "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | read speed |
-|---|---|---|---|---|
-| HF | HF | yes | 2 | 3000 |
-| HD | HD/target | yes | 8 | 1200 |
-| PHANTOM | PHANTOM | NO (phantom) | 10 | 1200 |
-
+| Option | Tier 2: new values | < |
+|---|---|---|
+|  | Capacity (TB) | Read speed (MB/s) |
+| Option with the higher read speed | 2 | 3,000 |
+| Option with the higher capacity (target of the decoys) | 8 | 1,200 |
+| Frequency decoy | 7 | 1,104 |
+| Range decoy | 8 | 900 |
+| Phantom (shown as unavailable) | 10 | 1,200 |
 
 ## Restaurants
 
+**TABLE WA-B8.** RESTAURANTS: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD | yes | 98 | 40 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 64.6 percent [57.7, 71.0], n = 195; published values, checked only.
-
-**FRQ** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| DECOY | DECOY | yes | 96 | 43 |
-
-**RNG** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| RANGE_DECOY | RANGE_DECOY | yes | 98 | 88 |
-
-**PHT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| PHANTOM | PHANTOM | NO (phantom) | 99 | 40 |
-
-**SOT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| EXTREME | EXTREME | yes | 99 | 56 |
-
-**MOT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| A | High tier | yes | 98 | 40 |
-| B | High tier | yes | 98 | 40 |
-| C | High tier | yes | 98 | 40 |
-| D | High tier | yes | 98 | 40 |
-| E | Middle tier | yes | 82 | 25 |
-| F | Middle tier | yes | 82 | 25 |
-| G | Middle tier | yes | 82 | 25 |
-| H | Middle tier | yes | 82 | 25 |
-| I | Low tier | yes | 65 | 7 |
-| J | Low tier | yes | 65 | 7 |
-| K | Low tier | yes | 65 | 7 |
-| L | Low tier | yes | 65 | 7 |
-
-**EXC** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 98 | 40 |
-| EXC_M | Middle tier | yes | 82 | 25 |
-| EXC_L | Low tier | yes | 65 | 7 |
-
-**SYM** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| SYM_DECOY | SYM_DECOY | yes | 65 | 40 |
-
-**SIM** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 7 |
-| HD | HD/target | yes | 98 | 40 |
-| CLONE | CLONE (clone of HF) | yes | 69 | 10.96 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 65 | 7 |
-| HD | HD | yes | 98 | 40 |
-| CLONE | CLONE (clone of HD) | yes | 94 | 36.04 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 22 |
-| HD | HD | yes | 95 | 60.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 31.2 percent [27.1, 35.5], n = 459; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 72 | 22 |
-| HD | HD | yes | 95 | 60.99 |
-| DECOY | DECOY | yes | 66 | 27.5 |
-
-**RNG** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 72 | 22 |
-| HD | HD | yes | 95 | 60.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 60 | 22 |
-
-**PHT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 72 | 22 |
-| HD | HD | yes | 95 | 60.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 72 | 19.8 |
-
-**SOT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 22 |
-| HD | HD/target | yes | 95 | 60.99 |
-| EXTREME | EXTREME | yes | 99 | 85.39 |
-
-**MOT** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| A | High tier | yes | 95 | 60.99 |
-| B | High tier | yes | 95 | 60.99 |
-| C | High tier | yes | 95 | 60.99 |
-| D | High tier | yes | 95 | 60.99 |
-| E | Middle tier | yes | 84 | 41.5 |
-| F | Middle tier | yes | 84 | 41.5 |
-| G | Middle tier | yes | 84 | 41.5 |
-| H | Middle tier | yes | 84 | 41.5 |
-| I | Low tier | yes | 72 | 22 |
-| J | Low tier | yes | 72 | 22 |
-| K | Low tier | yes | 72 | 22 |
-| L | Low tier | yes | 72 | 22 |
-
-**EXC** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 95 | 60.99 |
-| EXC_M | Middle tier | yes | 84 | 41.5 |
-| EXC_L | Low tier | yes | 72 | 22 |
-
-**SYM** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 22 |
-| HD | HD/target | yes | 95 | 60.99 |
-| SYM_DECOY | SYM_DECOY | yes | 72 | 60.99 |
-
-**SIM** (stem: "Imagine you are choosing a restaurant for dinner. Overall rating is assigned by Consumer Reports based on food quality, ambiance, and service (0-100 scale, higher = better). Price reflects the average entree cost. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 22 |
-| HD | HD/target | yes | 95 | 60.99 |
-| CLONE | CLONE (clone of HF) | yes | 75 | 26.68 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | rating | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 72 | 22 |
-| HD | HD | yes | 95 | 60.99 |
-| CLONE | CLONE (clone of HD) | yes | 92 | 56.31 |
-
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Rating (of 100) | Price | Name | Rating (of 100) | Price |
+| Budget option (target of the decoys at tier 2) | 65 | $7.00 | The Corner Table | 72 | $22.00 |
+| Premium option (target of the decoys at tier 1) | 98 | $40.00 | Maison Laurent | 95 | $60.99 |
+| Frequency decoy | 96 | $43.00 | Harbor House Grill | 66 | $27.50 |
+| Range decoy | 98 | $88.00 | The Copper Skillet | 60 | $22.00 |
+| Phantom (shown as unavailable) | 99 | $40.00 | The Garden Fork | 72 | $19.80 |
+| New extreme (compromise) | 99 | $56.00 | Atelier Rousseau | 99 | $85.39 |
+| Symmetric decoy (upscaling) | 65 | $40.00 | The Gilded Spoon | 72 | $60.99 |
+| Clone of the budget option | 69 | $10.96 | The Corner Booth | 75 | $26.68 |
+| Clone of the premium option | 94 | $36.04 | Maison Colette | 92 | $56.31 |
+| Extremity menu, middle tier | 82 | $25.00 |  | 84 | $41.50 |
+| Premium option's share in the pre-test | 64.6% [57.7, 71.0], n = 195; checked only | < | 31.2% [27.1, 35.5], n = 459; retained | < | < |
 
 ## Restaurants (price-free: food vs service)
 
+**TABLE WA-B9.** RESTAURANTS WITHOUT PRICES: EVERY OPTION
 
-### Tier 2 - new values (same category)
+*Question above every set:* "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?"
 
-**BIN** (stem: "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?"; statistic: -)
-
-| Option | role | available | food rating | service rating |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 93 |
-| HD | HD | yes | 95 | 76 |
-
-**FRQ** (stem: "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | food rating | service rating |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 93 |
-| HD | HD/target | yes | 95 | 76 |
-| DECOY | DECOY | yes | 92 | 70 |
-
-**RNG** (stem: "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | food rating | service rating |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 93 |
-| HD | HD/target | yes | 95 | 76 |
-| RANGE_DECOY | RANGE_DECOY | yes | 95 | 57 |
-
-**PHT** (stem: "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | food rating | service rating |
-|---|---|---|---|---|
-| HF | HF | yes | 72 | 93 |
-| HD | HD/target | yes | 95 | 76 |
-| PHANTOM | PHANTOM | NO (phantom) | 99 | 76 |
-
+| Option | Tier 2: new values | < |
+|---|---|---|
+|  | Food rating (of 100) | Service rating (of 100) |
+| Option with the higher service rating | 72 | 93 |
+| Option with the higher food rating (target of the decoys) | 95 | 76 |
+| Frequency decoy | 92 | 70 |
+| Range decoy | 95 | 57 |
+| Phantom (shown as unavailable) | 99 | 76 |
 
 ## Robot vacuums
 
+**TABLE WA-B10.** ROBOT VACUUMS: EVERY OPTION
 
-### Tier 3 - invented (never-published) category
+*Question above every set:* "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD | yes | 6000 | 499.99 |
-
-*Calibration (numbers pair; the share quoted belongs to the premium option (HD, the compromise target)):* final; Final at HF price 159.00 (42.1% [36.7, 47.6], n=309, wave 2). CAVEAT: its wave-3 realism re-check FAILED (mean 4.53 = the wave-2 value.
-
-**FRQ** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| DECOY | DECOY | yes | 5000 | 624.99 |
-
-**RNG** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 6000 | 1099.98 |
-
-**PHT** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 7600 | 499.99 |
-
-**SOT** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| EXTREME | EXTREME | yes | 8000 | 699.99 |
-
-**MOT** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| A | High tier | yes | 6000 | 499.99 |
-| B | High tier | yes | 6000 | 499.99 |
-| C | High tier | yes | 6000 | 499.99 |
-| D | High tier | yes | 6000 | 499.99 |
-| E | Middle tier | yes | 4000 | 329.5 |
-| F | Middle tier | yes | 4000 | 329.5 |
-| G | Middle tier | yes | 4000 | 329.5 |
-| H | Middle tier | yes | 4000 | 329.5 |
-| I | Low tier | yes | 2000 | 159 |
-| J | Low tier | yes | 2000 | 159 |
-| K | Low tier | yes | 2000 | 159 |
-| L | Low tier | yes | 2000 | 159 |
-
-**EXC** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 6000 | 499.99 |
-| EXC_M | Middle tier | yes | 4000 | 329.5 |
-| EXC_L | Low tier | yes | 2000 | 159 |
-
-**SYM** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| SYM_DECOY | SYM_DECOY | yes | 2000 | 499.99 |
-
-**SIM** (stem: "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF | yes | 2000 | 159 |
-| HD | HD/target | yes | 6000 | 499.99 |
-| CLONE | CLONE (clone of HF) | yes | 2480 | 199.92 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | suction | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 2000 | 159 |
-| HD | HD | yes | 6000 | 499.99 |
-| CLONE | CLONE (clone of HD) | yes | 5520 | 459.07 |
-
+| Option | Tier 3: invented category | < | < |
+|---|---|---|---|
+|  | Name | Suction (Pa) | Price |
+| Budget option | TidyBot Robot Vacuum | 2,000 | $159.00 |
+| Premium option (target of the decoys) | OrbitClean Robot Vacuum | 6,000 | $499.99 |
+| Frequency decoy | SweepStar Robot Vacuum | 5,000 | $624.99 |
+| Range decoy | VacPrime Robot Vacuum | 6,000 | $1,099.98 |
+| Phantom (shown as unavailable) | TurboSweep Robot Vacuum | 7,600 | $499.99 |
+| New extreme (compromise) | CycloneMax Robot Vacuum | 8,000 | $699.99 |
+| Symmetric decoy (upscaling) | GlideBot Robot Vacuum | 2,000 | $499.99 |
+| Clone of the budget option | TidyMate Robot Vacuum | 2,480 | $199.92 |
+| Clone of the premium option | OrbitSweep Robot Vacuum | 5,520 | $459.07 |
+| Extremity menu, middle tier |  | 4,000 | $329.50 |
+| Premium option's share in the pre-test | 42.1% [36.7, 47.6], n = 309; final | < | < |
 
 ## Standing desks
 
+**TABLE WA-B11.** STANDING DESKS: EVERY OPTION
 
-### Tier 3 - invented (never-published) category
+*Question above every set:* "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 110 | 269 |
-| HD | HD | yes | 300 | 429.99 |
-
-*Calibration (numbers pair):* budget option (HF) share 66.7 percent [62.2, 70.8]; compromise target (HD, the premium option) share 33.3 percent [29.2, 37.8], n = 459; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 110 | 269 |
-| HD | HD | yes | 300 | 429.99 |
-| DECOY | DECOY | yes | 62 | 336.25 |
-
-**RNG** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 110 | 269 |
-| HD | HD | yes | 300 | 429.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 50 | 269 |
-
-**PHT** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 110 | 269 |
-| HD | HD | yes | 300 | 429.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 110 | 242.1 |
-
-**SOT** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 110 | 269 |
-| HD | HD/target | yes | 300 | 429.99 |
-| EXTREME | EXTREME | yes | 395 | 601.99 |
-
-**MOT** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| A | High tier | yes | 300 | 429.99 |
-| B | High tier | yes | 300 | 429.99 |
-| C | High tier | yes | 300 | 429.99 |
-| D | High tier | yes | 300 | 429.99 |
-| E | Middle tier | yes | 205 | 349.5 |
-| F | Middle tier | yes | 205 | 349.5 |
-| G | Middle tier | yes | 205 | 349.5 |
-| H | Middle tier | yes | 205 | 349.5 |
-| I | Low tier | yes | 110 | 269 |
-| J | Low tier | yes | 110 | 269 |
-| K | Low tier | yes | 110 | 269 |
-| L | Low tier | yes | 110 | 269 |
-
-**EXC** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 300 | 429.99 |
-| EXC_M | Middle tier | yes | 205 | 349.5 |
-| EXC_L | Low tier | yes | 110 | 269 |
-
-**SYM** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 110 | 269 |
-| HD | HD/target | yes | 300 | 429.99 |
-| SYM_DECOY | SYM_DECOY | yes | 110 | 429.99 |
-
-**SIM** (stem: "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 110 | 269 |
-| HD | HD/target | yes | 300 | 429.99 |
-| CLONE | CLONE (clone of HF) | yes | 133 | 288.32 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | weight capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 110 | 269 |
-| HD | HD | yes | 300 | 429.99 |
-| CLONE | CLONE (clone of HD) | yes | 277 | 410.67 |
-
+| Option | Tier 3: invented category | < | < |
+|---|---|---|---|
+|  | Name | Weight capacity (lbs) | Price |
+| Budget option (target of the decoys) | LiftMate Standing Desk | 110 | $269.00 |
+| Premium option | TerraRise Standing Desk | 300 | $429.99 |
+| Frequency decoy | DeskRise Standing Desk | 62 | $336.25 |
+| Range decoy | AeroLift Standing Desk | 50 | $269.00 |
+| Phantom (shown as unavailable) | StandEase Standing Desk | 110 | $242.10 |
+| New extreme (compromise) | IronCrest Standing Desk | 395 | $601.99 |
+| Symmetric decoy (upscaling) | UpDeck Standing Desk | 110 | $429.99 |
+| Clone of the budget option | LiftMade Standing Desk | 133 | $288.32 |
+| Clone of the premium option | TerraLift Standing Desk | 277 | $410.67 |
+| Extremity menu, middle tier |  | 205 | $349.50 |
+| Premium option's share in the pre-test | 33.3% [29.2, 37.8], n = 459; retained | < | < |
 
 ## Televisions
 
+**TABLE WA-B12.** TELEVISIONS: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: -)
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Picture quality (of 100) | Price | Name | Picture quality (of 100) | Price |
+| Budget option | 65 | $109.99 | ClearView Smart TV | 78 | $139.99 |
+| Premium option (target of the decoys) | 98 | $505.99 | CinemaMax Smart TV | 96 | $459.00 |
+| Frequency decoy | 96 | $529.99 | VistaPrime Smart TV | 92 | $573.75 |
+| Range decoy | 98 | $1,113.18 | OpticaPro Smart TV | 96 | $1,009.80 |
+| Phantom (shown as unavailable) | 99 | $505.99 | LumaElite Smart TV | 99 | $459.00 |
+| New extreme (compromise) | 99 | $708.39 | CineRoyal Smart TV | 99 | $642.60 |
+| Symmetric decoy (upscaling) | 65 | $505.99 | ViewCast Smart TV | 78 | $459.00 |
+| Clone of the budget option | 69 | $157.51 | ClearVista Smart TV | 80 | $178.27 |
+| Clone of the premium option | 94 | $458.47 | CinemaPro Smart TV | 94 | $420.72 |
+| Extremity menu, middle tier | 83 | $325.99 |  | 87 | $299.50 |
+| Premium option's share in the pre-test | 74.7% [65.2, 82.4], n = 95; checked only | < | 49.0% [41.2, 56.9], n = 153; final | < | < |
+| Premium option's share in the pre-test, words version |  | < | 49.4% [41.6, 57.1], n = 156; final | < | < |
+| Premium option's share in the pre-test, pictures version |  | < | 38.7% [31.2, 46.7], n = 150; final | < | < |
 
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD | yes | 98 | 505.99 |
+*Format module:* the baseline, frequency-decoy and compromise sets are also shown in words, with the names, descriptions and values of tier 2 and every number written out except the 100 of a rating out of 100 ("seventy-eight out of 100"), and in pictures, with values of their own (Table WA-B13).
 
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 74.7 percent [65.2, 82.4], n = 95; published values, checked only.
+**TABLE WA-B13.** TELEVISIONS: THE VALUES BEHIND THE PICTURES
 
-**FRQ** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| DECOY | DECOY | yes | 96 | 529.99 |
-
-**RNG** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 98 | 1113.18 |
-
-**PHT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 99 | 505.99 |
-
-**SOT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| EXTREME | EXTREME | yes | 99 | 708.39 |
-
-**MOT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| A | High tier | yes | 98 | 505.99 |
-| B | High tier | yes | 98 | 505.99 |
-| C | High tier | yes | 98 | 505.99 |
-| D | High tier | yes | 98 | 505.99 |
-| E | Middle tier | yes | 83 | 325.99 |
-| F | Middle tier | yes | 83 | 325.99 |
-| G | Middle tier | yes | 83 | 325.99 |
-| H | Middle tier | yes | 83 | 325.99 |
-| I | Low tier | yes | 65 | 109.99 |
-| J | Low tier | yes | 65 | 109.99 |
-| K | Low tier | yes | 65 | 109.99 |
-| L | Low tier | yes | 65 | 109.99 |
-
-**EXC** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 98 | 505.99 |
-| EXC_M | Middle tier | yes | 83 | 325.99 |
-| EXC_L | Low tier | yes | 65 | 109.99 |
-
-**SYM** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| SYM_DECOY | SYM_DECOY | yes | 65 | 505.99 |
-
-**SIM** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 109.99 |
-| HD | HD/target | yes | 98 | 505.99 |
-| CLONE | CLONE (clone of HF) | yes | 69 | 157.51 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 65 | 109.99 |
-| HD | HD | yes | 98 | 505.99 |
-| CLONE | CLONE (clone of HD) | yes | 94 | 458.47 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD | yes | 96 | 459 |
-
-*Format module:* WORDS (e.g. Option HF: picture_quality = seventy-eight out of 100, price = one hundred thirty-nine dollars and ninety-nine cents) and PICTURES (`assets/BIN_televisions_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 2b636bca9eae...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 70 | 139.99 |
-| HD | HD | yes | 96 | 429 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 49.0 percent [41.2, 56.9], n = 153; final.
-
-*Calibration (words pair):* premium option (HD, the compromise target) share 49.4 percent [41.6, 57.1], n = 156; final.
-
-*Calibration (pictures pair):* premium option (HD, the compromise target) share 38.7 percent [31.2, 46.7], n = 150; final.
-
-**FRQ** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| DECOY | DECOY | yes | 92 | 573.75 |
-
-*Format module:* WORDS (e.g. Option HF: picture_quality = seventy-eight out of 100, price = one hundred thirty-nine dollars and ninety-nine cents) and PICTURES (`assets/FRQ_televisions_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 d30feda1754c...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 70 | 139.99 |
-| HD | HD/target | yes | 96 | 429 |
-| DECOY | DECOY | yes | 90 | 536.25 |
-
-**RNG** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| RANGE_DECOY | RANGE_DECOY | yes | 96 | 1009.8 |
-
-**PHT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| PHANTOM | PHANTOM | NO (phantom) | 99 | 459 |
-
-**SOT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| EXTREME | EXTREME | yes | 99 | 642.6 |
-
-*Format module:* WORDS (e.g. Option HF: picture_quality = seventy-eight out of 100, price = one hundred thirty-nine dollars and ninety-nine cents) and PICTURES (`assets/SOT_televisions_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 3eedbe8c9491...).
-
-*Pictures column, per-format final values (the calibration's recorded per-format departure):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 70 | 139.99 |
-| HD | HD/target | yes | 96 | 429 |
-| EXTREME | EXTREME | yes | 99 | 600.6 |
-
-**MOT** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| A | High tier | yes | 96 | 459 |
-| B | High tier | yes | 96 | 459 |
-| C | High tier | yes | 96 | 459 |
-| D | High tier | yes | 96 | 459 |
-| E | Middle tier | yes | 87 | 299.5 |
-| F | Middle tier | yes | 87 | 299.5 |
-| G | Middle tier | yes | 87 | 299.5 |
-| H | Middle tier | yes | 87 | 299.5 |
-| I | Low tier | yes | 78 | 139.99 |
-| J | Low tier | yes | 78 | 139.99 |
-| K | Low tier | yes | 78 | 139.99 |
-| L | Low tier | yes | 78 | 139.99 |
-
-**EXC** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 96 | 459 |
-| EXC_M | Middle tier | yes | 87 | 299.5 |
-| EXC_L | Low tier | yes | 78 | 139.99 |
-
-**SYM** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| SYM_DECOY | SYM_DECOY | yes | 78 | 459 |
-
-**SIM** (stem: "Imagine you are shopping for a 40-inch television. Picture quality is rated on a 100-point scale by a panel of experts at Consumer Reports (1 = worst, 100 = best). You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF | yes | 78 | 139.99 |
-| HD | HD/target | yes | 96 | 459 |
-| CLONE | CLONE (clone of HF) | yes | 80 | 178.27 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | picture quality | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 78 | 139.99 |
-| HD | HD | yes | 96 | 459 |
-| CLONE | CLONE (clone of HD) | yes | 94 | 420.72 |
-
+| Option | Pictures version | < |
+|---|---|---|
+|  | Picture quality (of 100) | Price |
+| Budget option | 70 | $139.99 |
+| Premium option (target of the decoys) | 96 | $429.00 |
+| Frequency decoy | 90 | $536.25 |
+| New extreme (compromise) | 99 | $600.60 |
 
 ## Televisions (price-free: picture vs sound)
 
+**TABLE WA-B14.** TELEVISIONS WITHOUT PRICES: EVERY OPTION
 
-### Tier 2 - new values (same category)
+*Question above every set:* "Imagine you are shopping for a 40-inch television. Two experts rate picture quality and sound quality, each on a 0-100 scale (higher is better). You are considering the following options. Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a 40-inch television. Two experts rate picture quality and sound quality, each on a 0-100 scale (higher is better). You are considering the following options. Which would you choose?"; statistic: -)
-
-| Option | role | available | picture quality | sound quality |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 95 |
-| HD | HD | yes | 95 | 78 |
-
-**FRQ** (stem: "Imagine you are shopping for a 40-inch television. Two experts rate picture quality and sound quality, each on a 0-100 scale (higher is better). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | sound quality |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 95 |
-| HD | HD/target | yes | 95 | 78 |
-| DECOY | DECOY | yes | 91 | 72 |
-
-**RNG** (stem: "Imagine you are shopping for a 40-inch television. Two experts rate picture quality and sound quality, each on a 0-100 scale (higher is better). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | sound quality |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 95 |
-| HD | HD/target | yes | 95 | 78 |
-| RANGE_DECOY | RANGE_DECOY | yes | 95 | 58 |
-
-**PHT** (stem: "Imagine you are shopping for a 40-inch television. Two experts rate picture quality and sound quality, each on a 0-100 scale (higher is better). You are considering the following options. Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | picture quality | sound quality |
-|---|---|---|---|---|
-| HF | HF | yes | 65 | 95 |
-| HD | HD/target | yes | 95 | 78 |
-| PHANTOM | PHANTOM | NO (phantom) | 99 | 78 |
-
+| Option | Tier 2: new values | < |
+|---|---|---|
+|  | Picture quality (of 100) | Sound quality (of 100) |
+| Option with the higher sound quality | 65 | 95 |
+| Option with the higher picture quality (target of the decoys) | 95 | 78 |
+| Frequency decoy | 91 | 72 |
+| Range decoy | 95 | 58 |
+| Phantom (shown as unavailable) | 99 | 78 |
 
 ## Water bottles
 
+**TABLE WA-B15.** WATER BOTTLES: EVERY OPTION, BOTH TIERS
 
-### Tier 1 - exact published focal values (constructed structures rebuilt to the registered geometry)
+*Question above every set:* "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"
 
-**BIN** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: -)
+| Option | Tier 1: published values | < | Tier 2: new values | < | < |
+|---|---|---|---|---|---|
+|  | Capacity (oz) | Price | Name | Capacity (oz) | Price |
+| Budget option (target of the decoys at tier 2) | 18 | $7.99 | AquaPod Water Bottle | 16 | $8.99 |
+| Premium option (target of the decoys at tier 1) | 40 | $9.99 | HydraTank Water Bottle | 48 | $24.99 |
+| Frequency decoy | 38 | $10.99 | SipMate Water Bottle | 8 | $11.24 |
+| Range decoy | 40 | $21.98 | DewDrop Water Bottle | 7 | $8.99 |
+| Phantom (shown as unavailable) | 49 | $9.99 | AquaLite Water Bottle | 16 | $8.09 |
+| New extreme (compromise) | 51 | $13.99 | TrailKeg Water Bottle | 64 | $34.99 |
+| Symmetric decoy (upscaling) | 18 | $9.99 | PureFlask Water Bottle | 16 | $24.99 |
+| Clone of the budget option | 21 | $8.99 | AquaPebble Water Bottle | 20 | $10.91 |
+| Clone of the premium option | 37 | $8.99 | HydraJug Water Bottle | 44 | $23.07 |
+| Extremity menu, middle tier | 32 | $8.99 |  | 32 | $16.99 |
+| Premium option's share in the pre-test | 80.0% [71.1, 86.7], n = 100; checked only | < | 41.7% [32.3, 51.7], n = 96; final | < | < |
+| Premium option's share in the pre-test, words version |  | < | 44.1% [37.8, 50.6], n = 229; final | < | < |
+| Premium option's share in the pre-test, pictures version |  | < | 59.1% [52.7, 65.3], n = 230; retained | < | < |
 
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD | yes | 40 | 9.99 |
-
-*Calibration (numbers pair):* premium option (HD, the compromise target) share 80.0 percent [71.1, 86.7], n = 100; published values, checked only.
-
-**FRQ** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| DECOY | DECOY | yes | 38 | 10.99 |
-
-**RNG** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 40 | 21.98 |
-
-**PHT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 49 | 9.99 |
-
-**SOT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| EXTREME | EXTREME | yes | 51 | 13.99 |
-
-**MOT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| A | High tier | yes | 40 | 9.99 |
-| B | High tier | yes | 40 | 9.99 |
-| C | High tier | yes | 40 | 9.99 |
-| D | High tier | yes | 40 | 9.99 |
-| E | Middle tier | yes | 32 | 8.99 |
-| F | Middle tier | yes | 32 | 8.99 |
-| G | Middle tier | yes | 32 | 8.99 |
-| H | Middle tier | yes | 32 | 8.99 |
-| I | Low tier | yes | 18 | 7.99 |
-| J | Low tier | yes | 18 | 7.99 |
-| K | Low tier | yes | 18 | 7.99 |
-| L | Low tier | yes | 18 | 7.99 |
-
-**EXC** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 40 | 9.99 |
-| EXC_M | Middle tier | yes | 32 | 8.99 |
-| EXC_L | Low tier | yes | 18 | 7.99 |
-
-**SYM** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| SYM_DECOY | SYM_DECOY | yes | 18 | 9.99 |
-
-**SIM** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 18 | 7.99 |
-| HD | HD/target | yes | 40 | 9.99 |
-| CLONE | CLONE (clone of HF) | yes | 21 | 8.99 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 18 | 7.99 |
-| HD | HD | yes | 40 | 9.99 |
-| CLONE | CLONE (clone of HD) | yes | 37 | 8.99 |
-
-
-### Tier 2 - new values (same category)
-
-**BIN** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: -)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 16 | 8.99 |
-| HD | HD | yes | 48 | 24.99 |
-
-*Format module:* WORDS (e.g. Option HF: capacity = sixteen oz, price = eight dollars and ninety-nine cents) and PICTURES (`assets/BIN_water_bottles_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 659c00ec9ec3...).
-
-*Calibration (numbers pair; the share quoted belongs to the premium option (HD, the compromise target)):* final; Final at the original values (41.7% [32.3, 51.7], n=96, wave 1.
-
-*Calibration (words pair):* premium option (HD, the compromise target) share 44.1 percent [37.8, 50.6], n = 229; final.
-
-*Calibration (pictures pair):* premium option (HD, the compromise target) share 59.1 percent [52.7, 65.3], n = 230; retained, baseline reported.
-
-**FRQ** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 16 | 8.99 |
-| HD | HD | yes | 48 | 24.99 |
-| DECOY | DECOY | yes | 8 | 11.24 |
-
-*Format module:* WORDS (e.g. Option HF: capacity = sixteen oz, price = eight dollars and ninety-nine cents) and PICTURES (`assets/FRQ_water_bottles_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 69b5e0f4c894...).
-
-**RNG** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 16 | 8.99 |
-| HD | HD | yes | 48 | 24.99 |
-| RANGE_DECOY | RANGE_DECOY | yes | 7 | 8.99 |
-
-**PHT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 16 | 8.99 |
-| HD | HD | yes | 48 | 24.99 |
-| PHANTOM | PHANTOM | NO (phantom) | 16 | 8.09 |
-
-**SOT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: target_relative_share_over_target_plus_competitor)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 16 | 8.99 |
-| HD | HD/target | yes | 48 | 24.99 |
-| EXTREME | EXTREME | yes | 64 | 34.99 |
-
-*Format module:* WORDS (e.g. Option HF: capacity = sixteen oz, price = eight dollars and ninety-nine cents) and PICTURES (`assets/SOT_water_bottles_t2.svg`, quantitative-magnitude SVG, rendered from the final calibrated values, sha256 0e548c879ae6...).
-
-**MOT** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_vs_matched_EXC)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| A | High tier | yes | 48 | 24.99 |
-| B | High tier | yes | 48 | 24.99 |
-| C | High tier | yes | 48 | 24.99 |
-| D | High tier | yes | 48 | 24.99 |
-| E | Middle tier | yes | 32 | 16.99 |
-| F | Middle tier | yes | 32 | 16.99 |
-| G | Middle tier | yes | 32 | 16.99 |
-| H | Middle tier | yes | 32 | 16.99 |
-| I | Low tier | yes | 16 | 8.99 |
-| J | Low tier | yes | 16 | 8.99 |
-| K | Low tier | yes | 16 | 8.99 |
-| L | Low tier | yes | 16 | 8.99 |
-
-**EXC** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: extreme_tier_share_single_per_tier)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| EXC_H | High tier | yes | 48 | 24.99 |
-| EXC_M | Middle tier | yes | 32 | 16.99 |
-| EXC_L | Low tier | yes | 16 | 8.99 |
-
-**SYM** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: hd_share_vs_binary)
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 16 | 8.99 |
-| HD | HD/target | yes | 48 | 24.99 |
-| SYM_DECOY | SYM_DECOY | yes | 16 | 24.99 |
-
-**SIM** (stem: "Imagine you are shopping for a reusable water bottle. You are considering the following options: Which would you choose?"; statistic: uncloned_relative_share_HD_vs_HF)
-
-*Placement clone_HF (clone of the budget option (HF); uncloned focal = HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF | yes | 16 | 8.99 |
-| HD | HD/target | yes | 48 | 24.99 |
-| CLONE | CLONE (clone of HF) | yes | 20 | 10.91 |
-
-*Placement clone_HD (clone of the premium option (HD); uncloned focal = HF; statistic: uncloned_relative_share_HF_vs_HD):*
-
-| Option | role | available | capacity | price |
-|---|---|---|---|---|
-| HF | HF/target | yes | 16 | 8.99 |
-| HD | HD | yes | 48 | 24.99 |
-| CLONE | CLONE (clone of HD) | yes | 44 | 23.07 |
-
+*Format module:* the baseline, frequency-decoy and compromise sets are also shown in words, with the names, descriptions and values of tier 2 and every number written out ("sixteen oz"), and in pictures, at the values of tier 2.
 
 ## Enriched product-page text (adjustable tiers; canonical as of the completed calibration)
 

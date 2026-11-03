@@ -1,6 +1,6 @@
 """build_analysis_explorer.py: builds analysis-explorer.html, one offline page that draws, for every simulated model of
 the analysis rehearsal, each step of the registered analysis (Steps 0 to 4) with Play controls, ends at the scenario the
-model is assigned, and sorts all simulated models into the checking order of Step 4.
+model is assigned, and sorts all simulated models into the conclusions of Step 4.
 
 The page reaches no result of its own: it displays the files in analysis/results_pack/, which analysis/analyze.py writes
 when it runs on the simulated data in analysis/demo_data/, the cutoffs in analysis/registered_constants.py, and the
@@ -24,11 +24,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if os.path.isdir(os.path.join(HERE, "results_pack")):
     ANALYSIS = HERE
     OUT = os.path.join(HERE, "..", "analysis-explorer.html")
-    MANUSCRIPT = None
+    TABLE4_SOURCES = ()
 else:
     ANALYSIS = os.path.join(HERE, "..", "engines", "analysis")
     OUT = os.path.join(HERE, "offline", "analysis-explorer.html")
-    MANUSCRIPT = os.path.join(HERE, "..", "..", "manuscript", "main.md")
+    TABLE4_SOURCES = (os.path.join(HERE, "..", "..", "manuscript", "main.md"),)
 PACK = os.path.join(ANALYSIS, "results_pack")
 sys.path.insert(0, ANALYSIS)
 from registered_constants import C as RC  # noqa: E402
@@ -46,8 +46,9 @@ MODELS = {
     "FAITHFUL": ("Matches people everywhere",
                  "Built to match people on every effect, in every tier and format, without naming the decoy when "
                  "asked."),
-    "PARROT": ("Matches people only on the published values",
-               "Built to match people on the published values only and to show much smaller effects on new values."),
+    "PARROT": ("Matches people only on the published values, and names one decoy",
+               "Built to match people on the published values only and to show much smaller effects on new values, "
+               "and to show no upscaling effect while naming the upscaling decoy when asked: two failures at once."),
     "REASONER": ("Matches people where the set gives a reason",
                  "Built to match people where the choice set gives a clear reason (attraction) and to fall short "
                  "where it gives none (extremity)."),
@@ -55,13 +56,17 @@ MODELS = {
                   "Built to name the decoy when asked and to choose against it, so its effects run opposite to "
                   "people's."),
     "DIVIDED_A": ("Two models of one family: the first",
-                  "One of two models of the same family: this one matches people."),
+                  "One of two models of the same family: this one matches people. The two receive different overall "
+                  "classes, which is reported beside each of them."),
     "DIVIDED_B": ("Two models of one family: the second",
-                  "One of two models of the same family: this one reverses people's effects."),
+                  "One of two models of the same family: this one reverses people's effects without naming the "
+                  "decoy."),
     "CONVERGE_OLD": ("Older model of a family that improves",
-                     "The older model of a family whose newer model matches people more closely."),
+                     "The older model of a family whose newer model matches people more closely; it falls short of "
+                     "people on every effect."),
     "CONVERGE_NEW": ("Newer model of a family that improves",
-                     "The newer model of a family whose older model matched people less closely."),
+                     "The newer model of a family whose older model matched people less closely; it matches people and "
+                     "names the attraction and compromise decoys when asked."),
     "WALK1_PARROT": ("Walk-through 1 of Web Appendix C",
                      "Matches people on the published values and not on new values."),
     "WALK2_MIXED": ("Walk-through 2 of Web Appendix C",
@@ -81,66 +86,40 @@ MODELS = {
                      "human size on new values."),
 }
 
-# The registered checking order of Step 4 (Analysis Plan, Step 4), with the paper's requirement for each row. For a
-# scenario row the requirement is the "What the results must show" cell of Table 4; for the three rows that are not
-# scenarios it is the Step 4 text. `source` must occur in the manuscript when the manuscript is present; `tests` are the
-# pattern tests a row depends on, used to mark a passed row whose test was not resolved.
-STEPS = [
-    dict(title="Reversed ordering, manipulation identified",
-         need="Fidelity rises down the argument-strength ordering (T3), and the model identifies the manipulation on "
-              "every attraction or compromise effect it misses (T2). Conclusion: rational override on the choice sets "
-              "that give an argument.",
-         source="(1) a reversed argument-strength ordering, with the manipulation identified on every attraction or "
-                "compromise effect the model misses, which we conclude is rational override on the choice sets that "
-                "give an argument", tests=["T3", "T2"]),
-    dict(title="S4, rational override",
-         need="First way: the model identifies the manipulation and does not show the effect on at least one effect "
-              "(T2), with a LOW or ANTI overall class.",
-         source="First way: the model identifies the manipulation and does not show the effect on at least one effect "
-                "(T2), with a LOW or ANTI overall class.", tests=["T2"], code="S4"),
-    dict(title="S2, retrieval only",
-         need="A resolved steep fall in fidelity from the published values to new values (T1)",
-         source="A resolved steep fall in fidelity from the published values to new values (T1)", tests=["T1"],
-         code="S2"),
-    dict(title="S6, rising fidelity",
-         need="A resolved rise in fidelity across the generations of the model's family (T5), whatever the class of "
-              "the current model; checked before S1",
-         source="A resolved rise in fidelity across the generations of the model's family (T5), whatever the class of "
-                "the current model; checked before S1", tests=["T5"], code="S6"),
-    dict(title="S5, family-specific",
-         need="The models of one family receive different overall classes",
-         source="The models of one family receive different overall classes", tests=[], code="S5"),
-    dict(title="Reversed ordering, manipulation not identified",
-         need="Fidelity rises down the argument-strength ordering (T3) without that recognition. Reported as a "
-              "difference from people with no account attached.",
-         source="(6) a reversed ordering without that recognition, which we report as a difference from people with "
-                "no account attached", tests=["T3"]),
-    dict(title="S1, high fidelity",
-         need="HIGH overall class and no effect classed LOW or ANTI; no resolved steep fall from the published values "
-              "to new values (T1); no resolved decline or reversal down the argument-strength ordering (T3); the model "
-              "shows each of its effects without identifying the manipulation (T2)",
-         source="HIGH overall class and no effect classed LOW or ANTI; no resolved steep fall from the published values "
-                "to new values (T1); no resolved decline or reversal down the argument-strength ordering (T3); the "
-                "model shows each of its effects without identifying the manipulation (T2)", tests=[], code="S1"),
-    dict(title="S3, reason construction",
-         need="A resolved decline in fidelity down the argument-strength ordering (T3)",
-         source="A resolved decline in fidelity down the argument-strength ordering (T3)", tests=["T3"], code="S3"),
-    dict(title="Mixed pattern",
-         need="HIGH on some effects and LOW or ANTI on others. Reported as a mixed pattern, with each effect's class "
-              "and account side by side.",
-         source="(9) a mixed pattern, HIGH on some effects and LOW or ANTI on others, which we report as a mixed "
-                "pattern, with each effect's class and account side by side", tests=[]),
-    dict(title="S4, systematic inversion",
-         need="Second way: an ANTI overall class without recognition (systematic inversion)",
-         source="Second way: an ANTI overall class without recognition (systematic inversion)", tests=["T2"],
-         code="S4"),
+# Decision tree B (Analysis Plan, Step 4): does the model match people? If not, why not? Each row is one conclusion;
+# `need` is the "What the results must show" cell of Table 4 and must occur in the Table 4 source when it is present.
+ROWS = [
+    dict(code="S1", title="Matches people and names no decoy",
+         need="The model matches people (HIGH overall class, no effect classed LOW or ANTI, and no test that shows "
+              "or points to a failure) and shows every effect without identifying the manipulation (T2)"),
+    dict(code="S7", title="Matches people and names a decoy",
+         need="The model matches people (HIGH overall class, no effect classed LOW or ANTI, and no test that shows "
+              "or points to a failure) and identifies the manipulation on at least one effect (T2)"),
+    dict(code="S2", title="Does not match: its match falls from published to new values",
+         need="The model does not match people, and the memorization test resolves a steep fall in fidelity from the "
+              "published values to new values (T1)"),
+    dict(code="S3", title="Does not match: its match falls as the reason weakens",
+         need="The model does not match people, and the argument-strength test resolves a decline in fidelity down "
+              "the ordering (T3)"),
+    dict(code="S4", title="Does not match: it names the decoy and does not follow it",
+         need="The model does not match people, and on at least one effect it identifies the manipulation and does "
+              "not show the effect (T2)"),
+    dict(code="S6", title="Does not match, and all three failures are absent",
+         need="The model does not match people, and all three failures are absent, for example HIGH on some effects "
+              "and LOW or ANTI on others, fidelity that rises down the argument-strength ordering, or an ANTI overall "
+              "class without identifying the manipulation"),
 ]
-NONE_ROW = dict(title="None of the ten applies",
-                need="We report the model by the result of each test, under the two rules of Step 4.",
-                source="We report a model that matches none by the result of each test, under the two rules of Step 4",
-                tests=[])
+ROW_OF = {s["code"]: i for i, s in enumerate(ROWS)}
+NAMES = {"S1": "S1, deep mimicry (high fidelity)", "S2": "S2, retrieval", "S3": "S3, reason construction",
+         "S4": "S4, rational override", "S5": "S5, human effects fail", "S6": "S6, a failure that no account predicts",
+         "S7": "S7, a known effect reproduced"}
+# The three failures of step 2, each with the test that reads it; they have no order among them.
+SIGNATURES = [dict(code="S2", name="Retrieval", what="Its match falls from published to new values", test="T1"),
+              dict(code="S3", name="Reason construction", what="Its match falls as the reason weakens", test="T3"),
+              dict(code="S4", name="Rational override", what="It names the decoy and does not follow it", test="T2")]
+SIGNATURE_STATES = ("present", "absent", "not resolved", "not judged")
 
-# The registered one-line conclusion of each scenario (Table 4); checked against the source when present.
+# The registered one-line conclusion of each scenario (Table 4); checked against the Table 4 source when present.
 CONCLUSIONS = {
     "S1": "The model reproduces the human context effects we tested; synthetic respondents are defensible within the "
           "tested scope.",
@@ -148,38 +127,49 @@ CONCLUSIONS = {
           "validation on new stimuli is required before a synthetic panel is trusted.",
     "S3": "The model matches people less closely as the choice sets offer weaker reasons that can be stated, and least "
           "closely on the extremity effect, whose menu offers none.",
-    "S4": "When asked, the model identifies the manipulation, and its choices do not follow it, or, without "
-          "identifying it, its effects run opposite to people's; either way, synthetic data from it would "
-          "systematically remove or reverse the effects consumer research studies.",
-    "S5": "No statement holds for language models as a class; each model needs its own validation.",
-    "S6": "Fidelity is higher in the newer model of this family; the comparison across generations measures the size "
-          "of the difference.",
-    "S7": "The human replication is the main contribution; the effects that missed the replication criterion, named "
+    "S4": "When asked, the model identifies the manipulation, and its choices do not follow it; synthetic data from it "
+          "would systematically remove or reverse the effects consumer research studies.",
+    "S5": "The human replication is the main contribution; the effects that missed the replication criterion, named "
           "in the report, were not detected under calibrated testing with high power.",
+    "S6": "The model differs from people in a way that none of the four accounts predicts; we report each effect's "
+          "class and whether the model identified the manipulation, and each effect needs its own validation.",
+    "S7": "The model reproduces the human context effects we tested and names the manipulation when asked, so it may "
+          "reproduce them deliberately or as learned; we cannot tell which from this test.",
 }
 
-# Where each planted scenario of synth.py is expected to land (an index into STEPS, or a key below).
-PLANTED_LANDING = {"S1": 6, "S2": 2, "S3": 7, "S4": 1, "S5": 4, "S6": 3, "WALK1": 2, "WALK2": 8,
-                   "GATE_CEILING": "step0", "GATE_REFUSAL": "step0", "REVERSED_LADDER_OVERRIDE": 0,
-                   "REVERSED_LADDER": 5, "COMPOSITE": "none"}
-SCENARIO_ROW = {"REVERSED_LADDER_OVERRIDE": 0, "S2": 2, "S6": 3, "S5": 4, "REVERSED_LADDER": 5, "S1": 6, "S3": 7,
-                "PARTIAL": 8}
+
+def _sig_text(name, state):
+    """What a reading did to its failure in step 2 of the tree (state: a signature state, 'not read' for a model that
+    matches people, or '' for a model that stops at Step 0)."""
+    if state == "not read":
+        return "the model matches people, so this failure is not read"
+    if state in SIGNATURE_STATES:
+        return f"the {name} failure is {state}"
+    if state == "":
+        return ""
+    raise SystemExit(f"unknown signature state: {state!r}")
 
 
-def plain_t1(r):
+def _join(lead, tail):
+    return f"{lead}; {tail}." if tail else f"{lead}."
+
+
+def plain_t1(r, state):
+    """The memorization reading in plain words, with what it did to the retrieval failure."""
     s = r["reading"]
+    q = _sig_text("retrieval", state)
     if s.startswith("uninformative"):
-        return "Not interpreted: a positive control failed in people."
+        return _join("Not interpreted: a positive control failed in people", q)
     if s.startswith("steep"):
-        return "Fidelity falls steeply from the published values to the new values, and the fall is resolved: the " \
-               "pattern fits retrieval of published results (S2)."
+        return _join("Fidelity falls steeply from the published values to the new values, and the fall is resolved", q)
     if s.startswith("flat"):
-        return "Fidelity does not change between the two tiers, and this is resolved: retrieval alone does not " \
-               "explain how the model responds to the choice sets."
+        return _join("Fidelity does not change between the two tiers, and this is resolved", q)
     if s.startswith("not resolved"):
-        return "Not resolved: the interval is too wide to decide, so no scenario is based on this test."
+        if state == "absent":
+            return _join("The interval rules a steep fall out, although no difference is not resolved either", q)
+        return _join("Not resolved: the interval is too wide to decide whether fidelity falls", q)
     if s.startswith("non-monotone"):
-        return "Neither a steep fall nor no difference: described only."
+        return _join("Neither a steep fall nor no difference, described only", q)
     if s.startswith("insufficient"):
         return "Not computed: the model has too few readable tiers."
     raise SystemExit(f"unknown memorization label: {s!r}")
@@ -189,9 +179,9 @@ def plain_t2(s):
     if s.startswith("uninformative"):
         return "Not interpreted: a positive control failed in people."
     if s.startswith("recognizes-but-does-not-show"):
-        return "Identifies the manipulation and does not show the effect (rational override)."
+        return "Identifies the manipulation and does not show the effect."
     if s.startswith("recognizes-and-shows"):
-        return "Identifies the manipulation and shows the effect (reproduction of a known effect)."
+        return "Identifies the manipulation and shows the effect."
     if s.startswith("shows-without-recognizing"):
         return "Shows the effect without identifying the manipulation."
     if s.startswith("neither"):
@@ -203,41 +193,41 @@ def plain_t2(s):
     raise SystemExit(f"unknown recognition label: {s!r}")
 
 
-def plain_t3(r):
+def plain_t3(r, state):
+    """The argument-strength reading in plain words, with what it did to the reason-construction failure."""
     s = r["reading"]
+    q = _sig_text("reason-construction", state)
     if s.startswith("uninformative"):
-        return "Not interpreted: a positive control failed in people."
+        return _join("Not interpreted: a positive control failed in people", q)
     if s.startswith("declines"):
-        return "Fidelity declines down the argument-strength ordering, and the decline is resolved: the pattern fits " \
-               "reason construction (S3)."
+        return _join("Fidelity declines down the argument-strength ordering, and the decline is resolved", q)
     if s.startswith("reversed"):
-        if r.get("attribution", "").startswith("rational override"):
-            return "Fidelity rises down the ordering, and the model identifies the manipulation where it misses the " \
-                   "effect: rational override on the choice sets that give an argument."
-        return "Fidelity rises down the ordering, without that recognition: a difference from people with no account " \
-               "attached."
+        return _join("Fidelity rises down the ordering, which is described and is no failure of its own", q)
     if s.startswith("flat"):
-        return "No difference between the top and the bottom of the ordering, and this is resolved: no support for " \
-               "reason construction."
+        return _join("No difference between the top and the bottom of the ordering, and this is resolved", q)
     if s.startswith("not resolved"):
-        return "Not resolved: the interval is too wide to decide, so no scenario is based on this test."
+        if state == "absent":
+            return _join("The interval rules a decline out, although no difference is not resolved either", q)
+        return _join("Not resolved: the interval is too wide to decide whether fidelity declines", q)
+    if s.startswith("non-monotone"):
+        return _join("Neither a decline nor no difference, described only", q)
     if s.startswith("insufficient"):
         return "Not computed: too few positions of the ordering have a scored effect."
     raise SystemExit(f"unknown argument-strength label: {s!r}")
 
 
-def plain_t5(r):
-    s = r["trajectory"]
+def plain_t5(s):
     if s.startswith("uninformative"):
         return "Not interpreted: a positive control failed in people."
     if s.startswith("newer more faithful"):
-        return "Fidelity rises from the older to the newer model, and the rise is resolved: rising fidelity (S6)."
+        return "Fidelity rises from the older to the newer model, and the rise is resolved. Reported beside the " \
+               "conclusion; it decides nothing."
     if s.startswith("newer less faithful"):
-        return "Fidelity falls from the older to the newer model: reported, with no scenario."
+        return "Fidelity falls from the older to the newer model. Reported beside the conclusion; it decides nothing."
     if s.startswith("flat across"):
-        return "No difference between the generations: the size of the difference is reported."
+        return "No difference between the generations. Reported beside the conclusion; it decides nothing."
     if s.startswith("not resolved"):
-        return "Not resolved: the interval is too wide to decide."
+        return "Not resolved: the interval is too wide to decide. It decides nothing in any case."
     if s.startswith("insufficient"):
         return "Not computed: this family has no older and newer model in the design."
     raise SystemExit(f"unknown trajectory label: {s!r}")
@@ -250,35 +240,30 @@ def plain_reasoning(s):
         return "Switching reasoning on lowers fidelity: reported beside the knows-it-versus-shows-it result."
     if s.startswith("reasoning-on raises"):
         return "Switching reasoning on raises fidelity: reported by its size."
-    if s.startswith("flat") or s.startswith("no difference"):
+    if s.startswith("flat") or s.startswith("no difference") or s.startswith("reasoning toggle: no clear effect"):
         return "Switching reasoning on does not change fidelity: reported by its size."
     if s.startswith("not resolved"):
         return "Reasoning comparison not resolved."
     raise SystemExit(f"unknown reasoning label: {s!r}")
 
 
-def plain_account(s):
-    s = s.strip()
-    table = [
-        ("deep pattern-mimicry", "deep mimicry"),
-        ("rational-override", "rational override"),
-        ("reproduction of a known effect", "reproduction of a known effect"),
-        ("systematic inversion", "systematic inversion (no account)"),
-        ("partial", "PARTIAL, reported by its class"),
-        ("low fidelity", "LOW, reported by its class"),
-        ("overshoot on the phantom", "OVER on the phantom: consistent with retrieval of a published finding"),
-        ("overshoot", "OVER, reported by its class"),
-        ("human-null", "not scored: the effect failed in people"),
-        ("uninformative", "not interpreted: a positive control failed"),
-        ("descriptive", "described only"),
-        ("not scorable", "not scored"),
-    ]
-    for prefix, text in table:
-        if s.startswith(prefix):
-            if prefix == "human-null" and "without a human counterpart" in s:
-                text += "; the model shows an effect people do not show"
-            return text
-    raise SystemExit(f"unknown account label: {s!r}")
+def plain_named(s):
+    """The named_decoy value of tree_routing.csv, in the paper's words."""
+    table = {"yes": "yes", "no": "no", "not asked": "not asked (no decoy to name)"}
+    if s not in table:
+        raise SystemExit(f"unknown named-decoy label: {s!r}")
+    return table[s]
+
+
+def plain_family(consistent, classes):
+    others = ", ".join(f"{k} {v}" for k, v in (p.split("=", 1) for p in classes.split(";") if "=" in p))
+    if consistent == "one model":
+        return "The only model of its family in the design."
+    if consistent == "yes":
+        return f"Every model of its family receives the same overall class ({others}). Reported; it decides nothing."
+    if consistent == "no":
+        return f"The models of its family receive different overall classes ({others}). Reported; it decides nothing."
+    raise SystemExit(f"unknown family label: {consistent!r}")
 
 
 def plain_class(cls):
@@ -296,63 +281,55 @@ def plain_class(cls):
     raise SystemExit(f"unknown class label: {cls!r}")
 
 
-def plain_model_account(s):
-    m = re.match(r"(.*?) \((\d+) of (\d+) eligible effects agree\)$", s)
-    if s.startswith("none (model not assessable)"):
-        return "No account: the model is not assessable."
-    if not m:
-        raise SystemExit(f"unknown model-level account: {s!r}")
-    acc, n, k = m.group(1), m.group(2), m.group(3)
-    if acc == "per-effect only":
-        return f"No account explains the model as a whole: at most {n} of {k} eligible effects support the same one."
-    # a class is not an account: a majority of PARTIAL, LOW, OVER or uncued ANTI effects is reported by its class
-    by_class = {"partial": "PARTIAL", "low fidelity": "LOW", "overshoot": "OVER"}
-    if acc in by_class:
-        return (f"No account explains the model as a whole: {n} of {k} eligible effects are {by_class[acc]}, which we "
-                f"report by class.")
-    if acc == "systematic inversion":
-        return (f"No account explains the model as a whole: {n} of {k} eligible effects are ANTI without identification "
-                f"of the manipulation (systematic inversion).")
-    names = {"deep pattern-mimicry": "deep mimicry", "rational override": "rational override",
-             "reproduction of a known effect": "reproduction of a known effect",
-             "retrieval of a described regularity": "retrieval of a published finding"}
-    if acc not in names:
-        raise SystemExit(f"unknown model-level account: {acc!r}")
-    return f"{names[acc]}: {n} of {k} eligible effects support it (four are needed)."
-
-
 def landing(row):
-    """Where the code's route ends: an index into STEPS, or 'step0', 'open', 'none' or 's4either'."""
-    sc, br = row["scenario"], row["branch"]
+    """Where the code's route ends: ('step0' | 's5' | 'open' | 'concl', the codes of the conclusion)."""
+    sc = row["scenario"]
     if sc == "CRITERION_FAIL":
-        return "step0"
+        return "step0", []
+    if sc == "S5":
+        return "s5", []
     if sc == "NOT_RESOLVED":
-        return "open"
-    if sc == "COMPOSITE":
-        return "none"
-    if br.startswith("S4: reached whichever way"):
-        return "s4either"
-    if sc == "S4":
-        return 1 if br.startswith("T2") else 9
-    if sc not in SCENARIO_ROW:
-        raise SystemExit(f"unknown scenario code: {sc!r}")
-    return SCENARIO_ROW[sc]
+        return "open", []
+    codes = sc.split("+")
+    for code in codes:
+        if code not in ROW_OF:
+            raise SystemExit(f"unknown scenario code: {sc!r}")
+    return "concl", codes
 
 
-def possible_rows(text):
-    out = []
-    for code in [c for c in text.split(";") if c]:
-        if code == "S4":
-            out += [1, 9]
-        elif code == "S7":
-            continue
-        elif code in SCENARIO_ROW:
-            out.append(SCENARIO_ROW[code])
-        elif code == "COMPOSITE":
-            out.append("none")
-        else:
+def possible_codes(text):
+    out = [c for c in text.split(";") if c]
+    for code in out:
+        if code not in ROW_OF:
             raise SystemExit(f"unknown possible scenario: {code!r}")
     return out
+
+
+def signature_states(row):
+    """{code: state} for every assessable model (a present failure keeps a model from matching people); None for a
+    model that stops at Step 0."""
+    if row["matches_people"] not in ("yes", "no"):
+        return None
+    states = dict(p.split("=", 1) for p in row["signatures"].split(";"))
+    if set(states) != {s["code"] for s in SIGNATURES} or not set(states.values()) <= set(SIGNATURE_STATES):
+        raise SystemExit(f"unknown signature states: {row['signatures']!r}")
+    return states
+
+
+def built_how(planted, land, codes, possible):
+    """How the route compares with the scenario the model was built to reach (as analyze.route_outcome reads it):
+    'intended', 'open' (not resolved with it still possible), 'partly' (some planted failures present, the others
+    still possible) or 'wrong'."""
+    if planted.startswith("GATE_"):
+        return "intended" if land == "step0" else "wrong"
+    want = set(planted.split("+"))
+    if land == "concl" and set(codes) == want:
+        return "intended"
+    if land == "open":
+        return "open" if want <= set(possible) else "wrong"
+    if land == "concl" and set(codes) < want and want <= set(possible):
+        return "partly"
+    return "wrong"
 
 
 def read(name):
@@ -367,25 +344,34 @@ def num(x):
         return None
 
 
-def check_against_manuscript():
-    if not MANUSCRIPT or not os.path.exists(MANUSCRIPT):
-        return
-    text = open(MANUSCRIPT, encoding="utf-8").read().replace("\r\n", "\n")
-    for code, sentence in CONCLUSIONS.items():
-        if sentence not in text:
-            raise SystemExit(f"the conclusion printed for {code} differs from Table 4 of the manuscript")
-    for i, s in enumerate(STEPS + [NONE_ROW], 1):
-        if s["source"] not in text:
-            raise SystemExit(f"row {i} of the checking order differs from the Analysis Plan or Table 4: "
-                             f"{s['source'][:70]!r}")
+def check_against_table4():
+    """Every conclusion and every requirement printed here must occur in Table 4 of decision tree B in the
+    manuscript (the table that carries its S7 row)."""
+    for path in TABLE4_SOURCES:
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding="utf-8").read().replace("\r\n", "\n")
+        if "| S7. A known effect reproduced |" not in text:
+            continue
+        for code, sentence in CONCLUSIONS.items():
+            if sentence not in text:
+                raise SystemExit(f"the conclusion printed for {code} differs from Table 4 in {os.path.basename(path)}")
+        for s in ROWS:
+            if s["need"] not in text:
+                raise SystemExit(f"the requirement of {s['code']} differs from Table 4 in {os.path.basename(path)}: "
+                                 f"{s['need'][:70]!r}")
+        return os.path.basename(path)
+    if TABLE4_SOURCES:
+        raise SystemExit("no Table 4 of decision tree B found in the manuscript")
+    return None
 
 
 def build():
-    check_against_manuscript()
+    check_against_table4()
     numbers = json.load(open(os.path.join(PACK, "numbers.json"), encoding="utf-8"))
     routing_all = read("tree_routing.csv")
     routing = [r for r in routing_all if not r["model"].startswith("(")]
-    human_s7 = next((r for r in routing_all if r["model"].startswith("(")), None)
+    human_s5 = next((r for r in routing_all if r["model"].startswith("(")), None)
     criteria = read("validity_criteria.csv")
     human = {g["key"]: g for g in criteria if g["gate_type"] == "human_effect"}
     classes = read("effect_classes.csv")
@@ -413,11 +399,7 @@ def build():
         m = r["model"]
         if m not in MODELS or m not in MODEL_ARCHETYPES:
             raise SystemExit(f"no plain description or planted scenario for the simulated model {m!r}")
-        accounts = {}
-        for part in r["per_effect_accounts"].split(";"):
-            if "=" in part:
-                k, v = part.split("=", 1)
-                accounts[k] = plain_account(v)
+        named = dict(p.split("=", 1) for p in r["named_decoy"].split(";") if "=" in p)
         eff = []
         for c in classes:
             if c["model"] != m:
@@ -425,7 +407,7 @@ def build():
             cls = plain_class(c["class"] or c["descriptive_class"] or "")
             eff.append(dict(code=c["effect"], name=EFFECTS[c["effect"]], short=SHORT[c["effect"]],
                             human=num(c["human_pp"]), model=num(c["model_pp"]), cls=cls,
-                            account=accounts.get(c["effect"], ""), onmap=c["effect"] != "SIM"))
+                            named=plain_named(named.get(c["effect"], "not asked")), onmap=c["effect"] != "SIM"))
         eff.sort(key=lambda e: ORDER.index(e["code"]))
         tally = {}
         for e in eff:
@@ -441,13 +423,15 @@ def build():
         rec.sort(key=lambda e: ORDER.index(e["code"]) if e["code"] in ORDER else 99)
         a1, a3, a5 = t1.get(m, {}), t3.get(m, {}), t5.get(m, {})
         top, bottom = num(a3.get("high_rung")), num(a3.get("low_rung"))
-        land = landing(r)
-        planted = PLANTED_LANDING.get(MODEL_ARCHETYPES[m]["scenario"])
-        if planted is None:
-            raise SystemExit(f"no landing for the planted scenario {MODEL_ARCHETYPES[m]['scenario']!r}")
-        possible = possible_rows(r["possible_scenarios"]) if land == "open" else []
-        as_built = (land == planted or (land == "s4either" and planted in (1, 9))
-                    or (land == "open" and planted in possible))
+        land, codes = landing(r)
+        planted = MODEL_ARCHETYPES[m]["scenario"]
+        if not (planted.startswith("GATE_") or all(c in ROW_OF for c in planted.split("+"))):
+            raise SystemExit(f"no landing for the planted scenario {planted!r}")
+        possible = possible_codes(r["possible_scenarios"]) if land in ("open", "concl") else []
+        sig = signature_states(r)
+        state = (lambda code: "" if land in ("step0", "s5")
+                 else ("not read" if sig is None else sig[code]))
+        how = built_how(planted, land, codes, possible)
         g = f"model.{m}.criterion."
         models.append(dict(
             id=m, name=MODELS[m][0], planted=MODELS[m][1], family=r["family"],
@@ -458,24 +442,28 @@ def build():
             mad=num(agree.get(m, {}).get("mad_pp")), slope=num(agree.get(m, {}).get("calibration_slope")),
             effects=eff, tally=tally, recognition=rec,
             t1=dict(pub=num(a1.get("fidelity_t1")), new=num(a1.get("fidelity_t2")), drop=num(a1.get("drop")),
-                    lo=num(a1.get("drop_lo")), hi=num(a1.get("drop_hi")), text=plain_t1(a1) if a1 else ""),
+                    lo=num(a1.get("drop_lo")), hi=num(a1.get("drop_hi")),
+                    text=plain_t1(a1, state("S2")) if a1 else ""),
             t3=dict(top=top, mid=num(a3.get("mid_rung")), bottom=bottom,
                     tmb=(round(top - bottom, 3) if top is not None and bottom is not None else None),
-                    lo=num(a3.get("tmb_lo")), hi=num(a3.get("tmb_hi")), text=plain_t3(a3) if a3 else ""),
+                    lo=num(a3.get("tmb_lo")), hi=num(a3.get("tmb_hi")),
+                    text=plain_t3(a3, state("S3")) if a3 else ""),
             t5=dict(delta=num(a5.get("delta")), lo=num(a5.get("traj_lo")), hi=num(a5.get("traj_hi")),
-                    text=plain_t5(a5) if a5 else "", reasoning=plain_reasoning(a5.get("reasoning_reading", ""))),
-            land=land, possible=possible, planted_land=planted, as_built=as_built,
-            qualifier=bool(r["qualifier"]), open_tests=[t for t in r.get("open_pattern_tests", "").split(";") if t],
-            conclusion=CONCLUSIONS.get(r["scenario"], ""), model_account=plain_model_account(r["model_level_account"])))
+                    text=plain_t5(a5.get("trajectory", "")) if a5 else "",
+                    reasoning=plain_reasoning(a5.get("reasoning_reading", ""))),
+            beside=dict(trajectory=(plain_t5(r["trajectory"]) if r["trajectory"] not in ("", "n/a") else ""),
+                        family=plain_family(r["family_consistent"], r["family_classes"])),
+            land=land, codes=codes, possible=[c for c in possible if c not in codes], match=r["matches_people"],
+            sig=sig, points=([] if r["pointing"] in ("none", "not read (Step 0)") else r["pointing"].split(";")),
+            want=("step0" if planted.startswith("GATE_") else planted.split("+")), how=how))
 
     cut = dict(t1_steep=RC.T1_STEEP_DROP, t1_flat=RC.T1_FLAT_SLOPE, t3_step=RC.T3_LADDER_STEP,
                t3_flat=RC.T3_LADDER_FLAT, t5_step=RC.T5_TRAJECTORY_STEP, recog=RC.RECOGNITION_CUTOFF,
                show=RC.ANTI_MIN_PP, high=RC.HIGH_RATIO, over=RC.OVER_RATIO, partial=RC.PARTIAL_RATIO,
-               near_null=RC.NEAR_NULL_HUMAN_PP, s7=RC.MOST_FAILED_MIN)
+               near_null=RC.NEAR_NULL_HUMAN_PP, s5=RC.MOST_FAILED_MIN)
     data = dict(people=people, failing=failing, models=models,
-                steps=[{k: s[k] for k in ("title", "need", "tests")} | {"code": s.get("code", "")}
-                       for s in STEPS + [NONE_ROW]],
-                cut=cut, conclusions=CONCLUSIONS, s7=bool(human_s7 and human_s7["scenario"] == "S7"))
+                rows=[{k: s[k] for k in ("title", "need", "code")} for s in ROWS], names=NAMES, signatures=SIGNATURES,
+                cut=cut, conclusions=CONCLUSIONS, s5=bool(human_s5 and human_s5["scenario"] == "S5"))
     # the rehearsal's human sample per cell, read from the code that sets it (the page states it)
     found = re.search(r"\n    N_HUMAN = (\d+)", open(os.path.join(ANALYSIS, "analyze.py"), encoding="utf-8").read())
     if not found:
@@ -615,7 +603,7 @@ order, with the numbers the code wrote for that model, and ends at the scenario 
 <code>analysis/results_pack/</code>, which <code>analysis/analyze.py</code> writes, every cutoff from
 <code>analysis/registered_constants.py</code>, and what each model was built to show from <code>analysis/synth.py</code>.
 The simulated people make __NHUMAN__ choices per cell, more than the planned 350 to 700, so that each planted pattern is
-clear: the run checks which branch of the decision tree the code takes for each pattern. How often a test reaches a
+clear: the run checks where the code's decision tree ends for each pattern. How often a test reaches a
 conclusion at the planned sizes is reported in Web Appendix E (Table WA-E4); at those sizes we do not expect a
 conclusion of no difference on the memorization, argument-strength and trajectory tests.</p>
 </div>
@@ -641,24 +629,16 @@ const part = (t, a, b) => clamp((t - a) / (b - a), 0, 1);          // the share 
 const CLS = ['HIGH', 'OVER', 'PARTIAL', 'LOW', 'ANTI'];
 const col = c => CLS.includes(c) ? `var(--${c})` : 'var(--ink3)';
 const chip = c => CLS.includes(c) ? `<span class="chip" style="background:${col(c)}">${c}</span>` : `<span style="color:var(--ink3)">${esc(c || '')}</span>`;
-const STEPNAMES = ['Readable', 'People', 'Closeness', 'Pattern tests', 'Scenario'];
+const STEPNAMES = ['Readable', 'People', 'Closeness', 'Pattern tests', 'Conclusion'];
 
 // ---------- the five steps, each drawn as a function of its progress values (0 to 1) ----------
 let TOK = null;
-const rowNum = r => r === 'none' ? 10 : r;
-function rowLabel(i) { return D.steps[rowNum(i)].title; }
-// the row of the checking order where the code's route ends (-1: stopped at Step 0)
-function target(m) {
-  if (m.land === 'step0') return -1;
-  if (m.land === 'open') return Math.min(...m.possible.map(rowNum));
-  if (m.land === 's4either') return 1;
-  return rowNum(m.land);
-}
+const nameOf = c => D.names[c] || c;
 function landText(m) {
   if (m.land === 'step0') return 'Stops at Step 0: not assessable as a survey respondent';
-  if (m.land === 'open') return 'Not resolved: ' + m.possible.map(rowLabel).join(' or ');
-  if (m.land === 's4either') return 'S4, either way';
-  return rowLabel(m.land);
+  if (m.land === 's5') return 'Stops at Step 0: S5, human effects fail';
+  if (m.land === 'open') return 'Not resolved: ' + m.possible.join(' or ') + ' still possible';
+  return m.codes.map(nameOf).join(' and ');
 }
 
 function step0(m, p) {
@@ -678,7 +658,7 @@ function step0(m, p) {
     : `<div class="stamp no" style="opacity:${p.c}">Not assessable as a survey respondent: the analysis stops here for this model</div>`;
   return `<p class="q">Can the comparison be made at all?</p><p class="qs">Two validity criteria come first. An effect must be present in people before a model can be asked to match it, and the model's answers must be readable.</p>` +
     `<div class="cols"><div class="box"><h3>In people: does each effect replicate?</h3>${ppl}` +
-    `<p class="qs" style="margin:10px 0 0;font-size:13px;opacity:${part(p.a, .85, 1)}">${D.failing} of the six effects other than similarity ${D.failing === 1 ? 'fails' : 'fail'} in people. If four or more failed, every model would be reported under S7 and the model comparison only described.</p></div>` +
+    `<p class="qs" style="margin:10px 0 0;font-size:13px;opacity:${part(p.a, .85, 1)}">${D.failing} of the six effects other than similarity ${D.failing === 1 ? 'fails' : 'fail'} in people. If four or more failed, every model would be reported under S5 and the model comparison only described.</p></div>` +
     `<div class="box"><h3>This model's answers</h3>` +
     gauge('Answers from which a choice can be read', g.parse, .95, 'At least 95% needed (line)', parseOk) +
     gauge('Refusals', g.refusal, .05, 'At most 5% allowed (line)', refOk) +
@@ -759,17 +739,17 @@ function fidelityMap(m, p) {
 function step2(m, p) {
   const rows = m.effects.map((e, i) => {
     const o = part(p.b, i / m.effects.length * .7, i / m.effects.length * .7 + .3);
-    return `<tr style="opacity:${.25 + .75 * o}"><td>${esc(e.short)}${e.onmap ? '' : '<div style="font-size:11.5px;color:var(--ink3)">analyzed separately, not on the map</div>'}</td><td>${f1(e.human)}</td><td>${f1(e.model)}</td><td>${o > .5 ? chip(e.cls) : ''}</td><td>${o > .5 ? esc(e.account) : ''}</td></tr>`;
+    return `<tr style="opacity:${.25 + .75 * o}"><td>${esc(e.short)}${e.onmap ? '' : '<div style="font-size:11.5px;color:var(--ink3)">analyzed separately, not on the map</div>'}</td><td>${f1(e.human)}</td><td>${f1(e.model)}</td><td>${o > .5 ? chip(e.cls) : ''}</td><td>${o > .5 ? esc(e.named) : ''}</td></tr>`;
   }).join('');
   const n = Object.values(m.tally).reduce((a, b) => a + b, 0);
   let bar = '<div style="display:flex;height:22px;border-radius:7px;overflow:hidden;background:var(--soft)">', k = 0;
   CLS.forEach(c => { const v = m.tally[c] || 0; if (v) { const w = v / Math.max(n, 1) * 100 * ease(p.c); bar += `<div style="width:${w}%;background:${col(c)};color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;overflow:hidden">${w > 9 ? c + ' ' + v : ''}</div>`; } });
   bar += '</div>';
   return `<p class="q">How close is the model to people on each effect?</p><p class="qs">Each dot is one effect: its position across is the effect in people, its height the effect in the model. The diagonal is a perfect match; the shaded bands are the five fidelity classes. Effects under ${C.near_null} points in people are not classed (white strip).</p>` +
-    `<div class="cols"><div class="box">${fidelityMap(m, p)}</div><div><table class="t"><tr><th>Effect</th><th>People</th><th>Model</th><th>Class</th><th>Account for this effect</th></tr>${rows}</table>` +
+    `<div class="cols"><div class="box">${fidelityMap(m, p)}</div><div><table class="t"><tr><th>Effect</th><th>People</th><th>Model</th><th>Class</th><th>Named the decoy when asked</th></tr>${rows}</table>` +
     `<div style="margin-top:14px;opacity:${p.c > 0 ? 1 : .3}"><div style="font-size:13px;color:var(--ink2);margin-bottom:4px">Classes of the effects other than similarity</div>${bar}</div>` +
     `<div class="stamp ${m.overall === 'HIGH' ? 'ok' : (m.overall === 'ANTI' || m.overall === 'LOW' ? 'no' : 'mid')}" style="opacity:${part(p.c, .7, 1)}">Overall class: ${esc(m.overall || 'none')}</div>` +
-    `<p style="font-size:13px;color:var(--ink2);opacity:${part(p.c, .8, 1)}">The most frequent class, ties going to the less faithful one. Sign agreement ${pct(m.sign)}, mean absolute deviation ${f1(m.mad)} points, slope ${f2(m.slope)}.<br><b style="color:var(--ink)">Account for the model as a whole:</b> ${esc(m.model_account)}</p></div></div>`;
+    `<p style="font-size:13px;color:var(--ink2);opacity:${part(p.c, .8, 1)}">The most frequent class, ties going to the less faithful one. Sign agreement ${pct(m.sign)}, mean absolute deviation ${f1(m.mad)} points, slope ${f2(m.slope)}. No account is attached to an effect; the class and whether the model named the decoy are reported.</p></div></div>`;
 }
 
 function numberLine(est, lo, hi, zones, t, label) {
@@ -855,44 +835,48 @@ function step3(m, p) {
     `</div><p style="font-size:13px;color:var(--ink2);margin-top:12px"><b>Format test (T4).</b> Described only, with its estimate and interval; no scenario depends on it.</p>`;
 }
 
-function rowState(m, i) {
-  // Step 3: a result that is not resolved blocks its scenario and every later one except S1, which is then reported
-  // with a note naming the open tests
-  const own = D.steps[i].tests.filter(t => m.open_tests.includes(t));
-  const first = D.steps.findIndex(s => s.tests.some(t => m.open_tests.includes(t)));
-  if (own.length) return `not resolved (${own.join(', ')}), so not claimed; only S1 can still be reached`;
-  if (first >= 0 && i > first) return 'not claimed: an earlier result is not resolved (S1 is the one exception)';
-  return 'does not apply';
-}
+const STATECOL = {present: 'var(--accent)', absent: 'var(--ink3)', 'not resolved': 'var(--open)', 'not judged': 'var(--open)'};
+function stateChip(s) { return `<span class="chip" style="background:${STATECOL[s] || 'var(--ink3)'}">${esc(s)}</span>`; }
 
 function step4(m, p) {
-  if (m.land === 'step0') return `<p class="q">Which scenario applies?</p><div class="concl"><div class="k">Where the code places this model</div><div class="h">Stops at Step 0</div><p>The model is not assessable as a survey respondent, so it is reported in its own table and no scenario is checked.</p>${built(m)}</div>`;
-  const rows = D.steps.length, tgt = target(m);
-  const pos = tgt * ease(p.a);
-  TOK = pos;
-  let h = `<p class="q">Which scenario applies?</p><p class="qs">We check the scenarios in this fixed order, and the first that applies is the conclusion for the model. The dot moves down the list one check at a time.</p><div class="ladder"><div class="track"></div>`;
-  for (let i = 0; i < rows; i++) {
-    const passed = i < pos - .5 && i !== tgt, hitNow = p.a >= 1 && (i === tgt || (m.land === 's4either' && i === 9));
-    const maybe = p.a >= 1 && m.land === 'open' && m.possible.map(rowNum).includes(i);
-    const s = D.steps[i];
-    h += `<div class="lrow ${passed ? 'passed' : ''} ${hitNow && m.land !== 'open' ? 'hit' : ''} ${maybe ? 'maybe' : ''}"><span class="n">${i < 10 ? i + 1 : ''}</span><div><div class="tt">${esc(s.title)}</div><div class="nd">${esc(s.need)}</div>` +
-      `${passed ? `<div class="st">${esc(rowState(m, i))}</div>` : ''}${hitNow && m.land !== 'open' ? '<div class="st" style="color:var(--accent);font-weight:600">applies: this is the conclusion</div>' : ''}${maybe ? '<div class="st" style="color:#8a5a00;font-weight:600">possible, not resolved</div>' : ''}</div></div>`;
+  if (m.land === 'step0') return `<p class="q">Which conclusion applies?</p><div class="concl"><div class="k">Where the code places this model</div><div class="h">Stops at Step 0</div><p>The model is not assessable as a survey respondent, so it is reported in its own table and no question is asked.</p>${built(m)}</div>`;
+  if (m.land === 's5') return `<p class="q">Which conclusion applies?</p><div class="concl"><div class="k">Where the code places this model</div><div class="h">S5, human effects fail</div><p>${esc(D.conclusions.S5)}</p>${built(m)}</div>`;
+  const yes = m.match === 'yes';
+  const low = m.effects.filter(e => e.onmap && (e.cls === 'LOW' || e.cls === 'ANTI')).map(e => e.short);
+  const named = m.effects.filter(e => e.named === 'yes').map(e => e.short);
+  const present = D.signatures.filter(s => m.sig && m.sig[s.code] === 'present').map(s => s.name);
+  const points = D.signatures.filter(s => m.points.includes(s.code)).map(s => s.name);
+  let h = `<p class="q">Does the model match people? If not, why not?</p><p class="qs">The three failures are read together for every model, with no order. A model matches people when its overall class is HIGH, no effect is classed LOW or ANTI, and no test shows or points to a failure. A test points to a failure when the failure is not resolved but its estimate passes the cutoff. For a model that does not match people, every failure that is present is part of the conclusion.</p><div class="cols">`;
+  h += `<div class="box" style="opacity:${.3 + .7 * part(p.a, 0, .3)}"><h3>1. Does the model match people?</h3>` +
+    `<p style="margin:0;font-size:13.5px">Overall class ${chip(m.overall)}; effects classed LOW or ANTI: ${low.length ? esc(low.join(', ')) : 'none'}; failures present: ${present.length ? esc(present.join(', ')) : 'none'}; a test points to: ${points.length ? esc(points.join(', ')) : 'no failure'}.</p>` +
+    `<div class="stamp ${yes ? 'ok' : 'no'}" style="opacity:${part(p.a, .4, .8)}">${yes ? 'Yes: it matches people' : 'No: it does not match people'}</div>` +
+    (yes ? `<p style="font-size:13.5px;opacity:${part(p.a, .8, 1)}">Named the decoy when asked on: ${named.length ? esc(named.join(', ')) : 'no effect'}.</p>` : '') + `</div>`;
+  h += `<div class="box" style="opacity:${.3 + .7 * part(p.b, 0, .3)}"><h3>2. If not, why not?</h3>`;
+  h += D.signatures.map(s => `<div class="prow" style="grid-template-columns:1fr auto"><span><b>${esc(s.name)}</b> <span style="color:var(--ink2)">(${esc(s.test)})</span><br><span style="font-size:12.5px;color:var(--ink2)">${esc(s.what)}</span></span>` +
+    `<span style="opacity:${part(p.b, .3, .8)}">${stateChip(m.sig[s.code])}</span></div>`).join('');
+  if (yes) h += `<p style="margin:8px 0 0;font-size:13px;color:var(--ink2);opacity:${part(p.b, .8, 1)}">No test shows or points to a failure, so the model matches people and this question is not asked.</p>`;
+  h += `</div></div>`;
+  let head, body;
+  if (m.land === 'open') {
+    head = 'Not resolved';
+    body = `<p>No failure is present, and at least one is not resolved, so the code claims no conclusion. Still possible: ${esc(m.possible.map(nameOf).join('; '))}.</p>`;
+  } else {
+    head = m.codes.map(nameOf).join(' and ');
+    body = m.codes.map(c => `<p><b>Registered conclusion of ${esc(c)} (Table 4):</b> ${esc(D.conclusions[c] || '')}</p>`).join('') +
+      (m.possible.length ? `<p style="color:var(--ink2)">Still possible beside it, not resolved: ${esc(m.possible.map(nameOf).join('; '))}.</p>` : '');
   }
-  h += `<div class="token" id="tok"></div></div>`;
-  const code = m.land === 'none' || m.land === 'open' ? '' : D.steps[tgt].code;
-  const concl = m.land === 'open' ? `The code does not claim a scenario: a test the scenario depends on is not resolved. The possible scenarios are ${m.possible.map(rowLabel).join(' and ')}.`
-    : (m.conclusion ? m.conclusion : D.steps[tgt].need);
-  h += `<div class="concl" style="opacity:${p.b};transform:translateY(${(1 - p.b) * 8}px)"><div class="k">Where the code places this model</div><div class="h">${esc(landText(m))}</div>` +
-    `<p>${code ? '<b>Registered conclusion (Table 4):</b> ' : ''}${esc(concl)}</p>` +
-    (m.qualifier ? `<p style="color:#8a5a00">With the note "pattern tests not resolved at the design's resolution": ${esc(m.open_tests.join(', '))} not resolved.</p>` : '') +
-    `<p style="color:var(--ink2);font-size:13.5px"><b style="color:var(--ink)">Account for the model as a whole:</b> ${esc(m.model_account)}</p>${built(m)}</div>`;
+  const beside = [m.beside.trajectory ? `<b style="color:var(--ink)">Trajectory test (T5):</b> ${esc(m.beside.trajectory)}` : '',
+    `<b style="color:var(--ink)">Family:</b> ${esc(m.beside.family)}`].filter(Boolean).join('<br>');
+  h += `<div class="concl" style="opacity:${p.c};transform:translateY(${(1 - p.c) * 8}px)"><div class="k">Where the code places this model</div><div class="h">${esc(head)}</div>${body}` +
+    `<p style="color:var(--ink2);font-size:13.5px"><b style="color:var(--ink)">Reported beside the conclusion, deciding nothing.</b><br>${beside}</p>${built(m)}</div>`;
   return h;
 }
 
 function built(m) {
-  const want = m.planted_land === 'step0' ? 'Step 0' : rowLabel(m.planted_land);
-  if (m.land === 'open' && m.as_built) return `<span class="built mid">Built to reach: ${esc(want)}. Left open, with that scenario among the possible ones</span>`;
-  return m.as_built ? `<span class="built">Built to reach: ${esc(want)}. Reached as built</span>` : `<span class="built no">Built to reach: ${esc(want)}. Reached something else</span>`;
+  const want = m.want === 'step0' ? 'Step 0' : m.want.join(' and ');
+  if (m.how === 'open') return `<span class="built mid">Built to reach: ${esc(want)}. Left open, with that conclusion among the possible ones</span>`;
+  if (m.how === 'partly') return `<span class="built mid">Built to reach: ${esc(want)}. Partly resolved: part of it present, the rest still possible</span>`;
+  return m.how === 'intended' ? `<span class="built">Built to reach: ${esc(want)}. Reached as built</span>` : `<span class="built no">Built to reach: ${esc(want)}. Reached something else</span>`;
 }
 
 const STEPS = [
@@ -900,7 +884,7 @@ const STEPS = [
   {draw: step1, beats: [['a', 1500], ['b', 1200]], where: ['Analysis Plan, Step 1', 'the human benchmarks (human_benchmarks.csv)']},
   {draw: step2, beats: [['a', 1800], ['b', 1400], ['c', 1100]], where: ['Analysis Plan, Step 2, and Web Appendix Figure WA-E1', 'classify_cell and the overall class (effect_classes.csv, agreement_scores.csv)']},
   {draw: step3, beats: [['t1', 1900], ['t2', 1900], ['t3', 1900], ['t5', 1400]], where: ['Analysis Plan, Step 3, and Web Appendix Table WA-E5', 'test_T1_memorization, test_T2_recognition, test_T3_ladder and test_T5_trajectory (results_pack/tests/)']},
-  {draw: step4, beats: [['a', 2600], ['b', 700]], where: ['Analysis Plan, Step 4, Figure 3 and Table 4', 'route_resolved (tree_routing.csv)']},
+  {draw: step4, beats: [['a', 1500], ['b', 1700], ['c', 700]], where: ['Analysis Plan, Step 4, Figure 3 and Table 4', 'route_model (tree_routing.csv)']},
 ];
 
 // ---------- the player ----------
@@ -908,7 +892,7 @@ let cur = D.models[0], si = 0, P = {}, run = 0, playing = false, paused = false,
 const $ = id => document.getElementById(id);
 function full(i) { const o = {}; STEPS[i].beats.forEach(b => o[b[0]] = 1); return o; }
 function zero(i) { const o = {}; STEPS[i].beats.forEach(b => o[b[0]] = 0); return o; }
-function skipped(i) { return cur.land === 'step0' && i > 0 && i < 4; }
+function skipped(i) { return (cur.land === 'step0' || cur.land === 's5') && i > 0 && i < 4; }
 function draw() {
   TOK = null;
   $('panel').innerHTML = STEPS[si].draw(cur, P);
@@ -980,20 +964,26 @@ pick(D.models[0].id);
 
 // ---------- all models at once ----------
 function sortRows() {
-  const L = [{key: -1, title: 'Stops at Step 0', need: 'Not assessable as a survey respondent'}];
-  D.steps.forEach((s, i) => L.push({key: i, title: (i < 10 ? (i + 1) + '. ' : '') + s.title, need: s.need}));
+  const L = [{key: 'step0', title: 'Stops at Step 0', need: 'Not assessable as a survey respondent, or S5 when four or more of the six effects other than similarity fail in people'}];
+  D.rows.forEach(s => L.push({key: s.code, title: nameOf(s.code), need: s.need}));
+  L.push({key: 'open', title: 'Not resolved', need: 'The model does not match people, no failure is present, and at least one is not resolved; the failures still possible are listed'});
   return L;
+}
+function inRow(m, key) {
+  if (key === 'step0') return m.land === 'step0' || m.land === 's5';
+  if (key === 'open') return m.land === 'open';
+  return m.land === 'concl' && m.codes.includes(key);
 }
 function sorter(animate) {
   const order = D.models.map((m, i) => [m, i]);
-  let h = `<div class="sorter"><div class="bar"><button class="play" id="sortplay">Play: sort every model</button><span style="color:var(--ink2);font-size:13px">Each simulated model drops into the first check that applies to it, in the registered order. Click a model to follow it step by step.</span></div>`;
-  h += `<div class="s7">${D.s7 ? 'If four or more of the six effects other than similarity fail in people, every model is reported under S7. On a separate simulated sample built with four failing effects, the code reached S7.' : ''}</div>`;
+  let h = `<div class="sorter"><div class="bar"><button class="play" id="sortplay">Play: sort every model</button><span style="color:var(--ink2);font-size:13px">Each simulated model drops into the conclusion the code reached: first whether it matches people, then every failure that is present. A model with two failures present appears in both rows; a model left open drops into the last row, Not resolved. Click a model to follow it step by step.</span></div>`;
+  h += `<div class="s7">${D.s5 ? 'If four or more of the six effects other than similarity fail in people, every model is reported under S5. On a separate simulated sample built with four failing effects, the code reached S5.' : ''}</div>`;
   sortRows().forEach(l => {
-    const here = order.filter(([m]) => target(m) === l.key || (m.land === 's4either' && l.key === 9));
+    const here = order.filter(([m]) => inRow(m, l.key));
     h += `<div class="srow"><div><div class="ln">${esc(l.title)}</div><div class="ld">${esc(l.need)}</div></div><div class="slots">` +
-      here.map(([m, i]) => `<button class="mchip ${animate ? 'drop' : ''}" style="animation-delay:${animate && !RM ? i * 0.22 : 0}s" data-id="${esc(m.id)}"><b class="${m.as_built ? (m.land === 'open' ? 'mid' : '') : 'no'}">${m.as_built ? '&#10003;' : '&#10005;'}</b>${esc(m.name)}</button>`).join('') + (here.length ? '' : '<span style="font-size:12.5px;color:var(--ink3)">No simulated model ends here in this rehearsal.</span>') + `</div></div>`;
+      here.map(([m, i]) => `<button class="mchip ${animate ? 'drop' : ''}" style="animation-delay:${animate && !RM ? i * 0.22 : 0}s" data-id="${esc(m.id)}"><b class="${m.how === 'intended' ? '' : (m.how === 'wrong' ? 'no' : 'mid')}">${m.how === 'wrong' ? '&#10005;' : '&#10003;'}</b>${esc(m.name)}</button>`).join('') + (here.length ? '' : '<span style="font-size:12.5px;color:var(--ink3)">No simulated model ends here in this rehearsal.</span>') + `</div></div>`;
   });
-  h += `<p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0">A check mark means the code placed the model where it was built to land (synth.py); a cross would mean it did not.</p></div>`;
+  h += `<p style="font-size:12.5px;color:var(--ink3);margin:10px 0 0">A check mark means the code placed the model where it was built to land (synth.py); amber means it left part of that conclusion open; a cross would mean it did not.</p></div>`;
   $('v-all').innerHTML = h;
   $('sortplay').onclick = () => sorter(true);
   $('v-all').querySelectorAll('.mchip').forEach(b => b.onclick = () => { show('one'); pick(b.dataset.id); });
@@ -1006,7 +996,7 @@ $('v-files').innerHTML = `<div class="flow">
 <div class="frow"><div class="fbox"><div class="fp">surveys/ and survey_package/</div><div class="fd">The five surveys that people answer.</div></div><div class="fbox"><div class="fp">models/</div><div class="fd">The prompts and the exact call plan for the ten models.</div></div><div class="fbox"><div class="fp">power/</div><div class="fd">The power and resolution simulations reported in the Method and Web Appendix E.</div></div></div>
 <div class="farrow">people's answers and the models' answers go into</div>
 <div class="fbox"><div class="fp">analysis/analyze.py</div><div class="fd">The registered analysis, with every cutoff in <span class="mono">analysis/registered_constants.py</span>. Before real data exist it runs on <span class="mono">analysis/demo_data/</span>, the simulated people and models that <span class="mono">analysis/synth.py</span> writes.</div></div><div class="farrow">writes every number to</div>
-<div class="fbox"><div class="fp">analysis/results_pack/</div><div class="fd">The fidelity map, the classes, each pattern test and the scenario of each model. This page displays these files.</div></div><div class="farrow">checked by</div>
+<div class="fbox"><div class="fp">analysis/results_pack/</div><div class="fd">The fidelity map, the classes, each pattern test and the conclusion for each model. This page displays these files.</div></div><div class="farrow">checked by</div>
 <div class="fbox"><div class="fp">run_all.py</div><div class="fd">Re-runs every step and compares every output with the copy deposited here.</div></div></div>`;
 
 function show(v) {

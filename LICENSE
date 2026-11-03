@@ -1,4 +1,4 @@
-This repository is released under two licences: one for the code, one for the data and materials.
+This repository is released under two licenses: one for the code, one for the data and materials.
 
 1. CODE: MIT License
 
@@ -26,7 +26,7 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Applies to everything else: the de-identified response data, the processed data files and codebooks, the
 stimulus files and images, the survey files and their mappings, the reports, the documents, the figures and
 the stimulus explorer. You may share and adapt them for any purpose, provided you attribute the work, link
-to the licence and indicate if changes were made. Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+to the license and indicate if changes were made. Full text: https://creativecommons.org/licenses/by/4.0/legalcode
 
 The tier-1 stimulus values reproduce attribute values published in earlier studies. Those values are
 facts reported by their authors; each is cited to its source in stimuli/fragments/*_receipts.md, and

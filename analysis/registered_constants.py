@@ -20,7 +20,7 @@ class RegisteredConstants:
     HOLM_ALPHA: float = 0.05                 # family-wise level of the Holm correction, every family
     BF_GATE: float = 3.0                     # Bayes factor (BF10) must exceed this
     BF_PRIOR_SCALE_PP: float = 10.0          # half-normal prior scale on the effect, percentage points
-    MOST_FAILED_MIN: int = 4                 # this many of the six non-similarity effects failing -> S7
+    MOST_FAILED_MIN: int = 4                 # this many of the six non-similarity effects failing -> S5
     POSITIVE_CONTROL_ALPHA: float = 0.05     # the premium-target frequency-decoy control's test level
     # ---- Step 0: the per-model data-quality criterion ----
     PARSE_FLOOR: float = 0.95
@@ -60,7 +60,6 @@ class RegisteredConstants:
     T3_LADDER_FLAT: float = 0.12             # ordering: |top-minus-bottom| below this = flat
     T5_TRAJECTORY_STEP: float = 0.15         # trajectory: new-minus-old fidelity beyond this = moves
     T5_REASONING_STEP: float = 0.15          # reasoning toggle: off-minus-on fidelity above this = lowers
-    MODEL_ACCOUNT_MIN_AGREE: int = 4         # per-effect accounts must agree on this many effects
     # ---- Equivalence and secondary readings ----
     PHANTOM_BAND_PP: float = 4.0             # phantom equivalence bound, plus or minus, percentage points
     PHANTOM_EQUIV_ALPHA: float = 0.05        # two one-sided tests at this level = the 90 percent interval
@@ -125,8 +124,9 @@ MEANING = {
                      "over no effect is above 3."),
     "BF_PRIOR_SCALE_PP": (S0H, "Scale of the half-normal prior on the effect (positive values only): about the "
                                "median published effect across the seven effects."),
-    "MOST_FAILED_MIN": (S0H, "Scenario S7 (Human effects fail) applies when four or more of the six effects other "
-                             "than similarity fail the human replication criterion."),
+    "MOST_FAILED_MIN": (S0H, "Scenario S5 (Human effects fail) applies when four or more of the six effects other "
+                             "than similarity fail the human replication criterion. Every model is then reported "
+                             "under S5, and its comparison with people is only described."),
     "POSITIVE_CONTROL_ALPHA": (S0H, "The positive controls are the frequency-decoy cells whose target is the premium option and the "
                                     "compromise effect. The premium-target frequency-decoy control passes when its pooled difference is "
                                     "in the predicted direction, is significant at .05, and has a Bayes factor above 3; the "
@@ -158,8 +158,7 @@ MEANING = {
                                            "than 5 points between the full-sample and the first-trial estimate."),
     "FIRST_TRIAL_MIN_EFFECT_PP": (S1F, "When the first-trial estimates become the benchmark, an effect is confirmatory only if its "
                                        "first-trial size is at least 8 points; a smaller effect that replicates is classed descriptively "
-                                       "only and is left out of the model's overall class, the account for the model as a whole and every "
-                                       "pattern test."),
+                                       "only and is left out of the model's overall class and every pattern test."),
     "SIM_TOPUP_ALPHA": (S1T, "The similarity effect is estimated separately from core-design choices and from "
                              "similarity-supplement choices; their difference is tested at .05."),
     "SIM_TOPUP_MAX_GAP_PP": (S1T, "If the two estimates differ by more than 5 points and the difference is "
@@ -203,14 +202,12 @@ MEANING = {
                       "no difference needs that interval to lie wholly below 0.30; any other result is not resolved."),
     "RECOGNITION_CUTOFF": ("Step 3, knows-it-versus-shows-it test (T2)",
                            "A model knows the manipulation when it identifies the manipulation in at least half of its recognition "
-                           "calls. When fidelity rises down the argument-strength ordering and the model identifies the "
-                           "manipulation at or above this rate on every attraction or compromise effect it misses (classed LOW "
-                           "or ANTI), we conclude rational override on the choice sets that give an argument; otherwise we "
-                           "report the reversed ordering as a difference from people with no account attached."),
+                           "calls."),
     "T3_LADDER_STEP": ("Step 3, argument-strength test (T3)",
                        "Decline: fidelity at the top position exceeds fidelity at the bottom position by more than "
                        "0.30; a resolved decline supports reason construction (S3). Reversal: fidelity at the bottom "
-                       "position exceeds fidelity at both the top and the middle position by more than 0.30."),
+                       "position exceeds fidelity at both the top and the middle position by more than 0.30. A reversal "
+                       "is described and leads to no conclusion of its own."),
     "T3_LADDER_FLAT": ("Step 3, argument-strength test (T3)",
                        "No difference: the top and bottom positions lie within 0.12 of one another. A conclusion of a "
                        "decline or a reversal also needs the 95 percent interval of each difference it uses to lie wholly "
@@ -220,23 +217,14 @@ MEANING = {
                            "Rise or fall: newer-generation fidelity minus older-generation fidelity beyond "
                            "0.15 either way, with its whole 95 percent interval beyond 0.15 on the same side; no "
                            "difference: a difference within 0.15, with the whole interval within 0.15; any other result "
-                           "is not resolved. A resolved rise leads to rising fidelity (S6); a resolved fall is reported "
-                           "as lower fidelity in the newer generation and assigns no scenario."),
+                           "is not resolved. Every result is reported beside the model's conclusion and leads to no "
+                           "scenario."),
     "T5_REASONING_STEP": ("Step 3, trajectory test (T5)",
                           "Reasoning comparison: reasoning lowers fidelity when fidelity at the lower reasoning "
                           "setting exceeds "
                           "fidelity at the higher setting by more than 0.15, with its whole 95 percent interval "
                           "above 0.15; no clear effect when the difference and its whole interval lie at or below "
                           "0.15; any other result is not resolved."),
-    "MODEL_ACCOUNT_MIN_AGREE": ("Step 4, scenarios and accounts",
-                                "For each effect, the account follows from the effect's class and from whether the "
-                                "model identifies the manipulation: identified and not shown, rational override; HIGH "
-                                "and shown without identifying it, deep mimicry; HIGH and shown while identifying it, "
-                                "reproduction of a known effect; ANTI without identifying it, systematic inversion, "
-                                "which supports no account; PARTIAL, OVER and LOW, reported by their class. We conclude "
-                                "that one account explains the model as a whole only when at least four of the six "
-                                "effects other than similarity that replicated in people support it; otherwise we "
-                                "report the accounts effect by effect."),
     "PHANTOM_BAND_PP": ("Phantom equivalence",
                         "We apply the equivalence judgment only when the pooled human phantom effect misses the "
                         "replication criterion: the phantom then counts as absent when its 90 percent interval lies "

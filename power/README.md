@@ -1,57 +1,59 @@
 # Power
 
-The power of the human study's registered tests, computed by formula and by simulation, with the numbers
-the Method and Web Appendix E cite, and a check of how reliably the decision tree routes the planted model
-profiles once the model answers carry sampling noise.
+This folder holds the power of the pre-registered tests of the human study, computed by formula and by simulation,
+with the numbers that the Method and Web Appendix E cite. It also holds simulations of the whole analysis. These
+show how often each simulated model still reaches its intended conclusion when every model answer is a random draw,
+and the smallest difference that each pattern test can detect.
 
 | File | What it is |
 |---|---|
-| `power_sim.py`, `RESULTS.md` | Power per category (about 700 choices per condition), pooled over ten categories (about 7,000) and for the pooled first-choice subsample (about 1,000), by the normal approximation and by 50,000 simulated draws (seed 11); the multiple-testing correction at its most conservative (alpha divided by seven) |
-| `clustered_power.py`, `CLUSTERED_POWER.md` | Whether the correlation among one participant's seven choices reduces the power of the pooled tests (participant random intercepts at several intra-class correlations; cluster-robust against naive tests; seed 7; needs numpy) |
-| `power_added_cells.py`, `POWER_ADDED_CELLS.md` | Power for the cells added to the numeric survey: both similarity clone placements, the price-free test and the extremity control |
-| `power_format_interaction.py`, `POWER_FORMAT_INTERACTION.md` | Power of the four format-by-effect interaction tests at the planned sizes, with the numbers comparison at the numeric survey's actual cell sizes (Table WA-E3; seed 20260929) |
-| `power_compromise_pooled.py`, `POWER_COMPROMISE_POOLED.md` | Power of the pooled compromise test after the descriptive compromise cells leave it, and of the other five non-similarity effects, at the registered Holm family of six (seed 20260929) |
-| `first_trial_rule_sim.py`, `FIRST_TRIAL_RULE_SIM.md` | The false-alarm rate and power of the registered first-choice check at the planned cell sizes (Table WA-E2; seed 20260929) |
-| `model_noise_stability.py`, `MODEL_NOISE_STABILITY.md`, `model_noise_stability_runs.csv` | How often each planted model profile routes to its intended scenario, to not resolved, or to a wrong scenario, when every model call is a random draw at the planted share (the full analysis, 20 seeds per condition) |
-| `resolution_statement.py`, `RESOLUTION_STATEMENT.md`, `resolution_statement_runs.csv`, `resolution_statement_summary.json` | The pattern-test counterpart of power: the smallest true difference each pattern test (T1 to T5) and each class boundary resolves in 80 percent of runs at the planned sizes and the registered model plan (Table WA-E4; the full analysis, 20 seeds) |
-| `pattern_test_resolution.json` | A recorded input, not recomputed here: the pattern-test rows of Table WA-E4 (T1, T3, T4, T5) for the registered design, from a simulation of the design run before registration (20 runs per value on the grid 0.2 to 2, the registered test functions and router). The file says how it was made; `resolution_statement.py` reads it |
-| `faithful_resolution_by_sample.py`, `FAITHFUL_RESOLUTION_BY_SAMPLE.md` | How large a sample the planted faithful profile needs before it routes to its intended scenario at the registered 95 percent level (human sizes 1 to 8 times the plan, with and without draw noise) |
+| `power_sim.py`, `RESULTS.md` | Power for one category (about 700 choices in each condition), for the ten categories pooled (about 7,000), and for the pooled first choices of each participant (about 1,000). Each is computed by the normal approximation and checked with 50,000 simulated experiments (seed 11), at alpha .05 and at the strictest correction for multiple tests (alpha divided by seven) |
+| `clustered_power.py`, `CLUSTERED_POWER.md` | Whether the correlation among one participant's seven choices lowers the power of the pooled tests. The simulation gives each participant a random intercept, at several sizes of the correlation within a participant, and compares tests that treat each participant as a cluster with tests that do not (seed 7; needs numpy) |
+| `power_added_cells.py`, `POWER_ADDED_CELLS.md` | Power for the cells added to Survey 1: both placements of the clone in the similarity set, the price-free test and the extremity control |
+| `power_format_interaction.py`, `POWER_FORMAT_INTERACTION.md` | Power of the four tests of whether the format changes an effect, at the planned sizes, with the numbers version at the actual sizes of its cells in Survey 1 (Table WA-E3; seed 20260929) |
+| `power_compromise_pooled.py`, `POWER_COMPROMISE_POOLED.md` | Power of the pooled compromise test once the compromise cells that are only described leave it, and of the other five effects except similarity, with the Holm correction across those six effects (seed 20260929) |
+| `first_trial_rule_sim.py`, `FIRST_TRIAL_RULE_SIM.md` | The rate of false alarms and the power of the pre-registered check of first choices, at the planned sizes of the cells (Table WA-E2; seed 20260929) |
+| `model_noise_stability.py`, `MODEL_NOISE_STABILITY.md`, `model_noise_stability_runs.csv` | How often each simulated model reaches its intended conclusion, reaches no resolved conclusion, or reaches a wrong one, when every model call is a random draw at the share that we built into the model. The simulation runs the whole analysis 20 times for each condition |
+| `resolution_statement.py`, `RESOLUTION_STATEMENT.md`, `resolution_statement_runs.csv`, `resolution_statement_summary.json` | For the pattern tests, the counterpart of power: the smallest true difference that each pattern test (T1 to T5) and each boundary between fidelity classes detects in 80 percent of runs, at the planned sizes and with the pre-registered plan of model calls (Table WA-E4; the whole analysis, 20 seeds) |
+| `pattern_test_resolution.json` | A stored input that this folder does not compute: the rows of Table WA-E4 for the pattern tests T1, T3, T4 and T5 in the pre-registered design. They come from a simulation of the design that we ran before registration, with 20 runs at each true difference from 0.2 to 2 and the pre-registered functions of the tests. The file says how we made it, and `resolution_statement.py` reads it |
+| `faithful_resolution_by_sample.py`, `FAITHFUL_RESOLUTION_BY_SAMPLE.md` | How large a sample the simulated model that matches people needs before the analysis concludes, at the pre-registered 95 percent level, that it matches. The simulation uses human samples of 1 to 8 times the planned size, with and without the noise of repeated model calls |
 
 ## What the numbers mean
 
-1. **The pooled tests are the confirmatory level.** Across ten categories (about 7,000 choices per
-   condition), power is effectively 1.00 for effects as small as 4 percentage points, and at least 0.98
-   under the most conservative correction (alpha divided by all seven effect families).
-2. **Per-category results are reported but not confirmatory.** One category (700 per condition) detects an
-   8-point effect with power 0.85 at alpha .05 but only 0.63 under the conservative correction, so the
-   protocol registers the pooled tests as confirmatory and reports the variation across categories as a
-   described moderator.
-3. **The first-choice check has adequate power at the pooled level.** The one-choice-per-person subsample
-   (about 1,000 per condition pooled) detects an 8-point effect with power 0.95 (0.82 under the
-   conservative correction). `FIRST_TRIAL_RULE_SIM.md` gives the registered check's false-alarm rate and
-   power directly.
-4. **The format interaction and the pooled compromise test** are reported at their actual planned sizes in
+1. **The pooled tests are the confirmatory tests.** Pooled across ten categories (about 7,000 choices in each
+   condition), the power to detect an effect of 4 percentage points is 1.00 at alpha .05, and 0.98 under the
+   strictest correction (alpha divided by seven).
+2. **The results of single categories are reported, but they are not confirmatory.** In one category (700 choices
+   in each condition), the power to detect an effect of 8 points is 0.85 at alpha .05, but only 0.63 under the
+   strictest correction. The protocol therefore makes the pooled tests confirmatory and describes how the effects
+   differ across categories.
+3. **The check of first choices has enough power when pooled.** With one choice per participant (about 1,000 in
+   each condition, pooled), the power to detect an effect of 8 points is 0.95 at alpha .05 (0.82 under the strictest
+   correction). `FIRST_TRIAL_RULE_SIM.md` gives the rate of false alarms and the power of the pre-registered check
+   directly.
+4. **The tests of the format and the pooled compromise test** have their power at the planned sizes in
    `POWER_FORMAT_INTERACTION.md` and `POWER_COMPROMISE_POOLED.md`.
-5. **The pattern tests have no power in the usual sense**, because a model effect carries no test. Their
-   counterpart is the smallest true difference each reading resolves in 80 percent of runs
-   (`RESOLUTION_STATEMENT.md`, Table WA-E4), and `FAITHFUL_RESOLUTION_BY_SAMPLE.md` shows what sample would let
-   the faithful profile be resolved.
+5. **The pattern tests have no power in the usual sense,** because we run no significance test on a model effect.
+   Their counterpart is the smallest true difference that each test detects in 80 percent of runs
+   (`RESOLUTION_STATEMENT.md`, Table WA-E4). `FAITHFUL_RESOLUTION_BY_SAMPLE.md` shows how large a sample the analysis
+   would need to conclude that the simulated model that matches people does match.
 
-Holm's correction within families, which the analysis uses, can only improve on the floors in points 1 to 3.
+The analysis applies the Holm correction within families of tests, which can only give more power than the floors
+in points 1 to 3.
 
 ## Run
 
 ```
 python power/power_sim.py                  # about 20 seconds
-python power/clustered_power.py            # about 2.5 minutes
+python power/clustered_power.py            # about 2 minutes
 python power/power_added_cells.py
 python power/power_format_interaction.py
 python power/power_compromise_pooled.py
 python power/first_trial_rule_sim.py       # about 30 seconds
 python power/model_noise_stability.py      # about 17 minutes
-python power/resolution_statement.py       # about 40 minutes
+python power/resolution_statement.py       # about 45 minutes
 python power/faithful_resolution_by_sample.py   # about 8 minutes
 ```
 
-`python run_all.py --part power` runs all but the last three and checks each report against the deposited
-copy; `python run_all.py --part power --full` adds the last three.
+`python run_all.py --part power` runs all but the last three and checks each report against the copy in this
+repository. `python run_all.py --part power --full` adds the last three.

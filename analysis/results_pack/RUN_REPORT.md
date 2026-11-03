@@ -5,7 +5,7 @@
 - mode: REHEARSAL
 - seed: 20260613
 - python: 3.13.13 (Windows)
-- runtime_sec: 20.32
+- runtime_sec: 17.1
 - human choice rows: 280000
 - models scored: 15
 - Bayes factor: half-normal prior, positive direction, scale 10.0 points
@@ -48,18 +48,18 @@
 | model | scenario | name |
 |---|---|---|
 | FAITHFUL | S1 | High fidelity |
-| PARROT | S2 | Retrieval only |
+| PARROT | S2+S4 | Retrieval only and rational override |
 | REASONER | S3 | Reason construction |
 | OVERRIDER | S4 | Rational override |
-| DIVIDED_A | S5 | Family-specific |
-| DIVIDED_B | S5 | Family-specific |
-| CONVERGE_OLD | S6 | Rising fidelity |
-| CONVERGE_NEW | S6 | Rising fidelity |
+| DIVIDED_A | S1 | High fidelity |
+| DIVIDED_B | S6 | A failure that no account predicts |
+| CONVERGE_OLD | S6 | A failure that no account predicts |
+| CONVERGE_NEW | S7 | A known effect reproduced |
 | WALK1_PARROT | S2 | Retrieval only |
-| WALK2_MIXED | PARTIAL | Partial fidelity (per-effect accounts side by side) |
-| CEILING | CRITERION_FAIL | Not assessable (Step 0b) |
-| REFUSER | CRITERION_FAIL | Not assessable (Step 0b) |
-| R4_ARGUABLE_OVERRIDE | REVERSED_LADDER_OVERRIDE | Reversed ladder, rational override on choice sets that offer an argument |
-| R4_ARGUABLE_NORECOG | REVERSED_LADDER | Reversed ladder, no account attributed |
-| OVERSHOOT_T1 | COMPOSITE | Composite of the individual readings |
-| (human data) | S7 | Human effects fail |
+| WALK2_MIXED | S4 | Rational override |
+| CEILING | CRITERION_FAIL | Not assessable (Step 0) |
+| REFUSER | CRITERION_FAIL | Not assessable (Step 0) |
+| R4_ARGUABLE_OVERRIDE | S4 | Rational override |
+| R4_ARGUABLE_NORECOG | S6 | A failure that no account predicts |
+| OVERSHOOT_T1 | S6 | A failure that no account predicts |
+| (human data) | S5 | Human effects fail |

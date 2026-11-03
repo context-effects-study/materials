@@ -66,29 +66,6 @@ RULE_ROWS = [
      "need not contain the estimate) is not resolved. Any other result is reported as not resolved, and no "
      "scenario is based on it; when the interval rules out every conclusion fixed in advance for a test, the "
      "result is described but is still not resolved."),
-    ("Step 3, pattern tests",
-     "A scenario that names an account is claimed only when the result it depends on is resolved: "
-     "retrieval (S2) needs a resolved steep fall in the memorization test, reason construction (S3) a "
-     "resolved decline down the argument-strength ordering, rational override (S4) a resolved finding that "
-     "the model knows the manipulation and does not show the effect, on at least one effect, together with a "
-     "LOW or ANTI overall class, the conclusions about a reversed ordering a resolved reversal, and rising "
-     "fidelity (S6) a resolved rise across generations. When a result that such a scenario depends on is "
-     "not resolved, neither that scenario nor any later one in the decision tree is claimed, and the model is "
-     "reported as not resolved, with the possible scenarios listed, unless every way the result could be "
-     "resolved leads to the same scenario (rational override and systematic inversion are both S4); high "
-     "fidelity (S1) is the one exception and has its own rule in the next row."),
-    ("Step 3, pattern tests",
-     "High fidelity (S1) needs the HIGH overall class, no effect classed LOW or ANTI, every effect the model shows "
-     "shown without identifying "
-     "the manipulation (S1 is not claimed when the manipulation is identified for any effect that is shown), "
-     "and no resolved steep fall in the memorization test, reversed ordering or decline down the "
-     "argument-strength ordering. A result that is not resolved prevents S1 from being claimed only when its "
-     "estimate, taken alone, agrees with an account (a steep fall in the memorization test, a reversed "
-     "ordering, a decline down the ordering, a rise across generations); the model is then reported as not "
-     "resolved, with high fidelity and every account whose test is not resolved listed as possible. "
-     'Otherwise, when any pattern test is not resolved, S1 is reported with the note "pattern tests not '
-     "resolved at the design's resolution\", naming the tests that are not resolved. S1 is not claimed when a "
-     "positive control failed."),
     ("Step 3, knows-it-versus-shows-it test (T2)",
      "For rational override, both parts are judged against 95 percent intervals: the model knows the "
      "manipulation when its recognition rate and the rate's interval (recognition calls resampled within each stimulus) "
@@ -99,21 +76,29 @@ RULE_ROWS = [
      "and pictures with its 95 percent interval, are reported beside the argument-strength test. No "
      "conclusion is drawn from the format test and no scenario depends on it. It is also reported with the "
      "model's numbers calls restricted to the option order its picture shows, on the model side only."),
-    ("Step 4, scenarios and accounts",
-     "We check the scenarios in this order, and the first that applies is our conclusion for the model: (1) a "
-     "reversed argument-strength ordering with the manipulation identified on every attraction or compromise "
-     "effect the model misses, which we conclude is rational override on the choice sets that give an argument; "
-     "(2) S4, when the model identifies the manipulation on at least one effect and its choices do not follow it, "
-     "with a LOW or ANTI "
-     "overall class; (3) S2; (4) S6; (5) S5; (6) a reversed ordering without that recognition, reported as a "
-     "difference from people with no account attached; (7) S1; (8) S3; (9) a mixed pattern, HIGH on some effects "
-     "and LOW or ANTI on others, reported as a mixed pattern, with each effect's class and account; (10) S4 for an "
-     "ANTI overall class without recognition (systematic inversion). A model that matches none is reported by "
-     "the result of each test."),
-    ("Step 4, scenarios and accounts",
-     "A family's pattern is consistent when all its models receive the same overall class; when the models of a "
-     "family receive different overall classes, the pattern is family-specific (S5), reported per family, and "
-     "the combined map is labeled heterogeneous."),
+    ("Step 4, the conclusion for each model",
+     "Before Step 4, Step 0 applies: when four or more of the six effects other than similarity fail in people, "
+     "every model is reported under S5, and a model that loses more than a third of its cells is not assessable. "
+     "For every other model we look for three failures, with no order among them: a steep fall in fidelity from the "
+     "published values to the new values (T1), Retrieval only (S2); a decline down the argument-strength ordering "
+     "(T3), Reason construction (S3); and the manipulation identified on at least one effect whose pooled effect is "
+     "not above 3 points (T2), Rational override (S4). A failure is present when its result is resolved, absent when "
+     "the interval rules it out, and otherwise not resolved; a failed positive control leaves the first two not "
+     "judged."),
+    ("Step 4, the conclusion for each model",
+     "A model matches people when its overall class is HIGH, no effect is classed LOW or ANTI, no failure is "
+     "present, and no test points to a failure: no failure that is not resolved has an estimate past its cutoff (an "
+     "estimated fall or decline above 0.30, or the manipulation identified, by its estimate, on an effect whose pooled "
+     "effect is not above 3 points). A model that matches people and identifies the manipulation on no effect is reported under S1 (High "
+     "fidelity); one that identifies the manipulation on at least one effect is reported under S7 (A known effect "
+     "reproduced). For a model that does not match people, the conclusion is every failure that is present. When "
+     "all three are absent, the model is reported under S6, a failure that no account predicts. When none is "
+     "present and at least one is not resolved or not judged, the model is reported as not resolved, with the "
+     "failures that are still possible."),
+    ("Step 4, the conclusion for each model",
+     "For every model we report each effect's class and whether the model identified the manipulation, with no "
+     "account attached. Beside the conclusion we report the trajectory test and whether all models of the "
+     "family receive the same overall class. Neither of these changes the conclusion."),
     ("Step 1, stimulus handling",
      "The deviation sensitivity analysis removes seven calibration pairs: the six pairs retained after "
      "failing the calibration rule (backpacks, earbuds and restaurants at new values, the standing desks, "
@@ -164,9 +149,12 @@ def build():
     for grp, _, _ in printed:          # step order = first appearance in the dataclass (the Analysis Plan's)
         if grp not in order:
             order.append(grp)
-    # the Method's rows first (the Method precedes the Analysis Plan), then the steps in the Plan's order;
+    # the Method's rows first (the Method precedes the Analysis Plan), then the steps in the Plan's order (a group
+    # named only by rule rows, such as the format test and Step 4, sits with its step), then the other groups;
     # stable, so each rule row follows its group's numbers
-    printed.sort(key=lambda r: (0 if r[0].startswith("Method") else 1, order.index(r[0])))
+    def step_no(grp):
+        return int(grp[5]) if grp.startswith("Step ") and grp[5].isdigit() else 9
+    printed.sort(key=lambda r: (0 if r[0].startswith("Method") else 1, step_no(r[0]), order.index(r[0])))
     for grp, value, meaning in printed:
         lines.append(f"| {grp} | {value} | {meaning} |")
     lines += [
@@ -235,15 +223,12 @@ def build():
         "interval below 0.30; argument-strength: within 0.30 either way; trajectory: within 0.15). The format test "
         "is descriptive (estimate and interval, no reading). Any other result is not resolved and supports no scenario; "
         "when the interval rules out every registered reading, the result is described and is still not resolved. "
-        "The undershoot requirement applies to the memorization sensitivity re-readings too. A scenario that "
-        "attributes an account (retrieval, reason construction, rational override, the reversed orderings, rising "
-        "fidelity) is claimed only on its resolved reading; when that reading is open, neither it nor any later "
-        "scenario is claimed and the model is reported as not resolved, with the scenarios left open, unless every "
-        "way the reading could resolve leads to the same scenario. High fidelity "
-        "needs no resolved steep "
-        "memorization reading, reversed ordering or decline down the ordering, is blocked by an open reading only when that "
-        "reading's estimate points to an account, and carries the qualifier \"pattern tests not resolved at the "
-        "design's resolution\" (naming the open tests) whenever a pattern test is open. The human resample treats "
+        "The undershoot requirement applies to the memorization sensitivity re-readings too. Each failure of Step 4 "
+        "is present on its resolved result, absent when the interval rules that result out, and otherwise not "
+        "resolved; a present failure, or one not resolved whose estimate passes its cutoff, keeps a model from "
+        "matching people, and a model that does not match people "
+        "with no failure present and at least one not resolved is reported as not resolved, with the conclusions "
+        "still possible listed. The human resample treats "
         "each participant's choices in different "
         "cells as independent; beside each pooled human effect, the width of its resampled interval is reported as a "
         "share of the width of its registered cluster-robust interval.",
@@ -251,8 +236,8 @@ def build():
         f"regularity when it is OVER against a replicated human phantom effect, or larger than {C.ANTI_MIN_PP:g} "
         "points in the phantom's predicted direction where the human phantom effect failed the criterion.",
         f"- **First-trial floor.** After the first-trial check fires, an effect that replicates but is smaller than "
-        f"{C.FIRST_TRIAL_MIN_EFFECT_PP:g} points is classed descriptively only; it leaves the model's overall class, "
-        "the model-level account and every pattern test.",
+        f"{C.FIRST_TRIAL_MIN_EFFECT_PP:g} points is classed descriptively only; it leaves the model's overall class "
+        "and every pattern test.",
         f"- **Folded fidelity.** A pattern-test group's fidelity is the sum of its model effects, each taken in the "
         f"direction of the matched human effect, divided by the sum of the human effect sizes; a value above "
         f"{C.FIDELITY_FOLD_AT:g} is folded to {2 * C.FIDELITY_FOLD_AT:g} minus the value, and every value is capped "
@@ -271,15 +256,14 @@ def build():
         f"{C.PHANTOM_BAND_PP:g} points.",
         f"- **Reversed ordering.** When the bottom position (extremity) exceeds both the top position (attraction) "
         f"and the middle position (compromise) by more than {C.T3_LADDER_STEP:g}, the reading is evidence against "
-        f"reason construction; recognition at or above {C.RECOGNITION_CUTOFF:g} on every attraction or compromise "
-        "effect the model misses attributes it to rational override on choice sets that offer an argument, "
-        "otherwise no account is attributed.",
+        "reason construction; it is described and leads to no conclusion of its own.",
         f"- **Effect without a human counterpart.** In a cell whose effect failed the human criterion, a model "
         f"effect larger than {C.ANTI_MIN_PP:g} points (either sign) is listed per model and effect; it never "
         "enters an agreement measure, and ANTI stays reserved for reversals of replicated human effects.",
-        f"- **S7, Human effects fail.** {C.MOST_FAILED_MIN} or more of the six non-similarity effects fail.",
-        f"- **Model-level account.** Claimed only when {C.MODEL_ACCOUNT_MIN_AGREE} or more of the six "
-        "non-similarity effects that passed the human criterion carry the same per-effect account.",
+        f"- **S5, Human effects fail.** {C.MOST_FAILED_MIN} or more of the six non-similarity effects fail; every "
+        "model is then reported under S5.",
+        "- **No account per effect.** Each effect is reported with its class and whether the model identified the "
+        "manipulation; no account is attached to an effect, and no account needs a count of effects.",
         f"- **Deviation sensitivity set.** {dev}. The analysis computes all seven pairs from the calibration record: "
         f"the six adjustable pairs by option identity under the calibration rule (a pair is final when the "
         f"compromise target's share lies in {r['band_lo_pct']:g} to {r['band_hi_pct']:g} percent, or when its 95 "

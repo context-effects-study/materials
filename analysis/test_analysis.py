@@ -384,39 +384,23 @@ def test_every_constant_has_a_meaning_and_prints():
 
 
 # ------------------------------------------------------------------------------------------------
-# Defect 10 and the three added rules
+# Defect 10 and the three added rules (re-aimed at the simple rule of 2026-11-02)
 # ------------------------------------------------------------------------------------------------
-_GATE_INFO = dict(not_assessable=False)
-_FLAT = dict(reading="flat: fidelity is genuine behavior, not retrieval")
-_T4 = dict(reading="insufficient formats")
-_T5 = dict(trajectory="insufficient generations")
-
-
-def _r4_cells():
-    cells = []
-    for st, cls, mp in (("FRQ", "LOW", 0.2), ("RNG", "LOW", 0.2), ("SOT", "ANTI", -10.0),
-                        ("SYM", "HIGH", 15.0), ("MOT", "HIGH", 9.0), ("SIM", "HIGH", 5.0)):
-        for tier in (1, 2, 3):
-            cells.append(dict(structure=st, tier=tier, human_pp=10.0, model_pp=mp, **{"class": cls}))
-    return cells
-
-
-def test_reversed_ladder_routes_by_recognition():
+def test_reversed_ordering_is_described_and_decides_nothing():
+    """A model that misses the effects whose sets give an argument and matches those that give none has a reversed
+    ordering: T3 describes it (no account is attached, no recognition is read), and decision tree B routes the model
+    by its signatures alone: it does not match people, and with the decoy named where it misses the effect rational
+    override is present (S4); without the decoy named, every signature is absent (S6)."""
     fid = {"FRQ": 0.02, "RNG": 0.02, "SOT": -1.0, "MOT": 0.95, "SYM": 0.9}
+    t3 = analyze.test_T3_ladder(fid)
+    assert t3["reading"].startswith("reversed ladder") and t3["reversed"], t3
+    assert "attribution" not in t3 and "missed_effects" not in t3, t3
     classes = {"FRQ": "LOW", "RNG": "LOW", "SOT": "ANTI", "SYM": "HIGH", "MOT": "HIGH"}
-    t3_hi = analyze.test_T3_ladder(fid, classes, {"FRQ": 0.9, "RNG": 0.85, "SOT": 0.9})
-    t3_lo = analyze.test_T3_ladder(fid, classes, {"FRQ": 0.9, "RNG": 0.2, "SOT": 0.9})
-    override = getattr(analyze, "ARGUMENT_OVERRIDE", "rational override on arguable sets")
-    assert t3_hi["reading"].startswith("reversed ladder") and t3_hi["attribution"] == override
-    assert t3_lo["reading"].startswith("reversed ladder") and t3_lo["attribution"] == "no account attributed"
-    cells = _r4_cells()
-    agree = analyze.agreement(cells)
-    r_hi = analyze.route_model("m", cells, _FLAT, False, t3_hi, _T4, _T5, _GATE_INFO, agree, True, False)
-    r_lo = analyze.route_model("m", cells, _FLAT, False, t3_lo, _T4, _T5, _GATE_INFO, agree, True, False)
-    assert r_hi[1] == "REVERSED_LADDER_OVERRIDE", r_hi
-    assert r_lo[1] == "REVERSED_LADDER", r_lo
+    named = analyze.route_model(_T1_FLAT, "T", t3, "LOW", classes, t2_override=True)
+    unnamed = analyze.route_model(_T1_FLAT, "F", t3, "LOW", classes)
+    assert named[1] == "S4" and unnamed[1] == "S6", (named, unnamed)
     # a peaked middle (compromise faithful, extremity faithful, attraction missed) is not a reversal.
-    t3_mid = analyze.test_T3_ladder({"FRQ": 0.0, "RNG": 0.0, "SOT": 1.0, "MOT": 0.9}, classes, {})
+    t3_mid = analyze.test_T3_ladder({"FRQ": 0.0, "RNG": 0.0, "SOT": 1.0, "MOT": 0.9})
     assert not t3_mid["reading"].startswith("reversed"), t3_mid
     # the registered decline still reads as a decline.
     assert analyze.test_T3_ladder({"FRQ": 1.0, "RNG": 1.0, "SOT": 0.45, "MOT": 0.2})["reading"].startswith("declines")
@@ -428,24 +412,31 @@ def test_effect_without_a_human_counterpart():
     assert analyze.gate_exit_class(0.02) == "excluded(criterion-exit)"
 
 
-def test_s7_needs_four_of_the_six_non_similarity_effects():
+def test_s5_needs_four_of_the_six_non_similarity_effects():
     four = synth.gen_human(700, random.Random(51), icc=0.10, null_effects={"RNG", "SYM", "MOT"})
     three_plus_sim = synth.gen_human(700, random.Random(52), icc=0.10, null_effects={"RNG", "SYM", "SIM"})
     assert analyze.human_gate(four)[4] is True
     g3 = analyze.human_gate(three_plus_sim)
-    assert g3[0]["SIM"]["replicated"] is False and g3[4] is False, "similarity counted toward S7"
+    assert g3[0]["SIM"]["replicated"] is False and g3[4] is False, "similarity counted toward S5"
 
 
-def test_model_level_account_needs_four_agreeing_effects():
-    criterion = {st: dict(replicated=True) for st in analyze.EFFECTS}
-    three = {"FRQ": "deep pattern-mimicry", "RNG": "deep pattern-mimicry", "SOT": "deep pattern-mimicry",
-             "SYM": "low fidelity", "MOT": "partial (direction transfers, size off)", "PHT": "low fidelity",
-             "SIM": "deep pattern-mimicry"}
-    assert analyze.model_level_account(three, criterion)[0] == "per-effect only", "similarity counted toward the account"
-    four = dict(three, SYM="deep pattern-mimicry")
-    assert analyze.model_level_account(four, criterion)[0] == "deep pattern-mimicry"
-    gate_fail = dict(criterion, SYM=dict(replicated=False))
-    assert analyze.model_level_account(four, gate_fail)[0] == "per-effect only", "a failed effect counted"
+def test_no_account_is_attached_effect_by_effect():
+    """The simple rule reports, for each effect, its class (or that it fails in people, with an effect without a
+    human counterpart when the model shows one) and whether the model named the decoy; no account is attached."""
+    criterion = {st: dict(replicated=st not in ("PHT", "SIM")) for st in analyze.EFFECTS}
+    classes = {"FRQ": "HIGH", "RNG": "LOW", "SOT": "ANTI", "SYM": "OVER", "MOT": "PARTIAL"}
+    t2_per = {"FRQ": dict(knows=True), "RNG": dict(knows=False), "SOT": dict(knows=True), "SYM": dict(knows=False),
+              "MOT": dict(knows=False), "SIM": dict(knows=False)}
+    cls, named = analyze.per_effect_report(criterion, classes, t2_per, no_counterpart={"PHT"})
+    assert cls == {"FRQ": "HIGH", "RNG": "LOW", "SOT": "ANTI", "SYM": "OVER", "MOT": "PARTIAL",
+                   "PHT": "fails in people, and the model shows an effect without a human counterpart",
+                   "SIM": "fails in people"}, cls
+    assert named == {"FRQ": "yes", "RNG": "no", "SOT": "yes", "SYM": "no", "MOT": "no", "PHT": "not asked",
+                     "SIM": "no"}, named
+    for retired in ("attribute_effect_accounts", "model_level_account", "route_resolved", "S1_QUALIFIER",
+                    "ARGUMENT_OVERRIDE", "QUESTIONS", "answer_questions", "_three_state"):
+        assert not hasattr(analyze, retired), f"a retired part of the old rule is still in the code: {retired}"
+    assert not hasattr(analyze.RC, "MODEL_ACCOUNT_MIN_AGREE"), "the four-of-six account rule is still registered"
 
 
 # ================================================================================================
@@ -511,6 +502,9 @@ def _pack(name):
         H = synth.gen_human(400, random.Random(71), icc=0.0, sim_topup_participants=300)
         models = {"CUSTOM": _exact_model("CUSTOM", _custom_pooled),
                   "OVERSHOOT_T1": synth.gen_model("OVERSHOOT_T1", 120, random.Random(72), noise="exact"),
+                  # tree B (2026-11-03): matches people and names the decoys whose effects it shows (S7)
+                  "KNOWN": [dict(r, model_key="KNOWN") for r in
+                            synth.gen_model("CONVERGE_NEW", 120, random.Random(76), noise="exact")],
                   # twice the human effect on the published tier only: pooled HIGH, published-tier OVER
                   "OVER_T1_ONLY": _exact_model("OVER_T1_ONLY", lambda st, t, c: (2.0 if t == 1 else 1.0) * _planted(st, t, c)),
                   # faithful, but its binary control in category 0, tier 1 sits at 95 percent (no room to move)
@@ -584,11 +578,14 @@ def test_i2_over_class_and_tie_rule():
 
 
 def test_i2_over_on_the_phantom_reads_as_retrieval():
-    criterion = {st: dict(replicated=True) for st in analyze.EFFECTS}
-    acc = analyze.attribute_effect_accounts("m", [], {}, criterion, effect_classes={"PHT": "OVER", "FRQ": "OVER"},
-                                            pooled={"PHT": (9.0, 3.0), "FRQ": (20.0, 10.0)})
-    assert "retrieval of a described regularity" in acc["PHT"], acc["PHT"]
-    assert acc["FRQ"].startswith("overshoot"), acc["FRQ"]
+    """An OVER phantom against a replicated human phantom, and an OVER published tier, read as consistent with
+    retrieval of a described regularity; an OVER effect other than the phantom, on a tier other than the published
+    one, carries no such reading (reported by its class)."""
+    R = analyze.over_readings
+    assert R("PHT", "OVER", True, 0.09, "HIGH") == ["OVER on the phantom: " + analyze.RETRIEVAL_READING]
+    assert R("FRQ", "OVER", True, 0.20, "HIGH") == []
+    assert R("FRQ", "HIGH", True, 0.10, "OVER") == ["OVER on the published tier: " + analyze.RETRIEVAL_READING]
+    assert R("PHT", "OVER", False, 0.09, None) != R("PHT", "OVER", True, 0.09, None)
 
 
 def test_i2_over_on_the_published_tier_reads_as_retrieval_end_to_end():
@@ -821,7 +818,11 @@ def test_i2_failed_positive_control_makes_its_row_and_the_pattern_tests_uninform
     t2 = next(r for r in res["test_T2_rows"] if r["model"] == "FAITHFUL" and r["structure"] == "FRQ")
     assert t2["reading"].startswith("uninformative")
     route = next(r for r in res["routing_rows"] if r["model"] == "FAITHFUL")
-    assert route["scenario"] != "S1" and route["positive_controls"].startswith("failed"), route
+    # tree B: the failed control leaves T1 and T3 not judged, which does not block a match; this model matches people
+    # on the other effects with no failure present, so it reaches S1
+    assert (route["scenario"] == "S1" and route["matches_people"] == "yes"
+            and route["positive_controls"].startswith("failed")
+            and route["signatures"].startswith("S2=not judged;S3=not judged;S4=")), route
 
 
 # ---- rule 10: the similarity top-up check -----------------------------------------------------------
@@ -964,8 +965,7 @@ def test_i2_review_directional_readings_need_an_undershoot():
     assert _t4_pre_round5({"numbers": 1.0, "pictures": 0.2}, None,
                           {"numbers": 1.0, "pictures": 0.2})["reading"].startswith("falls")
     fid = {"FRQ": -0.5, "RNG": -0.5, "SOT": -0.5, "MOT": 1.0}
-    t3 = analyze.test_T3_ladder(fid, {"FRQ": "OVER", "RNG": "OVER", "SOT": "OVER", "MOT": "HIGH"}, {},
-                                {"FRQ": 2.5, "RNG": 2.5, "SOT": 2.5, "MOT": 1.0})
+    t3 = analyze.test_T3_ladder(fid, {"FRQ": 2.5, "RNG": 2.5, "SOT": 2.5, "MOT": 1.0})
     assert not t3["reversed"] and not t3["reading"].startswith("reversed"), t3
     t1 = analyze.test_T1_memorization({1: 1.0, 2: 1.0, 3: 0.2}, {1: 1.0, 2: 1.0, 3: 1.8})
     assert not t1["reading"].startswith("steep"), t1
@@ -1116,25 +1116,23 @@ def test_r2_T1_resolution_boundaries():
 def test_r2_T3_T4_T5_resolution_boundaries():
     fid = {"FRQ": 1.0, "RNG": 1.0, "SOT": 0.9, "MOT": 0.5}             # declines by 0.50
     T3 = analyze.test_T3_ladder
-    ok = T3(fid, {}, {}, None, ci=dict(top_minus_bottom=(0.20, 0.80), bottom_minus_middle=(-0.7, -0.1)), resolve=True)
+    ok = T3(fid, None, ci=dict(top_minus_bottom=(0.20, 0.80), bottom_minus_middle=(-0.7, -0.1)), resolve=True)
     assert ok["reading"].startswith("declines"), ok
-    op = T3(fid, {}, {}, None, ci=dict(top_minus_bottom=(0.10, 0.80), bottom_minus_middle=(-0.7, -0.1)), resolve=True)
+    op = T3(fid, None, ci=dict(top_minus_bottom=(0.10, 0.80), bottom_minus_middle=(-0.7, -0.1)), resolve=True)
     assert op["reading"].startswith(analyze.NOT_RESOLVED) and op["p_declines"] == "U", op
     flat3 = {"FRQ": 0.9, "RNG": 0.9, "SOT": 0.9, "MOT": 0.95}
-    assert T3(flat3, {}, {}, None, ci=dict(top_minus_bottom=(-0.25, 0.20), bottom_minus_middle=(-0.2, 0.3)),
+    assert T3(flat3, None, ci=dict(top_minus_bottom=(-0.25, 0.20), bottom_minus_middle=(-0.2, 0.3)),
               resolve=True)["reading"].startswith("flat")
-    assert T3(flat3, {}, {}, None, ci=dict(top_minus_bottom=(-0.35, 0.20), bottom_minus_middle=(-0.2, 0.3)),
+    assert T3(flat3, None, ci=dict(top_minus_bottom=(-0.35, 0.20), bottom_minus_middle=(-0.2, 0.3)),
               resolve=True)["reading"].startswith(analyze.NOT_RESOLVED)
     rev = {"FRQ": 0.1, "RNG": 0.1, "SOT": 0.1, "MOT": 0.9}
-    cls = {"FRQ": "LOW", "RNG": "LOW", "SOT": "LOW", "MOT": "HIGH"}
-    r = T3(rev, cls, {"FRQ": 0.9, "RNG": 0.9, "SOT": 0.9}, None,
-           ci=dict(top_minus_bottom=(-1.0, -0.5), bottom_minus_middle=(0.5, 1.0)), resolve=True)
-    assert r["reversed"] and r["attribution"] == analyze.ARGUMENT_OVERRIDE, r
-    r = T3(rev, cls, {"FRQ": 0.9, "RNG": 0.9, "SOT": 0.9}, None,
+    r = T3(rev, None, ci=dict(top_minus_bottom=(-1.0, -0.5), bottom_minus_middle=(0.5, 1.0)), resolve=True)
+    assert r["reversed"] and r["p_reversed"] == "T" and r["p_declines"] == "F", r     # described; a decline set out
+    r = T3(rev, None,
            ci=dict(top_minus_bottom=(-1.0, -0.5), bottom_minus_middle=(0.05, 1.0)), resolve=True)
     assert not r["reversed"] and r["p_reversed"] == "U" and r["reading"].startswith(analyze.NOT_RESOLVED), r
     # every reading set out: still not resolved, described, all three states F
-    r = T3({"FRQ": 1.0, "RNG": 1.0, "SOT": 0.9, "MOT": 0.8}, {}, {}, None,
+    r = T3({"FRQ": 1.0, "RNG": 1.0, "SOT": 0.9, "MOT": 0.8}, None,
            ci=dict(top_minus_bottom=(0.15, 0.25), bottom_minus_middle=(-0.2, 0.0)), resolve=True)
     assert (r["reading"].startswith(analyze.NOT_RESOLVED) and "rules out every" in r["reading"]
             and r["p_declines"] == r["p_reversed"] == r["p_flat"] == "F"), r
@@ -1171,116 +1169,227 @@ _T1_FLAT = dict(reading="flat: x", point_reading="flat: x", p_steep="F", p_flat=
 _T1_STEEP = dict(reading="steep: x", point_reading="steep: x", p_steep="T", p_flat="F", resolved=True)
 _T1_OPEN_FLAT_PT = dict(reading="not resolved: x", point_reading="flat: x", p_steep="U", p_flat="U", resolved=False)
 _T1_OPEN_STEEP_PT = dict(reading="not resolved: x", point_reading="steep: x", p_steep="U", p_flat="F", resolved=False)
-_T3_FLAT = dict(reading="flat: x", point_reading="flat: x", reversed=False, point_reversed=False, attribution="",
-                p_declines="F", p_reversed="F", p_flat="T", resolved=True,
-                _reversed_base=dict(reversed=True, attribution="no account attributed", missed_effects="",
-                                    missed_recognition=""))
-_T4_FLAT = dict(reading="flat across formats", point_reading="flat across formats", p_falls="F", p_flat="T",
-                resolved=True)
-_T4_FALLS = dict(reading="falls numbers->pictures", point_reading="falls numbers->pictures", p_falls="T",
-                 p_flat="F", resolved=True)
-_T4_OPEN_FALLS_PT = dict(reading="not resolved: x", point_reading="falls numbers->pictures", p_falls="U",
-                         p_flat="F", resolved=False)
-# reason construction (S3) rests on a resolved decline down the argument-strength ladder
+# an interval that rules a steep fall out without resolving the flat reading: question 2 is answered no
+_T1_NO_FALL_OPEN_FLAT = dict(reading="not resolved: x", point_reading="non-monotone or shallow: x", p_steep="F",
+                             p_flat="U", resolved=False)
+_T3_FLAT = dict(reading="flat: x", point_reading="flat: x", reversed=False, point_reversed=False,
+                p_declines="F", p_reversed="F", p_flat="T", resolved=True)
 _T3_DECL = dict(_T3_FLAT, reading="declines down the ladder -> x", point_reading="declines down the ladder -> x",
                 p_declines="T", p_flat="F", resolved=True)
 _T3_OPEN_DECL_PT = dict(_T3_FLAT, reading="not resolved: x", point_reading="declines down the ladder -> x",
                         p_declines="U", p_flat="F", resolved=False)
-_T5_NONE = dict(trajectory="insufficient generations", point_trajectory="insufficient generations", resolved=True)
-_GI = dict(not_assessable=False)
+# an argument-strength reading left open whose estimate is flat (it points to no decline)
+_T3_OPEN_FLAT_PT = dict(_T3_FLAT, reading="not resolved: x", point_reading="flat: x", p_declines="U", p_flat="U",
+                        resolved=False)
+_T3_REV = dict(_T3_FLAT, reading="reversed ladder: x", point_reading="reversed ladder: x", reversed=True,
+               point_reversed=True, p_reversed="T", p_flat="F")
+_UNINF = "uninformative (positive control failed): x"
+_ALL_HIGH = {"FRQ": "HIGH", "RNG": "HIGH", "SOT": "HIGH", "SYM": "HIGH", "MOT": "HIGH"}
 
 
-def _route(t1, t3=None, t4=None, t5=None, overall="HIGH", t2_override=False, t2_state=None, classes=None,
-           consistent=True, generations=False, **kw):
-    classes = classes or {"FRQ": overall if overall in ("HIGH", "LOW", "ANTI", "PARTIAL", "OVER") else "HIGH"}
-    return analyze.route_resolved("m", [], t1, t2_override, t3 or _T3_FLAT, t4 or _T4_FLAT, t5 or _T5_NONE, _GI,
-                                  dict(dominant_class=overall), consistent, generations, effect_classes=classes,
-                                  overall=overall, t2_state=t2_state, **kw)
+def _route(t1=None, t3=None, overall="HIGH", t2_state="F", classes=None, **kw):
+    """The simple router on hand-made test results (defaults: no fall, no decline, nothing named, all HIGH)."""
+    if classes is None:
+        classes = dict(_ALL_HIGH) if overall == "HIGH" else {st: overall for st in _ALL_HIGH}
+    return analyze.route_model(t1 or _T1_FLAT, t2_state, t3 or _T3_FLAT, overall, classes, **kw)
 
 
-def test_r3_S1_needs_no_flat_memorization_reading():
-    """Rule (a), with the guard: S1 needs the HIGH class, the effects shown without recognition, and NO resolved steep
-    memorization reading, reversed ladder or fall across formats; an open reading qualifies it with the one set
-    qualifier, unless the open reading's estimate points to an account."""
-    b, s, poss = _route(_T1_OPEN_FLAT_PT)
-    assert s == "S1" and poss == ["S1"] and analyze.S1_QUALIFIER in b and "(open: T1)" in b, (b, s)
-    assert analyze.S1_QUALIFIER == "pattern tests not resolved at the design's resolution"
-    b, s, _ = _route(_T1_OPEN_STEEP_PT)                    # the estimate says steep, the interval leaves it open
-    assert s == "NOT_RESOLVED", (b, s)                      # the guard withholds S1
-    assert _route(_T1_OPEN_STEEP_PT, s1_point_guard=False)[1] == "S1"
-    b, s, _ = _route(_T1_FLAT)
-    assert s == "S1" and "qualifier" not in b, (b, s)
-    b, s, _ = _route(_T1_STEEP)
-    assert s == "S2", (b, s)                                # a resolved steep reading takes S2, not S1
-    b, s, _ = _route(_T1_FLAT, t3=_T3_DECL)
-    assert s == "S3", (b, s)                                # a resolved ladder decline: not S1
-    b, s, _ = _route(_T1_FLAT, t3=_T3_OPEN_DECL_PT)
-    assert s == "NOT_RESOLVED", (b, s)                      # an open decline whose estimate declines: S1 withheld
-    t3_open_flat_pt = dict(_T3_OPEN_DECL_PT, point_reading="flat: x", p_flat="U")
-    b, s, _ = _route(_T1_OPEN_FLAT_PT, t3=t3_open_flat_pt)
-    assert s == "S1" and b.endswith(analyze.S1_QUALIFIER + " (open: T1, T3)"), (b, s)   # one qualifier, both listed
-    t3_rev = dict(_T3_FLAT, reading="reversed ladder: x", point_reading="reversed ladder: x", reversed=True,
-                  point_reversed=True, attribution="no account attributed", p_reversed="T", p_flat="F")
-    b, s, _ = _route(_T1_FLAT, t3=t3_rev)
-    assert s == "REVERSED_LADDER", (b, s)                   # a resolved reversal is taken before S1
-    b, s, _ = _route(_T1_OPEN_FLAT_PT, t3=t3_rev)
-    assert s == "NOT_RESOLVED", (b, s)                      # ... unless an open steep reading could precede it
-    b, s, _ = _route(_T1_OPEN_FLAT_PT, t2_override=True, t2_state="T")
-    assert s != "S1", (b, s)                                # recognizes-but-does-not-show at the point: not S1
-    b, s, _ = _route(dict(_T1_FLAT, reading="uninformative (positive control failed): x"))
-    assert s != "S1", (b, s)                                # a failed positive control: no S1
+def test_tree_b_step_1_match_needs_the_classes_and_no_failure_present():
+    """Step 1 of decision tree B, with the authors' rule of 2026-11-03 ("Match + no failure present"): the model matches
+    people when its overall class is HIGH, no effect is classed LOW or ANTI (PARTIAL and OVER effects are allowed),
+    and none of the three failure signatures is present. A HIGH model with a resolved decline or a resolved steep fall
+    does not match and is reported by its signatures; a signature that is not resolved or not judged does not block
+    the match."""
+    none_present = {"S2": "absent", "S3": "not resolved", "S4": "not judged"}
+    assert analyze.classes_match("HIGH", _ALL_HIGH)
+    assert analyze.classes_match("HIGH", dict(_ALL_HIGH, MOT="PARTIAL", SYM="OVER"))
+    assert not analyze.classes_match("HIGH", dict(_ALL_HIGH, SOT="ANTI"))
+    assert not analyze.classes_match("HIGH", dict(_ALL_HIGH, SOT="LOW"))
+    for cls in ("OVER", "PARTIAL", "LOW", "ANTI"):
+        assert not analyze.classes_match(cls, {st: cls for st in _ALL_HIGH}), cls
+    assert analyze.matches_people("HIGH", _ALL_HIGH, none_present, [])
+    for code in ("S2", "S3", "S4"):
+        assert not analyze.matches_people("HIGH", _ALL_HIGH, dict(none_present, **{code: "present"}), []), code
+    assert not analyze.matches_people("HIGH", _ALL_HIGH, none_present, ["S3"])
+    assert _route()[1] == "S1"
+    # a HIGH model with a resolved decline down the argument-strength ordering is NOT S1: it is S3
+    b, s, poss = _route(t3=_T3_DECL)
+    assert s == "S3" and poss == ["S3"] and "a failure is present" in b, (b, s, poss)
+    assert _route(t1=_T1_STEEP)[1] == "S2"
+    assert _route(t1=_T1_STEEP, t3=_T3_DECL)[1] == "S2+S3"
+    assert _route(t2_state="T", t2_override=True)[1] == "S4"
+    # open tests whose estimates point to no failure do not block a match
+    b, s, poss = _route(t1=_T1_OPEN_FLAT_PT, t3=_T3_OPEN_FLAT_PT, t2_state="U")
+    assert s == "S1" and poss == ["S1"] and "matches people" in b, (b, s, poss)
+    assert _route(classes=dict(_ALL_HIGH, MOT="PARTIAL"))[1] == "S1"
+    assert _route(classes=dict(_ALL_HIGH, SOT="ANTI"))[1] == "S6"
+    assert _route(overall="OVER", classes={st: "OVER" for st in _ALL_HIGH})[1] == "S6"
+    assert analyze.MATCH_CONCLUSIONS == ("S1", "S7") and analyze.SCENARIO_NAMES["S1"] == "High fidelity"
 
 
-def test_s1_needs_every_shown_effect_unrecognized():
-    """the authors' rule of 2026-10-17 (the code follows the registered "effects shown without recognition"): a HIGH model
-    that identifies the manipulation on an effect it shows (recognizes-and-shows) is not S1, in both routers; the same
-    model with no such effect is S1 (the control)."""
-    assert _route(_T1_FLAT)[1] == "S1"                                      # control
-    b, s, _ = _route(_T1_FLAT, t2_known_shown=True)
-    assert s != "S1", (b, s)                                                # recognizes-and-shows keeps it out of S1
-    agree = dict(dominant_class="HIGH")
-    legacy = lambda **kw: analyze.route_model("m", [], _T1_FLAT, False, _T3_FLAT, _T4_FLAT, _T5_NONE, _GI, agree,
-                                              True, False, effect_classes={"FRQ": "HIGH"}, overall="HIGH", **kw)[1]
-    assert legacy() == "S1" and legacy(t2_known_shown=True) != "S1"
+def test_tree_b_s7_a_known_effect_reproduced():
+    """A model that matches people and names the decoy on at least one effect is S7, a known effect reproduced; the test
+    cannot tell whether it reproduces the effect deliberately or as learned. Settled for tree B: naming the decoy on an
+    effect the model does not show, at the point and not resolved as a failure, is also S7, because S1 needs every
+    effect shown without naming the decoy; a resolved knows-without-shows is the rational-override failure, so such a
+    model does not match people (S4)."""
+    b, s, poss = _route(t2_known_shown=True)
+    assert s == "S7" and poss == ["S7"] and "names the decoy" in b, (b, s, poss)
+    assert _route(t2_override=True, t2_state="F")[1] == "S7"             # the point reading decides within a match
+    # an open override that the point estimate shows (named, not shown) points to rational override: no match
+    assert _route(t2_override=True, t2_state="U")[1:] == (analyze.NOT_RESOLVED_SCENARIO, ["S4", "S7"])
+    assert _route(t2_override=True, t2_state="T")[1] == "S4"             # a present override blocks it
+    assert _route(t1=_T1_STEEP, t2_known_shown=True)[1] == "S2"          # a present fall blocks it
+    assert _route(classes=dict(_ALL_HIGH, SOT="ANTI"), t2_known_shown=True)[1] != "S7"   # no match, no S7
+    assert analyze.SCENARIO_NAMES["S7"] == "A known effect reproduced"
 
 
-def test_s1_needs_no_low_or_anti_effect():
-    """2026-10-18 (fresh-reader finding M3): a HIGH model that reverses one effect without identifying the manipulation
-    is not S1, whose conclusion says it reproduces the human effects; it is the mixed pattern (PARTIAL), in both routers.
-    The same model with every effect HIGH is S1 (the control)."""
-    all_high = {"FRQ": "HIGH", "RNG": "HIGH", "SOT": "HIGH", "SYM": "HIGH", "MOT": "HIGH"}
-    one_anti = dict(all_high, SOT="ANTI")
-    assert _route(_T1_FLAT, overall="HIGH", classes=all_high)[1] == "S1"
-    b, s, _ = _route(_T1_FLAT, overall="HIGH", classes=one_anti)
-    assert s == "PARTIAL", (b, s)
-    agree = dict(dominant_class="HIGH")
-    legacy = lambda cl: analyze.route_model("m", [], _T1_FLAT, False, _T3_FLAT, _T4_FLAT, _T5_NONE, _GI, agree,
-                                            True, False, effect_classes=cl, overall="HIGH")[1]
-    assert legacy(all_high) == "S1" and legacy(one_anti) == "PARTIAL"
+def test_tree_b_a_test_that_points_to_a_failure_blocks_the_match():
+    """the authors' second rule of 2026-11-03 ("No failure points to it"): a model matches people only when no test shows
+    or points to a failure. A signature that is not resolved points to its failure when its estimate passes the
+    cutoff: T1 an estimated steep fall, T3 an estimated decline (each above 0.30), rational override the manipulation
+    known, by the point estimate, on an effect the model does not show. A model blocked this way goes to step 2 and is
+    not resolved, with that signature still possible and then the match it would reach (S1 or S7); a model whose
+    classes do not match keeps S6 at the end of the list. A signature that is not judged points nowhere."""
+    # a HIGH model whose T3 decline is estimated above 0.30 but not resolved is not S1
+    b, s, poss = _route(t3=_T3_OPEN_DECL_PT)
+    assert (s == analyze.NOT_RESOLVED_SCENARIO and poss == ["S3", "S1"]
+            and "a test points to reason construction" in b), (b, s, poss)
+    assert _route(t1=_T1_OPEN_STEEP_PT)[1:] == (analyze.NOT_RESOLVED_SCENARIO, ["S2", "S1"])
+    assert _route(t1=_T1_OPEN_STEEP_PT, t3=_T3_OPEN_DECL_PT)[1:] == (analyze.NOT_RESOLVED_SCENARIO, ["S2", "S3", "S1"])
+    assert _route(t3=_T3_OPEN_DECL_PT, t2_known_shown=True)[1:] == (analyze.NOT_RESOLVED_SCENARIO, ["S3", "S7"])
+    assert _route(t2_state="U")[1] == "S1"                            # open override, nothing named at the point
+    assert _route(t3=_T3_OPEN_DECL_PT, overall="PARTIAL")[1:] == (analyze.NOT_RESOLVED_SCENARIO, ["S3", "S6"])
+    assert _route(t1=dict(_T1_OPEN_STEEP_PT, reading=_UNINF))[1] == "S1"   # not judged: not interpreted
+    st = analyze.signature_states(_T1_OPEN_STEEP_PT, "U", _T3_OPEN_FLAT_PT)
+    assert analyze.pointing_signatures(st, _T1_OPEN_STEEP_PT, _T3_OPEN_FLAT_PT, True) == ["S2", "S4"]
+    assert analyze.pointing_signatures(st, _T1_OPEN_STEEP_PT, _T3_OPEN_FLAT_PT, False) == ["S2"]
+    st = analyze.signature_states(_T1_STEEP, "F", _T3_DECL)          # resolved signatures are present, not pointing
+    assert analyze.pointing_signatures(st, _T1_STEEP, _T3_DECL, True) == []
 
 
-def test_per_effect_readings_follow_tables_4_and_5():
-    """2026-10-17 (editor audit SC-8, SC-9): a HIGH effect the model identifies when asked is reproduction of a known
-    effect, not deep mimicry (Table 5, T2); an ANTI effect without recognition is systematic inversion and does not count
-    toward rational override (Table 4, S4 first route only); a recognized effect the model does not show stays rational
-    override, and an unrecognized HIGH effect stays deep mimicry (the controls)."""
-    criterion = {st: dict(replicated=True) for st in analyze.EFFECTS}
-    classes = {"FRQ": "HIGH", "RNG": "HIGH", "SOT": "ANTI", "SYM": "LOW", "PHT": "PARTIAL", "MOT": "ANTI",
-               "SIM": "HIGH"}
-    pooled = {"FRQ": (10.0, 10.0), "RNG": (8.0, 9.0), "SOT": (-6.0, 8.0), "SYM": (0.0, 10.0),   # points
-              "PHT": (2.0, 5.0), "MOT": (-5.0, 7.0), "SIM": (5.0, 5.0)}
-    recog = {"FRQ": 0.9, "RNG": 0.1, "SOT": 0.0, "SYM": 0.8, "PHT": 0.0, "MOT": 0.0, "SIM": 0.0}
-    acc = analyze.attribute_effect_accounts("m", [], recog, criterion, effect_classes=classes, pooled=pooled)
-    assert acc["FRQ"] == analyze.KNOWN_EFFECT, acc["FRQ"]
-    assert acc["RNG"] == "deep pattern-mimicry", acc["RNG"]
-    assert acc["SOT"] == analyze.INVERSION and acc["MOT"] == analyze.INVERSION, acc
-    assert acc["SYM"] == "rational-override", acc["SYM"]
-    inv4 = {"FRQ": analyze.INVERSION, "RNG": analyze.INVERSION, "SOT": analyze.INVERSION, "MOT": analyze.INVERSION,
-            "SYM": "low fidelity", "PHT": "low fidelity", "SIM": "low fidelity"}
-    assert analyze.model_level_account(inv4, criterion)[0] == "systematic inversion"
-    known4 = dict(inv4, FRQ=analyze.KNOWN_EFFECT, RNG=analyze.KNOWN_EFFECT, SOT=analyze.KNOWN_EFFECT,
-                  MOT=analyze.KNOWN_EFFECT)
-    assert analyze.model_level_account(known4, criterion)[0] == "reproduction of a known effect"
+def test_tree_b_each_failure_signature_alone():
+    """Step 2, for a model that does not match people: each signature alone is the conclusion. Rational override needs a
+    resolved knows-without-shows on at least one effect and, under tree B, no LOW or ANTI overall class: a model that
+    is HIGH overall (with or without a reversed effect), or PARTIAL or OVER overall, also shows it."""
+    assert _route(t1=_T1_STEEP, overall="PARTIAL")[1:] == ("S2", ["S2"])
+    assert _route(t3=_T3_DECL, overall="PARTIAL")[1:] == ("S3", ["S3"])
+    for overall, classes in (("LOW", None), ("ANTI", None), ("PARTIAL", None), ("OVER", None),
+                             ("HIGH", dict(_ALL_HIGH, SOT="ANTI")), ("HIGH", None)):
+        b, s, poss = _route(overall=overall, classes=classes, t2_state="T", t2_override=True)
+        assert s == "S4" and poss == ["S4"] and "rational override present" in b, (overall, b, s, poss)
+    # the resolved state decides, not the point flag
+    assert _route(overall="PARTIAL", t2_state="F", t2_override=True)[1] == "S6"
+    assert _route(overall="PARTIAL", t2_state=None, t2_override=True)[1] == "S4"      # no state: the point flag
+    assert _route(overall="PARTIAL", t2_state=None, t2_override=False)[1] == "S6"
+    # a reversed ordering is no signature
+    assert _route(t3=_T3_REV, overall="PARTIAL")[1] == "S6"
+    # without a stored state the reading text decides
+    assert _route(t1=dict(reading="steep: x"), overall="LOW")[1] == "S2"
+    assert _route(t1=dict(reading="flat: x"), overall="LOW")[1] == "S6"
+
+
+def test_tree_b_several_signatures_at_once():
+    """There is no order among the signatures and no stop: every present signature is reported, joined in the order
+    S2, S3, S4, and the name joins their names."""
+    cases = [(dict(t1=_T1_STEEP, t3=_T3_DECL), "S2+S3"), (dict(t1=_T1_STEEP, t2_state="T"), "S2+S4"),
+             (dict(t3=_T3_DECL, t2_state="T"), "S3+S4"), (dict(t1=_T1_STEEP, t3=_T3_DECL, t2_state="T"), "S2+S3+S4")]
+    for kw, want in cases:
+        b, s, poss = _route(overall="LOW", **kw)
+        assert s == want and poss == want.split("+"), (kw, b, s, poss)
+    assert analyze.scenario_name("S2+S3") == "Retrieval only and reason construction"
+    assert analyze.scenario_name("S2+S3+S4") == "Retrieval only and reason construction and rational override"
+    # an open signature does not stop the others: the present one is the conclusion, and the open one is listed as
+    # still possible beside it
+    b, s, poss = _route(t1=_T1_OPEN_STEEP_PT, t3=_T3_DECL, overall="PARTIAL")
+    assert s == "S3" and poss == ["S3", "S2"] and "still possible beside it: S2" in b, (b, s, poss)
+    b, s, poss = _route(t1=_T1_STEEP, overall="PARTIAL", t2_state="U", t2_override=True)
+    assert s == "S2" and poss == ["S2", "S4"], (b, s, poss)
+    assert "retrieval present, reason construction absent, rational override not resolved" in b, b
+
+
+def test_tree_b_s6_when_every_signature_is_absent():
+    """S6, a failure that no account predicts: the model does not match people and every signature is absent (the
+    mixed pattern, a reversed ordering, an ANTI overall class without recognition, a PARTIAL or OVER overall class). A
+    steep fall set out by its interval is absent even when no difference is not resolved either."""
+    for kw in (dict(classes=dict(_ALL_HIGH, SOT="ANTI")), dict(t3=_T3_REV, overall="LOW"), dict(overall="ANTI"),
+               dict(overall="PARTIAL"), dict(overall="OVER"), dict(t1=_T1_NO_FALL_OPEN_FLAT, overall="PARTIAL")):
+        b, s, poss = _route(**kw)
+        assert s == "S6" and poss == ["S6"] and "a failure that no account predicts" in b, (kw, b, s, poss)
+    assert analyze.CATCH_ALL == "S6" and analyze.SCENARIO_NAMES["S6"] == "A failure that no account predicts"
+    st = analyze.signature_states(_T1_FLAT, "F", _T3_REV)
+    assert st == {"S2": "absent", "S3": "absent", "S4": "absent"}, st
+    assert analyze.signatures_text(st) == "S2=absent;S3=absent;S4=absent"
+
+
+def test_tree_b_not_resolved_report():
+    """When no signature is present and at least one is not resolved, the model is reported as not resolved, with the
+    signatures that are still possible and S6 (every open one could still turn out absent)."""
+    b, s, poss = _route(t1=_T1_OPEN_FLAT_PT, overall="PARTIAL")
+    assert s == analyze.NOT_RESOLVED_SCENARIO and poss == ["S2", "S6"] and "retrieval not resolved" in b, (b, s, poss)
+    b, s, poss = _route(t3=_T3_OPEN_DECL_PT, overall="LOW", t2_state="U", t2_override=True)
+    assert s == analyze.NOT_RESOLVED_SCENARIO and poss == ["S3", "S4", "S6"], (b, s, poss)
+    b, s, poss = _route(t1=_T1_OPEN_STEEP_PT, t3=_T3_OPEN_DECL_PT, overall="PARTIAL", t2_state="U")
+    assert s == analyze.NOT_RESOLVED_SCENARIO and poss == ["S2", "S3", "S4", "S6"], (b, s, poss)
+    assert analyze.signature_states(_T1_OPEN_FLAT_PT, "U", _T3_OPEN_DECL_PT) == {
+        "S2": "not resolved", "S3": "not resolved", "S4": "not resolved"}
+    # how a route compares with a planted scenario (the rehearsal's noise table and the stability study)
+    ro = analyze.route_outcome
+    assert ro("S2", "S2", ["S2"]) == "intended"
+    assert ro("S2", analyze.NOT_RESOLVED_SCENARIO, ["S2", "S6"]) == "not_resolved"
+    assert ro("S2", analyze.NOT_RESOLVED_SCENARIO, ["S3", "S6"]) == "not_resolved_excluded"
+    assert ro("S2+S4", "S2", ["S2", "S4"]) == "partly_resolved"
+    assert ro("S2+S4", "S2", ["S2"]) == "wrong"
+    assert ro("S2", "S2+S3", ["S2", "S3"]) == "wrong"
+    assert ro("S1", "S7", ["S7"]) == "wrong"
+
+
+def test_tree_b_step_0_comes_first():
+    """Step 0: when four or more of the six effects other than similarity fail in people, every model is S5 (the model
+    comparison is only described); a model whose answers cannot be read is not assessable. Both come before step 1."""
+    b, s, poss = _route(t1=_T1_STEEP, human_effects_fail=True)
+    assert s == "S5" and poss == ["S5"] and "fail in people" in b, (b, s)
+    assert _route(t1=_T1_STEEP, not_assessable=True)[1] == "CRITERION_FAIL"
+    assert _route(not_assessable=True)[1] == "CRITERION_FAIL"                      # a match does not skip Step 0
+    assert _route(human_effects_fail=True, not_assessable=True)[1] == "S5"
+    assert analyze.SCENARIO_NAMES["S5"] == "Human effects fail"
+
+
+def test_tree_b_failed_positive_control_leaves_t1_and_t3_not_judged():
+    """A failed positive control makes the memorization and argument-strength tests uninformative: their signatures are
+    reported as not judged, which, like not resolved, is neither present nor absent. Rational override is still read
+    on the other effects, and a model that matches people is unaffected."""
+    t1u, t3u = dict(_T1_FLAT, reading=_UNINF, p_steep="F"), dict(_T3_FLAT, reading=_UNINF, p_declines="F")
+    st = analyze.signature_states(t1u, "F", t3u)
+    assert st == {"S2": "not judged", "S3": "not judged", "S4": "absent"}, st
+    b, s, poss = _route(t1=t1u, t3=t3u, overall="PARTIAL")
+    assert (s == analyze.NOT_RESOLVED_SCENARIO and poss == ["S2", "S3", "S6"]
+            and "retrieval not judged" in b), (b, s, poss)
+    b, s, poss = _route(t1=t1u, t3=t3u, overall="ANTI", t2_state="T", t2_override=True)
+    assert s == "S4" and poss == ["S4", "S2", "S3"], (b, s, poss)
+    assert _route(t1=t1u, t3=t3u)[1] == "S1"
+
+
+def test_tree_b_end_to_end_human_effects_fail():
+    """End to end: on human data where four or more of the six effects other than similarity fail, the pipeline
+    routes every assessable model to S5 before step 1 of the tree, whatever the model does."""
+    H = synth.gen_human(300, random.Random(81), icc=0.0, surprise=True)
+    models = {"FAITHFUL_S5": _exact_model("FAITHFUL_S5", _planted),
+              "PARROT_S5": _exact_model("PARROT_S5", lambda st, t, c: _planted(st, t, c) if t == 1 else 0.0)}
+    tmp = _scratch("simple_rule_s5")
+    saved = (analyze.PACK, analyze.TESTS_DIR, analyze.FIGS_DIR)
+    try:
+        analyze.PACK, analyze.TESTS_DIR, analyze.FIGS_DIR = tmp, os.path.join(tmp, "tests"), os.path.join(tmp, "figures")
+        res = analyze.build_pack(H, models, human_rows_first_trial=H, mode="TEST", design=analyze.Design.for_synth())
+    finally:
+        analyze.PACK, analyze.TESTS_DIR, analyze.FIGS_DIR = saved
+    assert res["most_failed"] is True and res["s5_triggered"] is True
+    route = {r["model"]: r for r in res["routing_rows"]}
+    for m in models:
+        assert route[m]["scenario"] == "S5" and route[m]["possible_scenarios"] == "S5", route[m]
+        assert route[m]["matches_people"] == "not asked (Step 0)" and route[m]["signatures"] == "not read (Step 0)"
+        assert route[m]["pointing"] == "not read (Step 0)"
+        assert res["numbers"][f"model.{m}.scenario"] == "S5"
 
 
 def test_phantom_equivalence_is_read_only_when_the_phantom_misses_the_criterion():
@@ -1293,106 +1402,27 @@ def test_phantom_equivalence_is_read_only_when_the_phantom_misses_the_criterion(
 
 
 def test_trajectory_readings_are_the_registered_ones():
-    """2026-10-17 (editor audit SC-14): the printed trajectory readings are the paper's, and a fall assigns no scenario."""
+    """The trajectory test is reported beside each model and decides nothing (2026-11-02): no reading names a
+    scenario, a rise and a fall both say so."""
     T5 = analyze.test_T5_trajectory
-    assert T5(0.5, 0.9)["trajectory"] == "newer more faithful -> rising fidelity across generations (S6)"
+    assert T5(0.5, 0.9)["trajectory"] == "newer more faithful -> fidelity is higher in the newer generation; no scenario assigned"
     assert "no scenario" in T5(0.9, 0.5)["trajectory"]
     assert "no difference between generations" in T5(0.7, 0.75)["trajectory"]
-
-
-def test_r3_account_routes_are_strict():
-    """Rule (b): an account-attributing route is taken only on a resolved reading; when the estimate points to it
-    and the interval leaves it open, the model is NOT_RESOLVED (no later route is claimed); an open reading whose
-    estimate points away does not block a later resolved route."""
-    b, s, poss = _route(_T1_OPEN_STEEP_PT, overall="PARTIAL")
-    assert s == "NOT_RESOLVED" and "S2" in poss, (b, s, poss)
-    assert _route(_T1_STEEP, overall="PARTIAL")[1] == "S2"
-    b, s, poss = _route(_T1_FLAT, t3=_T3_OPEN_DECL_PT, overall="PARTIAL")
-    assert s == "NOT_RESOLVED" and "S3" in poss, (b, s, poss)
-    assert _route(_T1_FLAT, t3=_T3_DECL, overall="PARTIAL")[1] == "S3"
-    # an open memorization reading blocks every later route whatever its estimate, so even a resolved ladder decline is not claimed
-    b, s, poss = _route(_T1_OPEN_FLAT_PT, t3=_T3_DECL, overall="PARTIAL")
-    assert s == "NOT_RESOLVED" and {"S2", "S3"} <= set(poss), (b, s, poss)
-    # ... and an open decline blocks the class routes after it (PARTIAL here)
-    b, s, poss = _route(_T1_FLAT, t3=_T3_OPEN_DECL_PT, overall="PARTIAL", classes={"FRQ": "HIGH", "SOT": "LOW"})
-    assert s == "NOT_RESOLVED" and {"S3", "PARTIAL"} <= set(poss), (b, s, poss)
-    # an open override whose two outcomes are both S4 (rational override or systematic inversion): S4 stands
-    b, s, poss = _route(_T1_FLAT, overall="ANTI", t2_override=True, t2_state="U", classes={"FRQ": "ANTI"})
-    assert s == "S4" and poss == ["S4"] and "not resolved" in b, (b, s, poss)
-    # rational override: resolved -> S4; open with the point favouring it -> NOT_RESOLVED
-    assert _route(_T1_FLAT, overall="LOW", t2_override=True, t2_state="T", classes={"FRQ": "LOW"})[1] == "S4"
-    b, s, poss = _route(_T1_FLAT, overall="LOW", t2_override=True, t2_state="U", classes={"FRQ": "LOW"})
-    assert s == "NOT_RESOLVED" and "S4" in poss, (b, s, poss)
-    # reversed ladder: resolved -> taken (an open memorization reading does not exclude it); open -> NOT_RESOLVED
-    t3_rev = dict(_T3_FLAT, reading="reversed ladder: x", point_reading="reversed ladder: x", reversed=True,
-                  point_reversed=True, attribution="no account attributed", p_reversed="T", p_flat="F")
-    assert _route(_T1_FLAT, t3=t3_rev, overall="LOW", classes={"FRQ": "LOW"})[1] == "REVERSED_LADDER"
-    assert _route(_T1_OPEN_FLAT_PT, t3=t3_rev, overall="LOW", classes={"FRQ": "LOW"})[1] == "NOT_RESOLVED"
-    t3_open = dict(t3_rev, reading="not resolved: x", reversed=False, attribution="", p_reversed="U",
-                   resolved=False)
-    b, s, poss = _route(_T1_FLAT, t3=t3_open, overall="LOW", classes={"FRQ": "LOW"})
-    assert s == "NOT_RESOLVED" and "REVERSED_LADDER" in poss, (b, s, poss)
-    # a resolved steep reading excludes the reversed ladder (precedence through resolved readings), with or without
-    # the recognition attribution
-    assert _route(_T1_STEEP, t3=t3_rev, overall="LOW", classes={"FRQ": "LOW"})[1] == "S2"
-    t3_rev_ovr = dict(t3_rev, attribution=analyze.ARGUMENT_OVERRIDE,
-                      _reversed_base=dict(reversed=True, attribution=analyze.ARGUMENT_OVERRIDE, missed_effects="FRQ",
-                                          missed_recognition="FRQ=0.9"))
-    assert _route(_T1_STEEP, t3=t3_rev_ovr, overall="LOW", classes={"FRQ": "LOW"})[1] == "S2"
-    assert _route(_T1_FLAT, t3=t3_rev_ovr, overall="LOW",
-                  classes={"FRQ": "LOW"})[1] == "REVERSED_LADDER_OVERRIDE"
-    # the reversed ladder with recognition honours an open steep reading as the plain one does
-    b, s, poss = _route(_T1_OPEN_STEEP_PT, t3=t3_rev_ovr, overall="LOW", classes={"FRQ": "LOW"})
-    assert s == "NOT_RESOLVED" and "REVERSED_LADDER_OVERRIDE" in poss, (b, s, poss)
-    # rising fidelity: an open trajectory whose estimate rises blocks the family-specific route
-    t5_open = dict(trajectory="not resolved: x", point_trajectory="newer more faithful -> x", p_rising="U",
-                   p_falling="F", p_flat="U", resolved=False)
-    b, s, poss = _route(_T1_FLAT, t5=t5_open, overall="PARTIAL", consistent=False, generations=True)
-    assert s == "NOT_RESOLVED" and {"S5", "S6"} <= set(poss), (b, s, poss)
-    t5_rise = dict(t5_open, trajectory="newer more faithful -> x", p_rising="T", resolved=True)
-    assert _route(_T1_FLAT, t5=t5_rise, overall="PARTIAL", consistent=False, generations=True)[1] == "S6"
-
-
-def test_r3_comparison_options_of_the_router():
-    """The two options the stability sweep uses to compare designs (never the registered rule, which is the default):
-    open_blocks='favoured' lets an open account reading block only when its estimate favours the route; s1_point_guard
-    withholds S1 when an open reading's estimate favours an account route."""
-    def rt(t1, t3=None, overall="PARTIAL", **kw):
-        return analyze.route_resolved("m", [], t1, False, t3 or _T3_FLAT, _T4_FLAT, _T5_NONE, _GI,
-                                      dict(dominant_class=overall), True, False, effect_classes={"FRQ": overall},
-                                      overall=overall, **kw)[1]
-    # an open memorization reading whose estimate is flat: ignored by the registered rule, blocking under 'any'
-    assert rt(_T1_OPEN_FLAT_PT, t3=_T3_DECL) == "NOT_RESOLVED"
-    assert rt(_T1_OPEN_FLAT_PT, t3=_T3_DECL, open_blocks="favoured") == "S3"
-    assert rt(_T1_OPEN_STEEP_PT, t3=_T3_DECL, open_blocks="favoured") == "NOT_RESOLVED"
-    # S1 with an open ladder decline: withheld by the registered rule, taken without it
-    assert rt(_T1_FLAT, t3=_T3_OPEN_DECL_PT, overall="HIGH") == "NOT_RESOLVED"
-    assert rt(_T1_FLAT, t3=_T3_OPEN_DECL_PT, overall="HIGH", s1_point_guard=False) == "S1"
-    assert rt(_T1_OPEN_FLAT_PT, overall="HIGH", s1_point_guard=True) == "S1"      # the estimate favours no account
+    for a, b in ((0.5, 0.9), (0.9, 0.5), (0.7, 0.75)):
+        assert "(S" not in T5(a, b)["trajectory"], T5(a, b)["trajectory"]
 
 
 def test_r5_format_test_is_descriptive_and_reason_construction_reads_the_ladder():
-    """The final rule: T4 reports its difference and interval with no reading and decides no scenario; reason
-    construction (S3) needs a resolved decline down the argument-strength ladder."""
+    """T4 reports its difference and interval with no reading and decides no scenario; reason construction (S3) needs
+    a resolved decline down the argument-strength ladder. The router does not even take the format test."""
     r = analyze.test_T4_formats({"numbers": 0.9, "pictures": 0.2}, None, {"numbers": 0.9, "pictures": 0.2},
                                 diff_ci=(0.5, 0.9), resolve=True)
     assert (r["reading"].startswith("descriptive") and r["p_falls"] == r["p_flat"] == "F" and r["resolved"]
             and r["diff_lo"] == 0.5 and r["diff_hi"] == 0.9), r
-    t4_fall = dict(_T4_FLAT, reading="falls numbers->pictures", point_reading="falls numbers->pictures",
-                   p_falls="T", p_flat="F")
-    t4_open = dict(t4_fall, reading="not resolved: x", p_falls="U", resolved=False)
-    assert _route(_T1_FLAT, t4=t4_fall)[1] == "S1"                        # a fall across formats decides nothing
-    b, s, _ = _route(_T1_FLAT, t4=t4_open)
-    assert s == "S1" and "qualifier" not in b, (b, s)                      # and is never an open pattern test
-    assert _route(_T1_FLAT, t4=t4_fall, overall="PARTIAL")[1] == "COMPOSITE"
-    assert _route(_T1_FLAT, t3=_T3_DECL, overall="PARTIAL")[1] == "S3"
-    assert _route(_T1_FLAT, t3=_T3_DECL)[1] == "S3"                        # a resolved decline: not S1
-    assert analyze.route_model("m", [], _T1_FLAT, False, _T3_DECL, _T4_FLAT, _T5_NONE, _GI,
-                               dict(dominant_class="PARTIAL"), True, False, effect_classes={"FRQ": "PARTIAL"},
-                               overall="PARTIAL")[1] == "S3"
-    assert analyze.route_model("m", [], _T1_FLAT, False, _T3_FLAT, t4_fall, _T5_NONE, _GI,
-                               dict(dominant_class="HIGH"), True, False, effect_classes={"FRQ": "HIGH"},
-                               overall="HIGH")[1] == "S1"
+    import inspect
+    assert "t4" not in inspect.signature(analyze.route_model).parameters
+    assert _route(t3=_T3_DECL, overall="PARTIAL")[1] == "S3"
+    assert _route(t3=_T3_DECL)[1] == "S3"            # the authors 2026-11-03: a present failure blocks the match
 
 
 def test_r5_memorization_sensitivity_is_paired_and_one_step():
@@ -1416,35 +1446,6 @@ def test_r5_memorization_sensitivity_is_paired_and_one_step():
     # half the fidelity on the new-values tier: the restricted and the adjusted drop are both 0.5 (one tier step)
     r = analyze.test_T1_sensitivity(cells(10.0, -60.0), d, _T1_FLAT)
     assert abs(r["restricted_drop"] - 0.5) < 1e-9 and abs(r["adjusted_drop"] - 0.5) < 1e-6, r
-
-
-def test_r4_guard_leaves_S1_possible():
-    """The adopted guard: when an open reading's estimate points to an account and withholds S1, the model
-    is NOT_RESOLVED between S1 and that account, and nothing else."""
-    b, s, poss = _route(_T1_OPEN_STEEP_PT)
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S2"], (b, s, poss)
-    b, s, poss = _route(_T1_FLAT, t3=_T3_OPEN_DECL_PT)
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S3"], (b, s, poss)
-    t5_open_rise = dict(trajectory="not resolved: newer more faithful", point_trajectory="newer more faithful",
-                        p_rising="U", p_falling="F", p_flat="U", resolved=False)
-    b, s, poss = _route(_T1_FLAT, t5=t5_open_rise, generations=True)
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S6"], (b, s, poss)
-    t3_open_rev = dict(_T3_FLAT, reading="not resolved: x", point_reversed=True, p_reversed="U", p_flat="F",
-                       resolved=False)
-    b, s, poss = _route(_T1_FLAT, t3=t3_open_rev)
-    assert s == "NOT_RESOLVED" and poss == ["REVERSED_LADDER", "S1"], (b, s, poss)
-    b, s, poss = _route(_T1_OPEN_STEEP_PT, t3=_T3_OPEN_DECL_PT)
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S2", "S3"], (b, s, poss)
-    # an open ladder reading whose estimate is flat can still resolve as a decline: under the registered rule
-    # (open_blocks "any") reason construction stays possible too
-    t3_open_flat_pt = dict(_T3_OPEN_DECL_PT, point_reading="flat: x")
-    b, s, poss = _route(_T1_OPEN_STEEP_PT, t3=t3_open_flat_pt)
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S2", "S3"], (b, s, poss)
-    b, s, poss = _route(_T1_OPEN_STEEP_PT, t3=t3_open_flat_pt, open_blocks="favoured")
-    assert s == "NOT_RESOLVED" and poss == ["S1", "S2"], (b, s, poss)
-    # an open reading whose estimate favours no account leaves S1 standing, with the qualifier
-    b, s, poss = _route(_T1_OPEN_FLAT_PT)
-    assert s == "S1" and poss == ["S1"], (b, s, poss)
 
 
 def test_r4_kept_members_reproduce_the_registered_readings():
@@ -1512,23 +1513,42 @@ def test_r3_knows_without_shows_is_resolved_against_intervals():
     assert not ov and per["FRQ"]["override_state"] == "F" and "no pooled estimate" in per["FRQ"]["reading"], per["FRQ"]
 
 
-def test_r3_pipeline_routes_the_faithful_models_to_S1_with_the_qualifier():
-    """End to end (pack A, 400 choices per human cell): the faithful models' memorization reading is not resolved
-    and they route to S1 with the set qualifier; the retrieval-shaped CUSTOM model keeps S2."""
+def test_tree_b_end_to_end_faithful_models_and_what_is_reported_beside():
+    """End to end (pack A, 400 choices per human cell): the faithful models match people (their classes match and no
+    failure is present; a 'no difference' memorization reading that is not resolved does not block the match), so
+    they reach S1; the twin pair's trajectory (no difference) and its shared class are reported beside both models;
+    the CUSTOM model does not match people, every signature state is written, and its open fall leaves it not resolved
+    with retrieval still possible (never S2); the KNOWN model (synth's CONVERGE_NEW) matches people and names the
+    decoys whose effects it shows, so it reaches S7."""
     res, _ = _pack("A")
     route = {r["model"]: r for r in res["routing_rows"]}
     for m in ("REASONING_PAIR", "TWIN_OLD", "TWIN_NEW"):
         t1 = next(r for r in res["test_T1_rows"] if r["model"] == m)
+        t3 = next(r for r in res["test_T3_rows"] if r["model"] == m)
         assert route[m]["scenario"] == "S1", (m, route[m]["scenario"], t1["reading"][:60])
-        # the one qualifier appears exactly when a pattern test is open, and names T1 exactly when T1 is open
-        assert (route[m]["qualifier"] == analyze.S1_QUALIFIER) == bool(route[m]["open_pattern_tests"]), route[m]
-        assert ("T1" in route[m]["open_pattern_tests"]) == (not t1["resolved"]), (route[m], t1["reading"][:60])
-        assert "T4" not in route[m]["open_pattern_tests"], route[m]
-    # CUSTOM falls only on the invented tier, which is now descriptive, so it is not retrieval (S2); its
-    # invented-tier fidelity is reported beside the registered reading
+        assert route[m]["matches_people"] == "yes" and "=present" not in route[m]["signatures"], route[m]
+        assert route[m]["pointing"] == "none" and res["numbers"][f"model.{m}.pointing"] == "none", route[m]
+        assert res["numbers"][f"model.{m}.matches_people"] == "yes"
+        assert t1["p_steep"] != "T" and t3["p_declines"] != "T", (m, t1["reading"][:60], t3["reading"][:60])
+    assert route["KNOWN"]["scenario"] == "S7" and route["KNOWN"]["matches_people"] == "yes", route["KNOWN"]
+    assert "FRQ=yes" in route["KNOWN"]["named_decoy"] and "MOT=no" in route["KNOWN"]["named_decoy"], route["KNOWN"]
+    assert route["CUSTOM"]["matches_people"] == "no", route["CUSTOM"]
+    sig = dict(p.split("=") for p in route["CUSTOM"]["signatures"].split(";"))
+    assert set(sig) == {"S2", "S3", "S4"} and set(sig.values()) <= set(analyze.SIGNATURE_STATES), sig
+    assert res["numbers"]["model.CUSTOM.signatures"] == route["CUSTOM"]["signatures"]
+    assert any(not next(r for r in res["test_T1_rows"] if r["model"] == m)["resolved"]
+               for m in ("REASONING_PAIR", "TWIN_OLD", "TWIN_NEW")), "pack A no longer has an open flat reading"
+    for m in ("TWIN_OLD", "TWIN_NEW"):
+        assert route[m]["trajectory"].startswith("flat across generations"), route[m]
+        assert route[m]["family_consistent"] == "yes" and route[m]["family_classes"] == "TWIN_NEW=HIGH;TWIN_OLD=HIGH"
+    assert route["REASONING_PAIR"]["family_consistent"] == "one model"
+    # CUSTOM falls only on the invented tier, which is descriptive, so it is not retrieval (S2); its invented-tier
+    # fidelity is reported beside the registered reading
     t1c = next(r for r in res["test_T1_rows"] if r["model"] == "CUSTOM")
     assert route["CUSTOM"]["scenario"] != "S2" and not t1c["reading"].startswith("steep"), (route["CUSTOM"], t1c)
     assert t1c["descriptive_fidelity_invented_tier"] < t1c["fidelity_t1"], t1c
+    assert (route["CUSTOM"]["scenario"] == analyze.NOT_RESOLVED_SCENARIO
+            and route["CUSTOM"]["possible_scenarios"].split(";")[0] == "S2"), route["CUSTOM"]
     t2 = [r for r in res["test_T2_rows"] if r["model"] == "REASONING_PAIR"]
     assert t2 and all(r["override_state"] in ("T", "F", "U") for r in t2)
     # the T2 intervals are computed and used: pack B's FAITHFUL draws its probe answers, so its
@@ -1679,9 +1699,9 @@ def test_r2_human_bootstrap_matches_the_cluster_robust_interval():
 
 
 def test_r2_without_the_bootstrap_nothing_resolves():
-    """bootstrap=False: every memorization reading is not resolved; a faithful model still routes to S1 with the
-    set qualifier (rule (a)), and a retrieval-shaped model, whose estimate points to S2, is not
-    resolved (rule (b))."""
+    """bootstrap=False: every memorization reading is not resolved. Under decision tree B a faithful model still
+    reaches S1, because a match is read from the classes and needs no interval. A retrieval-shaped model, which does
+    not match people and whose estimate points to S2, is not resolved with S2 possible."""
     _, H = _pack("A")
     models = {"FAITHFUL_X": _exact_model("FAITHFUL_X", _planted),
               "PARROT_X": _exact_model("PARROT_X", lambda st, t, c: _planted(st, t, c) if t == 1 else 0.0)}
@@ -1696,10 +1716,14 @@ def test_r2_without_the_bootstrap_nothing_resolves():
     t1 = next(r for r in res["test_T1_rows"] if r["model"] == "FAITHFUL_X")
     assert t1["reading"].startswith(analyze.NOT_RESOLVED) and t1["drop_lo"] == "", t1
     route = {r["model"]: r for r in res["routing_rows"]}
-    assert route["FAITHFUL_X"]["scenario"] == "S1" and analyze.S1_QUALIFIER == route["FAITHFUL_X"]["qualifier"], \
+    t3 = next(r for r in res["test_T3_rows"] if r["model"] == "FAITHFUL_X")
+    assert route["FAITHFUL_X"]["scenario"] == "S1" and route["FAITHFUL_X"]["matches_people"] == "yes", \
         route["FAITHFUL_X"]
+    assert t1["p_steep"] in ("F", "U") and t3["p_declines"] in ("F", "U"), (t1, t3)
     assert route["PARROT_X"]["scenario"] == "NOT_RESOLVED" and "S2" in route["PARROT_X"]["possible_scenarios"], \
         route["PARROT_X"]
+    # its fall is open and its estimate is steep, so the routing file records that the test points to retrieval
+    assert route["PARROT_X"]["pointing"].split(";")[0] == "S2", route["PARROT_X"]
 
 
 def test_r2_synthetic_exact_prompts_are_deterministic():
@@ -1785,12 +1809,14 @@ def test_r2_phantom_retrieval_reading():
     for m in ("PHANTOM_3PT", "PHANTOM_REVERSED", "REASONING_PAIR"):
         assert "phantom" not in rows[m]["over_reading"], (m, rows[m]["over_reading"])
     route = {r["model"]: r for r in res["routing_rows"]}
-    assert "PHT=human-null (exits fidelity scoring); model shows an effect without a human counterpart; " \
-           + analyze.RETRIEVAL_READING in route["PHANTOM_RECITER"]["per_effect_accounts"], route["PHANTOM_RECITER"]
-    assert analyze.RETRIEVAL_READING not in route["PHANTOM_REVERSED"]["per_effect_accounts"]
-    criterion = {st: dict(replicated=True) for st in analyze.EFFECTS}
-    acc = analyze.attribute_effect_accounts("m", [], {}, criterion, effect_classes={"PHT": "OVER"}, pooled={"PHT": (9.0, 3.0)})
-    assert analyze.RETRIEVAL_READING in acc["PHT"], acc
+    assert ("PHT=fails in people, and the model shows an effect without a human counterpart"
+            in route["PHANTOM_RECITER"]["effect_classes"]), route["PHANTOM_RECITER"]
+    assert analyze.RETRIEVAL_READING in route["PHANTOM_RECITER"]["over_readings"], route["PHANTOM_RECITER"]
+    assert analyze.RETRIEVAL_READING not in route["PHANTOM_REVERSED"]["over_readings"]
+    R = analyze.over_readings
+    assert R("PHT", "", False, 0.05, None) == ["phantom larger than 3 points where the human phantom failed: "
+                                               + analyze.RETRIEVAL_READING]
+    assert R("PHT", "", False, 0.03, None) == [] and R("PHT", "", False, -0.05, None) == []
 
 
 # ---- rule 5 (F7): effects below the first-trial floor are descriptive ------------------------------------
@@ -1860,8 +1886,8 @@ ORDER = [
     "test_compromise_extreme_label_from_ingest_is_excluded", "test_price_free_categories_stay_out_of_the_backbone_gate",
     "test_ceiling_rule_is_per_binary_cell", "test_model_similarity_reads_the_runners_placement_field",
     "test_memorization_sensitivity_adjusts_for_baseline", "test_every_constant_has_a_meaning_and_prints",
-    "test_reversed_ladder_routes_by_recognition", "test_effect_without_a_human_counterpart",
-    "test_s7_needs_four_of_the_six_non_similarity_effects", "test_model_level_account_needs_four_agreeing_effects",
+    "test_reversed_ordering_is_described_and_decides_nothing", "test_effect_without_a_human_counterpart",
+    "test_s5_needs_four_of_the_six_non_similarity_effects", "test_no_account_is_attached_effect_by_effect",
     # the registered rules
     "test_i2_small_reversal_is_low_not_high", "test_i2_over_class_and_tie_rule",
     "test_i2_over_on_the_phantom_reads_as_retrieval", "test_i2_over_on_the_published_tier_reads_as_retrieval_end_to_end",
@@ -1896,18 +1922,21 @@ ORDER = [
     "test_r2_synthetic_exact_prompts_are_deterministic", "test_r2_arm_key_reused_for_other_rows_is_refused",
     "test_r2_phantom_retrieval_reading", "test_r2_effects_below_the_first_trial_floor_are_descriptive",
     # the registered rules (a) to (d)
-    "test_r3_S1_needs_no_flat_memorization_reading", "test_s1_needs_every_shown_effect_unrecognized",
-    "test_s1_needs_no_low_or_anti_effect",
-    "test_per_effect_readings_follow_tables_4_and_5",
     "test_phantom_equivalence_is_read_only_when_the_phantom_misses_the_criterion",
     "test_trajectory_readings_are_the_registered_ones",
-    "test_r3_account_routes_are_strict",
-    "test_r3_comparison_options_of_the_router", "test_r4_kept_members_reproduce_the_registered_readings",
-    "test_r4_guard_leaves_S1_possible",
+    "test_r4_kept_members_reproduce_the_registered_readings",
     "test_r5_format_test_is_descriptive_and_reason_construction_reads_the_ladder",
     "test_r5_memorization_sensitivity_is_paired_and_one_step",
     "test_r3_knows_without_shows_is_resolved_against_intervals",
-    "test_r3_pipeline_routes_the_faithful_models_to_S1_with_the_qualifier",
+    # decision tree B (2026-11-03): the match, S7, each signature, several at once, S6, not resolved, a failed
+    # control and Step 0
+    "test_tree_b_step_1_match_needs_the_classes_and_no_failure_present", "test_tree_b_s7_a_known_effect_reproduced",
+    "test_tree_b_a_test_that_points_to_a_failure_blocks_the_match",
+    "test_tree_b_each_failure_signature_alone", "test_tree_b_several_signatures_at_once",
+    "test_tree_b_s6_when_every_signature_is_absent", "test_tree_b_not_resolved_report",
+    "test_tree_b_step_0_comes_first", "test_tree_b_end_to_end_human_effects_fail",
+    "test_tree_b_failed_positive_control_leaves_t1_and_t3_not_judged",
+    "test_tree_b_end_to_end_faithful_models_and_what_is_reported_beside",
 ]
 
 

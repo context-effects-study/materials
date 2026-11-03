@@ -60,7 +60,7 @@ def main():
         rc = ("# %s - invented tier-3 receipts\n(Anchors locked at the final calibration, July 2, 2026.)\n\n"
               "Never-published category (absent from the context-effects canon). All structures "
               "built by geometry.py to the same geometry as the published categories. The anchor "
-              "(HF/HD) carries the TERMINAL calibration values (three waves, 2026-07-02; numeric "
+              "(HF/HD) holds the TERMINAL calibration values (three waves, 2026-07-02; numeric "
               "authority calibration/FINAL_LOCK_LIST_2026-07-02.json; routing stimuli/calibration_lock.py). "
               "Price x quality (not price-free) to keep the memorization-tier comparison clean.\n"
               % c["label"])

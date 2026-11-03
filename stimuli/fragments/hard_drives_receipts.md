@@ -43,10 +43,10 @@ tie-on-strong/worse-on-weak shape the registered design assigns to the RANGE dec
 the registered frequency form (manuscript: the decoy is "worse than the target on every attribute and
 dominated by a clear margin on each one"; the geometry rules (Web Appendix B): "DOMINATED by the target on both attributes
 (clearly worse)"). Source check (2026-07-02): the V1 web appendix attributes only the BIN
-focal values to Evangelidis, Levav, and Simonson 2023; the FRQ-1 decoy carries no external source and is
+focal values to Evangelidis, Levav, and Simonson 2023; the FRQ-1 decoy has no external source and is
 V1's own December-2025 construction, so no published-value fidelity conflict blocks the rebuild - the
 same class as the range-decoy (M1), phantom, and compromise rebuilds, under the authors' authorized
-fixed-value exception. The other 19 FRQ cells already carried the worse-on-both form; this was the only
+fixed-value exception. The other 19 FRQ cells already had the worse-on-both form; this was the only
 deviant.
 
 **Rebuilt decoy: 3TB/$84.99** (storage one integer step below the target, price $5.00 above it - the

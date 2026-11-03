@@ -1,13 +1,13 @@
-# Per-category source files
+# The source files of each category
 
-One `<category>.json` per category (tier 1, published values, or tier 3 for the invented categories),
-`<category>_t2.json` (tier 2, new values) and `<category>_pf.json` (the price-free categories), with a
-`<category>_receipts.md` beside each giving the source of every published value: the paper, the section of
-the first-round web appendix where the value was taken from, and the value itself.
+Each category has one `<category>.json` file (tier 1, the published values, or tier 3 for an invented category), a
+`<category>_t2.json` file (tier 2, the new values) or a `<category>_pf.json` file (a price-free category). Beside
+each, a `<category>_receipts.md` file gives the source of every published value: the paper, the section of the web
+appendix of the first submission from which we took the value, and the value itself.
 
-`../build_stimuli.py` merges these files into `../stimuli.json`. The structures that have no faithful
-published form (the phantom, the near-copy, the compromise extreme and, since the range decoy was rebuilt
-to the registered dominated form, the range decoy) are constructed for every cell from the cell's
-two-option pair by `../geometry.py`, so every category and tier uses the same geometry; the original
-first-submission values of those structures stay in the receipts files. Do not edit `stimuli.json`; change
-a source file and rebuild.
+`../build_stimuli.py` merges these files into `../stimuli.json`. Some structures have no published form that fits the
+design: the phantom, the near-copy and the new extreme option of the compromise set, and the range decoy, which we
+rebuilt so that the target is better than it, as the design requires. `../geometry.py` builds these structures for
+every cell from the cell's two-option pair, so that every category and tier uses the same geometry. The receipts
+files keep the values of these structures in the first submission. Do not edit `stimuli.json`; change a source file
+and build the stimulus file again.

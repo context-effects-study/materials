@@ -62,7 +62,7 @@ Verbatim from web appendix:
 > | B | HD (Target) | $505.99 | 98 |
 > | C | Range Decoy | $899.99 | 99 |
 
-**Geometry analysis:** Picture quality caps at 100. The range decoy at quality 99 extends the quality range by only 1 point above HD's 98. The primary range extension is via price: $899.99 >> $505.99 (a $394 extension). This matches the hotels-case precedent documented in V1 web appendix (RNG-3 note: "Because hotel star ratings cannot exceed 5-star, we extend the price range rather than quality range for this category"). The ceiling constraint means quality cannot be extended by more than 2 points; price carries the range signal.
+**Geometry analysis:** Picture quality caps at 100. The range decoy at quality 99 extends the quality range by only 1 point above HD's 98. The primary range extension is via price: $899.99 >> $505.99 (a $394 extension). This matches the hotels-case precedent documented in V1 web appendix (RNG-3 note: "Because hotel star ratings cannot exceed 5-star, we extend the price range rather than quality range for this category"). The ceiling constraint means quality cannot be extended by more than 2 points; the price extension sets the range.
 
 Decoy is NOT dominated: it has better quality (99 > 98) than HD, so HD does not dominate it. HF also does not dominate (decoy quality 99 >> 65).
 
