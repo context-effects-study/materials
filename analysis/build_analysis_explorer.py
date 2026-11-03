@@ -96,18 +96,14 @@ ROWS = [
          need="The model matches people (HIGH overall class, no effect classed LOW or ANTI, and no test that shows "
               "or points to a failure) and identifies the manipulation on at least one effect (T2)"),
     dict(code="S2", title="Does not match: its match falls from published to new values",
-         need="The model does not match people, and the memorization test resolves a steep fall in fidelity from the "
-              "published values to new values (T1)"),
+         need="The model does not match people, and the retrieval failure is present (T1; Table 5)"),
     dict(code="S3", title="Does not match: its match falls as the reason weakens",
-         need="The model does not match people, and the argument-strength test resolves a decline in fidelity down "
-              "the ordering (T3)"),
+         need="The model does not match people, and the reason-construction failure is present (T3; Table 5)"),
     dict(code="S4", title="Does not match: it names the decoy and does not follow it",
-         need="The model does not match people, and on at least one effect it identifies the manipulation and does "
-              "not show the effect (T2)"),
+         need="The model does not match people, and the rational-override failure is present: on at least one "
+              "effect, it identifies the manipulation and does not show the effect (T2; Table 5)"),
     dict(code="S6", title="Does not match, and all three failures are absent",
-         need="The model does not match people, and all three failures are absent, for example HIGH on some effects "
-              "and LOW or ANTI on others, fidelity that rises down the argument-strength ordering, or an ANTI overall "
-              "class without identifying the manipulation"),
+         need="The model does not match people, and all three failures are absent (Table 5)"),
 ]
 ROW_OF = {s["code"]: i for i, s in enumerate(ROWS)}
 NAMES = {"S1": "S1, deep mimicry (high fidelity)", "S2": "S2, retrieval", "S3": "S3, reason construction",
@@ -123,12 +119,14 @@ SIGNATURE_STATES = ("present", "absent", "not resolved", "not judged")
 CONCLUSIONS = {
     "S1": "The model reproduces the human context effects we tested; synthetic respondents are defensible within the "
           "tested scope.",
-    "S2": "The model reproduces effects described in the literature and does not simulate people facing new stimuli; "
-          "validation on new stimuli is required before a synthetic panel is trusted.",
+    "S2": "If the sensitivity analysis also resolves the fall, the model reproduces effects described in the literature "
+          "and does not simulate people facing new stimuli; if it does not, the fall is one that retrieval or the "
+          "differences between the tiers can explain. Either way, validation on new stimuli is required before a "
+          "synthetic panel is trusted.",
     "S3": "The model matches people less closely as the choice sets offer weaker reasons that can be stated, and least "
           "closely on the extremity effect, whose menu offers none.",
     "S4": "When asked, the model identifies the manipulation, and its choices do not follow it; synthetic data from it "
-          "would systematically remove or reverse the effects consumer research studies.",
+          "would remove or reverse the effects whose manipulation it identifies.",
     "S5": "The human replication is the main contribution; the effects that missed the replication criterion, named "
           "in the report, were not detected under calibrated testing with high power.",
     "S6": "The model differs from people in a way that none of the four accounts predicts; we report each effect's "

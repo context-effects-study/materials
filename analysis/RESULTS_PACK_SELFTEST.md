@@ -6,7 +6,7 @@ of Web Appendix C; this rehearsal runs the REAL pipeline and asserts the complet
 renders and routes every planted branch, plus one planted case per repaired defect. The Stage 2 run executes the
 SAME code on real contract-A/B exports.)
 
-seed=20260613  runtime=62.52s  pack=results_pack/
+seed=20260613  runtime=73.52s  pack=results_pack/
 
 ## PASS/FAIL table
 | check | result | detail |

@@ -92,9 +92,10 @@ if RC.RERUN_RULE != RC.BOOTSTRAP_LEVEL:
                      "interval over calls, which the pack computes at BOOTSTRAP_LEVEL")
 
 # The scenario names a reader sees (decision tree B, 2026-11-03: S1 to S5 keep their names, S6 is a failure that no
-# account predicts and S7 a known effect reproduced); the IDs stay as data keys.
+# account predicts and S7 a known effect reproduced; S2 is "Retrieval", the name Table 4 of the paper gives it,
+# 2026-11-03); the IDs stay as data keys.
 SCENARIO_NAMES = {
-    "S1": "High fidelity", "S2": "Retrieval only", "S3": "Reason construction", "S4": "Rational override",
+    "S1": "High fidelity", "S2": "Retrieval", "S3": "Reason construction", "S4": "Rational override",
     "S5": "Human effects fail", "S6": "A failure that no account predicts", "S7": "A known effect reproduced",
     "S5-not-triggered": "Human effects hold (S5 not triggered)",
     "CRITERION_FAIL": "Not assessable (Step 0)",
@@ -119,7 +120,7 @@ JOINT = "+"
 
 def scenario_name(code):
     """The name a reader sees for a scenario code, including a joint of present signatures ('S2+S4' -> 'Retrieval
-    only and rational override')."""
+    and rational override')."""
     if code in SCENARIO_NAMES:
         return SCENARIO_NAMES[code]
     parts = code.split(JOINT)
@@ -3523,7 +3524,7 @@ def run_rehearsal(consistency="default"):
                    "rational override (S2+S4), both reported",
                    par is not None and par["scenario"] == "S2+S4" and par["matches_people"] == "no"
                    and par["possible_scenarios"] == "S2;S4"
-                   and par["scenario_name"] == "Retrieval only and rational override",
+                   and par["scenario_name"] == "Retrieval and rational override",
                    (f"{par['scenario']} ({par['signatures']})" if par else "missing")))
     cnew = find_route("CONVERGE_NEW")
     checks.append(("tree B: CONVERGE_NEW matches people (no failure present) and names the decoy on effects it shows "

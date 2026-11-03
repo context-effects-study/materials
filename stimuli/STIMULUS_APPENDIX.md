@@ -87,7 +87,7 @@ These are the stimulus tables of Web Appendix B, as the web appendix prints them
 
 *Question above every set:* "Imagine you are shopping for an electric kettle. You are considering the following options: Which would you choose?"
 
-| Option | Tier 3: invented category | < | < |
+| Option | Tier 3: new category | < | < |
 |---|---|---|---|
 |  | Name | Power (W) | Price |
 | Budget option (target of the decoys) | BrewMate Electric Kettle | 1,000 | $31.99 |
@@ -184,7 +184,7 @@ These are the stimulus tables of Web Appendix B, as the web appendix prints them
 
 *Question above every set:* "Imagine you are shopping for a robot vacuum. You are considering the following options: Which would you choose?"
 
-| Option | Tier 3: invented category | < | < |
+| Option | Tier 3: new category | < | < |
 |---|---|---|---|
 |  | Name | Suction (Pa) | Price |
 | Budget option | TidyBot Robot Vacuum | 2,000 | $159.00 |
@@ -205,7 +205,7 @@ These are the stimulus tables of Web Appendix B, as the web appendix prints them
 
 *Question above every set:* "Imagine you are shopping for a standing desk. You are considering the following options: Which would you choose?"
 
-| Option | Tier 3: invented category | < | < |
+| Option | Tier 3: new category | < | < |
 |---|---|---|---|
 |  | Name | Weight capacity (lbs) | Price |
 | Budget option (target of the decoys) | LiftMate Standing Desk | 110 | $269.00 |

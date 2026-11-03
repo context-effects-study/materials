@@ -16,7 +16,7 @@ codebooks, in `../calibration/<study>/`.
 | `cell_id` | text | the design cell, written as `<category>_<structure>` |
 | `category` | category | the product category |
 | `structure` | category | BIN, FRQ, RNG, PHT, SOT, MOT, EXC, SYM or SIM (the codebook below defines each) |
-| `tier` | integer | the stimulus tier: 1, published values; 2, new values in a published category; 3, an invented category |
+| `tier` | integer | the stimulus tier: 1, published values; 2, new values in a published category; 3, a new category that no published study of context effects used |
 | `format` | category | numbers, words or pictures |
 | `position_order` | text | the codes of the options in the order shown |
 | `stimulus_id` | text | the stimulus in `../stimuli/stimuli.json`. For the two pictures pairs that have their own calibrated values, the values are under `format_variants.pictures.options` |

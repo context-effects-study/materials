@@ -6,7 +6,7 @@ prints them; each row equals the same pair's row in the wave's report of record)
 pair: the target share in each wave with its 95 percent interval, the registered target band (40 to 45
 percent) as a pale blue tint and the registered limits (25 and 75 percent) as dashed lines. The four
 categories tested in three formats come first, one column per category and one row per format; the other three
-published categories and the three invented ones follow. The last point of each pair has the colour of the
+published categories and the three new categories (tier 3) follow. The last point of each pair has the colour of the
 pair's final status, which is printed beside it (final, retained or removed). The type is IBM Plex Sans, read
 from the font files in figures/fonts/ (SIL Open Font License, figures/fonts/license.txt).
 
@@ -40,19 +40,19 @@ FONTS = os.path.join(HERE, "fonts")
 
 ORDER = ["Backpacks, new values", "Bluetooth speakers, new values", "Earbuds, new values", "Hard drives, new values",
          "Restaurants, new values", "Televisions, new values", "Water bottles, new values",
-         "Electric kettles (invented)", "Robot vacuums (invented)", "Standing desks (invented)",
+         "Electric kettles (new category)", "Robot vacuums (new category)", "Standing desks (new category)",
          "Bluetooth speakers, words", "Hard drives, words", "Televisions, words", "Water bottles, words",
          "Bluetooth speakers, pictures", "Hard drives, pictures", "Televisions, pictures", "Water bottles, pictures"]
 STATUS = {"Backpacks, new values": "retained", "Restaurants, new values": "retained", "Earbuds, new values": "retained",
-          "Standing desks (invented)": "retained", "Water bottles, pictures": "retained",
-          "Electric kettles (invented)": "retained",  # fails by option identity (2026-09-29; WA-F)
+          "Standing desks (new category)": "retained", "Water bottles, pictures": "retained",
+          "Electric kettles (new category)": "retained",  # fails by option identity (2026-09-29; WA-F)
           "Hard drives, pictures": "removed"}
 
 # the layout: (row label, [(pair, panel title or None), ...]); group 1 takes its titles from the column headings
 COLUMNS = ["Bluetooth speakers", "Hard drives", "Televisions", "Water bottles"]
 GROUP1 = [(fmt, [(f"{c}, {fmt.lower()}", None) for c in COLUMNS]) for fmt in ("New values", "Words", "Pictures")]
 GROUP2 = [("New values", [(f"{c}, new values", c) for c in ("Backpacks", "Earbuds", "Restaurants")]),
-          ("Invented", [(f"{c} (invented)", c) for c in ("Electric kettles", "Robot vacuums", "Standing desks")])]
+          ("New categories", [(f"{c} (new category)", c) for c in ("Electric kettles", "Robot vacuums", "Standing desks")])]
 
 # colours and type (the figure tokens of the redrawn figures)
 INK, INK2, AXIS, RULE = "#1d1d1f", "#5b5f66", "#7a7b7d", "#dedede"
@@ -338,11 +338,11 @@ def selftest():
         lab.set_position((x - 0.15, y))
 
     def off_canvas(fig, labels):
-        lab = first_label("Robot vacuums (invented)")(fig, labels)
+        lab = first_label("Robot vacuums (new category)")(fig, labels)
         lab.set_position((40, lab.get_position()[1]))
 
     def tiny(fig, labels):
-        first_label("Standing desks (invented)")(fig, labels).set_fontsize(6)
+        first_label("Standing desks (new category)")(fig, labels).set_fontsize(6)
 
     def into_next_panel(fig, labels):
         lab = first_label("Hard drives, words")(fig, labels)

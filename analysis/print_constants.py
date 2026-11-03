@@ -29,7 +29,7 @@ FAMILY_WORDS = {
 CATEGORY_WORDS = {"backpacks": "backpacks", "earbuds": "earbuds", "restaurants": "restaurants",
                   "standing_desks": "standing desks", "water_bottles": "water bottles",
                   "electric_kettles": "electric kettles", "televisions": "televisions"}
-TIER_WORDS = {1: "published values", 2: "new values", 3: "invented category"}
+TIER_WORDS = {1: "published values", 2: "new values", 3: "new category"}
 
 # Rules registered with the constants that carry no single number: printed as "Rule" rows.
 RULE_ROWS = [
@@ -80,7 +80,7 @@ RULE_ROWS = [
      "Before Step 4, Step 0 applies: when four or more of the six effects other than similarity fail in people, "
      "every model is reported under S5, and a model that loses more than a third of its cells is not assessable. "
      "For every other model we look for three failures, with no order among them: a steep fall in fidelity from the "
-     "published values to the new values (T1), Retrieval only (S2); a decline down the argument-strength ordering "
+     "published values to the new values (T1), Retrieval (S2); a decline down the argument-strength ordering "
      "(T3), Reason construction (S3); and the manipulation identified on at least one effect whose pooled effect is "
      "not above 3 points (T2), Rational override (S4). A failure is present when its result is resolved, absent when "
      "the interval rules it out, and otherwise not resolved; a failed positive control leaves the first two not "

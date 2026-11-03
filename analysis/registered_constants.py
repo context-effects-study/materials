@@ -195,7 +195,7 @@ MEANING = {
     "T1_STEEP_DROP": ("Step 3, memorization test (T1)",
                       "Steep fall: fidelity falls by more than 0.30 from the published-values tier to the new-values "
                       "tier, compared on the same categories (each effect on the categories it has on both tiers). "
-                      "The invented tier extends the comparison and is only described."),
+                      "The new-categories tier extends the comparison and is only described."),
     "T1_FLAT_SLOPE": ("Step 3, memorization test (T1)",
                       "No difference: fidelity changes by less than 0.10 between the two tiers. A conclusion of a steep "
                       "fall also needs the 95 percent interval of the fall to lie wholly above 0.10, and a conclusion of "

@@ -5,7 +5,7 @@
 - mode: REHEARSAL
 - seed: 20260613
 - python: 3.13.13 (Windows)
-- runtime_sec: 17.1
+- runtime_sec: 18.35
 - human choice rows: 280000
 - models scored: 15
 - Bayes factor: half-normal prior, positive direction, scale 10.0 points
@@ -48,14 +48,14 @@
 | model | scenario | name |
 |---|---|---|
 | FAITHFUL | S1 | High fidelity |
-| PARROT | S2+S4 | Retrieval only and rational override |
+| PARROT | S2+S4 | Retrieval and rational override |
 | REASONER | S3 | Reason construction |
 | OVERRIDER | S4 | Rational override |
 | DIVIDED_A | S1 | High fidelity |
 | DIVIDED_B | S6 | A failure that no account predicts |
 | CONVERGE_OLD | S6 | A failure that no account predicts |
 | CONVERGE_NEW | S7 | A known effect reproduced |
-| WALK1_PARROT | S2 | Retrieval only |
+| WALK1_PARROT | S2 | Retrieval |
 | WALK2_MIXED | S4 | Rational override |
 | CEILING | CRITERION_FAIL | Not assessable (Step 0) |
 | REFUSER | CRITERION_FAIL | Not assessable (Step 0) |

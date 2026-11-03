@@ -1297,8 +1297,9 @@ def test_tree_b_several_signatures_at_once():
     for kw, want in cases:
         b, s, poss = _route(overall="LOW", **kw)
         assert s == want and poss == want.split("+"), (kw, b, s, poss)
-    assert analyze.scenario_name("S2+S3") == "Retrieval only and reason construction"
-    assert analyze.scenario_name("S2+S3+S4") == "Retrieval only and reason construction and rational override"
+    assert analyze.scenario_name("S2") == "Retrieval"
+    assert analyze.scenario_name("S2+S3") == "Retrieval and reason construction"
+    assert analyze.scenario_name("S2+S3+S4") == "Retrieval and reason construction and rational override"
     # an open signature does not stop the others: the present one is the conclusion, and the open one is listed as
     # still possible beside it
     b, s, poss = _route(t1=_T1_OPEN_STEEP_PT, t3=_T3_DECL, overall="PARTIAL")

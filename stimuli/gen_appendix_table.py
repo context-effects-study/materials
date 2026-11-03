@@ -29,7 +29,7 @@ OUT = os.path.join(HERE, "STIMULUS_APPENDIX.md")
 WEB_APPENDIX = os.path.normpath(os.path.join(HERE, "..", "..", "web_appendices", "web_appendix.md"))
 
 MERGE = "<"
-TIER_HEAD = {1: "Tier 1: published values", 2: "Tier 2: new values", 3: "Tier 3: invented category"}
+TIER_HEAD = {1: "Tier 1: published values", 2: "Tier 2: new values", 3: "Tier 3: new category"}
 DECOYS = ("FRQ", "RNG", "PHT")              # the structures whose target is counterbalanced
 # one row per option role, in this order; HF and HD are labeled per category (budget/premium, or the attribute
 # each leads on in a price-free category)
