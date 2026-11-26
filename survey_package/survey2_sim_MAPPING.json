@@ -1,0 +1,15 @@
+{
+  "survey": "survey2_sim",
+  "version": "backbone-qsf-1.2",
+  "build_date": "2026-07-01",
+  "deal_sha256_12": "47e91813f604",
+  "n_scripts": 1000,
+  "k_trials": 7,
+  "assign_mode": "randomizer",
+  "worker_url": null,
+  "worker_arm": null,
+  "include_captcha": false,
+  "image_hostbase": null,
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree"
+}

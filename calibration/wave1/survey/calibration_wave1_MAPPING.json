@@ -1,0 +1,372 @@
+{
+  "survey": "calibration",
+  "version": "calibration-qsf-2.1",
+  "build_date": "2026-07-01",
+  "wave": "wave1",
+  "seed": "context-fx-backbone-2026",
+  "assignment_version": "dc9ffa1f5660",
+  "n_pairs_defined": 25,
+  "n_pairs_dealt": 25,
+  "n_geometry_items": 7,
+  "include_captcha": false,
+  "image_hostbase": "https://context-effects-fidelity.pages.dev/img",
+  "bundled_design": {
+    "pairs_per_person": 10,
+    "rule": "one binary choice per product category per respondent (never the same category twice, in any format); pair within category dealt by EvenPresentation; the presentation order of the choice pages randomized (SubSet=K EvenPresentation block randomizer); trial slot t is a CATEGORY coordinate, not a presentation position",
+    "wave1_participants": 400,
+    "wave1_n_per_pair_min": 100,
+    "wave1_arithmetic": "the binding categories carry 4 pairs, so n per pair = participants/4; 400/4 = 100 on the 4-pair categories; 2-pair categories get participants/2; single-pair categories get every respondent (CALIBRATION_DESIGN wave procedure, 2026-07-01)"
+  },
+  "slots": {
+    "1": {
+      "category": "backpacks",
+      "arms": [
+        "pub_t1::BIN_backpacks_t1",
+        "pub_t2::BIN_backpacks_t2"
+      ]
+    },
+    "2": {
+      "category": "bluetooth_speakers",
+      "arms": [
+        "pictures::BIN_bluetooth_speakers_t2",
+        "pub_t1::BIN_bluetooth_speakers_t1",
+        "pub_t2::BIN_bluetooth_speakers_t2",
+        "words::BIN_bluetooth_speakers_t2"
+      ]
+    },
+    "3": {
+      "category": "earbuds",
+      "arms": [
+        "pub_t1::BIN_earbuds_t1",
+        "pub_t2::BIN_earbuds_t2"
+      ]
+    },
+    "4": {
+      "category": "electric_kettles",
+      "arms": [
+        "inv_t3::BIN_electric_kettles_t3"
+      ]
+    },
+    "5": {
+      "category": "hard_drives",
+      "arms": [
+        "pictures::BIN_hard_drives_t2",
+        "pub_t1::BIN_hard_drives_t1",
+        "pub_t2::BIN_hard_drives_t2",
+        "words::BIN_hard_drives_t2"
+      ]
+    },
+    "6": {
+      "category": "restaurants",
+      "arms": [
+        "pub_t1::BIN_restaurants_t1",
+        "pub_t2::BIN_restaurants_t2"
+      ]
+    },
+    "7": {
+      "category": "robot_vacuums",
+      "arms": [
+        "inv_t3::BIN_robot_vacuums_t3"
+      ]
+    },
+    "8": {
+      "category": "standing_desks",
+      "arms": [
+        "inv_t3::BIN_standing_desks_t3"
+      ]
+    },
+    "9": {
+      "category": "televisions",
+      "arms": [
+        "pictures::BIN_televisions_t2",
+        "pub_t1::BIN_televisions_t1",
+        "pub_t2::BIN_televisions_t2",
+        "words::BIN_televisions_t2"
+      ]
+    },
+    "10": {
+      "category": "water_bottles",
+      "arms": [
+        "pictures::BIN_water_bottles_t2",
+        "pub_t1::BIN_water_bottles_t1",
+        "pub_t2::BIN_water_bottles_t2",
+        "words::BIN_water_bottles_t2"
+      ]
+    }
+  },
+  "pairs_by_block": {
+    "pub_t1": [
+      "BIN_backpacks_t1",
+      "BIN_bluetooth_speakers_t1",
+      "BIN_earbuds_t1",
+      "BIN_hard_drives_t1",
+      "BIN_restaurants_t1",
+      "BIN_televisions_t1",
+      "BIN_water_bottles_t1"
+    ],
+    "pub_t2": [
+      "BIN_backpacks_t2",
+      "BIN_bluetooth_speakers_t2",
+      "BIN_earbuds_t2",
+      "BIN_hard_drives_t2",
+      "BIN_restaurants_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ],
+    "inv_t3": [
+      "BIN_electric_kettles_t3",
+      "BIN_robot_vacuums_t3",
+      "BIN_standing_desks_t3"
+    ],
+    "format_words": [
+      "BIN_bluetooth_speakers_t2",
+      "BIN_hard_drives_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ],
+    "format_pictures": [
+      "BIN_bluetooth_speakers_t2",
+      "BIN_hard_drives_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ]
+  },
+  "calibration_pairs": [
+    {
+      "arm_id": "pub_t1::BIN_backpacks_t1",
+      "stimulus_id": "BIN_backpacks_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "backpacks"
+    },
+    {
+      "arm_id": "pub_t1::BIN_bluetooth_speakers_t1",
+      "stimulus_id": "BIN_bluetooth_speakers_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "pub_t1::BIN_earbuds_t1",
+      "stimulus_id": "BIN_earbuds_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "earbuds"
+    },
+    {
+      "arm_id": "pub_t1::BIN_hard_drives_t1",
+      "stimulus_id": "BIN_hard_drives_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "pub_t1::BIN_restaurants_t1",
+      "stimulus_id": "BIN_restaurants_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "restaurants"
+    },
+    {
+      "arm_id": "pub_t1::BIN_televisions_t1",
+      "stimulus_id": "BIN_televisions_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "pub_t1::BIN_water_bottles_t1",
+      "stimulus_id": "BIN_water_bottles_t1",
+      "block": "pub_t1",
+      "format": "numbers",
+      "category": "water_bottles"
+    },
+    {
+      "arm_id": "pub_t2::BIN_backpacks_t2",
+      "stimulus_id": "BIN_backpacks_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "backpacks"
+    },
+    {
+      "arm_id": "pub_t2::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "pub_t2::BIN_earbuds_t2",
+      "stimulus_id": "BIN_earbuds_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "earbuds"
+    },
+    {
+      "arm_id": "pub_t2::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "pub_t2::BIN_restaurants_t2",
+      "stimulus_id": "BIN_restaurants_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "restaurants"
+    },
+    {
+      "arm_id": "pub_t2::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "pub_t2::BIN_water_bottles_t2",
+      "stimulus_id": "BIN_water_bottles_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "water_bottles"
+    },
+    {
+      "arm_id": "inv_t3::BIN_electric_kettles_t3",
+      "stimulus_id": "BIN_electric_kettles_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "electric_kettles"
+    },
+    {
+      "arm_id": "inv_t3::BIN_robot_vacuums_t3",
+      "stimulus_id": "BIN_robot_vacuums_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "robot_vacuums"
+    },
+    {
+      "arm_id": "inv_t3::BIN_standing_desks_t3",
+      "stimulus_id": "BIN_standing_desks_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "standing_desks"
+    },
+    {
+      "arm_id": "words::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "words::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "words::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "words::BIN_water_bottles_t2",
+      "stimulus_id": "BIN_water_bottles_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "water_bottles"
+    },
+    {
+      "arm_id": "pictures::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "pictures::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "pictures::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "pictures::BIN_water_bottles_t2",
+      "stimulus_id": "BIN_water_bottles_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "water_bottles"
+    }
+  ],
+  "geometry_items": [
+    {
+      "structure": "FRQ",
+      "export_tag": "geo_dominance",
+      "stimulus_id": "FRQ_backpacks_t2",
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes, one option is worse on every feature"
+    },
+    {
+      "structure": "RNG",
+      "export_tag": "geo_range",
+      "stimulus_id": "RNG_backpacks_t2",
+      "correct_choice_key": 1,
+      "correct_choice_label": "The first feature"
+    },
+    {
+      "structure": "PHT",
+      "export_tag": "geo_phantom_comprehension",
+      "stimulus_id": "PHT_backpacks_t2",
+      "correct_choice_key": 1,
+      "correct_choice_label": "Better on one feature and equal or worse on the rest"
+    },
+    {
+      "structure": "SOT",
+      "export_tag": "geo_compromise_extreme",
+      "stimulus_id": "SOT_backpacks_t2",
+      "correct_choice_key": 2,
+      "correct_choice_label": "The highest-priced option"
+    },
+    {
+      "structure": "SYM",
+      "export_tag": "geo_upscaling_symmetric",
+      "stimulus_id": "SYM_backpacks_t2",
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes, one option is worse than both of the others"
+    },
+    {
+      "structure": "MOT",
+      "export_tag": "geo_tier_distinctness",
+      "stimulus_id": "MOT_backpacks_t2",
+      "correct_choice_key": 3,
+      "correct_choice_label": "Three levels"
+    },
+    {
+      "structure": "SIM",
+      "export_tag": "geo_clone_recognition",
+      "stimulus_id": "SIM_backpacks_t2",
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes, two options are nearly identical"
+    }
+  ],
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree",
+  "target_band": {
+    "TARGET": "40-45%",
+    "COMP": "55-60%",
+    "hard_flag_outside": "25-75%"
+  },
+  "exc_handling": "EXC carries NO calibration pair and NO geometry item: it is built from MOT (exc_from_mot) and re-derived from the LOCKED MOT tiers at G3 (build_stimuli.py -> validate_stimuli.py), so it inherits MOT's calibrated tiers; the MOT tier-distinctness check serves both menus (CALIBRATION_DESIGN EXC re-derivation step).",
+  "recruitment_note": "Calibration sample is INDEPENDENT of the confirmatory samples: a Prolific exclusion allowlist excludes calibration participants from the four main studies; calibration responses never enter confirmatory analyses (CALIBRATION_DESIGN).",
+  "note": "25 BIN pairs reconciled to the as-built stimuli.json BIN cells: 7 published tier-1 + 7 published tier-2 + 3 invented tier-3 + 4 words + 4 pictures, spanning 10 product categories (4+4+4+4-pair categories: the published-format ones; see slots). BUNDLED dealing (2026-07-01): one EvenPresentation randomizer per category; each respondent answers every category once. Same embedded-data / ingest contract as the main surveys (cell{t}_* over t=1..K)."
+}

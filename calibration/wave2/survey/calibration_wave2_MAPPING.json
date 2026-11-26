@@ -1,0 +1,498 @@
+{
+  "survey": "calibration",
+  "version": "calibration-qsf-2.2",
+  "build_date": "2026-07-01",
+  "wave": "wave2",
+  "seed": "context-fx-backbone-2026",
+  "assignment_version": "2d8703e5ca21",
+  "n_pairs_defined": 25,
+  "n_pairs_dealt": 17,
+  "n_geometry_items": 7,
+  "include_captcha": false,
+  "image_hostbase": "https://context-effects-fidelity.pages.dev/img",
+  "bundled_design": {
+    "pairs_per_person": 10,
+    "rule": "one binary choice per product category per respondent (never the same category twice, in any format); pair within category dealt by EvenPresentation; the presentation order of the choice pages randomized (SubSet=K EvenPresentation block randomizer); trial slot t is a CATEGORY coordinate, not a presentation position",
+    "wave1_participants": 400,
+    "wave1_n_per_pair_min": 100,
+    "wave1_arithmetic": "the binding categories carry 4 pairs, so n per pair = participants/4; 400/4 = 100 on the 4-pair categories; 2-pair categories get participants/2; single-pair categories get every respondent (CALIBRATION_DESIGN wave procedure, 2026-07-01)"
+  },
+  "slots": {
+    "1": {
+      "category": "backpacks",
+      "arms": [
+        "pub_t2::BIN_backpacks_t2"
+      ]
+    },
+    "2": {
+      "category": "bluetooth_speakers",
+      "arms": [
+        "pictures::BIN_bluetooth_speakers_t2",
+        "pub_t2::BIN_bluetooth_speakers_t2",
+        "words::BIN_bluetooth_speakers_t2"
+      ]
+    },
+    "3": {
+      "category": "earbuds",
+      "arms": [
+        "pub_t2::BIN_earbuds_t2"
+      ]
+    },
+    "4": {
+      "category": "electric_kettles",
+      "arms": [
+        "inv_t3::BIN_electric_kettles_t3"
+      ]
+    },
+    "5": {
+      "category": "hard_drives",
+      "arms": [
+        "pictures::BIN_hard_drives_t2",
+        "pub_t2::BIN_hard_drives_t2",
+        "words::BIN_hard_drives_t2"
+      ]
+    },
+    "6": {
+      "category": "restaurants",
+      "arms": [
+        "pub_t2::BIN_restaurants_t2"
+      ]
+    },
+    "7": {
+      "category": "robot_vacuums",
+      "arms": [
+        "inv_t3::BIN_robot_vacuums_t3"
+      ]
+    },
+    "8": {
+      "category": "standing_desks",
+      "arms": [
+        "inv_t3::BIN_standing_desks_t3"
+      ]
+    },
+    "9": {
+      "category": "televisions",
+      "arms": [
+        "pictures::BIN_televisions_t2",
+        "pub_t2::BIN_televisions_t2",
+        "words::BIN_televisions_t2"
+      ]
+    },
+    "10": {
+      "category": "water_bottles",
+      "arms": [
+        "pictures::BIN_water_bottles_t2",
+        "words::BIN_water_bottles_t2"
+      ]
+    }
+  },
+  "pairs_by_block": {
+    "pub_t1": [
+      "BIN_backpacks_t1",
+      "BIN_bluetooth_speakers_t1",
+      "BIN_earbuds_t1",
+      "BIN_hard_drives_t1",
+      "BIN_restaurants_t1",
+      "BIN_televisions_t1",
+      "BIN_water_bottles_t1"
+    ],
+    "pub_t2": [
+      "BIN_backpacks_t2",
+      "BIN_bluetooth_speakers_t2",
+      "BIN_earbuds_t2",
+      "BIN_hard_drives_t2",
+      "BIN_restaurants_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ],
+    "inv_t3": [
+      "BIN_electric_kettles_t3",
+      "BIN_robot_vacuums_t3",
+      "BIN_standing_desks_t3"
+    ],
+    "format_words": [
+      "BIN_bluetooth_speakers_t2",
+      "BIN_hard_drives_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ],
+    "format_pictures": [
+      "BIN_bluetooth_speakers_t2",
+      "BIN_hard_drives_t2",
+      "BIN_televisions_t2",
+      "BIN_water_bottles_t2"
+    ]
+  },
+  "calibration_pairs": [
+    {
+      "arm_id": "pub_t2::BIN_backpacks_t2",
+      "stimulus_id": "BIN_backpacks_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "backpacks"
+    },
+    {
+      "arm_id": "pub_t2::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "pub_t2::BIN_earbuds_t2",
+      "stimulus_id": "BIN_earbuds_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "earbuds"
+    },
+    {
+      "arm_id": "pub_t2::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "pub_t2::BIN_restaurants_t2",
+      "stimulus_id": "BIN_restaurants_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "restaurants"
+    },
+    {
+      "arm_id": "pub_t2::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "pub_t2",
+      "format": "numbers",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "inv_t3::BIN_electric_kettles_t3",
+      "stimulus_id": "BIN_electric_kettles_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "electric_kettles"
+    },
+    {
+      "arm_id": "inv_t3::BIN_robot_vacuums_t3",
+      "stimulus_id": "BIN_robot_vacuums_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "robot_vacuums"
+    },
+    {
+      "arm_id": "inv_t3::BIN_standing_desks_t3",
+      "stimulus_id": "BIN_standing_desks_t3",
+      "block": "inv_t3",
+      "format": "numbers",
+      "category": "standing_desks"
+    },
+    {
+      "arm_id": "words::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "words::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "words::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "words::BIN_water_bottles_t2",
+      "stimulus_id": "BIN_water_bottles_t2",
+      "block": "format_words",
+      "format": "words",
+      "category": "water_bottles"
+    },
+    {
+      "arm_id": "pictures::BIN_bluetooth_speakers_t2",
+      "stimulus_id": "BIN_bluetooth_speakers_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "bluetooth_speakers"
+    },
+    {
+      "arm_id": "pictures::BIN_hard_drives_t2",
+      "stimulus_id": "BIN_hard_drives_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "hard_drives"
+    },
+    {
+      "arm_id": "pictures::BIN_televisions_t2",
+      "stimulus_id": "BIN_televisions_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "televisions"
+    },
+    {
+      "arm_id": "pictures::BIN_water_bottles_t2",
+      "stimulus_id": "BIN_water_bottles_t2",
+      "block": "format_pictures",
+      "format": "pictures",
+      "category": "water_bottles"
+    }
+  ],
+  "geometry_items": [
+    {
+      "structure": "FRQ",
+      "export_tag": "geo_dominance",
+      "stimulus_id": "FRQ_backpacks_t2",
+      "question_text": "Look at the lettered options above. Is any one option clearly <b>worse than another option on every feature</b> listed? If so, which one?",
+      "choices": [
+        "Yes — Option A is clearly worse than another option on every feature",
+        "Yes — Option B is clearly worse than another option on every feature",
+        "Yes — Option C is clearly worse than another option on every feature",
+        "No — every option is better than each other option on at least one feature",
+        "I cannot tell"
+      ],
+      "lettered_context": true,
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes — Option A is clearly worse than another option on every feature"
+    },
+    {
+      "structure": "RNG",
+      "export_tag": "geo_range",
+      "stimulus_id": "RNG_backpacks_t2",
+      "question_text": "Look at the three options above. On which feature do the options differ by the <b>widest</b> amount (the largest gap between the lowest and the highest value)?",
+      "choices": [
+        "The first feature",
+        "The second feature",
+        "The features differ by about the same amount",
+        "I cannot tell"
+      ],
+      "lettered_context": false,
+      "correct_choice_key": 2,
+      "correct_choice_label": "The second feature"
+    },
+    {
+      "structure": "PHT",
+      "export_tag": "geo_phantom_comprehension",
+      "stimulus_id": "PHT_backpacks_t2",
+      "question_text": "One of the options above is marked <b>currently unavailable</b>. Compared with the other options, that unavailable option is:",
+      "choices": [
+        "Better on one feature and equal or worse on the rest",
+        "Worse on every feature",
+        "Exactly the same as another option",
+        "There was no unavailable option",
+        "I cannot tell"
+      ],
+      "lettered_context": false,
+      "correct_choice_key": 1,
+      "correct_choice_label": "Better on one feature and equal or worse on the rest"
+    },
+    {
+      "structure": "SOT",
+      "export_tag": "geo_compromise_extreme",
+      "stimulus_id": "SOT_backpacks_t2",
+      "question_text": "Look at the lettered options above. Which option is the <b>most premium</b> one (the highest-end option, with the most capability at the highest price)?",
+      "choices": [
+        "Option A",
+        "Option B",
+        "Option C",
+        "I cannot tell"
+      ],
+      "lettered_context": true,
+      "correct_choice_key": 1,
+      "correct_choice_label": "Option A"
+    },
+    {
+      "structure": "SYM",
+      "export_tag": "geo_upscaling_symmetric",
+      "stimulus_id": "SYM_backpacks_t2",
+      "question_text": "Look at the three options above. Is any one option clearly worse than <b>both</b> of the other two options?",
+      "choices": [
+        "Yes, one option is worse than both of the others",
+        "No option is worse than both others",
+        "I cannot tell"
+      ],
+      "lettered_context": false,
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes, one option is worse than both of the others"
+    },
+    {
+      "structure": "MOT",
+      "export_tag": "geo_tier_distinctness",
+      "stimulus_id": "MOT_backpacks_t2",
+      "question_text": "The options above fall into groups by quality level. How many <b>distinct</b> quality levels (tiers) do you see among the options?",
+      "choices": [
+        "One level",
+        "Two levels",
+        "Three levels",
+        "More than three levels",
+        "I cannot tell"
+      ],
+      "lettered_context": false,
+      "correct_choice_key": 3,
+      "correct_choice_label": "Three levels"
+    },
+    {
+      "structure": "SIM",
+      "export_tag": "geo_clone_recognition",
+      "stimulus_id": "SIM_backpacks_t2",
+      "question_text": "Look at the three options above. Are any two of the options <b>nearly identical</b> to each other (almost the same on every feature)?",
+      "choices": [
+        "Yes, two options are nearly identical",
+        "No, all three options are clearly different",
+        "I cannot tell"
+      ],
+      "lettered_context": false,
+      "correct_choice_key": 1,
+      "correct_choice_label": "Yes, two options are nearly identical"
+    }
+  ],
+  "geometry_instrument_version": "v2.2 (2026-07-02): RNG answer key corrected 1->2 to match the rebuilt dominated weak-axis-extending range decoy (wording unchanged — a confirmation re-check; wave 1 re-scored 29/57=51% at this key); FRQ + SOT clarified to concrete option-referencing forms with lettered context cards (Option A/B/C, computed keys); PHT/SYM/MOT/SIM identical to wave 1 (re-checks). Stimulus VALUES untouched. Decision rule pre-stated in CALIBRATION_DESIGN: a second FRQ/SOT miss of the 70% benchmark triggers ONE final registered margin-strengthening correction + a small wave-3 re-check.",
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree",
+  "target_band": {
+    "TARGET": "40-45%",
+    "COMP": "55-60%",
+    "hard_flag_outside": "25-75%"
+  },
+  "value_overrides_applied": {
+    "backpacks": {
+      "stimulus": "BIN_backpacks_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 59.99,
+      "to": 62.99,
+      "basis": "wave-1 numbers arm 49.5% -> mechanical nudge (CALIBRATION_WAVE1 s2)"
+    },
+    "bluetooth_speakers": {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 89.99,
+      "to": 109.0,
+      "basis": "wave-1 numbers arm 61.9% -> mechanical nudge; shared by the words + pictures arms"
+    },
+    "earbuds": {
+      "stimulus": "BIN_earbuds_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 29.99,
+      "to": 32.99,
+      "basis": "wave-1 numbers arm 53.8% -> mechanical nudge"
+    },
+    "hard_drives": {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 99.99,
+      "to": 119.0,
+      "basis": "wave-1 numbers arm 69.4% -> mechanical nudge; shared by the words + pictures arms"
+    },
+    "restaurants": {
+      "stimulus": "BIN_restaurants_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 58,
+      "to": 61.99,
+      "basis": "wave-1 numbers arm 51.8% -> mechanical nudge"
+    },
+    "televisions": {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 399.99,
+      "to": 459.0,
+      "basis": "wave-1 numbers arm 60.6% -> mechanical nudge; shared by the words + pictures arms"
+    },
+    "electric_kettles": {
+      "stimulus": "BIN_electric_kettles_t3",
+      "option": "HF",
+      "attribute": "price",
+      "from": 24.99,
+      "to": 31.99,
+      "basis": "wave-1 numbers arm 72.2% (TARGET = HF in this category) -> mechanical nudge"
+    },
+    "robot_vacuums": {
+      "stimulus": "BIN_robot_vacuums_t3",
+      "option": "HF",
+      "attribute": "price",
+      "from": 149.99,
+      "to": 159.0,
+      "basis": "wave-1 numbers arm 33.7% (COMP = HF too popular) -> mechanical nudge"
+    },
+    "standing_desks": {
+      "stimulus": "BIN_standing_desks_t3",
+      "option": "HF",
+      "attribute": "price",
+      "from": 199.99,
+      "to": 269.0,
+      "basis": "wave-1 numbers arm 80.1% HARD FLAG (TARGET = HF) -> mechanical nudge; hard limit binds only after the final wave"
+    }
+  },
+  "shared_values_rule": "the author 2026-07-02: each category's nudge derives from the NUMBERS arm's wave-1 share; the words/pictures arms carry those SAME values (only the format changes). stimuli.json UNTOUCHED this wave — overrides applied in memory from the pairs kit; values lock once, at the final lock (G3). A recurring pictures ceiling at shared values routes to the registered no-room rule, never to per-arm values.",
+  "realism_check": {
+    "categories": [
+      "electric_kettles",
+      "robot_vacuums",
+      "standing_desks"
+    ],
+    "items": [
+      {
+        "category": "electric_kettles",
+        "slot": 4,
+        "export_tag": "realism_electric_kettles",
+        "stimulus_id": "BIN_electric_kettles_t3"
+      },
+      {
+        "category": "robot_vacuums",
+        "slot": 7,
+        "export_tag": "realism_robot_vacuums",
+        "stimulus_id": "BIN_robot_vacuums_t3"
+      },
+      {
+        "category": "standing_desks",
+        "slot": 8,
+        "export_tag": "realism_standing_desks",
+        "stimulus_id": "BIN_standing_desks_t3"
+      }
+    ],
+    "comment_tag": "realism_comments",
+    "scale": [
+      "1 - Not at all realistic",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7 - Completely realistic"
+    ],
+    "threshold": "mean >= 5.0 and no recurring confusion in comments (CALIBRATION_DESIGN step 1)",
+    "ordering_deviation": "the registered procedure put the ~60-rater realism check BEFORE the calibration wave; wave 1 fielded without it (deviation flagged in CALIBRATION_WAVE1 s4). The check rides IN wave 2 instead — every wave-2 respondent rates all three invented categories' product pages at the values they were shown — and the invented categories' values lock only after BOTH the wave-2 shares and the realism verdicts are in. Documented honestly in the Stage-1 pre-testing trail."
+  },
+  "wave2_deal": {
+    "n_per_arm_min": 100,
+    "binding_categories": [
+      "bluetooth_speakers",
+      "hard_drives",
+      "televisions"
+    ],
+    "max_arms_per_category": 3,
+    "participants_nominal_100": 300,
+    "participants_recommended": 312,
+    "arithmetic": "n per arm = participants / (arms in its category). The binding categories carry 3 arms, so 300 participants give exactly 100 NOMINAL per binding arm — but wave 1 realized a 2.5% exclusion rate (392/402 kept), so 300 delivers ~97-98 KEPT. The recommended dial is 312 (104 nominal per binding arm -> ~101 kept at the wave-1 exclusion rate; also divisible by 2 and 3 for clean even fills). the author picks the dial at launch.",
+    "session_minutes_est": 4.2,
+    "pay_usd": 1.0,
+    "fee_multiplier": 1.3334,
+    "cost_at_300": 400.02,
+    "cost_at_recommended": 416.02,
+    "pay_note": "the realism block lengthens the session past the wave-1 ~3 minutes (192 s realized median) to ~4.2 min expected, so pay moves proportionally to $1.00 (~$14/hr, inside the protocol's $12-15/hr fair-rate language; wave 1 realized $13.43/hr)."
+  },
+  "exc_handling": "EXC carries NO calibration pair and NO geometry item: it is built from MOT (exc_from_mot) and re-derived from the LOCKED MOT tiers at G3 (build_stimuli.py -> validate_stimuli.py), so it inherits MOT's calibrated tiers; the MOT tier-distinctness check serves both menus (CALIBRATION_DESIGN EXC re-derivation step).",
+  "recruitment_note": "Calibration sample is INDEPENDENT of the confirmatory samples: a Prolific exclusion allowlist excludes calibration participants from the four main studies; calibration responses never enter confirmatory analyses (CALIBRATION_DESIGN).",
+  "note": "25 BIN pairs reconciled to the as-built stimuli.json BIN cells: 7 published tier-1 + 7 published tier-2 + 3 invented tier-3 + 4 words + 4 pictures, spanning 10 product categories (4+4+4+4-pair categories: the published-format ones; see slots). BUNDLED dealing (2026-07-01): one EvenPresentation randomizer per category; each respondent answers every category once. Same embedded-data / ingest contract as the main surveys (cell{t}_* over t=1..K)."
+}

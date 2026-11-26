@@ -1,0 +1,2 @@
+model,effect,tier,format,model_pp,human_pp,n_calls,boot_lo_pp,boot_hi_pp,human_gate
+PARROT,PHT,1,numbers,8.33,-0.92,1680,5.87,10.95,failed

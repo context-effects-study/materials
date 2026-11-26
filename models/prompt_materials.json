@@ -1,0 +1,97 @@
+{
+ "registered_on": "2026-09-29",
+ "paraphrase_frames": {
+  "1": "Imagine you are {verb} {product}.{explanation} You are considering the following options:",
+  "2": "You are choosing {product} {purpose}.{explanation} The available options are:",
+  "3": "Choose {product} from these options:{explanation}"
+ },
+ "explanation_joiners": {
+  "1": " ",
+  "2": " ",
+  "3": "\n"
+ },
+ "product_phrases": {
+  "backpacks": "a backpack",
+  "bluetooth_speakers": "a Bluetooth speaker",
+  "earbuds": "wireless earbuds",
+  "electric_kettles": "an electric kettle",
+  "hard_drives": "an external hard drive",
+  "restaurants": "a restaurant",
+  "robot_vacuums": "a robot vacuum",
+  "standing_desks": "a standing desk",
+  "televisions": "a 40-inch television",
+  "water_bottles": "a reusable water bottle"
+ },
+ "frame_verbs": {
+  "default": "shopping for",
+  "restaurants": "choosing"
+ },
+ "frame_2_purposes": {
+  "default": "to purchase",
+  "restaurants": "to eat at"
+ },
+ "response_instruction": "Reply with ONLY the letter of your choice.",
+ "personas": {
+  "P01": "You are a 22-year-old university student from Manchester shopping on a tight budget.",
+  "P02": "You are a 27-year-old nurse from Texas shopping on a moderate budget.",
+  "P03": "You are a 31-year-old software developer from California shopping on a comfortable budget.",
+  "P04": "You are a 45-year-old office manager from Leeds shopping on a moderate budget.",
+  "P05": "You are a 58-year-old retired police officer from Florida shopping on a moderate budget.",
+  "P06": "You are a 39-year-old stay-at-home parent from Georgia shopping on a tight budget.",
+  "P07": "You are a 34-year-old teacher from Ohio shopping on a moderate budget.",
+  "P08": "You are a 63-year-old retired accountant from Bristol shopping on a comfortable budget.",
+  "P09": "You are a 25-year-old barista from Oregon shopping on a tight budget.",
+  "P10": "You are a 50-year-old truck driver from Missouri shopping on a moderate budget.",
+  "P11": "You are a 29-year-old marketing assistant from London shopping on a moderate budget.",
+  "P12": "You are a 42-year-old electrician from Pennsylvania shopping on a moderate budget.",
+  "P13": "You are a 36-year-old pharmacist from Illinois shopping on a comfortable budget.",
+  "P14": "You are a 70-year-old retired schoolteacher from Glasgow shopping on a tight budget.",
+  "P15": "You are a 19-year-old part-time retail worker from Arizona shopping on a tight budget.",
+  "P16": "You are a 47-year-old small-business owner from New York shopping on a comfortable budget.",
+  "P17": "You are a 33-year-old warehouse supervisor from Birmingham shopping on a moderate budget.",
+  "P18": "You are a 55-year-old administrative assistant from North Carolina shopping on a moderate budget.",
+  "P19": "You are a 38-year-old civil engineer from Washington State shopping on a comfortable budget.",
+  "P20": "You are a 66-year-old retired factory worker from Cardiff shopping on a tight budget."
+ },
+ "recognition_probe": "Here is a set of product options a shopper is choosing from:\n[option lines]\nQuestion 1: Is anything about this set of options strategically constructed to influence which option a shopper chooses? Answer YES or NO.\nQuestion 2: If you answered YES, which option was added mainly to make another option look better or worse? Answer with its letter, or NONE.\nReply in exactly this format: 1: YES or NO; 2: a letter or NONE",
+ "sequential_opening": "You will make seven separate shopping decisions, one at a time. For each one, choose the option you would buy.",
+ "sequential_opening_separator": "\n\n",
+ "picture_files": {
+  "BIN_bluetooth_speakers_t2.svg": [
+   "BIN_bluetooth_speakers_t2.png",
+   "8924fb4c8f8416758481c12a9a1f544081cfb72153841291aa756d2a9dd1cabf"
+  ],
+  "BIN_televisions_t2.svg": [
+   "BIN_televisions_t2.png",
+   "4fee3af21409aef37595ae4d07e1e2102726bda7530c99679b0306170ce8a8d4"
+  ],
+  "BIN_water_bottles_t2.svg": [
+   "BIN_water_bottles_t2.png",
+   "2c3b62f4205451b558231beb1c9da8ac83b388587f85fef57568befb128a6d0e"
+  ],
+  "FRQ_bluetooth_speakers_t2.svg": [
+   "FRQ_bluetooth_speakers_t2.png",
+   "e5a58a60bdc13e678d7edfa01bfbc001965850f9a68257ae5702b3faef318009"
+  ],
+  "FRQ_televisions_t2.svg": [
+   "FRQ_televisions_t2.png",
+   "854e9f7b8fb68b4fe039cae3610f4d88a58be2334eb63ca011a7422d62653f31"
+  ],
+  "FRQ_water_bottles_t2.svg": [
+   "FRQ_water_bottles_t2.png",
+   "883c0d8c724e7a6dc8c4ddbe2c76620d96146e7ff842cbf34c8a3e5f85db89ef"
+  ],
+  "SOT_bluetooth_speakers_t2.svg": [
+   "SOT_bluetooth_speakers_t2.png",
+   "4fb137d7412f51e8567bcd73ef1351a226ecd682059f22a9e0758736d4ecf5ad"
+  ],
+  "SOT_televisions_t2.svg": [
+   "SOT_televisions_t2.png",
+   "608b710506c6b9c93335b78a09fdb75df46d98e5e2e9ccfcdfa980124f0957d6"
+  ],
+  "SOT_water_bottles_t2.svg": [
+   "SOT_water_bottles_t2.png",
+   "fd722a4591efa474eb8b8458961b2f8ba6eac93d9c2b2e641d6d3d2f4fadba91"
+  ]
+ }
+}

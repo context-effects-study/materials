@@ -1,0 +1,524 @@
+{
+  "category": {
+    "id": "electric_kettles",
+    "label": "Electric kettles",
+    "attributes": [
+      {
+        "name": "power",
+        "unit": "watts",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": false,
+    "memorization_tier": 3,
+    "source": "INVENTED for the never-published tier-3 (no context-effects paper uses this category)",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "BIN_electric_kettles_t3",
+      "structure": "BIN",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "flags": [],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "FRQ_electric_kettles_t3",
+      "structure": "FRQ",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 650,
+            "price": 39.99
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "DECOY_TARGET_HF: attraction decoy favours the budget option (R3-2C counterbalance)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "RNG_electric_kettles_t3",
+      "structure": "RNG",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 450,
+            "price": 31.99
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "DECOY_TARGET_HF: range decoy extends the quality range below the budget target at equal price (R3-2C counterbalance; registered dominated form)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "PHT_electric_kettles_t3",
+      "structure": "PHT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "power": 1000,
+            "price": 28.79
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "PHT_PR_GENERATED (HF target): superior on price only (cheaper than the budget option), equal quality (R3-2C)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "SOT_electric_kettles_t3",
+      "structure": "SOT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 3100,
+            "price": 83.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_relative_share_over_target_plus_competitor",
+      "flags": [
+        "SOT_GENERATED: new extreme beyond HD; HD is the middle; relative-share statistic"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "MOT_electric_kettles_t3",
+      "structure": "MOT",
+      "options": [
+        {
+          "code": "A",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          },
+          "brand": "Brand A",
+          "tier": "High"
+        },
+        {
+          "code": "B",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          },
+          "brand": "Brand B",
+          "tier": "High"
+        },
+        {
+          "code": "C",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          },
+          "brand": "Brand C",
+          "tier": "High"
+        },
+        {
+          "code": "D",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          },
+          "brand": "Brand D",
+          "tier": "High"
+        },
+        {
+          "code": "E",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1700,
+            "price": 45.99
+          },
+          "brand": "Brand E",
+          "tier": "Middle"
+        },
+        {
+          "code": "F",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1700,
+            "price": 45.99
+          },
+          "brand": "Brand F",
+          "tier": "Middle"
+        },
+        {
+          "code": "G",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1700,
+            "price": 45.99
+          },
+          "brand": "Brand G",
+          "tier": "Middle"
+        },
+        {
+          "code": "H",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1700,
+            "price": 45.99
+          },
+          "brand": "Brand H",
+          "tier": "Middle"
+        },
+        {
+          "code": "I",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          },
+          "brand": "Brand I",
+          "tier": "Low"
+        },
+        {
+          "code": "J",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          },
+          "brand": "Brand J",
+          "tier": "Low"
+        },
+        {
+          "code": "K",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          },
+          "brand": "Brand K",
+          "tier": "Low"
+        },
+        {
+          "code": "L",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          },
+          "brand": "Brand L",
+          "tier": "Low"
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_EXC",
+      "flags": [],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "SYM_electric_kettles_t3",
+      "structure": "SYM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 59.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "hd_share_vs_binary",
+      "flags": [
+        "SYM_SAME_PAGE: same-page presentation mandatory"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "electric_kettles",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an electric kettle. You are considering the following options:",
+      "id": "SIM_electric_kettles_t3",
+      "structure": "SIM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1000,
+            "price": 31.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "power": 2400,
+            "price": 59.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "power": 1168,
+            "price": 35.35
+          },
+          "clone_of": "HF"
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "uncloned_relative_share_HD_vs_HF",
+      "sim_placement": "clone_HF",
+      "placement_variants": {
+        "clone_HD": {
+          "options": [
+            {
+              "code": "HF",
+              "is_hd": false,
+              "available": true,
+              "attrs": {
+                "power": 1000,
+                "price": 31.99
+              }
+            },
+            {
+              "code": "HD",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "power": 2400,
+                "price": 59.99
+              }
+            },
+            {
+              "code": "CLONE",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "power": 2232,
+                "price": 56.63
+              },
+              "clone_of": "HD"
+            }
+          ],
+          "target": "HF",
+          "competitor": "HD",
+          "statistic": "uncloned_relative_share_HF_vs_HD"
+        }
+      },
+      "flags": [
+        "SIM_TWO_PLACEMENT: primary clones the budget option (HF; uncloned focal = HD); placement_variants.clone_HD clones the premium option (HD; uncloned focal = HF). Delivered as two sub-conditions -> doubles SIM participants (authors' design decision 3); the allocation and power are in the cell plan."
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    }
+  ]
+}

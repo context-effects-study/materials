@@ -1,0 +1,47 @@
+{
+  "seed": "context-fx-backbone-2026",
+  "version": "backbone-qsf-1.2",
+  "build_date": "2026-07-01",
+  "scriptset_sha256_12": "7a6626461e13",
+  "n_scripts": 180,
+  "attention_1_correct": 5,
+  "attention_1_correct_label": "Strongly agree",
+  "category_index_to_name": {
+    "0": "earbuds",
+    "1": "bluetooth_speakers",
+    "2": "water_bottles",
+    "3": "restaurants",
+    "4": "backpacks",
+    "5": "hard_drives",
+    "6": "televisions",
+    "7": "electric_kettles",
+    "8": "standing_desks",
+    "9": "robot_vacuums"
+  },
+  "structure_index_to_code": {
+    "0": "SOT",
+    "1": "SIM",
+    "2": "BIN",
+    "3": "EXC",
+    "4": "RNG",
+    "5": "FRQ",
+    "6": "PHT",
+    "7": "SYM",
+    "8": "MOT"
+  },
+  "published_categories": [
+    "backpacks",
+    "bluetooth_speakers",
+    "earbuds",
+    "hard_drives",
+    "restaurants",
+    "televisions",
+    "water_bottles"
+  ],
+  "invented_categories": [
+    "electric_kettles",
+    "robot_vacuums",
+    "standing_desks"
+  ],
+  "note": "scriptset_180.csv uses abstract indices; this is the seeded map to real names. Published categories occupy indices 0-6 and invented 7-9 (the tier logic in scriptset_sim.py depends on that split); structure indices 0-8 cover all 9 backbone structures, including EXC (path a, contract v1.1)."
+}

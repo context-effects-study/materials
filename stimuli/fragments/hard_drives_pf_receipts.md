@@ -1,0 +1,2 @@
+# External hard drives (price-free: capacity vs speed) - price-free robustness arm receipts
+Price-free variant of hard_drives: two QUALITY attributes (capacity x read_speed), NO price, so the attraction effects (BIN/FRQ/RNG/PHT) can be tested without price acting as a quality signal (AE 8a / Gui-Toubia unblinding). Compromise/extremity/upscaling are excluded (they need a single quality ordering). Values realistic; lock at the final calibration lock.

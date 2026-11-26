@@ -1,0 +1,166 @@
+{
+  "wave": "wave3",
+  "kit_version": "wave3-pairs-3.0-terminal",
+  "decided": "2026-07-02 (the author, final mandate): wave 3 is the TERMINAL wave - after it the values lock for good (G3). Levers per arm: the 4 trustworthy two-point price solves applied as computed (WAVE3_TWO_POINT_SLOPES_2026-07-02.md); QUALITY-side single steps on the wrong-signed + extrapolation-only arms (price functioned as a quality cue in the sparse displays - CALIBRATION_DESIGN wave-3 amendment (b)); water_bottles format arms re-test at unchanged values. Values are PER-ARM this wave (the recorded departure from the wave-2 shared-values rule - amendment (b)). stimuli.json stays UNTOUCHED: overrides apply in memory; values + enrichment lock into stimuli.json once, at G3.",
+  "lock_criterion": "TERMINAL (amendment (a), fixed 2026-07-02 before any wave-3 data): point in [40,45]; OR 95% CI overlaps [40,45] AND point in [33,50]. Fail -> pre-registered defect contingency, reported.",
+  "arms": [
+    "pub_t2::BIN_backpacks_t2",
+    "pub_t2::BIN_bluetooth_speakers_t2",
+    "pub_t2::BIN_earbuds_t2",
+    "pub_t2::BIN_hard_drives_t2",
+    "pub_t2::BIN_restaurants_t2",
+    "pub_t2::BIN_televisions_t2",
+    "inv_t3::BIN_electric_kettles_t3",
+    "inv_t3::BIN_standing_desks_t3",
+    "words::BIN_bluetooth_speakers_t2",
+    "words::BIN_hard_drives_t2",
+    "words::BIN_televisions_t2",
+    "words::BIN_water_bottles_t2",
+    "pictures::BIN_bluetooth_speakers_t2",
+    "pictures::BIN_hard_drives_t2",
+    "pictures::BIN_televisions_t2",
+    "pictures::BIN_water_bottles_t2"
+  ],
+  "locked_in_wave2": {
+    "inv_t3::BIN_robot_vacuums_t3": "IN BAND wave 2 (42.1% [36.7, 47.6], n=309) at HF price 159.00 - LOCKED; not dealt in wave 3. Its realism re-check (enriched description at the locked values) rides via a static context; it also hosts the wave-3 geometry check cells (never a wave-3 choice category)."
+  },
+  "arm_value_overrides": {
+    "pub_t2::BIN_backpacks_t2": [
+      {"stimulus": "BIN_backpacks_t2", "option": "HD", "attribute": "price", "from": 59.99, "to": 61.99, "lever": "trustworthy two-point solve", "basis": "slope -3.23 pp/$ (49.5% @ 59.99 -> 39.8% @ 62.99); solve for 42.5% = 62.16 -> 61.99 rounded; predicted ~43%"}
+    ],
+    "pub_t2::BIN_bluetooth_speakers_t2": [
+      {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HD", "attribute": "price", "from": 89.99, "to": 109.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; price is not the wave-3 lever on this arm (wrong-signed slope +0.13)"},
+      {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HF", "attribute": "rating", "from": 3.8, "to": 4.2, "lever": "QUALITY step (wave-3)", "basis": "wave-2 64.4% (wrong-signed on price). Gap 0.9 stars held the pair at 59-73% across three measurements regardless of price level (t1 73.5 @ $69.99; w1 61.9 @ $89.99; w2 64.4 @ $109) - the rating gap, not price, carries the choice. One step: raise the budget option 3.8 -> 4.2 (0.1-star grid; crosses the 4.0 'good product' threshold; gap 0.9 -> 0.5, a 44% cut) at the untouched 2.42x price ratio; aimed at 42.5%"}
+    ],
+    "pub_t2::BIN_earbuds_t2": [
+      {"stimulus": "BIN_earbuds_t2", "option": "HD", "attribute": "price", "from": 29.99, "to": 32.99, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.71)"},
+      {"stimulus": "BIN_earbuds_t2", "option": "HF", "attribute": "reviews", "from": 2500, "to": 4000, "lever": "QUALITY step (wave-3)", "basis": "wave-2 56.0% - the smallest needed move (-13.5pp). One step: raise the budget option's reviews 2,500 -> 4,000 (nearest-100 realistic; premium's relative advantage 7.2x -> 4.5x, a 38% cut, proportionate to the small imbalance); aimed at 42.5%"}
+    ],
+    "pub_t2::BIN_hard_drives_t2": [
+      {"stimulus": "BIN_hard_drives_t2", "option": "HD", "attribute": "price", "from": 99.99, "to": 119.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.27, brushing the 75 hard limit)"},
+      {"stimulus": "BIN_hard_drives_t2", "option": "HF", "attribute": "storage", "from": 1, "to": 2, "lever": "QUALITY step (wave-3)", "basis": "wave-2 74.5%. One market step up on the budget option (points 1/2/4/6/8 TB): ratio 6x -> 3x; premium's per-TB edge shrinks 2.27x -> 1.14x. Anchor: the tier-1 hard-drives pair at ratio 2x / price 2x measured 43.9% IN BAND (wave 1, n=98); aimed at 42.5%"}
+    ],
+    "pub_t2::BIN_restaurants_t2": [
+      {"stimulus": "BIN_restaurants_t2", "option": "HD", "attribute": "price", "from": 58, "to": 60.99, "lever": "trustworthy two-point solve", "basis": "slope -3.00 pp/$ (51.8% @ 58 -> 39.8% @ 61.99); solve for 42.5% = 61.09 -> 60.99 rounded; predicted ~42.8%"}
+    ],
+    "pub_t2::BIN_televisions_t2": [
+      {"stimulus": "BIN_televisions_t2", "option": "HD", "attribute": "price", "from": 399.99, "to": 459.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.01, flat)"},
+      {"stimulus": "BIN_televisions_t2", "option": "HF", "attribute": "picture_quality", "from": 70, "to": 78, "lever": "QUALITY step (wave-3)", "basis": "wave-2 61.2%. Within-category anchor: gap 33 pts -> 74.7% (t1), gap 26 pts -> 61.2% (w2), implying >=1.9pp per quality point (the confounded price ratio pushed the OTHER way, so the true gap slope is steeper). One step: raise the budget option 70 -> 78 (gap 26 -> 18); predicted ~44-46%, cap-safe (78 << 96)"}
+    ],
+    "inv_t3::BIN_electric_kettles_t3": [
+      {"stimulus": "BIN_electric_kettles_t3", "option": "HF", "attribute": "price", "from": 24.99, "to": 31.99, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the price solve extrapolates to an implausible $74 kettle"},
+      {"stimulus": "BIN_electric_kettles_t3", "option": "HF", "attribute": "power", "from": 1500, "to": 1000, "lever": "QUALITY step (wave-3)", "basis": "wave-2 68.0%, TARGET = HF (budget) too popular -> lower ITS quality. One step: 1,500 -> 1,000 W (the market floor for full-size kettles, realism-safe); the premium's power advantage widens 1.6x -> 2.4x and the enrichment qualifiers make boil speed concrete; aimed at 42.5%"}
+    ],
+    "inv_t3::BIN_standing_desks_t3": [
+      {"stimulus": "BIN_standing_desks_t3", "option": "HF", "attribute": "price", "from": 199.99, "to": 269.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the price solve extrapolates to an implausible $449 budget desk"},
+      {"stimulus": "BIN_standing_desks_t3", "option": "HF", "attribute": "weight_capacity", "from": 150, "to": 110, "lever": "QUALITY step (wave-3)", "basis": "wave-2 69.6%, TARGET = HF (budget) too popular -> lower ITS quality. One step: 150 -> 110 lbs (a real budget-frame rating; premium's advantage 2.0x -> 2.7x); the largest realistic step short of implausibility, made meaningful by the enrichment qualifiers (laptop-and-monitor vs full multi-monitor); aimed at 42.5%"}
+    ],
+    "words::BIN_bluetooth_speakers_t2": [
+      {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HD", "attribute": "price", "from": 89.99, "to": 109.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the words price solve extrapolates to an implausible $219 speaker"},
+      {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HF", "attribute": "rating", "from": 3.8, "to": 4.2, "lever": "QUALITY step (wave-3), shared with the numbers arm", "basis": "wave-2 59.0%; same category step (the words arm's wave-2 share sits within the noise yardstick of the numbers arm's); predicted to land lower than numbers (words softened the premium pull both waves)"}
+    ],
+    "words::BIN_hard_drives_t2": [
+      {"stimulus": "BIN_hard_drives_t2", "option": "HD", "attribute": "price", "from": 99.99, "to": 119.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the words price solve extrapolates ($189)"},
+      {"stimulus": "BIN_hard_drives_t2", "option": "HF", "attribute": "storage", "from": 1, "to": 2, "lever": "QUALITY step (wave-3), shared with the numbers arm", "basis": "wave-2 61.8%; same category step; predicted ~38-45%"}
+    ],
+    "words::BIN_televisions_t2": [
+      {"stimulus": "BIN_televisions_t2", "option": "HD", "attribute": "price", "from": 399.99, "to": 459.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the words arm was FLAT at ~1.5 SE"},
+      {"stimulus": "BIN_televisions_t2", "option": "HF", "attribute": "picture_quality", "from": 70, "to": 78, "lever": "QUALITY step (wave-3), shared with the numbers arm", "basis": "wave-2 53.4% (the closest words arm); same category step; predicted ~38-43%"}
+    ],
+    "words::BIN_water_bottles_t2": [],
+    "pictures::BIN_bluetooth_speakers_t2": [
+      {"stimulus": "BIN_bluetooth_speakers_t2", "option": "HD", "attribute": "price", "from": 89.99, "to": 84.99, "lever": "trustworthy two-point solve (per-arm)", "basis": "slope -0.75 pp/$ (39.0% @ 89.99 -> 24.8% @ 109, wave-2 HARD FLAG); solve for 42.5% = 85.32 -> 84.99 rounded (lands below the wave-1 price, consistent with the wave-1 39.0%); quality untouched (3.8/4.7)"}
+    ],
+    "pictures::BIN_hard_drives_t2": [
+      {"stimulus": "BIN_hard_drives_t2", "option": "HD", "attribute": "price", "from": 99.99, "to": 119.00, "lever": "carry wave-2 shown price", "basis": "the wave-2 measurement point; the pictures price solve extrapolates ($231) and the arm HARD-FLAGGED both waves"},
+      {"stimulus": "BIN_hard_drives_t2", "option": "HF", "attribute": "storage", "from": 1, "to": 2, "lever": "QUALITY step (wave-3), shared with the numbers arm", "basis": "wave-2 84.8% (the rendering-distortion pair, HARD FLAG both waves): the bar ratio halves 6:1 -> 3:1 - the strongest defensible single step. Honest flag: from 84.8% this is the likeliest residual defect-contingency candidate; documented in advance"}
+    ],
+    "pictures::BIN_televisions_t2": [
+      {"stimulus": "BIN_televisions_t2", "option": "HD", "attribute": "price", "from": 399.99, "to": 429.00, "lever": "trustworthy two-point solve (per-arm)", "basis": "true interpolation: 42.5% lies between the measured 50.5% @ 399.99 and 36.9% @ 459; solve = 434.69 -> 429 rounded; quality untouched (70/96)"}
+    ],
+    "pictures::BIN_water_bottles_t2": []
+  },
+  "no_override": {
+    "words::BIN_water_bottles_t2": "unchanged values (HF 16 oz / $8.99; HD 48 oz / $24.99): wave-2 37.7% [30.4, 45.5] - CI overlapped the band; re-test under enrichment",
+    "pictures::BIN_water_bottles_t2": "unchanged values: wave-2 60.0% [52.1, 67.4]; the numbers arm is IN BAND at these values and the recorded wave-2 legend-confusion comment implicates the RENDERING, not the values - the wave-3 re-test measures the enriched render + fixed legend at fixed values (amendment (b))"
+  },
+  "enrichment": {
+    "note": "Amendment (c): adjustable tiers only; names brand-neutral, numeral-free, non-comparative; qualifiers plain-language, numeral-free, value-congruent, attribute-local. The SAME content feeds numbers/words/pictures via stimuli/enrich.py (single renderer). Values themselves come from the arm's effective (override-applied) record.",
+    "backpacks": {
+      "HF": {"name": "Ridgeline Daypack", "qualifiers": {"capacity": "room for a laptop, lunch, and a light jacket", "price": "an easy-on-the-wallet everyday pack"}},
+      "HD": {"name": "Crestway Trek Pack", "qualifiers": {"capacity": "expedition-size space for weekend trips and bulky gear", "price": "a step up in price"}}
+    },
+    "bluetooth_speakers": {
+      "HF": {"name": "EchoTone Portable Speaker", "qualifiers": {"rating": "well-liked by everyday listeners", "price": "an easy-entry price"}},
+      "HD": {"name": "NimbusSound Portable Speaker", "qualifiers": {"rating": "a favorite among reviewers", "price": "a premium price"}}
+    },
+    "earbuds": {
+      "HF": {"name": "BeatBuds Wireless Earbuds", "qualifiers": {"reviews": "a solid base of buyer feedback", "price": "pocket-money pricing"}},
+      "HD": {"name": "TempoPods Wireless Earbuds", "qualifiers": {"reviews": "a very large base of buyer feedback", "price": "a mid-range price"}}
+    },
+    "electric_kettles": {
+      "HF": {"name": "BrewMate Electric Kettle", "qualifiers": {"power": "takes its time to reach a boil", "price": "a modest price"}},
+      "HD": {"name": "ThermoJet Electric Kettle", "qualifiers": {"power": "brings water to a rolling boil fast", "price": "a premium price"}}
+    },
+    "hard_drives": {
+      "HF": {"name": "DataPort External Drive", "qualifiers": {"storage": "space for large photo and document libraries", "price": "a value price"}},
+      "HD": {"name": "VaultMax External Drive", "qualifiers": {"storage": "room for full-system backups and years of media", "price": "a step-up price"}}
+    },
+    "restaurants": {
+      "HF": {"name": "The Corner Table", "qualifiers": {"rating": "a dependable neighborhood spot", "price": "casual-dining entree prices"}},
+      "HD": {"name": "Maison Laurent", "qualifiers": {"rating": "among the area's top-rated tables", "price": "fine-dining entree prices"}}
+    },
+    "robot_vacuums": {
+      "HF": {"name": "TidyBot Robot Vacuum", "qualifiers": {"suction": "handles everyday dust and crumbs on hard floors", "price": "an entry-level price"}},
+      "HD": {"name": "OrbitClean Robot Vacuum", "qualifiers": {"suction": "strong enough for carpets and pet hair", "price": "a flagship price"}}
+    },
+    "standing_desks": {
+      "HF": {"name": "LiftMate Standing Desk", "qualifiers": {"weight_capacity": "suited to a laptop-and-monitor setup", "price": "a starter price"}},
+      "HD": {"name": "TerraRise Standing Desk", "qualifiers": {"weight_capacity": "holds a full multi-monitor workstation with ease", "price": "a premium price"}}
+    },
+    "televisions": {
+      "HF": {"name": "ClearView Smart TV", "qualifiers": {"picture_quality": "a crisp, watchable everyday picture", "price": "a budget-friendly price"}},
+      "HD": {"name": "CinemaMax Smart TV", "qualifiers": {"picture_quality": "near the top of the expert rankings", "price": "a premium price"}}
+    },
+    "water_bottles": {
+      "HF": {"name": "AquaPod Water Bottle", "qualifiers": {"capacity": "right for a workout or a short commute", "price": "an impulse-buy price"}},
+      "HD": {"name": "HydraTank Water Bottle", "qualifiers": {"capacity": "enough to skip refills most of the day", "price": "a mid-shelf price"}}
+    }
+  },
+  "realism_categories": ["electric_kettles", "robot_vacuums", "standing_desks"],
+  "realism_static": {
+    "robot_vacuums": "locked in wave 2 (not a wave-3 choice category): its realism item re-checks the ENRICHED description at the LOCKED values (HF 2,000 Pa / $159.00; HD 6,000 Pa / $499.99) via a static baked context - the registered 'revise wording and re-check' remedy at the values that will field"
+  },
+  "geometry_wave3": {
+    "host_category": "robot_vacuums",
+    "host_stimulus_anchor": {"HF": {"suction": 2000, "price": 159.00}, "HD": {"suction": 6000, "price": 499.99}},
+    "host_rationale": "amendment (d): robot_vacuums locked in wave 2 and is dealt to NO ONE as a wave-3 choice, so geometry items never share a category with the respondent's choices; its cells rebuild in memory from the LOCKED anchor = the values respondents will actually judge after G3 (decoy target = HD per the R3-2C counterbalance map)",
+    "items_per_respondent": 2,
+    "deal": "42 ordered structure-pairs (7x6, i != j), one EvenPresentation SubSet=1 randomizer; each structure appears in 12/42 pairs -> n = 2N/7 per structure, position counterbalanced (6 first / 6 second)",
+    "frq_margin": {"a_frac": 0.25, "b_frac": 0.25, "was": {"a_frac": 0.12, "b_frac": 0.08}, "basis": "the ONE final registered margin-strengthening correction (second-miss rule): FRQ 61% -> 44% after clarification; decoy now 5,000 Pa / $624.99 vs the 6,000 Pa / $499.99 target - visibly worse on both"},
+    "rng_extension": {"b_factor": 1.2, "was": 0.7, "basis": "same registered correction on RNG's lever (51% -> 59% at the corrected key): range extension amplified x1.7 -> x2.2 of the target's price; decoy 6,000 Pa / $1,099.98"},
+    "unchanged_structures": "SOT stimulus untouched (wave-2 miss = 2 answers short, CI straddling 70); PHT/SYM/MOT/SIM untouched; all items keep the v2.2 wording + card presentation so the re-check isolates the margin change; keys computed from the built cells",
+    "g3_note": "the strengthened FRQ/RNG parameters enter geometry.py as explicit arguments and are adopted by the confirmatory stimuli only at the G3 rebuild under the freeze protocol"
+  },
+  "picture_comprehension": {
+    "export_tag": "pic_comprehension",
+    "spec": "amendment (e): one forced MC after the geometry pages, display-logic-gated to respondents dealt >=1 pictures pair (~85%); JS re-renders the first-dealt pictures image; asks which option has MORE of the green-bar (quality) feature; key = Option B (canonical order HF, HD; computed + asserted uniform across the 4 pictures stimuli); DESCRIPTIVE, not a registered gate"
+  },
+  "wave3_images": {
+    "note": "all four pictures stimuli re-render for wave 3 (values changed for bluetooth/hard_drives/televisions; content enriched + legend fixed for all four incl. water_bottles) under NEW filenames; wave-1/wave-2 assets untouched",
+    "BIN_bluetooth_speakers_t2": "BIN_bluetooth_speakers_t2_wave3.png (3.8* / $44.99 vs 4.7* / $84.99)",
+    "BIN_hard_drives_t2": "BIN_hard_drives_t2_wave3.png (2 TB / $44.99 vs 6 TB / $119)",
+    "BIN_televisions_t2": "BIN_televisions_t2_wave3.png (70 / $139.99 vs 96 / $429)",
+    "BIN_water_bottles_t2": "BIN_water_bottles_t2_wave3.png (16 oz / $8.99 vs 48 oz / $24.99 - unchanged values, enriched render + fixed legend)"
+  },
+  "deal_pay": {
+    "participants_nominal": 462,
+    "pay_usd": 1.13,
+    "fee_multiplier": 1.3334,
+    "cost_all_in": 696.11,
+    "cap": 700,
+    "session_minutes_est": "5.0-5.3 expected median (component-built on wave-2 realized: 255s total, 9.6s/choice, 33.8s geometry page)",
+    "arithmetic": "9 categories (robot_vacuums locked out) -> 9 choices each; binding 3-arm categories get 462/3 = 154 nominal (>=150 kept at the observed 1.0-2.5% exclusions); water_bottles 231; singles 462; geometry 2 items/respondent -> 462*2/7 = 132 nominal per structure (~129 kept; the $700 cap invoked the pre-stated geometry n>=120 relief - 7x150 kept needs ~539 respondents = $812)",
+    "alternative": "pay $1.25 -> $770.04 (~$14.1/hr at 5.3 min) if the cap is relaxed; the author confirms session + pay at launch (standing rule)"
+  }
+}

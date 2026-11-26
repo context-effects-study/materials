@@ -1,0 +1,195 @@
+{
+  "category": {
+    "id": "hard_drives_pf",
+    "label": "External hard drives (price-free: capacity vs speed)",
+    "attributes": [
+      {
+        "name": "capacity",
+        "unit": "TB",
+        "direction": "higher_better"
+      },
+      {
+        "name": "read_speed",
+        "unit": "MB/s",
+        "direction": "higher_better"
+      }
+    ],
+    "price_free": true,
+    "published": true,
+    "memorization_tier": 2,
+    "price_free_variant_of": "hard_drives",
+    "source": "Price-free variant of hard_drives (AE 8a robustness arm)",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "category": "hard_drives_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?",
+      "id": "BIN_hard_drives_pf_t2",
+      "structure": "BIN",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 2,
+            "read_speed": 3000
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 8,
+            "read_speed": 1200
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "hard_drives_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?",
+      "id": "FRQ_hard_drives_pf_t2",
+      "structure": "FRQ",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 2,
+            "read_speed": 3000
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 8,
+            "read_speed": 1200
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 7,
+            "read_speed": 1104
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "hard_drives_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?",
+      "id": "RNG_hard_drives_pf_t2",
+      "structure": "RNG",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 2,
+            "read_speed": 3000
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 8,
+            "read_speed": 1200
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 8,
+            "read_speed": 900
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "hard_drives_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. Each lists its capacity (TB) and its read speed (MB/s, higher is faster). You are considering the following options. Which would you choose?",
+      "id": "PHT_hard_drives_pf_t2",
+      "structure": "PHT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "capacity": 2,
+            "read_speed": 3000
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "capacity": 8,
+            "read_speed": 1200
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "capacity": 10,
+            "read_speed": 1200
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "PHT_PR_GENERATED: superior on the strong attribute only, equal on B (R1/Pettibone-Wedell PR)"
+      ],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    }
+  ]
+}

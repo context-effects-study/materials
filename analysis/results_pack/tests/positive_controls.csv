@@ -1,0 +1,3 @@
+control,cells,delta_pp,ci_lo_pp,ci_hi_pp,p,bf10,holds,affected_if_failed
+"frequency decoy, premium-target cells of the built stimulus sets that met the calibration rule",1|t2,10.14286,6.45883,13.82688,0.0,472963.2356,True,"FRQ fidelity-map row; T1, T2 (FRQ), T3, T4, T5"
+compromise (its replication criterion),,9.79,8.53,11.04,0.0,1000000000000.0,True,"SOT fidelity-map row; T1, T2 (SOT), T3, T4, T5"

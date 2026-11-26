@@ -1,0 +1,1121 @@
+{
+ "file": "FINAL_LOCK_LIST_2026-07-02.json",
+ "status": "STAGED ONLY - NOT APPLIED. stimuli.json untouched; calibration_locked flags set NOWHERE on disk. Application (the final calibration lock value pass: values + enrichment content + geometry.py margins + EXC re-derivation) is HELD for the authors' two pending decisions: (a) the ~$40 realism anchor study; (b) sign-off on the defect-routing consequences.",
+ "record": "Official run: calibration/calibration_report_wave3.md (459 kept / 4,131 choices).",
+ "terminal_criterion": "TERMINAL (amendment (a), fixed 2026-07-02 before any wave-3 data): point in [40,45]; OR 95% CI overlaps [40,45] AND point in [33,50]. Fail -> pre-registered defect contingency, reported.",
+ "boundary_note": "the [33,50] point window and the [40,45] band are CLOSED intervals (verified on the scoring function): a point of exactly 50.0 or 33.0 satisfies route 2; 50.1 or 32.9 does not.",
+ "counts": {
+  "locked_adjustable": 12,
+  "defect_routed": 6,
+  "tier1_check_only": 7
+ },
+ "g3_notes": [
+  "PER-ARM FORMAT VALUES (amendment (b) departure): bluetooth_speakers and televisions lock DIFFERENT values in the pictures format than in numbers/words (pictures-bluetooth HF 3.8*/HD $84.99 vs numbers/words HF 4.2*/HD $109; pictures-televisions HF 70/HD $429 vs numbers/words HF 78/HD $459). stimuli.json needs per-format value support at final calibration lock.",
+  "The BIN focal changes cascade into every sibling decoy structure of the same category/tier by the shared-binary-control rule.",
+  "After the value pass: re-run build_stimuli.py (exc_from_mot) + validate_stimuli.py GREEN (the mandatory EXC re-derivation step).",
+  "geometry.py margins at final calibration lock per amendment (d): frq_margins=(0.25,0.25), rng extension x2.2 - NOTE the wave-3 re-check MEASURED FRQ 34% / RNG 46% at these margins (both FAIL; see the report) - adoption is part of the authors flag (b).",
+  "Enrichment content (wave3_pairs.json 'enrichment') ships with every locked adjustable arm, to BOTH human and model engines identically (QSF-1 parity); tier-1 stays sparse as published."
+ ],
+ "pending_decisions": {
+  "flag_a_realism_anchor": "~$40 study: rate the PUBLISHED categories' product pages on the same 7-point realism item to calibrate the 5.0 threshold (all 3 invented categories failed again at n=459: kettles 4.36, vacuums 4.53, desks 4.68; enrichment did not raise any mean). Run only with the authors' approval.",
+  "flag_b_routing_signoff": "the 6 defect-routed arms' concrete consequences (which cells exit vs run-with-deviation, spare reality = none built) were laid out in the wave-3 report; no lock is applied until the authors approve the routing."
+ },
+ "arms": [
+  {
+   "arm_id": "pub_t1::BIN_backpacks_t1",
+   "stimulus_id": "BIN_backpacks_t1",
+   "category": "backpacks",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "capacity": 30,
+     "price": 29.99
+    },
+    "HD": {
+     "capacity": 40,
+     "price": 39.99
+    }
+   },
+   "wave1": {
+    "n": 196,
+    "target_share_pct": 42.9,
+    "wilson95": [
+     36.1,
+     49.9
+    ]
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 42.9,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_bluetooth_speakers_t1",
+   "stimulus_id": "BIN_bluetooth_speakers_t1",
+   "category": "bluetooth_speakers",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "rating": 3.6,
+     "price": 39.99
+    },
+    "HD": {
+     "rating": 4.5,
+     "price": 69.99
+    }
+   },
+   "wave1": {
+    "n": 98,
+    "target_share_pct": 73.5,
+    "wilson95": [
+     64.0,
+     81.2
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 73.5,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_earbuds_t1",
+   "stimulus_id": "BIN_earbuds_t1",
+   "category": "earbuds",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "reviews": 1147,
+     "price": 5.99
+    },
+    "HD": {
+     "reviews": 11076,
+     "price": 19.99
+    }
+   },
+   "wave1": {
+    "n": 197,
+    "target_share_pct": 71.6,
+    "wilson95": [
+     64.9,
+     77.4
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 71.6,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_hard_drives_t1",
+   "stimulus_id": "BIN_hard_drives_t1",
+   "category": "hard_drives",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "storage": 2,
+     "price": 39.99
+    },
+    "HD": {
+     "storage": 4,
+     "price": 79.99
+    }
+   },
+   "wave1": {
+    "n": 98,
+    "target_share_pct": 43.9,
+    "wilson95": [
+     34.5,
+     53.7
+    ]
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 43.9,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_restaurants_t1",
+   "stimulus_id": "BIN_restaurants_t1",
+   "category": "restaurants",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "rating": 65,
+     "price": 7
+    },
+    "HD": {
+     "rating": 98,
+     "price": 40
+    }
+   },
+   "wave1": {
+    "n": 195,
+    "target_share_pct": 64.6,
+    "wilson95": [
+     57.7,
+     71.0
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 64.6,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_televisions_t1",
+   "stimulus_id": "BIN_televisions_t1",
+   "category": "televisions",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "picture_quality": 65,
+     "price": 109.99
+    },
+    "HD": {
+     "picture_quality": 98,
+     "price": 505.99
+    }
+   },
+   "wave1": {
+    "n": 95,
+    "target_share_pct": 74.7,
+    "wilson95": [
+     65.2,
+     82.4
+    ]
+   },
+   "band_verdict": "OUT OF BAND (CI straddles the 75 hard limit)",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail",
+   "trail": {
+    "wave1_share_pct": 74.7,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t1::BIN_water_bottles_t1",
+   "stimulus_id": "BIN_water_bottles_t1",
+   "category": "water_bottles",
+   "tier": 1,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "capacity": 18,
+     "price": 7.99
+    },
+    "HD": {
+     "capacity": 40,
+     "price": 9.99
+    }
+   },
+   "wave1": {
+    "n": 100,
+    "target_share_pct": 80.0,
+    "wilson95": [
+     71.1,
+     86.7
+    ]
+   },
+   "band_verdict": "OUTSIDE 25-75 HARD LIMITS",
+   "terminal_lock_verdict": "CHECK-ONLY (tier-1: values fixed by fidelity to the published source; reported, never adjusted)",
+   "calibration_locked": true,
+   "disposition": "values as published; share REPORTED in the trail; water_bottles t1 is beyond the 25-75 hard limits -> flagged to the stimulus-defect branch of the Analysis Plan (main.md: 'flagged ... rather than altered')",
+   "trail": {
+    "wave1_share_pct": 80.0,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_water_bottles_t2",
+   "stimulus_id": "BIN_water_bottles_t2",
+   "category": "water_bottles",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "capacity": 16,
+     "price": 8.99
+    },
+    "HD": {
+     "capacity": 48,
+     "price": 24.99
+    }
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "LOCK (wave-1 point in band; never re-dealt)",
+   "calibration_locked": true,
+   "disposition": "LOCK at the original values (41.7% [32.3, 51.7], n=96, wave 1; words arm confirmed the shared values in band in wave 3 at 44.1%)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 41.7,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "inv_t3::BIN_robot_vacuums_t3",
+   "stimulus_id": "BIN_robot_vacuums_t3",
+   "category": "robot_vacuums",
+   "tier": 3,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "suction": 2000,
+     "price": 159.0
+    },
+    "HD": {
+     "suction": 6000,
+     "price": 499.99
+    }
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "LOCK (wave-2 point in band)",
+   "calibration_locked": true,
+   "disposition": "LOCK at HF price 159.00 (42.1% [36.7, 47.6], n=309, wave 2). CAVEAT: its wave-3 realism re-check FAILED (mean 4.53 = the wave-2 value; enriched page); the tier-3 realism disposition is HELD for the authors (flag (a))",
+   "trail": {
+    "wave1_share_pct_at_original_values": 33.7,
+    "wave2_share_pct_at_nudged_values": 42.1,
+    "value_moves": [
+     {
+      "option": "HF",
+      "attribute": "price",
+      "from": 149.99,
+      "to": 159.0,
+      "lever": "wave-2 mechanical nudge (worked as designed)"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "inv_t3::BIN_electric_kettles_t3",
+   "stimulus_id": "BIN_electric_kettles_t3",
+   "category": "electric_kettles",
+   "tier": 3,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "power": 1000,
+     "price": 31.99
+    },
+    "HD": {
+     "power": 2400,
+     "price": 59.99
+    }
+   },
+   "wave3": {
+    "n": 459,
+    "k_target": 205,
+    "target_share_pct": 44.7,
+    "wilson95": [
+     40.2,
+     49.2
+    ]
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "LOCK (point in band)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 72.2,
+    "wave2_share_pct_at_shared_values": 68.0,
+    "wave3_share_pct_at_final_values": 44.7,
+    "value_moves": [
+     {
+      "stimulus": "BIN_electric_kettles_t3",
+      "option": "HF",
+      "attribute": "price",
+      "from": 24.99,
+      "to": 31.99,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the price solve extrapolates to an implausible $74 kettle"
+     },
+     {
+      "stimulus": "BIN_electric_kettles_t3",
+      "option": "HF",
+      "attribute": "power",
+      "from": 1500,
+      "to": 1000,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 68.0%, TARGET = HF (budget) too popular -> lower ITS quality. One step: 1,500 -> 1,000 W (the market floor for full-size kettles, realism-safe); the premium's power advantage widens 1.6x -> 2.4x and the enrichment qualifiers make boil speed concrete; aimed at 42.5%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "inv_t3::BIN_standing_desks_t3",
+   "stimulus_id": "BIN_standing_desks_t3",
+   "category": "standing_desks",
+   "tier": 3,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "weight_capacity": 110,
+     "price": 269.0
+    },
+    "HD": {
+     "weight_capacity": 300,
+     "price": 429.99
+    }
+   },
+   "wave3": {
+    "n": 459,
+    "k_target": 306,
+    "target_share_pct": 66.7,
+    "wilson95": [
+     62.2,
+     70.8
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 80.1,
+    "wave2_share_pct_at_shared_values": 69.6,
+    "wave3_share_pct_at_final_values": 66.7,
+    "value_moves": [
+     {
+      "stimulus": "BIN_standing_desks_t3",
+      "option": "HF",
+      "attribute": "price",
+      "from": 199.99,
+      "to": 269.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the price solve extrapolates to an implausible $449 budget desk"
+     },
+     {
+      "stimulus": "BIN_standing_desks_t3",
+      "option": "HF",
+      "attribute": "weight_capacity",
+      "from": 150,
+      "to": 110,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 69.6%, TARGET = HF (budget) too popular -> lower ITS quality. One step: 150 -> 110 lbs (a real budget-frame rating; premium's advantage 2.0x -> 2.7x); the largest realistic step short of implausibility, made meaningful by the enrichment qualifiers (laptop-and-monitor vs full multi-monitor); aimed at 42.5%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pictures::BIN_bluetooth_speakers_t2",
+   "stimulus_id": "BIN_bluetooth_speakers_t2",
+   "category": "bluetooth_speakers",
+   "tier": 2,
+   "format": "pictures",
+   "final_values": {
+    "HF": {
+     "rating": 3.8,
+     "price": 44.99
+    },
+    "HD": {
+     "rating": 4.7,
+     "price": 84.99
+    }
+   },
+   "wave3": {
+    "n": 153,
+    "k_target": 57,
+    "target_share_pct": 37.3,
+    "wilson95": [
+     30.0,
+     45.1
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 39.0,
+    "wave2_share_pct_at_shared_values": 24.8,
+    "wave3_share_pct_at_final_values": 37.3,
+    "value_moves": [
+     {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 89.99,
+      "to": 84.99,
+      "lever": "trustworthy two-point solve (per-arm)",
+      "basis": "slope -0.75 pp/$ (39.0% @ 89.99 -> 24.8% @ 109, wave-2 HARD FLAG); solve for 42.5% = 85.32 -> 84.99 rounded (lands below the wave-1 price, consistent with the wave-1 39.0%); quality untouched (3.8/4.7)"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pictures::BIN_hard_drives_t2",
+   "stimulus_id": "BIN_hard_drives_t2",
+   "category": "hard_drives",
+   "tier": 2,
+   "format": "pictures",
+   "final_values": {
+    "HF": {
+     "storage": 2,
+     "price": 44.99
+    },
+    "HD": {
+     "storage": 6,
+     "price": 119.0
+    }
+   },
+   "wave3": {
+    "n": 153,
+    "k_target": 121,
+    "target_share_pct": 79.1,
+    "wilson95": [
+     72.0,
+     84.8
+    ]
+   },
+   "band_verdict": "HARD FLAG (outside 25-75)",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 91.9,
+    "wave2_share_pct_at_shared_values": 84.8,
+    "wave3_share_pct_at_final_values": 79.1,
+    "value_moves": [
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 99.99,
+      "to": 119.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the pictures price solve extrapolates ($231) and the arm HARD-FLAGGED both waves"
+     },
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HF",
+      "attribute": "storage",
+      "from": 1,
+      "to": 2,
+      "lever": "QUALITY step (wave-3), shared with the numbers arm",
+      "basis": "wave-2 84.8% (the rendering-distortion pair, HARD FLAG both waves): the bar ratio halves 6:1 -> 3:1 - the strongest defensible single step. Honest flag: from 84.8% this is the likeliest residual defect-contingency candidate; documented in advance"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pictures::BIN_televisions_t2",
+   "stimulus_id": "BIN_televisions_t2",
+   "category": "televisions",
+   "tier": 2,
+   "format": "pictures",
+   "final_values": {
+    "HF": {
+     "picture_quality": 70,
+     "price": 139.99
+    },
+    "HD": {
+     "picture_quality": 96,
+     "price": 429.0
+    }
+   },
+   "wave3": {
+    "n": 150,
+    "k_target": 58,
+    "target_share_pct": 38.7,
+    "wilson95": [
+     31.2,
+     46.7
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 50.5,
+    "wave2_share_pct_at_shared_values": 36.9,
+    "wave3_share_pct_at_final_values": 38.7,
+    "value_moves": [
+     {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 399.99,
+      "to": 429.0,
+      "lever": "trustworthy two-point solve (per-arm)",
+      "basis": "true interpolation: 42.5% lies between the measured 50.5% @ 399.99 and 36.9% @ 459; solve = 434.69 -> 429 rounded; quality untouched (70/96)"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pictures::BIN_water_bottles_t2",
+   "stimulus_id": "BIN_water_bottles_t2",
+   "category": "water_bottles",
+   "tier": 2,
+   "format": "pictures",
+   "final_values": {
+    "HF": {
+     "capacity": 16,
+     "price": 8.99
+    },
+    "HD": {
+     "capacity": 48,
+     "price": 24.99
+    }
+   },
+   "wave3": {
+    "n": 230,
+    "k_target": 136,
+    "target_share_pct": 59.1,
+    "wilson95": [
+     52.7,
+     65.3
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 56.6,
+    "wave2_share_pct_at_shared_values": 60.0,
+    "wave3_share_pct_at_final_values": 59.1,
+    "value_moves": []
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_backpacks_t2",
+   "stimulus_id": "BIN_backpacks_t2",
+   "category": "backpacks",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "capacity": 25,
+     "price": 34.99
+    },
+    "HD": {
+     "capacity": 50,
+     "price": 61.99
+    }
+   },
+   "wave3": {
+    "n": 459,
+    "k_target": 131,
+    "target_share_pct": 28.5,
+    "wilson95": [
+     24.6,
+     32.8
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 49.5,
+    "wave2_share_pct_at_shared_values": 39.8,
+    "wave3_share_pct_at_final_values": 28.5,
+    "value_moves": [
+     {
+      "stimulus": "BIN_backpacks_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 59.99,
+      "to": 61.99,
+      "lever": "trustworthy two-point solve",
+      "basis": "slope -3.23 pp/$ (49.5% @ 59.99 -> 39.8% @ 62.99); solve for 42.5% = 62.16 -> 61.99 rounded; predicted ~43%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_bluetooth_speakers_t2",
+   "stimulus_id": "BIN_bluetooth_speakers_t2",
+   "category": "bluetooth_speakers",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "rating": 4.2,
+     "price": 44.99
+    },
+    "HD": {
+     "rating": 4.7,
+     "price": 109.0
+    }
+   },
+   "wave3": {
+    "n": 153,
+    "k_target": 55,
+    "target_share_pct": 35.9,
+    "wilson95": [
+     28.8,
+     43.8
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 61.9,
+    "wave2_share_pct_at_shared_values": 64.4,
+    "wave3_share_pct_at_final_values": 35.9,
+    "value_moves": [
+     {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 89.99,
+      "to": 109.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; price is not the wave-3 lever on this arm (wrong-signed slope +0.13)"
+     },
+     {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HF",
+      "attribute": "rating",
+      "from": 3.8,
+      "to": 4.2,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 64.4% (wrong-signed on price). Gap 0.9 stars held the pair at 59-73% across three measurements regardless of price level (t1 73.5 @ $69.99; w1 61.9 @ $89.99; w2 64.4 @ $109) - the rating gap, not price, carries the choice. One step: raise the budget option 3.8 -> 4.2 (0.1-star grid; crosses the 4.0 'good product' threshold; gap 0.9 -> 0.5, a 44% cut) at the untouched 2.42x price ratio; aimed at 42.5%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_earbuds_t2",
+   "stimulus_id": "BIN_earbuds_t2",
+   "category": "earbuds",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "reviews": 4000,
+     "price": 8.99
+    },
+    "HD": {
+     "reviews": 18000,
+     "price": 32.99
+    }
+   },
+   "wave3": {
+    "n": 459,
+    "k_target": 280,
+    "target_share_pct": 61.0,
+    "wilson95": [
+     56.5,
+     65.4
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 53.8,
+    "wave2_share_pct_at_shared_values": 56.0,
+    "wave3_share_pct_at_final_values": 61.0,
+    "value_moves": [
+     {
+      "stimulus": "BIN_earbuds_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 29.99,
+      "to": 32.99,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.71)"
+     },
+     {
+      "stimulus": "BIN_earbuds_t2",
+      "option": "HF",
+      "attribute": "reviews",
+      "from": 2500,
+      "to": 4000,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 56.0% - the smallest needed move (-13.5pp). One step: raise the budget option's reviews 2,500 -> 4,000 (nearest-100 realistic; premium's relative advantage 7.2x -> 4.5x, a 38% cut, proportionate to the small imbalance); aimed at 42.5%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_hard_drives_t2",
+   "stimulus_id": "BIN_hard_drives_t2",
+   "category": "hard_drives",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "storage": 2,
+     "price": 44.99
+    },
+    "HD": {
+     "storage": 6,
+     "price": 119.0
+    }
+   },
+   "wave3": {
+    "n": 151,
+    "k_target": 71,
+    "target_share_pct": 47.0,
+    "wilson95": [
+     39.2,
+     55.0
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 69.4,
+    "wave2_share_pct_at_shared_values": 74.5,
+    "wave3_share_pct_at_final_values": 47.0,
+    "value_moves": [
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 99.99,
+      "to": 119.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.27, brushing the 75 hard limit)"
+     },
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HF",
+      "attribute": "storage",
+      "from": 1,
+      "to": 2,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 74.5%. One market step up on the budget option (points 1/2/4/6/8 TB): ratio 6x -> 3x; premium's per-TB edge shrinks 2.27x -> 1.14x. Anchor: the tier-1 hard-drives pair at ratio 2x / price 2x measured 43.9% IN BAND (wave 1, n=98); aimed at 42.5%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_restaurants_t2",
+   "stimulus_id": "BIN_restaurants_t2",
+   "category": "restaurants",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "rating": 72,
+     "price": 22
+    },
+    "HD": {
+     "rating": 95,
+     "price": 60.99
+    }
+   },
+   "wave3": {
+    "n": 459,
+    "k_target": 143,
+    "target_share_pct": 31.2,
+    "wilson95": [
+     27.1,
+     35.5
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "DEFECT CONTINGENCY (pre-registered)",
+   "calibration_locked": false,
+   "disposition": "DEFECT-ROUTED: pre-registered stimulus-defect contingency (terminal wave); HELD for the authors' routing sign-off",
+   "trail": {
+    "wave1_share_pct_at_original_values": 51.8,
+    "wave2_share_pct_at_shared_values": 39.8,
+    "wave3_share_pct_at_final_values": 31.2,
+    "value_moves": [
+     {
+      "stimulus": "BIN_restaurants_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 58,
+      "to": 60.99,
+      "lever": "trustworthy two-point solve",
+      "basis": "slope -3.00 pp/$ (51.8% @ 58 -> 39.8% @ 61.99); solve for 42.5% = 61.09 -> 60.99 rounded; predicted ~42.8%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "pub_t2::BIN_televisions_t2",
+   "stimulus_id": "BIN_televisions_t2",
+   "category": "televisions",
+   "tier": 2,
+   "format": "numbers",
+   "final_values": {
+    "HF": {
+     "picture_quality": 78,
+     "price": 139.99
+    },
+    "HD": {
+     "picture_quality": 96,
+     "price": 459.0
+    }
+   },
+   "wave3": {
+    "n": 153,
+    "k_target": 75,
+    "target_share_pct": 49.0,
+    "wilson95": [
+     41.2,
+     56.9
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 60.6,
+    "wave2_share_pct_at_shared_values": 61.2,
+    "wave3_share_pct_at_final_values": 49.0,
+    "value_moves": [
+     {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 399.99,
+      "to": 459.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; price not the lever (wrong-signed slope +0.01, flat)"
+     },
+     {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HF",
+      "attribute": "picture_quality",
+      "from": 70,
+      "to": 78,
+      "lever": "QUALITY step (wave-3)",
+      "basis": "wave-2 61.2%. Within-category anchor: gap 33 pts -> 74.7% (t1), gap 26 pts -> 61.2% (w2), implying >=1.9pp per quality point (the confounded price ratio pushed the OTHER way, so the true gap slope is steeper). One step: raise the budget option 70 -> 78 (gap 26 -> 18); predicted ~44-46%, cap-safe (78 << 96)"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "words::BIN_bluetooth_speakers_t2",
+   "stimulus_id": "BIN_bluetooth_speakers_t2",
+   "category": "bluetooth_speakers",
+   "tier": 2,
+   "format": "words",
+   "final_values": {
+    "HF": {
+     "rating": 4.2,
+     "price": 44.99
+    },
+    "HD": {
+     "rating": 4.7,
+     "price": 109.0
+    }
+   },
+   "wave3": {
+    "n": 153,
+    "k_target": 52,
+    "target_share_pct": 34.0,
+    "wilson95": [
+     27.0,
+     41.8
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 61.9,
+    "wave2_share_pct_at_shared_values": 59.0,
+    "wave3_share_pct_at_final_values": 34.0,
+    "value_moves": [
+     {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 89.99,
+      "to": 109.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the words price solve extrapolates to an implausible $219 speaker"
+     },
+     {
+      "stimulus": "BIN_bluetooth_speakers_t2",
+      "option": "HF",
+      "attribute": "rating",
+      "from": 3.8,
+      "to": 4.2,
+      "lever": "QUALITY step (wave-3), shared with the numbers arm",
+      "basis": "wave-2 59.0%; same category step (the words arm's wave-2 share sits within the noise yardstick of the numbers arm's); predicted to land lower than numbers (words softened the premium pull both waves)"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "words::BIN_hard_drives_t2",
+   "stimulus_id": "BIN_hard_drives_t2",
+   "category": "hard_drives",
+   "tier": 2,
+   "format": "words",
+   "final_values": {
+    "HF": {
+     "storage": 2,
+     "price": 44.99
+    },
+    "HD": {
+     "storage": 6,
+     "price": 119.0
+    }
+   },
+   "wave3": {
+    "n": 155,
+    "k_target": 62,
+    "target_share_pct": 40.0,
+    "wilson95": [
+     32.6,
+     47.9
+    ]
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "LOCK (point in band)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 67.0,
+    "wave2_share_pct_at_shared_values": 61.8,
+    "wave3_share_pct_at_final_values": 40.0,
+    "value_moves": [
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 99.99,
+      "to": 119.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the words price solve extrapolates ($189)"
+     },
+     {
+      "stimulus": "BIN_hard_drives_t2",
+      "option": "HF",
+      "attribute": "storage",
+      "from": 1,
+      "to": 2,
+      "lever": "QUALITY step (wave-3), shared with the numbers arm",
+      "basis": "wave-2 61.8%; same category step; predicted ~38-45%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "words::BIN_televisions_t2",
+   "stimulus_id": "BIN_televisions_t2",
+   "category": "televisions",
+   "tier": 2,
+   "format": "words",
+   "final_values": {
+    "HF": {
+     "picture_quality": 78,
+     "price": 139.99
+    },
+    "HD": {
+     "picture_quality": 96,
+     "price": 459.0
+    }
+   },
+   "wave3": {
+    "n": 156,
+    "k_target": 77,
+    "target_share_pct": 49.4,
+    "wilson95": [
+     41.6,
+     57.1
+    ]
+   },
+   "band_verdict": "OUT OF BAND",
+   "terminal_lock_verdict": "LOCK (CI-overlap route)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 63.6,
+    "wave2_share_pct_at_shared_values": 53.4,
+    "wave3_share_pct_at_final_values": 49.4,
+    "value_moves": [
+     {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HD",
+      "attribute": "price",
+      "from": 399.99,
+      "to": 459.0,
+      "lever": "carry wave-2 shown price",
+      "basis": "the wave-2 measurement point; the words arm was FLAT at ~1.5 SE"
+     },
+     {
+      "stimulus": "BIN_televisions_t2",
+      "option": "HF",
+      "attribute": "picture_quality",
+      "from": 70,
+      "to": 78,
+      "lever": "QUALITY step (wave-3), shared with the numbers arm",
+      "basis": "wave-2 53.4% (the closest words arm); same category step; predicted ~38-43%"
+     }
+    ]
+   }
+  },
+  {
+   "arm_id": "words::BIN_water_bottles_t2",
+   "stimulus_id": "BIN_water_bottles_t2",
+   "category": "water_bottles",
+   "tier": 2,
+   "format": "words",
+   "final_values": {
+    "HF": {
+     "capacity": 16,
+     "price": 8.99
+    },
+    "HD": {
+     "capacity": 48,
+     "price": 24.99
+    }
+   },
+   "wave3": {
+    "n": 229,
+    "k_target": 101,
+    "target_share_pct": 44.1,
+    "wilson95": [
+     37.8,
+     50.6
+    ]
+   },
+   "band_verdict": "IN BAND",
+   "terminal_lock_verdict": "LOCK (point in band)",
+   "calibration_locked": true,
+   "disposition": "LOCK at these values at final calibration lock (with the enrichment content)",
+   "trail": {
+    "wave1_share_pct_at_original_values": 32.0,
+    "wave2_share_pct_at_shared_values": 37.7,
+    "wave3_share_pct_at_final_values": 44.1,
+    "value_moves": []
+   }
+  }
+ ]
+}

@@ -1,0 +1,136 @@
+# Data dictionary of the confirmatory study
+
+In the confirmatory study, we use three data formats. `ingest.py` writes the human data (A) from a Qualtrics export,
+with one row per choice. `../models/run.py` writes the model call log (B), with one record per call.
+`analyze.py` reads A and B and writes its estimates, tests and conclusions (C). The script that writes the simulated data
+(`synth.py`) writes them in exactly the formats A and B. The data files of the calibration pre-test have their own
+codebooks, in `../calibration/<study>/`.
+
+## A. The human data (one row per choice)
+
+| Column | Type | Values and meaning |
+|---|---|---|
+| `participant_id` | text | a one-way hash of the Prolific id ("P" followed by 15 hexadecimal characters) |
+| `script_id` | text | the pre-built script that the participant received |
+| `trial_position` | integer | the position of the choice in the script: 1 to 7 in the surveys of the main design and the similarity supplement, 1 to 3 in the format and price-free surveys. Position 1 is the participant's first choice, which forms the sample of first choices |
+| `cell_id` | text | the design cell, written as `<category>_<structure>` |
+| `category` | category | the product category |
+| `structure` | category | the kind of choice set: `BIN`, `FRQ`, `RNG`, `PHT`, `SOT`, `MOT`, `EXC`, `SYM` or `SIM` (the codebook below names each) |
+| `tier` | integer | the stimulus set: 1, the published values; 2, new values in a published category; 3, a new category that no published study of context effects used |
+| `format` | category | numbers, words or pictures |
+| `position_order` | text | the codes of the options in the order shown |
+| `stimulus_id` | text | the stimulus in `../stimuli/stimuli.json`. For the two pictures pairs that have their own calibrated values, the values are under `format_variants.pictures.options` |
+| `sim_placement` | category | in similarity cells, the focal option that the near-copy copies; NA in other cells |
+| `choice` | category | the option chosen, decoded with the codebook below |
+| `chose_target` | 0 or 1 | 1 when the participant chose the target (`BIN`, `SOT`, `FRQ`, `RNG`, `PHT`, `SIM`) |
+| `chose_ext` | 0 or 1 | 1 when the participant chose the new extreme option (`SOT`) |
+| `chose_hd` | 0 or 1 | 1 when the participant chose the premium option (`SYM`). It can be computed for any cell from the field `is_hd` of each option |
+| `chose_clone` | 0 or 1 | 1 when the participant chose the near-copy (`SIM`) |
+| `chose_extreme_tier` | 0 or 1 | 1 when the participant chose an option in the high or the low quality tier, and 0 for the middle quality tier (`MOT` and `EXC`). The extremity effect is the mean of this column in `MOT` minus its mean in `EXC` |
+| `rt_page_sec` | seconds | the time from the loading of the choice page to the submission of the choice |
+| `completed_all` | 0 or 1 | 1 when the participant completed every choice of the script |
+| `consent`, `age`, `gender`, `device` | as exported | the answer to the consent question, the age in years and the gender that the participant reported, and the device, where Qualtrics recorded it |
+| `qsf_sha256`, `export_ts` | text | the SHA-256 hash of the survey file and the time of the export, which tie the table to its sources |
+
+**The codebook of each kind of choice set.**
+
+| Choice set | Decoded values | Notes |
+|---|---|---|
+| `BIN` (the two-option set) | TARGET, COMP | The two focal options. TARGET is the category's compromise target, the option that starts behind its rival in the calibrated two-option set, and COMP is its rival. The field `is_hd` of each option records whether it is the premium option |
+| `SOT` (the compromise set) | TARGET, COMP, EXT | The two options of the `BIN` set plus one new extreme option beyond the target, so that the target becomes the middle option. The effect is the relative share TARGET / (TARGET + COMP) in `SOT` minus the same share in the matched `BIN` set. A choice of EXT is valid and recorded, but it does not enter the relative share. The design never adds a separate middle option |
+| `FRQ`, `RNG` (the frequency-decoy and range-decoy sets) | TARGET, COMP, DECOY | TARGET is the option that is better than the decoy |
+| `PHT` (the phantom set) | TARGET, COMP | The phantom is better than the target on exactly one attribute and is marked unavailable. A participant cannot choose it; a choice of it would be an exclusion, never a share |
+| `SYM` (the upscaling set) | HD, HF, DECOY | The symmetric decoy is worse than both focal options. The upscaling effect is measured on the share of the premium option (HD) |
+| `SIM` (the similarity set) | `TARGET`, `COMP`, `CLONE` | `CLONE` is the near-copy of one focal option. The similarity effect is the relative share of the option that was not copied, against its rival, minus the same share in the matched `BIN` set |
+| `MOT` (the extremity menu) | T1S1 to T3S4 | The 12 options of the menu, coded by quality tier and slot. Here "T" is the quality tier inside the menu, not the stimulus set. The analysis code reads `MOT` through `chose_extreme_tier` |
+| `EXC` (the extremity control) | EXC_H, EXC_M, EXC_L | One option at each of the three quality tiers of the matched `MOT` menu, at the center of each quality tier, so that the two menus differ only in how many options each quality tier has |
+
+**The shared control.** Within each category and stimulus set, one two-option set (`BIN`) is the control for six
+effects: compromise, the frequency decoy, the range decoy, the phantom, upscaling and similarity. The extremity menu
+(`MOT`) has a control of its own (`EXC`). We adjust the tests with the Holm correction within the three families of
+tests given with the validity criteria in the Analysis Plan. This correction remains valid under any dependence
+between the tests, such as the dependence between tests that share a control.
+
+**Checks.** `ingest.py` checks three things: no participant sees a product category twice; every choice
+decodes to a valid value for its kind of choice set (a choice of the phantom is recorded as an exclusion); and
+every cell exists among the stimuli.
+
+## B. The model call log (one JSON record per call)
+
+| Field | Meaning |
+|---|---|
+| `record_id` | a hash of the run, the model, the stimulus, the condition and the draw, so that an interrupted run can resume without repeating a call |
+| `draw_index` | the number of the repeated call of the same prompt, from 0; how many draws a prompt gets depends on the model's price class and the setting (for an inexpensive model, 10 for a text prompt and 60 for a picture prompt at the lowest setting), and it is 0 in the persona and temperature conditions, the choice sequences in one conversation and the suspicion probe (`models/model_registry.json`, field `plan`) |
+| `run_id` | the run of data collection |
+| `model_key` | the model's entry in `models/model_registry.json` (for example `gpt-6-luna`) |
+| `model_id_requested`, `model_id_echoed` | the model id sent and the model id that the provider returned; the log flags a difference between them |
+| `provider`, `api_flavor` | where the call went, and the request format |
+| `prompting_mode` | `neutral`, `persona`, `sequential` (choice sequences in one conversation) or `recognition` (the suspicion probe) |
+| `persona_id` | the persona, in the persona condition |
+| `paraphrase_id` | which of the three pre-registered wordings of the question the prompt used |
+| `arm` | the condition: `primary` (the neutral condition at the model's lowest setting, which is confirmatory), `crossed` (the neutral prompts at the default and high settings, and at low effort where reasoning can be switched off), `ladder` (the other levels), `temp_0`, `temp_1`, `persona`, `sequential` or `recognition` (the suspicion probe) |
+| `setting` | the common reasoning setting of the call: `OFF`, `LOW`, `DEFAULT`, `HIGH` or `MAX`; the arms other than `crossed` and `ladder` run at the model's lowest setting |
+| `reasoning_mode`, `reasoning_requested`, `reasoning_effective` | the kind of reasoning of the call (off, lowest, on, always on, or not applicable for a model with no reasoning mode), the parameters sent for the setting, and what the provider reports having applied (including any hidden reasoning on a call sent with reasoning off) |
+| `temperature_requested`, `sampling_params_effective` | the temperature sent (empty when the provider's default is used), and the sampling settings that the provider applied or its message when it rejected them |
+| `image_ref`, `image_sha256`, `image_source_svg_sha256` | for picture prompts: the picture file sent, its hash, and the hash of the SVG file from which it was drawn |
+| `cell_id`, `category`, `structure`, `tier`, `format`, `position_order`, `stimulus_id` | the design cell and the stimulus, as in part A |
+| `placement` | in similarity cells, the focal option that the near-copy copies (clone_HF or clone_HD), as `sim_placement` in part A |
+| `shown_codes` | the codes of the options in the order shown |
+| `session_id`, `seq_index` | in the choice sequences, the conversation and the position of the choice in it |
+| `prompt_text` | the full prompt sent |
+| `raw_response` | the model's reply, unchanged |
+| `parsed_choice`, `parse_method` | the option read from the reply, and how it was read (an exact match, a fallback pattern, or a failure; `dry_run` in a run without the network) |
+| `exclusion_flag`, `exclusion_reason` | whether the call is excluded, and why: a refusal, a reply from which no choice can be read, a timeout, or a model id that differs from the one requested |
+| `latency_ms`, `cost_usd`, `timestamp` | the time that the call took, its cost, and the time of the call (UTC) |
+| `family`, `generation`, `model_slot`, `model_tier` | the family (a developer's closed models, or its open models), the generation within the family (`old` or `new`), the model's number in the roster and its size class; we use the first two in the comparison of older and newer models |
+| `model_group`, `price_tier` | the model's group (`closed_current`, `closed_previous` or `open`) and its price class (`premium`, `standard` or `budget`), which sets its draws |
+| `served` | for an open model: the model the server named, the registered repository and revision, the revision the server was started with, whether that revision was cached, the server's version and its sampling defaults; empty for a closed model |
+| `model_substituted_from` | empty, or the model first registered for the slot, with the reason, the date and the rule of the substitution |
+
+**Checks.** Every `record_id` is unique, and every combination of model, stimulus, condition and draw in the plan
+appears exactly once.
+
+## C. The estimates, tests and conclusions (`results_pack/`)
+
+The analysis program writes to this folder every number that we will cite in the Stage 2 report, and we will take
+each number from its key in `numbers.json`, never type it by hand. In the table, we list the files that
+`analyze.py` writes, with their sizes in the run on simulated data:
+
+| File | Rows | Columns or keys | What it holds |
+|---|---|---|---|
+| `RUN_REPORT.md` |  | text | seed, software versions, runtime and exclusion accounting of the run |
+| `agreement_scores.csv` | 15 | `model`, `class`, `effects_classed`, `sign_agreement`, `mad_pp`, `calibration_slope`, `cells_scored`, `cells_excluded` | per model: sign agreement, mean absolute deviation (points), calibration slope, fidelity class, cells scored and excluded |
+| `category_map.csv` | 1865 | `model`, `effect`, `category`, `tier`, `format`, `human_pp`, `human_ci_lo_pp`, `human_ci_hi_pp`, `model_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `class`, `class_basis` | per model, effect, category, stimulus set and format: the human effect with its interval, the model effect with the number of calls and the bootstrap interval over calls, and the class (descriptive: one category, stimulus set and format) |
+| `descriptive_slices.csv` | 117 | `source`, `category`, `tier`, `format`, `effect_pp`, `ci_lo_pp`, `ci_hi_pp`, `boot_lo_pp`, `boot_hi_pp`, `n`, `baseline_target_pct`, `reason` | compromise cells whose target starts ahead: held out of the pooled compromise contrast and reported as descriptive |
+| `effect_classes.csv` | 98 | `model`, `effect`, `human_gate`, `human_pp`, `model_pp`, `deviation_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `max_draws_per_grid_point`, `class`, `descriptive_class`, `prompt_sensitive`, `paraphrase_pp`, `over_reading`, `class_basis` | per model and effect: the pooled human and model effects, their deviation, the calls behind the model effect and its bootstrap interval, the fidelity class and the basis of the class |
+| `fidelity_map.csv` | 294 | `model`, `structure`, `tier`, `format`, `human_pp`, `model_pp`, `deviation_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `max_draws_per_grid_point`, `ceiling_flag`, `class`, `class_basis` | per model, effect, category, stimulus set and format: the human effect with its interval, the model effect (a population share over the enumerated conditions, no interval), their distance, and the ceiling flag |
+| `human_benchmarks.csv` | 164 | `effect`, `category`, `tier`, `format`, `effect_pp`, `ci_lo_pp`, `ci_hi_pp`, `n`, `n_clusters`, `first_trial_pp`, `bf10` | per effect, category, stimulus set and format: the human effect, its interval, n and the first-choice estimate |
+| `no_human_counterpart.csv` | 1 | `model`, `effect`, `tier`, `format`, `model_pp`, `human_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `human_gate` | model effects on cells whose human effect did not replicate: reported, not scored |
+| `no_room_cells.csv` | 66 | `model`, `level`, `category`, `tier`, `format`, `effect` | cells a model could not be scored on because its two-option share leaves no room to move |
+| `numbers.json` |  | top-level keys: `design.compromise_descriptive_slices`, `design.compromise_flag_mismatch`, `design.deviation_flag_mismatch`, `design.deviation_slices`, `design.source`, `family.famA.T5.trajectory`, `family.famA.T5.trajectory_reasoning_off`, `family.famB.T5.trajectory`, `family.famB.T5.trajectory_reasoning_off`, `family.famC.T5.trajectory`, `family.famC.T5.trajectory_reasoning_off`, `family.famD.T5.trajectory`, ... | every statistic the results cite, under stable dotted keys |
+| `price_free_arm.csv` | 0 | `source`, `effect`, `effect_pp`, `ci_lo_pp`, `ci_hi_pp`, `boot_lo_pp`, `boot_hi_pp`, `n` | the price-free robustness test of the attraction effects |
+| `secondary_contrasts.csv` | 1 | `contrast`, `frequency_pp`, `range_pp`, `contrast_pp`, `reading` | the registered secondary contrasts (for example the range effect minus the frequency effect) |
+| `sensitivity_deviation_human.csv` | 7 | `effect`, `primary_pp`, `sensitivity_pp`, `primary_replicated`, `sensitivity_replicated`, `sensitivity_holm_p`, `sensitivity_bf10` | the registered sensitivity analysis of the human effects with every deviation-flagged slice excluded |
+| `sensitivity_deviation_models.csv` | 15 | `model`, `primary_class`, `sensitivity_class`, `primary_T1`, `sensitivity_T1`, `sensitivity_T1_categories` | the same sensitivity analysis for the model effects |
+| `tree_routing.csv` | 16 | `model`, `family`, `branch`, `scenario`, `scenario_name`, `possible_scenarios`, `matches_people`, `signatures`, `pointing`, `effect_classes`, `named_decoy`, `reasoning`, `family_consistent`, `family_classes`, `over_readings`, `positive_controls` | the conclusion each model reached under the validity criteria and the two questions of the conclusion for each model (whether it matches people and, if it does not, the state of each failure: present, absent, inconclusive or not tested, and the failures a test suggests), the conclusions still possible, each effect's class and whether the model named the decoy, and the comparison of older and newer models and the family classes reported beside it |
+| `validity_criteria.csv` | 22 | `gate_type`, `key`, `replicated`, `confirmatory`, `direction_ok`, `holm_family`, `holm_p`, `bf10`, `delta_pp`, `parse_rate`, `refusal_rate`, `not_assessable`, `is_positive_control` | the validity criteria: the human replication criterion per effect and the data-quality criterion per model (parse, refusal and ceiling rates) |
+| `tests/T1_memorization.csv` | 15 | `model`, `fidelity_t1`, `fidelity_t2`, `slope`, `drop`, `drop_lo`, `drop_hi`, `reading`, `papers_read`, `paired_categories`, `descriptive_fidelity_all_categories_t1`, `descriptive_fidelity_all_categories_t2`, `descriptive_fidelity_invented_tier` | the test of retrieval: fidelity on the published values, the new values and the new categories, per model |
+| `tests/T1_memorization_sensitivity.csv` | 15 | `model`, `primary_reading`, `restricted_reading`, `restricted_drop`, `restricted_drop_lo`, `restricted_drop_hi`, `restricted_slope`, `n_slices_dropped`, `adjusted_slope`, `adjusted_drop`, `adjusted_drop_lo`, `adjusted_drop_hi`, `baseline_coef`, `target_coef`, `covariates_omitted`, `n_slices`, `adjusted_reading` | the test of retrieval without the out-of-limit slices and adjusted for the baseline |
+| `tests/T2_recognition.csv` | 60 | `model`, `structure`, `recognition_rate`, `two_option_rate`, `excess_rate`, `excess_lo`, `excess_hi`, `behavior_pp`, `behavior_lo_pp`, `behavior_hi_pp`, `knows`, `shows`, `reading`, `knows_state`, `shows_state`, `override_state` | the test of rational override: how often each model names the decoy in the suspicion probe, with its readings |
+| `tests/T3_ladder.csv` | 15 | `model`, `high_rung`, `mid_rung`, `low_rung`, `tmb_lo`, `tmb_hi`, `bmm_lo`, `bmm_hi`, `reading` | the test of reason-based choice: fidelity down the argument-strength ordering |
+| `tests/T4_format_points.csv` | 72 | `model`, `format`, `compared_on`, `effect`, `categories`, `human_pp`, `model_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `max_draws_per_grid_point` | the format comparison: each model's effect in numbers, words and pictures on the categories compared, with the human effect, the calls and the bootstrap interval |
+| `tests/T4_formats.csv` | 15 | `model`, `numbers`, `words`, `pictures`, `undefined`, `diff_lo`, `diff_hi`, `reading`, `numbers_picture_order`, `reading_picture_order` | the format comparison: fidelity in numbers, words and pictures |
+| `tests/T5_trajectory.csv` | 13 | `family`, `older_models`, `newer_models`, `n_old`, `n_new`, `trajectory`, `delta`, `traj_lo`, `traj_hi`, `older_models_off`, `newer_models_off`, `n_old_off`, `n_new_off`, `trajectory_reasoning_off`, `delta_reasoning_off`, `traj_off_lo`, `traj_off_hi` | the comparison of older and newer models within each developer family |
+| `tests/decoy_target_asymmetry.csv` | 3 | `effect`, `hd_target_pp`, `hf_target_pp`, `hd_minus_hf_pp`, `reading` | the moderator comparing decoys that target the premium option with decoys that target the budget option |
+| `tests/first_trial_check.csv` | 7 | `effect`, `full_pp`, `first_pp`, `later_pp`, `divergence_pp`, `first_minus_later_se_pp`, `z`, `p`, `holm_p`, `holm_reject`, `diverges`, `n_first`, `n_full` | the comparability check of all choices against first choices only |
+| `tests/format_interaction.csv` | 4 | `test`, `effect`, `format`, `categories`, `format_pp`, `numbers_pp`, `interaction_pp`, `ci_lo_pp`, `ci_hi_pp`, `z`, `raw_p`, `holm_p`, `significant`, `n_format`, `n_numbers`, `reading` | the human format-by-effect interaction tests (Holm) |
+| `tests/format_interaction_models.csv` | 44 | `model`, `test`, `human_interaction_pp`, `model_interaction_pp`, `n_calls`, `boot_lo_pp`, `boot_hi_pp`, `reading` | the models' format-by-effect interactions against the human ones |
+| `tests/phantom_equivalence.csv` | 1 | `delta_pp`, `ci90_lo_pp`, `ci90_hi_pp`, `band_pp`, `p_tost`, `equivalent`, `reading` | two one-sided tests of the phantom effect against the equivalence band |
+| `tests/positive_controls.csv` | 2 | `control`, `cells`, `delta_pp`, `ci_lo_pp`, `ci_hi_pp`, `p`, `bf10`, `holds`, `affected_if_failed` | the positive control (the frequency decoy on premium-target cells): its human effect, interval, test and Bayes factor, and the readings that depend on it |
+| `tests/prompt_mode_divergence.csv` | 2 | `model`, `arm`, `neutral_pp`, `secondary_pp`, `divergence_pp`, `n_calls_neutral`, `n_calls_secondary`, `reading` | the persona and sequential conditions against the neutral condition |
+| `tests/reasoning_comparison.csv` | 15 | `model`, `family`, `reasoning_reading`, `reason_lo`, `reason_hi` | the reasoning comparison of each model: its fidelity with reasoning on against reasoning off, with the interval of the difference, reported beside its conclusion |
+| `tests/similarity_topup_check.csv` | 1 | `backbone_pp`, `topup_pp`, `diff_pp`, `diff_se_pp`, `z`, `p`, `fired`, `benchmark`, `n_backbone`, `n_topup`, `n_topup_participants`, `n_slices` | the similarity effect in the numeric survey against the similarity survey: the difference, its test and the numbers of choices |
+
+In the run on simulated data, we require three things of these files: no file has a missing value, every key that
+the manuscript refers to exists in `numbers.json`, and every simulated model reaches the conclusion that it was
+built to reach.

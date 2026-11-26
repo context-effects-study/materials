@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="482" height="190" font-family="Arial,sans-serif">
+<rect width="482" height="190" fill="white"/>
+<text x="16" y="20" font-size="14" font-weight="bold">Bluetooth speakers</text>
+<text x="16" y="60" font-size="12" font-weight="bold">Option A</text>
+<text x="94" y="50" font-size="9" fill="#555">rating</text>
+<rect x="94" y="54" width="150" height="13" fill="#eee" stroke="#999"/><rect x="94" y="54" width="105.5" height="13" fill="#3b7a57"/>
+<text x="279" y="50" font-size="9" fill="#555">price</text>
+<rect x="279" y="54" width="150" height="13" fill="#eee" stroke="#999"/><rect x="279" y="54" width="53.8" height="13" fill="#d9822b"/>
+<text x="16" y="116" font-size="12" font-weight="bold">Option B</text>
+<text x="94" y="106" font-size="9" fill="#555">rating</text>
+<rect x="94" y="110" width="150" height="13" fill="#eee" stroke="#999"/><rect x="94" y="110" width="130.4" height="13" fill="#3b7a57"/>
+<text x="279" y="106" font-size="9" fill="#555">price</text>
+<rect x="279" y="110" width="150" height="13" fill="#eee" stroke="#999"/><rect x="279" y="110" width="130.4" height="13" fill="#d9822b"/>
+<text x="16" y="183" font-size="9" fill="#555">Each bar shows the amount (no numbers). Green = quality, longer is better; amber = price, longer is more expensive.</text>
+</svg>

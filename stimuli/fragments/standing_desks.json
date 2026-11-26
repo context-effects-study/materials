@@ -1,0 +1,524 @@
+{
+  "category": {
+    "id": "standing_desks",
+    "label": "Standing desks",
+    "attributes": [
+      {
+        "name": "weight_capacity",
+        "unit": "lbs",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": false,
+    "memorization_tier": 3,
+    "source": "INVENTED for the never-published tier-3 (no context-effects paper uses this category)",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "BIN_standing_desks_t3",
+      "structure": "BIN",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "flags": [],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "FRQ_standing_desks_t3",
+      "structure": "FRQ",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 62,
+            "price": 336.25
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "DECOY_TARGET_HF: attraction decoy favours the budget option (R3-2C counterbalance)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "RNG_standing_desks_t3",
+      "structure": "RNG",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 50,
+            "price": 269.0
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "DECOY_TARGET_HF: range decoy extends the quality range below the budget target at equal price (R3-2C counterbalance; registered dominated form)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "PHT_standing_desks_t3",
+      "structure": "PHT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 242.1
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "PHT_PR_GENERATED (HF target): superior on price only (cheaper than the budget option), equal quality (R3-2C)"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "SOT_standing_desks_t3",
+      "structure": "SOT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 395,
+            "price": 601.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_relative_share_over_target_plus_competitor",
+      "flags": [
+        "SOT_GENERATED: new extreme beyond HD; HD is the middle; relative-share statistic"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "MOT_standing_desks_t3",
+      "structure": "MOT",
+      "options": [
+        {
+          "code": "A",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          },
+          "brand": "Brand A",
+          "tier": "High"
+        },
+        {
+          "code": "B",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          },
+          "brand": "Brand B",
+          "tier": "High"
+        },
+        {
+          "code": "C",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          },
+          "brand": "Brand C",
+          "tier": "High"
+        },
+        {
+          "code": "D",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          },
+          "brand": "Brand D",
+          "tier": "High"
+        },
+        {
+          "code": "E",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 205,
+            "price": 349.5
+          },
+          "brand": "Brand E",
+          "tier": "Middle"
+        },
+        {
+          "code": "F",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 205,
+            "price": 349.5
+          },
+          "brand": "Brand F",
+          "tier": "Middle"
+        },
+        {
+          "code": "G",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 205,
+            "price": 349.5
+          },
+          "brand": "Brand G",
+          "tier": "Middle"
+        },
+        {
+          "code": "H",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 205,
+            "price": 349.5
+          },
+          "brand": "Brand H",
+          "tier": "Middle"
+        },
+        {
+          "code": "I",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          },
+          "brand": "Brand I",
+          "tier": "Low"
+        },
+        {
+          "code": "J",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          },
+          "brand": "Brand J",
+          "tier": "Low"
+        },
+        {
+          "code": "K",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          },
+          "brand": "Brand K",
+          "tier": "Low"
+        },
+        {
+          "code": "L",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          },
+          "brand": "Brand L",
+          "tier": "Low"
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_EXC",
+      "flags": [],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "SYM_standing_desks_t3",
+      "structure": "SYM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 429.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "hd_share_vs_binary",
+      "flags": [
+        "SYM_SAME_PAGE: same-page presentation mandatory"
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    },
+    {
+      "category": "standing_desks",
+      "memorization_tier": 3,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a standing desk. You are considering the following options:",
+      "id": "SIM_standing_desks_t3",
+      "structure": "SIM",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 110,
+            "price": 269.0
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 300,
+            "price": 429.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "weight_capacity": 133,
+            "price": 288.32
+          },
+          "clone_of": "HF"
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "uncloned_relative_share_HD_vs_HF",
+      "sim_placement": "clone_HF",
+      "placement_variants": {
+        "clone_HD": {
+          "options": [
+            {
+              "code": "HF",
+              "is_hd": false,
+              "available": true,
+              "attrs": {
+                "weight_capacity": 110,
+                "price": 269.0
+              }
+            },
+            {
+              "code": "HD",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "weight_capacity": 300,
+                "price": 429.99
+              }
+            },
+            {
+              "code": "CLONE",
+              "is_hd": true,
+              "available": true,
+              "attrs": {
+                "weight_capacity": 277,
+                "price": 410.67
+              },
+              "clone_of": "HD"
+            }
+          ],
+          "target": "HF",
+          "competitor": "HD",
+          "statistic": "uncloned_relative_share_HF_vs_HD"
+        }
+      },
+      "flags": [
+        "SIM_TWO_PLACEMENT: primary clones the budget option (HF; uncloned focal = HD); placement_variants.clone_HD clones the premium option (HD; uncloned focal = HF). Delivered as two sub-conditions -> doubles SIM participants (authors' design decision 3); the allocation and power are in the cell plan."
+      ],
+      "source": "INVENTED tier-3 (never-published category; memorization gradient top rung); anchor = the final calibration lock terminal calibration values (2026-07-02); locked by build_stimuli.py at the final calibration lock",
+      "calibration_locked": false
+    }
+  ]
+}

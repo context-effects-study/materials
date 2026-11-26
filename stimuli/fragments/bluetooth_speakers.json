@@ -1,0 +1,486 @@
+{
+  "category": {
+    "id": "bluetooth_speakers",
+    "label": "Bluetooth speakers",
+    "category_number_v1": 2,
+    "attributes": [
+      {
+        "name": "rating",
+        "unit": "stars (Amazon, out of 5)",
+        "direction": "higher_better"
+      },
+      {
+        "name": "price",
+        "unit": "USD",
+        "direction": "lower_better"
+      }
+    ],
+    "price_free": false,
+    "published": true,
+    "memorization_tier": 1,
+    "source": "Evangelidis, Levav, and Simonson 2023, Journal of Consumer Research 50(3), doi:10.1093/jcr/ucac059",
+    "geometry_constraints": [
+      "Rating attribute caps at 5.0 stars. When a structure requires extending the quality range beyond 5.0, extend via a higher price at 5.0 stars instead (same handling as Hotels star-rating cap; noted in V1 web appendix for Hotels and applied here by analogy)."
+    ]
+  },
+  "stimuli": [
+    {
+      "id": "BIN_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "source": "Evangelidis, Levav, and Simonson 2023; V1 web appendix BIN-2 exact values",
+      "flags": []
+    },
+    {
+      "id": "FRQ_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.3,
+            "price": 74.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix FRQ-2 exact values; decoy dominated by HD target (4.5 stars > 4.3 stars on rating AND $69.99 < $74.99 on price); decoy not dominated by HF (HF has 3.6 stars < 4.3, so HF does not dominate decoy on quality)",
+      "flags": []
+    },
+    {
+      "id": "RNG_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.6,
+            "price": 119.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix RNG-2 exact values; range decoy extends price range well beyond HD ($119.99 vs $69.99), making HD price look moderate; decoy rating 4.6 is marginally above HD rating 4.5 (not dominated by HD on rating); decoy is NOT dominated by HD (decoy has higher rating 4.6 > 4.5), satisfying range geometry",
+      "flags": [
+        "RNG_NO_DOMINANCE_CONFIRMED: decoy (4.6/$119.99) is not dominated by HD (4.5/$69.99) because decoy rating 4.6 > HD rating 4.5; satisfies range geometry (extends price range without creating dominance)"
+      ]
+    },
+    {
+      "id": "PHT_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "rating": 4.5,
+            "price": 59.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "V1 web appendix PHT-2 exact values; phantom is superior to HD on EXACTLY ONE attribute (price: $59.99 < $69.99) and equal on the other (rating: 4.5 = 4.5); satisfies R1 correction (never superior on all attributes); available=false",
+      "flags": [
+        "PHT_ONE_ATTRIBUTE_CONFIRMED: phantom superior on price only ($59.99 < $69.99), equal on rating (4.5 = 4.5); R1 geometry requirement satisfied"
+      ]
+    },
+    {
+      "id": "SOT_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "EXTREME",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 5.0,
+            "price": 99.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_over_target_plus_competitor",
+      "source": "REBUILT (V1 web appendix SOT-2 used old geometry: added a middle option at 4.0/$54.99, making HD the top extreme; new plan requires two BIN options PLUS one NEW EXTREME beyond HD so former HD becomes the middle). New extreme: 5.0 stars/$99.99. Rating cap (5.0) reached; extended via higher price ($99.99 > $69.99) per geometry_constraints note, following the Hotels precedent. Former HD (4.5/$69.99) is now geometrically the middle option on both attributes.",
+      "flags": [
+        "SOT_GEOMETRY_REBUILT: V1 SOT-2 used old 'add a middle' geometry (Middle=4.0/$54.99, HD=4.5/$69.99 remained the top). New plan requires adding an extreme BEYOND HD so HD becomes the middle. Rebuilt with new extreme at 5.0 stars/$99.99.",
+        "RATING_CAP_APPLIED: stars attribute caps at 5.0; extreme extended via higher price ($99.99) rather than impossible rating (>5.0), following geometry_constraints and the Hotels precedent documented in the V1 web appendix.",
+        "SOT_MIDDLE_VERIFIED: HD (4.5 stars/$69.99) is strictly between HF (3.6/$39.99) and EXTREME (5.0/$99.99) on both rating (3.6 < 4.5 < 5.0) and price ($39.99 < $69.99 < $99.99)."
+      ]
+    },
+    {
+      "id": "MOT_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "A",
+          "brand": "Brand A",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "B",
+          "brand": "Brand B",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "C",
+          "brand": "Brand C",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "D",
+          "brand": "Brand D",
+          "tier": "High",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "E",
+          "brand": "Brand E",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.0,
+            "price": 54.99
+          }
+        },
+        {
+          "code": "F",
+          "brand": "Brand F",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.0,
+            "price": 54.99
+          }
+        },
+        {
+          "code": "G",
+          "brand": "Brand G",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.0,
+            "price": 54.99
+          }
+        },
+        {
+          "code": "H",
+          "brand": "Brand H",
+          "tier": "Middle",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 4.0,
+            "price": 54.99
+          }
+        },
+        {
+          "code": "I",
+          "brand": "Brand I",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "J",
+          "brand": "Brand J",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "K",
+          "brand": "Brand K",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "L",
+          "brand": "Brand L",
+          "tier": "Low",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_matched_SOT",
+      "source": "V1 web appendix MOT-2 exact values; 4 brands per tier (High/Middle/Low); generic brand names (Brand A through L); High tier: 4.5 stars/$69.99; Middle tier: 4.0 stars/$54.99; Low tier: 3.6 stars/$39.99",
+      "flags": [
+        "MOT_NOTE: Middle tier values (4.0/$54.99) are inherited from V1 SOT-2's middle option. These remain the three menu tiers for MOT even though SOT geometry has been rebuilt for compromise-effect testing. MOT tier structure is independent of the SOT compromise geometry rebuild."
+      ]
+    },
+    {
+      "id": "SYM_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "SYM_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 69.99
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_minus_delta_hf_vs_binary",
+      "source": "V1 web appendix SYM-2 exact values; decoy (3.6/$69.99) is dominated by BOTH focal options: dominated by HF (same rating 3.6, higher price $69.99 > $39.99) AND dominated by HD (lower rating 3.6 < 4.5, same price $69.99). Same-page presentation mandatory per the geometry rules (Web Appendix B).",
+      "flags": [
+        "SYM_DOUBLE_DOMINANCE_CONFIRMED: decoy (3.6 stars/$69.99) beaten by HF on price at equal rating, beaten by HD on rating at equal price.",
+        "SYM_SAME_PAGE: same-page flag required per Evangelidis et al. 2023; effect dies on separate pages."
+      ]
+    },
+    {
+      "id": "SIM_bluetooth_speakers_t1",
+      "category": "bluetooth_speakers",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for a Bluetooth speaker. You are considering the following options:",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.6,
+            "price": 39.99
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "rating": 4.5,
+            "price": 69.99
+          }
+        },
+        {
+          "code": "CLONE",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "rating": 3.7,
+            "price": 39.99
+          }
+        }
+      ],
+      "target": "HF",
+      "competitor": "HD",
+      "statistic": "clone_steal_from_HF",
+      "source": "CONSTRUCTED (no published analog for SIM in Evangelidis et al. 2023 or any V1 source). Clone is near-duplicate of HF: same price ($39.99), rating 3.7 vs HF's 3.6 (minimal upward step of 0.1 stars). Clone is NOT dominated by anything: HF has equal price and lower rating (3.6 < 3.7), so HF does not dominate clone on quality. Clone is same is_hd=false as HF.",
+      "no_published_analog": true,
+      "flags": [
+        "SIM_NO_PUBLISHED_ANALOG: no Evangelidis et al. 2023 or V1 stimulus exists for the similarity structure. Constructed minimally per the geometry rules (Web Appendix B) SIM geometry.",
+        "SIM_NON_DOMINANCE_CONFIRMED: clone (3.7/$39.99) is NOT dominated by HF (3.6/$39.99) because clone rating 3.7 > HF rating 3.6; clone is not dominated by HD (4.5/$69.99) on both attributes (clone is cheaper: $39.99 < $69.99). Guard against Berkowitsch rounding accident: validate that clone does not silently become a decoy.",
+        "SIM_CLONE_OF_HF: clone shares is_hd=false with HF; distance on rating is 0.1 stars (minimal); price is identical."
+      ]
+    }
+  ]
+}

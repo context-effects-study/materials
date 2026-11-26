@@ -1,0 +1,28 @@
+{
+ "what_this_is": "The pattern-test rows (T1, T3, T4 and T5) of Table WA-E4 in Web Appendix E: for each pattern test, the smallest true difference, in fidelity units, that the registered design resolves in 80 percent of runs (null: not resolvable, which is why the format test T4 is descriptive). flat0 gives, for each test, the share of runs with no true difference in which the test resolved a flat reading. power/resolution_statement.py reads this file to print those rows.",
+ "how_it_was_made": "Before registration, power/resolution_statement.py ran the full analysis (analysis/analyze.py, with the registered test functions, the joint bootstrap at the 95 percent level and the registered router) on synthetic data at the planned human sizes (350 choices per published-tier cell, 700 per invented cell) and the registered model plan (10 independent draws per text prompt, 60 per picture prompt), with planted models spanning a grid of true differences, 200 runs per grid value; this file records its result for the test of retrieval, the test of reason-based choice and the comparison of older and newer models. T1 compares the published-values tier with the new-values tier, paired by category, and T4, the format comparison, is descriptive.",
+ "grid": [
+  0.3,
+  0.5,
+  0.7,
+  0.9,
+  1.1,
+  1.4,
+  1.6,
+  1.8,
+  2
+ ],
+ "runs_per_value": 200,
+ "registered_design": {
+  "T1": 1.4,
+  "T3": 1.1,
+  "T4": null,
+  "T5": 0.9,
+  "flat0": {
+   "T1": 0.0,
+   "T3": 0.006211180124223602,
+   "T4": 0.0,
+   "T5": 0.0
+  }
+ }
+}

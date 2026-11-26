@@ -1,0 +1,14 @@
+family,older_models,newer_models,n_old,n_new,trajectory,delta,traj_lo,traj_hi,older_models_off,newer_models_off,n_old_off,n_new_off,trajectory_reasoning_off,delta_reasoning_off,traj_off_lo,traj_off_hi
+famA,,FAITHFUL,0,1,insufficient generations: the family has models of one generation only,,,,,FAITHFUL,0,1,no models that switch reasoning off in both generations,,,
+famB,,PARROT,0,1,insufficient generations: the family has models of one generation only,,,,,PARROT,0,1,no models that switch reasoning off in both generations,,,
+famC,,REASONER,0,1,insufficient generations: the family has models of one generation only,,,,,REASONER,0,1,no models that switch reasoning off in both generations,,,
+famD,,OVERRIDER,0,1,insufficient generations: the family has models of one generation only,,,,,,0,0,no models that switch reasoning off in both generations,,,
+famE,,DIVIDED_A;DIVIDED_B,0,2,insufficient generations: the family has models of one generation only,,,,,DIVIDED_A;DIVIDED_B,0,2,no models that switch reasoning off in both generations,,,
+famF,CONVERGE_OLD,CONVERGE_NEW,1,1,newer more faithful -> fidelity is higher in the newer generation; no scenario assigned,0.46,0.257,0.589,CONVERGE_OLD,CONVERGE_NEW,1,1,newer more faithful -> fidelity is higher in the newer generation; no scenario assigned,0.46,0.257,0.589
+famG,,WALK1_PARROT,0,1,insufficient generations: the family has models of one generation only,,,,,WALK1_PARROT,0,1,no models that switch reasoning off in both generations,,,
+famH,,WALK2_MIXED,0,1,insufficient generations: the family has models of one generation only,,,,,WALK2_MIXED,0,1,no models that switch reasoning off in both generations,,,
+famI,,CEILING,0,1,insufficient generations: the family has models of one generation only,,,,,CEILING,0,1,no models that switch reasoning off in both generations,,,
+famJ,,REFUSER,0,1,insufficient generations: the family has models of one generation only,,,,,REFUSER,0,1,no models that switch reasoning off in both generations,,,
+famK,,R4_ARGUABLE_OVERRIDE,0,1,insufficient generations: the family has models of one generation only,,,,,R4_ARGUABLE_OVERRIDE,0,1,no models that switch reasoning off in both generations,,,
+famL,,R4_ARGUABLE_NORECOG,0,1,insufficient generations: the family has models of one generation only,,,,,R4_ARGUABLE_NORECOG,0,1,no models that switch reasoning off in both generations,,,
+famM,,OVERSHOOT_T1,0,1,insufficient generations: the family has models of one generation only,,,,,OVERSHOOT_T1,0,1,no models that switch reasoning off in both generations,,,

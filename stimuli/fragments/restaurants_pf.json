@@ -1,0 +1,195 @@
+{
+  "category": {
+    "id": "restaurants_pf",
+    "label": "Restaurants (price-free: food vs service)",
+    "attributes": [
+      {
+        "name": "food_rating",
+        "unit": "0-100",
+        "direction": "higher_better"
+      },
+      {
+        "name": "service_rating",
+        "unit": "0-100",
+        "direction": "higher_better"
+      }
+    ],
+    "price_free": true,
+    "published": true,
+    "memorization_tier": 2,
+    "price_free_variant_of": "restaurants",
+    "source": "Price-free variant of restaurants (AE 8a robustness arm)",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "category": "restaurants_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?",
+      "id": "BIN_restaurants_pf_t2",
+      "structure": "BIN",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 72,
+            "service_rating": 93
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "food_rating": 95,
+            "service_rating": 76
+          }
+        }
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": null,
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "restaurants_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?",
+      "id": "FRQ_restaurants_pf_t2",
+      "structure": "FRQ",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 72,
+            "service_rating": 93
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "food_rating": 95,
+            "service_rating": 76
+          }
+        },
+        {
+          "code": "DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 92,
+            "service_rating": 70
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "restaurants_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?",
+      "id": "RNG_restaurants_pf_t2",
+      "structure": "RNG",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 72,
+            "service_rating": 93
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "food_rating": 95,
+            "service_rating": 76
+          }
+        },
+        {
+          "code": "RANGE_DECOY",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 95,
+            "service_rating": 57
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    },
+    {
+      "category": "restaurants_pf",
+      "memorization_tier": 2,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are choosing a restaurant. Each is rated 0-100 on food and, separately, 0-100 on service. You are considering the following options. Which would you choose?",
+      "id": "PHT_restaurants_pf_t2",
+      "structure": "PHT",
+      "options": [
+        {
+          "code": "HF",
+          "is_hd": false,
+          "available": true,
+          "attrs": {
+            "food_rating": 72,
+            "service_rating": 93
+          }
+        },
+        {
+          "code": "HD",
+          "is_hd": true,
+          "available": true,
+          "attrs": {
+            "food_rating": 95,
+            "service_rating": 76
+          }
+        },
+        {
+          "code": "PHANTOM",
+          "is_hd": false,
+          "available": false,
+          "attrs": {
+            "food_rating": 99,
+            "service_rating": 76
+          }
+        }
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "flags": [
+        "PHT_PR_GENERATED: superior on the strong attribute only, equal on B (R1/Pettibone-Wedell PR)"
+      ],
+      "source": "PRICE-FREE robustness arm (AE 8a): two quality attributes, no price; attraction family only; NOT calibration_locked (final calibration lock)",
+      "calibration_locked": false
+    }
+  ]
+}

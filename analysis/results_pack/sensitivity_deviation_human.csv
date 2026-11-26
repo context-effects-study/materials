@@ -1,0 +1,8 @@
+effect,primary_pp,sensitivity_pp,primary_replicated,sensitivity_replicated,sensitivity_holm_p,sensitivity_bf10
+FRQ,8.34,8.56,True,True,0.0,1000000000000.0
+RNG,10.78,10.8,True,True,0.0,1000000000000.0
+PHT,-0.47,-0.26,False,False,0.64411,0.04
+SOT,9.79,10.24,True,True,0.0,1000000000000.0
+SYM,15.08,16.03,True,True,0.0,1000000000000.0
+SIM,4.66,5.26,True,True,0.0,1000000000000.0
+MOT,8.18,8.61,True,True,0.0,1000000000000.0

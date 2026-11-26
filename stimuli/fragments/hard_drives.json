@@ -1,0 +1,207 @@
+{
+  "category": {
+    "id": "hard_drives",
+    "label": "External hard drives",
+    "attributes": [
+      {"name": "storage", "unit": "TB", "direction": "higher_better"},
+      {"name": "price", "unit": "$", "direction": "lower_better"}
+    ],
+    "price_free": false,
+    "published": true,
+    "source": "Evangelidis, Levav & Simonson 2023",
+    "geometry_constraints": []
+  },
+  "stimuli": [
+    {
+      "id": "BIN_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "BIN",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}}
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "binary_split",
+      "source": "Evangelidis, Levav & Simonson 2023; V1 web appendix BIN-1 (exact published values)",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null
+    },
+    {
+      "id": "FRQ_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "FRQ",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "decoy", "is_hd": false, "available": true, "attrs": {"storage": 3, "price": 84.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "Focal pair: Evangelidis, Levav & Simonson 2023 (exact published binary values). Decoy REBUILT 2026-07-02 to the registered worse-on-both frequency form (V1's own tie-on-storage construction, 4TB/$84.99, preserved in fragments/hard_drives_receipts.md; F1 fix, decided by the authors value-correction exception).",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "notes": "Decoy (3TB/$84.99) strictly worse than the HD target on BOTH attributes (3TB < 4TB storage; $84.99 > $79.99 price) by clear margins; not dominated by HF (3TB > 2TB); stays inside the focal storage range and distinct from the RNG range decoy (4TB/$135.98, which ties storage and stretches price). Storage is integer-coarse, so the one-step capacity margin is the same coarse-integer bind the SIM clone rule documents."
+    },
+    {
+      "id": "RNG_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "RNG",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "decoy", "is_hd": false, "available": true, "attrs": {"storage": 5, "price": 129.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "Evangelidis, Levav & Simonson 2023; V1 web appendix RNG-1 (exact published values)",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "notes": "Decoy extends the price range (5TB/$129.99); HD at $79.99 looks moderate by comparison. Decoy is NOT dominated by HD (5TB > 4TB), so this is a range extension, not a frequency decoy."
+    },
+    {
+      "id": "PHT_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "PHT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "phantom", "is_hd": false, "available": false, "attrs": {"storage": 4, "price": 69.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "target_share_vs_binary",
+      "source": "Evangelidis, Levav & Simonson 2023; V1 web appendix PHT-1 (exact published values)",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "notes": "Phantom is superior to HD on EXACTLY ONE attribute (price: $69.99 vs $79.99); equal on storage (4TB = 4TB); not superior on all attributes (R1 correction satisfied). Marked unavailable. Phantom does not dominate HF (2TB vs 2TB at $39.99 - phantom costs more)."
+    },
+    {
+      "id": "SOT_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "SOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "extreme", "is_hd": false, "available": true, "attrs": {"storage": 6, "price": 119.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "relative_share_target_vs_competitor",
+      "source": "V1 web appendix SOT-1 REBUILT per new plan geometry (the geometry rules (Web Appendix B) SOT rule); see flags.",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "flags": {
+        "rebuilt_sot": true,
+        "rebuilt_reason": "V1 SOT-1 added a MIDDLE option (3TB/$59.99) between HF and HD, making HD the top extreme. The new plan requires the OPPOSITE geometry: add one NEW EXTREME beyond HD so that HD becomes the middle/compromise. New extreme option is 6TB/$119.99, making HD (4TB/$79.99) the middle option. Statistic is HD/(HD+HF) relative share (excluding the new extreme choosers). V1's middle-insertion geometry would have tested compromise with the wrong option as the compromise target."
+      },
+      "notes": "HD (4TB/$79.99) is now geometrically the middle/compromise between HF (2TB/$39.99) and the extreme (6TB/$119.99). Price spacing: $39.99, $79.99, $119.99 (approximately equal gaps of $40). Storage spacing: 2TB, 4TB, 6TB (equal gaps). The extreme (6TB/$119.99) is beyond the HD option on both attributes."
+    },
+    {
+      "id": "MOT_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "MOT",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "A", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}, "brand": "Brand A", "tier": "High"},
+        {"code": "B", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}, "brand": "Brand B", "tier": "High"},
+        {"code": "C", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}, "brand": "Brand C", "tier": "High"},
+        {"code": "D", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}, "brand": "Brand D", "tier": "High"},
+        {"code": "E", "is_hd": false, "available": true, "attrs": {"storage": 3, "price": 59.99}, "brand": "Brand E", "tier": "Middle"},
+        {"code": "F", "is_hd": false, "available": true, "attrs": {"storage": 3, "price": 59.99}, "brand": "Brand F", "tier": "Middle"},
+        {"code": "G", "is_hd": false, "available": true, "attrs": {"storage": 3, "price": 59.99}, "brand": "Brand G", "tier": "Middle"},
+        {"code": "H", "is_hd": false, "available": true, "attrs": {"storage": 3, "price": 59.99}, "brand": "Brand H", "tier": "Middle"},
+        {"code": "I", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}, "brand": "Brand I", "tier": "Low"},
+        {"code": "J", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}, "brand": "Brand J", "tier": "Low"},
+        {"code": "K", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}, "brand": "Brand K", "tier": "Low"},
+        {"code": "L", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}, "brand": "Brand L", "tier": "Low"}
+      ],
+      "target": null,
+      "competitor": null,
+      "statistic": "extreme_tier_share_vs_sot",
+      "source": "Evangelidis, Levav & Simonson 2023; V1 web appendix MOT-1 (exact published values); generic brand names per V1 design.",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "notes": "12 options, 4 per tier. High tier: 4TB/$79.99 (HD anchor). Middle tier: 3TB/$59.99. Low tier: 2TB/$39.99 (HF anchor). Generic brand names A-L. Extreme share = (High + Low) tiers combined. Effect tested: whether extreme tier share is higher in MOT than matched SOT."
+    },
+    {
+      "id": "SYM_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "SYM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "sym_decoy", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 79.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "delta_hd_share_vs_binary",
+      "source": "Evangelidis, Levav & Simonson 2023; V1 web appendix SYM-1 (exact published values)",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "notes": "Decoy (2TB/$79.99) is dominated by BOTH focal options: HF beats it on price (same 2TB capacity, $39.99 vs $79.99); HD beats it on storage (same $79.99 price, 4TB vs 2TB). Decoy is worse than BOTH options simultaneously. Same-page presentation required (effect attenuates on separate pages per Evangelidis et al. 2023). Statistic is Delta-pi_HD = HD_share_trinary - HD_share_binary."
+    },
+    {
+      "id": "SIM_hard_drives_t1",
+      "category": "hard_drives",
+      "structure": "SIM",
+      "memorization_tier": 1,
+      "format": "numbers",
+      "forced": true,
+      "stem": "Imagine you are shopping for an external hard drive. You are considering the following options:",
+      "options": [
+        {"code": "HF", "is_hd": false, "available": true, "attrs": {"storage": 2, "price": 39.99}},
+        {"code": "HD", "is_hd": true, "available": true, "attrs": {"storage": 4, "price": 79.99}},
+        {"code": "clone", "is_hd": true, "available": true, "attrs": {"storage": 4.5, "price": 84.99}}
+      ],
+      "target": "HD",
+      "competitor": "HF",
+      "statistic": "competitor_share_vs_binary",
+      "source": "Constructed minimally from BIN anchor; no published analog.",
+      "calibration_locked": false,
+      "image_ref": null,
+      "image_sha256": null,
+      "flags": {
+        "no_published_analog": true,
+        "construction_rationale": "SIM is a new structure (not in V1; no published hard-drive analog exists). Clone is a near-duplicate of HD: same is_hd=true, similar storage (4.5TB vs 4TB, +0.5TB), minimal price distance ($84.99 vs $79.99, +$5.00). A pure 4TB/$84.99 clone would be dominated by HD on price (same storage, higher price). To satisfy the validator rules (stimuli/validate_stimuli.py) non-dominance assertion, the clone must be slightly better on at least one attribute relative to HD: 4.5TB > 4TB satisfies this (clone beats HD on storage; HD beats clone on price - neither dominates). Clone is not dominated by HF (4.5TB >> 2TB). Minimal distance satisfied: the clone is the closest non-dominated option to HD."
+      },
+      "notes": "Clone (4.5TB/$84.99): is_hd=true (same tier as HD). More storage than HD (+0.5TB); higher price (+$5.00). HD does NOT dominate clone (clone beats HD on storage). Clone does NOT dominate HD (HD beats clone on price). Clone is not dominated by HF (4.5TB >> 2TB). Similarity effect prediction: clone steals disproportionate share from HD (the option it most resembles), HF gains relative share vs matched BIN. Non-dominance assertion (the validator rules (stimuli/validate_stimuli.py)) satisfied."
+    }
+  ]
+}
